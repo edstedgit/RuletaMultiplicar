@@ -175,32 +175,64 @@
     .config-container {
       display: flex;
       justify-content: center;
-      gap: 8px;
+      gap: 6px;
       margin: 4px 0;
+      align-items: center;
     }
 
     .selector-tabla {
       display: flex;
       align-items: center;
       gap: 4px;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: bold;
     }
 
     .selector-tabla select,
     .selector-tabla input {
-      padding: 6px 8px;
+      padding: 5px 6px;
       border: 2px solid #bfdbfe;
       border-radius: 8px;
       background: #eff6ff;
       color: #1e3a8a;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: bold;
     }
 
     .selector-tabla input {
-      width: 110px;
+      width: 95px;
       text-align: center;
+    }
+
+    .selector-tabla select {
+      max-width: 105px;
+    }
+
+    /* Cuadrito compacto junto al selector con la tabla activa del turno */
+    .badge-tabla-actual {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #2563eb;
+      color: #fff;
+      border-radius: 8px;
+      padding: 3px 6px;
+      min-width: 52px;
+      box-shadow: 0 2px 4px rgba(37,99,235,0.2);
+    }
+
+    .badge-label {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      opacity: 0.9;
+    }
+
+    .badge-value {
+      font-size: 14px;
+      font-weight: bold;
+      line-height: 1.1;
     }
 
     .timer-container {
@@ -220,25 +252,42 @@
       transition: width 0.1s linear;
     }
 
-    .ruleta-contenedor {
-      width: min(48vw, 175px);
-      margin: 2px auto 4px;
+    /* Contenedor de la ruleta con zoom súper grande al girar */
+    .ruleta-wrapper {
+      width: 100%;
+      height: 185px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       position: relative;
+      margin: 2px 0;
+    }
+
+    .ruleta-contenedor {
+      width: min(48vw, 165px);
+      position: relative;
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      z-index: 4;
+    }
+
+    .ruleta-contenedor.girando-zoom {
+      transform: scale(1.65);
     }
 
     canvas {
       display: block;
       width: 100%;
       height: auto;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.12));
     }
 
     .flecha {
       position: absolute;
-      top: -5px;
+      top: -6px;
       left: 50%;
       transform: translateX(-50%);
-      z-index: 2;
-      font-size: 20px;
+      z-index: 5;
+      font-size: 22px;
       line-height: 1;
       color: #172554;
       pointer-events: none;
@@ -278,7 +327,6 @@
       transform: scale(.98);
     }
 
-    /* Botón especial para el Rincón de Revancha */
     .btn-revancha {
       background: #f59e0b;
       color: #fff;
@@ -502,20 +550,26 @@
         <!-- Opciones dinámicas -->
       </select>
     </div>
+    <!-- Cuadrito compacto con la tabla activa del turno actual -->
+    <div class="badge-tabla-actual" aria-label="Tabla actual del turno">
+      <span class="badge-label" id="lblBadgeTabla">Tabla</span>
+      <span class="badge-value" id="valBadgeTabla">3</span>
+    </div>
   </div>
 
   <div class="timer-container" id="timerContainer">
     <div class="timer-bar" id="timerBar"></div>
   </div>
 
-  <div class="ruleta-contenedor">
-    <div class="flecha" aria-hidden="true">▼</div>
-    <canvas id="ruleta" width="340" height="340" role="img" aria-label="Ruleta con los números del 1 al 12">
-      Ruleta de los números del 1 al 12.
-    </canvas>
+  <div class="ruleta-wrapper">
+    <div class="ruleta-contenedor" id="ruletaContenedorDiv">
+      <div class="flecha" aria-hidden="true">▼</div>
+      <canvas id="ruleta" width="340" height="340" role="img" aria-label="Ruleta con los números del 1 al 12">
+        Ruleta de los números del 1 al 12.
+      </canvas>
+    </div>
   </div>
 
-  <!-- Botón especial de Práctica Espaciada (Rincón de Revancha) -->
   <button id="btnRevancha" class="btn-revancha" type="button">
     ⚡ ¡Revancha pendiente! (Repasar error)
   </button>
@@ -587,6 +641,9 @@ const limpiarHistorialBtn = document.getElementById("limpiarHistorial");
 const compartirHistorialBtn = document.getElementById("compartirHistorial");
 const listaHistorialDiv = document.getElementById("listaHistorial");
 const botonRevancha = document.getElementById("btnRevancha");
+const ruletaContenedorDiv = document.getElementById("ruletaContenedorDiv");
+const valBadgeTabla = document.getElementById("valBadgeTabla");
+const lblBadgeTabla = document.getElementById("lblBadgeTabla");
 
 const timerContainer = document.getElementById("timerContainer");
 const timerBar = document.getElementById("timerBar");
@@ -598,6 +655,7 @@ const i18n = {
     lblNombre: "Nombre:",
     placeholderNombre: "Tu nombre",
     lblTabla: "Tabla:",
+    lblBadge: "Tabla",
     btnGirar: "🎯 ¡Girar la ruleta!",
     btnGirando: "🎯 Girando...",
     btnRevanchaTexto: (t, f) => `⚡ ¡Revancha pendiente! (${t} × ${f})`,
@@ -651,6 +709,7 @@ const i18n = {
     lblNombre: "Name:",
     placeholderNombre: "Your name",
     lblTabla: "Table:",
+    lblBadge: "Table",
     btnGirar: "🎯 Spin the wheel!",
     btnGirando: "🎯 Spinning...",
     btnRevanchaTexto: (t, f) => `⚡ Pending rematch! (${t} × ${f})`,
@@ -708,7 +767,7 @@ const colores = [
 
 const TOTAL = 12;
 const sector = Math.PI * 2 / TOTAL;
-const CLAVE_PUNTAJES = "ruletaMultiplicarPuntajesV16";
+const CLAVE_PUNTAJES = "ruletaMultiplicarPuntajesV19";
 
 let angulo = 0;
 let girando = false;
@@ -726,9 +785,7 @@ let contestada = false;
 let preguntaActiva = false;
 let contadorOperaciones = {};
 let historialPartidas = [];
-
-// Sistema de Práctica Espaciada (Cola de Revanchas)
-let revanchaPendiente = null; // Guardará { tabla, factor } si hay un error reciente pendiente
+let revanchaPendiente = null;
 
 function actualizarSelectorTablas() {
   const valorActual = selectorTabla.value || "mixto";
@@ -746,6 +803,16 @@ function actualizarSelectorTablas() {
     selectorTabla.appendChild(opt);
   }
   selectorTabla.value = valorActual;
+}
+
+function actualizarBadgeTablaActiva() {
+  lblBadgeTabla.textContent = i18n[idiomaActual].lblBadge;
+  const valorSel = selectorTabla.value;
+  if (valorSel === "mixto") {
+    valBadgeTabla.textContent = tabla; // Muestra la tabla aleatoria seleccionada en este turno
+  } else {
+    valBadgeTabla.textContent = valorSel;
+  }
 }
 
 function actualizarBotonRevanchaUI() {
@@ -786,6 +853,7 @@ function actualizarTextosUI() {
   limpiarHistorialBtn.textContent = t.btnLimpiarHistorial;
   compartirHistorialBtn.textContent = t.btnCompartirHistorial;
 
+  actualizarBadgeTablaActiva();
   actualizarBotonRevanchaUI();
   actualizarEstadisticas();
 
@@ -1073,7 +1141,6 @@ function tiempoAgotado() {
   const claveOp = `${tabla}-${factor}`;
   contadorOperaciones[claveOp] = (contadorOperaciones[claveOp] || 0) + 2;
 
-  // Activamos revancha espaciada con este error
   revanchaPendiente = { tabla, factor };
   actualizarBotonRevanchaUI();
 
@@ -1226,7 +1293,6 @@ function elegirFactorValido(tablaActual) {
   return factoresDisponibles[Math.floor(Math.random() * factoresDisponibles.length)];
 }
 
-// Iniciar juego por Revancha Espaciada Directa
 function iniciarRevancha() {
   if (!revanchaPendiente || girando) return;
 
@@ -1238,11 +1304,13 @@ function iniciarRevancha() {
   tabla = revanchaPendiente.tabla;
   factor = revanchaPendiente.factor;
 
+  actualizarBadgeTablaActiva();
+
   const t = i18n[idiomaActual];
   selectorTabla.disabled = true;
   inputNombre.disabled = true;
   botonSiguiente.hidden = true;
-  botonRevancha.style.display = "none"; // Ocultamos momentáneamente mientras responde
+  botonRevancha.style.display = "none";
 
   contenedorRespuestas.replaceChildren();
 
@@ -1250,7 +1318,7 @@ function iniciarRevancha() {
   document.getElementById("instruccion").textContent = t.instruccionRevancha;
   document.getElementById("operacion").textContent = tabla + " × " + factor + " = ?";
 
-  mostrarPregunta(true); // true indica que es modo revancha
+  mostrarPregunta(true);
 }
 
 function girarRuleta() {
@@ -1270,6 +1338,7 @@ function girarRuleta() {
   }
 
   factor = elegirFactorValido(tabla);
+  actualizarBadgeTablaActiva();
 
   const t = i18n[idiomaActual];
   botonGirar.disabled = true;
@@ -1278,6 +1347,8 @@ function girarRuleta() {
   inputNombre.disabled = true;
   botonSiguiente.hidden = true;
   botonRevancha.style.display = "none";
+
+  ruletaContenedorDiv.classList.add("girando-zoom");
 
   contenedorRespuestas.replaceChildren();
 
@@ -1308,6 +1379,8 @@ function girarRuleta() {
     } else {
       angulo = ((final % vuelta) + vuelta) % vuelta;
       dibujar();
+
+      ruletaContenedorDiv.classList.remove("girando-zoom");
 
       girando = false;
       botonGirar.disabled = false;
@@ -1400,7 +1473,6 @@ function responder(valor, esRevancha = false) {
       contadorOperaciones[claveOp] = Math.max(0, contadorOperaciones[claveOp] - 1);
     }
 
-    // Si superó la revancha pendiente, la limpiamos con éxito
     if (esRevancha && revanchaPendiente && revanchaPendiente.tabla === tabla && revanchaPendiente.factor === factor) {
       revanchaPendiente = null;
     }
@@ -1422,7 +1494,6 @@ function responder(valor, esRevancha = false) {
     reproducirSonido("error");
     contadorOperaciones[claveOp] = (contadorOperaciones[claveOp] || 0) + 2;
 
-    // Actualizamos la revancha pendiente con este error reciente
     revanchaPendiente = { tabla, factor };
 
     historialPartidas.push({ tabla, factor, respuestaUsuario: valor, correcta, acertado: false, fecha: fechaSimple });
@@ -1463,6 +1534,7 @@ function reiniciarPuntajes() {
   historialPartidas = [];
   revanchaPendiente = null;
 
+  actualizarBadgeTablaActiva();
   actualizarBotonRevanchaUI();
   actualizarEstadisticas();
   guardarPuntajes();
@@ -1481,6 +1553,15 @@ compartirHistorialBtn.addEventListener("click", compartirHistorialDetallado);
 botonRevancha.addEventListener("click", iniciarRevancha);
 
 inputNombre.addEventListener("input", guardarPuntajes);
+selectorTabla.addEventListener("change", () => {
+  const sel = selectorTabla.value;
+  if (sel !== "mixto") {
+    tabla = Number(sel);
+  }
+  actualizarBadgeTablaActiva();
+  guardarPuntajes();
+});
+
 botonGirar.addEventListener("click", girarRuleta);
 botonSiguiente.addEventListener("click", () => {
   reproducirSonido("click");
@@ -1497,6 +1578,11 @@ if (!localStorage.getItem(CLAVE_PUNTAJES)) {
   selectorTabla.value = "mixto";
 }
 
+if (selectorTabla.value !== "mixto") {
+  tabla = Number(selectorTabla.value);
+}
+
+actualizarBadgeTablaActiva();
 dibujar();
 
 if (nombre) {
