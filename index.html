@@ -172,20 +172,22 @@
       line-height: 1.1;
     }
 
+    /* BARRA DE TIEMPO ALTAMENTE VISIBLE */
     .timer-container {
       width: 100%;
-      height: 5px;
+      height: 10px;
       background: #e2e8f0;
-      border-radius: 3px;
+      border-radius: 5px;
       overflow: hidden;
-      margin: 1px 0;
-      display: none;
+      margin: 4px 0;
+      border: 1px solid #cbd5e1;
     }
 
     .timer-bar {
       width: 100%;
       height: 100%;
-      background: #2563eb;
+      background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+      border-radius: 4px;
       transition: width 0.1s linear;
     }
 
@@ -505,6 +507,7 @@
     </div>
   </div>
 
+  <!-- BARRA DE TIEMPO UBICADA CLARAMENTE -->
   <div class="timer-container" id="timerContainer">
     <div class="timer-bar" id="timerBar"></div>
   </div>
@@ -773,8 +776,8 @@ let racha = 0;
 let maxRacha = 0;
 let nombre = "";
 let sonidoActivo = true;
-let idiomaActual = "en";
-let modoTiempo = 2;
+let idiomaActual = "es";
+let modoTiempo = 1;
 let timerInterval = null;
 let contestada = false;
 let preguntaActiva = false;
@@ -823,8 +826,11 @@ function actualizarBotonRevanchaUI() {
 }
 
 function actualizarBotonModoUI() {
-  if (modoTiempo === 0) modoTiempo = 1;
-  if (modoTiempo === 1) {
+  if (modoTiempo === 0) {
+    botonModo.textContent = "⏱️❌";
+    botonModo.style.opacity = "0.5";
+    botonModo.setAttribute("aria-label", "Tiempo desactivado");
+  } else if (modoTiempo === 1) {
     botonModo.textContent = "⏱️";
     botonModo.style.opacity = "1";
     botonModo.setAttribute("aria-label", "Tiempo normal (10s)");
@@ -881,6 +887,10 @@ function reproducirSonido(tipo) {
     if (!audioCtx) {
       audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     }
+    if (audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+
     const now = audioCtx.currentTime;
     const osc = audioCtx.createOscillator();
     const gainNode = audioCtx.createGain();
@@ -936,15 +946,22 @@ function reproducirSonido(tipo) {
   } catch (e) {}
 }
 
+let currentUtterance = null;
 function hablar(texto) {
   if (!sonidoActivo) return;
 
   if ('speechSynthesis' in window) {
     window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(texto);
-    utterance.lang = idiomaActual === "es" ? 'es-ES' : 'en-US';
-    utterance.rate = 1.0;
-    window.speechSynthesis.speak(utterance);
+    
+    currentUtterance = new SpeechSynthesisUtterance(texto);
+    currentUtterance.lang = idiomaActual === "es" ? 'es-ES' : 'en-US';
+    currentUtterance.rate = 1.0;
+
+    if (window.speechSynthesis.paused) {
+      window.speechSynthesis.resume();
+    }
+
+    window.speechSynthesis.speak(currentUtterance);
   }
 }
 
@@ -970,7 +987,7 @@ function toggleIdioma() {
 
 function cambiarModoTiempo() {
   reproducirSonido("click");
-  modoTiempo = modoTiempo === 1 ? 2 : 1;
+  modoTiempo = (modoTiempo + 1) % 3; // Rueda cíclicamente: 0 (Desactivado), 1 (Normal), 2 (Rápido)
   actualizarBotonModoUI();
   guardarPuntajes();
 }
@@ -1198,11 +1215,21 @@ function detenerTemporizador() {
     clearInterval(timerInterval);
     timerInterval = null;
   }
-  timerContainer.style.display = "none";
+  // Mantenemos el contenedor visible aunque esté en pausa para que el diseño no "salte"
+  if (modoTiempo === 0) {
+    timerContainer.style.display = "none";
+  } else {
+    timerContainer.style.display = "block";
+  }
 }
 
 function iniciarTemporizador() {
   detenerTemporizador();
+
+  if (modoTiempo === 0) {
+    timerContainer.style.display = "none";
+    return;
+  }
 
   timerContainer.style.display = "block";
   let tiempoRestante = 100;
@@ -1451,7 +1478,7 @@ function girarRuleta() {
 
   const seleccionVal = selectorTabla.value;
   if (seleccionVal === "mixto") {
-    // Excluimos la tabla del 1 (genera un número aleatorio del 2 al 12)
+    // Excluimos estrictamente la tabla del 1 (genera valores del 2 al 12)
     tabla = Math.floor(Math.random() * 11) + 2;
   } else {
     tabla = Number(seleccionVal);
