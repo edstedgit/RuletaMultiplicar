@@ -875,38 +875,31 @@ function actualizarTextosUI() {
 
 let audioCtx = null;
 
-// FUNCIÓN CLAVE PARA DESBLOQUEAR EN IPHONE / SAFARI
-function desbloquearAudioIOS() {
-  try {
-    if (!audioCtx) {
-      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+function obtenerAudioContext() {
+  if (!audioCtx) {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (AudioContextClass) {
       audioCtx = new AudioContextClass();
     }
-    if (audioCtx.state === 'suspended') {
-      audioCtx.resume();
-    }
-    // Forzar un "primer saludo" vacío o desbloqueo para habilitar SpeechSynthesis en iOS
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      const utteranceFalsa = new SpeechSynthesisUtterance('');
-      utteranceFalsa.volume = 0;
-      window.speechSynthesis.speak(utteranceFalsa);
-    }
-  } catch (e) {}
+  }
+  if (audioCtx && audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+  return audioCtx;
 }
 
 function reproducirSonido(tipo) {
   if (!sonidoActivo) return;
 
   try {
-    desbloquearAudioIOS();
-    if (!audioCtx) return;
+    const ctxAudio = obtenerAudioContext();
+    if (!ctxAudio) return;
 
-    const now = audioCtx.currentTime;
-    const osc = audioCtx.createOscillator();
-    const gainNode = audioCtx.createGain();
+    const now = ctxAudio.currentTime;
+    const osc = ctxAudio.createOscillator();
+    const gainNode = ctxAudio.createGain();
     osc.connect(gainNode);
-    gainNode.connect(audioCtx.destination);
+    gainNode.connect(ctxAudio.destination);
 
     if (tipo === "acierto" || tipo === "revancha") {
       osc.type = "sine";
@@ -942,10 +935,10 @@ function reproducirSonido(tipo) {
       osc.stop(now + 0.03);
     } else if (tipo === "racha") {
       [523.25, 659.25, 783.99].forEach((freq, index) => {
-        const oscR = audioCtx.createOscillator();
-        const gainR = audioCtx.createGain();
+        const oscR = ctxAudio.createOscillator();
+        const gainR = ctxAudio.createGain();
         oscR.connect(gainR);
-        gainR.connect(audioCtx.destination);
+        gainR.connect(ctxAudio.destination);
         oscR.type = "triangle";
         oscR.frequency.setValueAtTime(freq, now + index * 0.07);
         gainR.gain.setValueAtTime(0.15, now + index * 0.07);
@@ -962,16 +955,11 @@ function hablar(texto) {
   if (!sonidoActivo) return;
 
   if ('speechSynthesis' in window) {
-    desbloquearAudioIOS();
-    window.speechSynthesis.cancel(); // Soluciona el bug de bloqueo en iPhone
+    window.speechSynthesis.cancel();
     
     currentUtterance = new SpeechSynthesisUtterance(texto);
     currentUtterance.lang = idiomaActual === "es" ? 'es-ES' : 'en-US';
     currentUtterance.rate = 1.0;
-
-    if (window.speechSynthesis.paused) {
-      window.speechSynthesis.resume();
-    }
 
     window.speechSynthesis.speak(currentUtterance);
   }
@@ -983,7 +971,6 @@ function actualizarBotonSonido() {
 }
 
 function toggleSonido() {
-  desbloquearAudioIOS();
   sonidoActivo = !sonidoActivo;
   actualizarBotonSonido();
   if (sonidoActivo) reproducirSonido("click");
@@ -991,7 +978,6 @@ function toggleSonido() {
 }
 
 function toggleIdioma() {
-  desbloquearAudioIOS();
   reproducirSonido("click");
   idiomaActual = idiomaActual === "es" ? "en" : "es";
   actualizarSelectorTablas();
@@ -1000,7 +986,6 @@ function toggleIdioma() {
 }
 
 function cambiarModoTiempo() {
-  desbloquearAudioIOS();
   reproducirSonido("click");
   modoTiempo = (modoTiempo + 1) % 3;
   actualizarBotonModoUI();
@@ -1020,7 +1005,6 @@ function generarCodigoRespaldoTexto() {
 }
 
 function copiarCodigoRespaldo() {
-  desbloquearAudioIOS();
   reproducirSonido("click");
   const t = i18n[idiomaActual];
   const codigo = generarCodigoRespaldoTexto();
@@ -1048,7 +1032,6 @@ function copiarAlPortapapelesManual(codigo, t) {
 }
 
 function restaurarDesdeCodigoTexto() {
-  desbloquearAudioIOS();
   reproducirSonido("click");
   const t = i18n[idiomaActual];
   const codigoIngresado = prompt(t.promptPegarCodigo, "");
@@ -1066,6 +1049,7 @@ function restaurarDesdeCodigoTexto() {
     const datos = JSON.parse(jsonStr);
 
     if (datos && typeof datos === "object") {
+      // AQUÍ RESTAURAMOS CORRECTAMENTE EL NOMBRE DEL NIÑO
       if (typeof datos.n === "string") {
         nombre = datos.n;
         inputNombre.value = nombre;
@@ -1087,7 +1071,6 @@ function restaurarDesdeCodigoTexto() {
 }
 
 function compartirResultados() {
-  desbloquearAudioIOS();
   reproducirSonido("click");
   const t = i18n[idiomaActual];
   const mensajeCompartir = t.textoCompartir(
@@ -1127,7 +1110,6 @@ function obtenerFechaSimple() {
 }
 
 function abrirModalHistorial(filtro = "todo") {
-  desbloquearAudioIOS();
   reproducirSonido("click");
   filtroModalActual = filtro;
   renderizarHistorialUI();
@@ -1135,7 +1117,6 @@ function abrirModalHistorial(filtro = "todo") {
 }
 
 function cerrarModalHistorialFunc() {
-  desbloquearAudioIOS();
   reproducirSonido("click");
   modalHistorial.hidden = true;
 }
@@ -1224,7 +1205,6 @@ function renderizarHistorialUI() {
 }
 
 function limpiarHistorial() {
-  desbloquearAudioIOS();
   reproducirSonido("click");
   historialPartidas = [];
   renderizarHistorialUI();
@@ -1460,7 +1440,6 @@ function elegirFactorValido(tablaActual) {
 }
 
 function iniciarRevancha() {
-  desbloquearAudioIOS();
   if (!revanchaPendiente || girando) return;
 
   detenerTemporizador();
@@ -1489,7 +1468,6 @@ function iniciarRevancha() {
 }
 
 function girarRuleta() {
-  desbloquearAudioIOS();
   if (girando) return;
 
   detenerTemporizador();
@@ -1500,7 +1478,6 @@ function girarRuleta() {
 
   const seleccionVal = selectorTabla.value;
   if (seleccionVal === "mixto") {
-    // Excluimos estrictamente la tabla del 1 (genera valores del 2 al 12)
     tabla = Math.floor(Math.random() * 11) + 2;
   } else {
     tabla = Number(seleccionVal);
@@ -1596,7 +1573,6 @@ function mostrarPregunta(esRevancha = false) {
     boton.setAttribute("aria-label", "Responder " + valor);
 
     boton.addEventListener("click", () => {
-      desbloquearAudioIOS();
       reproducirSonido("click");
       responder(valor, esRevancha);
     });
@@ -1685,7 +1661,6 @@ function responder(valor, esRevancha = false) {
 }
 
 function reiniciarPuntajes() {
-  desbloquearAudioIOS();
   detenerTemporizador();
   reproducirSonido("click");
   const t = i18n[idiomaActual];
@@ -1714,11 +1689,6 @@ function reiniciarPuntajes() {
   document.getElementById("mensaje").textContent = t.msjReiniciado;
 }
 
-// Desbloqueo universal al primer toque táctil en cualquier parte de la pantalla (ideal para iPhone)
-window.addEventListener('touchstart', () => {
-  desbloquearAudioIOS();
-}, { once: true });
-
 botonSonido.addEventListener("click", toggleSonido);
 botonIdioma.addEventListener("click", toggleIdioma);
 botonModo.addEventListener("click", cambiarModoTiempo);
@@ -1737,7 +1707,6 @@ btnPegarCodigo.addEventListener("click", restaurarDesdeCodigoTexto);
 
 inputNombre.addEventListener("input", guardarPuntajes);
 selectorTabla.addEventListener("change", () => {
-  desbloquearAudioIOS();
   const sel = selectorTabla.value;
   if (sel !== "mixto") {
     tabla = Number(sel);
@@ -1748,7 +1717,6 @@ selectorTabla.addEventListener("change", () => {
 
 botonGirar.addEventListener("click", girarRuleta);
 botonSiguiente.addEventListener("click", () => {
-  desbloquearAudioIOS();
   reproducirSonido("click");
   girarRuleta();
 });
