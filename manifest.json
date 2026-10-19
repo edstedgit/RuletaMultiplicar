@@ -1,0 +1,20 @@
+
+{
+  "name": "Ruleta de Multiplicar",
+  "short_name": "Mi Ruleta",
+  "description": "Aprende las tablas de multiplicar del 1 al 12 jugando.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#dbeafe",
+  "theme_color": "#172554",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

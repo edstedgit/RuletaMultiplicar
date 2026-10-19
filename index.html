@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#172554">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Mi Ruleta">
+  <meta name="description" content="Aprende las tablas de multiplicar jugando.">
+  <link rel="manifest" href="./manifest.json">
+  <title>Ruleta de Multiplicar</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
+      overflow: hidden; /* Bloquea el scroll para asegurar pantalla única en iPhone 14 */
+      font-family: Arial, sans-serif;
+      color: #172554;
+      background: linear-gradient(135deg, #dbeafe, #fef3c7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    main {
+      width: 100%;
+      max-width: 390px; /* Medida perfecta para iPhone 14 */
+      height: 100dvh;
+      margin: 0 auto;
+      padding: 8px 12px;
+      background: #fff;
+      border-radius: 0;
+      box-shadow: 0 4px 20px #33415522;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    @media (min-width: 430px) {
+      main {
+        height: 94dvh;
+        border-radius: 24px;
+        padding: 12px 16px;
+      }
+    }
+
+    /* Botón de Sonido Flotante */
+    .btn-sonido {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      background: #eff6ff;
+      border: 2px solid #bfdbfe;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      cursor: pointer;
+      padding: 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      z-index: 5;
+    }
+
+    .btn-sonido:active {
+      transform: scale(0.92);
+    }
+
+    h1 {
+      margin: 2px 0 0;
+      font-size: clamp(20px, 5vw, 24px);
+      padding-right: 38px;
+      padding-left: 38px;
+    }
+
+    .sub {
+      color: #64748b;
+      font-size: 12px;
+      margin: 2px 0 4px;
+    }
+
+    .config-container {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin: 4px 0;
+    }
+
+    .selector-tabla {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .selector-tabla select,
+    .selector-tabla input {
+      padding: 6px 8px;
+      border: 2px solid #bfdbfe;
+      border-radius: 8px;
+      background: #eff6ff;
+      color: #1e3a8a;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .selector-tabla input {
+      width: 110px;
+      text-align: center;
+    }
+
+    .ruleta-contenedor {
+      width: min(50vw, 190px);
+      margin: 2px auto 6px;
+      position: relative;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .flecha {
+      position: absolute;
+      top: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      font-size: 22px;
+      line-height: 1;
+      color: #172554;
+      pointer-events: none;
+    }
+
+    button {
+      border: 0;
+      border-radius: 10px;
+      padding: 9px 12px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      touch-action: manipulation;
+      transition: transform .15s ease, background-color .15s ease;
+    }
+
+    button:disabled {
+      opacity: .6;
+      cursor: default;
+    }
+
+    button:focus-visible,
+    select:focus-visible,
+    input:focus-visible {
+      outline: 2px solid #1d4ed8;
+      outline-offset: 2px;
+    }
+
+    .principal {
+      width: 100%;
+      color: #fff;
+      background: #2563eb;
+      padding: 10px;
+    }
+
+    .principal:not(:disabled):active {
+      transform: scale(.98);
+    }
+
+    .pregunta {
+      margin-top: 4px;
+      padding: 6px 10px;
+      background: #f1f5f9;
+      border-radius: 12px;
+    }
+
+    #instruccion {
+      margin: 2px 0;
+      font-size: 13px;
+    }
+
+    #operacion {
+      font-size: clamp(24px, 6.5vw, 30px);
+      font-weight: bold;
+      margin: 2px;
+    }
+
+    .respuestas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin: 6px 0;
+    }
+
+    .respuestas button {
+      min-height: 38px;
+      padding: 6px;
+      color: #1e3a8a;
+      background: #dbeafe;
+      font-size: 17px;
+    }
+
+    .respuestas button:disabled {
+      opacity: 1;
+    }
+
+    #mensaje {
+      min-height: 20px;
+      margin: 2px 0;
+      font-size: 13px;
+      font-weight: bold;
+      line-height: 1.2;
+    }
+
+    #siguiente {
+      margin-top: 2px;
+      padding: 7px;
+    }
+
+    .estadisticas {
+      display: flex;
+      justify-content: space-around;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .estadisticas div {
+      flex: 1;
+      padding: 6px 2px;
+      background: #fef3c7;
+      border-radius: 10px;
+      font-size: 12px;
+    }
+
+    .estadisticas strong {
+      display: block;
+      margin-top: 2px;
+      font-size: 18px;
+    }
+
+    .pie {
+      margin: 4px 0 2px;
+      color: #64748b;
+      font-size: 11px;
+    }
+
+    .secundario {
+      width: 100%;
+      margin-top: 4px;
+      color: #991b1b;
+      background: #fee2e2;
+      font-size: 12px;
+      padding: 7px;
+    }
+
+    @media (hover: hover) {
+      .respuestas button:not(:disabled):hover {
+        background: #bfdbfe;
+        transform: translateY(-1px);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      button {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<main>
+  <!-- Botón de Sonido -->
+  <button id="toggleSonido" class="btn-sonido" type="button" aria-label="Activar o desactivar sonido">
+    🔊
+  </button>
+
+  <h1>🎡 Ruleta de Multiplicar</h1>
+  <p class="sub" id="subtitulo">¡Gira, aprende y gana puntos!</p>
+
+  <div class="config-container">
+    <div class="selector-tabla">
+      <label for="nombreNino">Nombre:</label>
+      <input type="text" id="nombreNino" placeholder="Tu nombre" maxlength="15">
+    </div>
+    <div class="selector-tabla">
+      <label for="tablaElegida">Tabla:</label>
+      <select id="tablaElegida">
+        <option value="1">Tabla 1</option>
+        <option value="2">Tabla 2</option>
+        <option value="3">Tabla 3</option>
+        <option value="4">Tabla 4</option>
+        <option value="5">Tabla 5</option>
+        <option value="6">Tabla 6</option>
+        <option value="7">Tabla 7</option>
+        <option value="8">Tabla 8</option>
+        <option value="9">Tabla 9</option>
+        <option value="10">Tabla 10</option>
+        <option value="11">Tabla 11</option>
+        <option value="12">Tabla 12</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="ruleta-contenedor">
+    <div class="flecha" aria-hidden="true">▼</div>
+    <canvas id="ruleta" width="340" height="340"
+            role="img"
+            aria-label="Ruleta con los números del 1 al 12">
+      Ruleta de los números del 1 al 12.
+    </canvas>
+  </div>
+
+  <button class="principal" id="girar" type="button">
+    🎯 ¡Girar la ruleta!
+  </button>
+
+  <section class="pregunta" aria-label="Pregunta de multiplicación">
+    <p id="instruccion">Elige una tabla y gira para comenzar.</p>
+    <div id="operacion" aria-label="Operación">? × ? = ?</div>
+
+    <div class="respuestas" id="respuestas"></div>
+
+    <div id="mensaje" aria-live="polite" role="status">
+    </div>
+
+    <button id="siguiente" class="principal"
+            type="button" hidden>
+      Siguiente pregunta →
+    </button>
+  </section>
+
+  <div class="estadisticas" aria-label="Estadísticas del juego">
+    <div>⭐ Puntos<strong id="puntos">0</strong></div>
+    <div>✅ Aciertos<strong id="aciertos">0</strong></div>
+    <div>🔥 Racha<strong id="racha">0</strong></div>
+  </div>
+
+  <button id="reiniciar" class="secundario" type="button">
+    🗑️ Reiniciar puntajes y nombre
+  </button>
+
+  <p class="pie">Tablas del 1 al 12 · ¡Sigue practicando!</p>
+</main>
+
+<script>
+"use strict";
+
+const canvas = document.getElementById("ruleta");
+const ctx = canvas.getContext("2d");
+
+const botonGirar = document.getElementById("girar");
+const botonSiguiente = document.getElementById("siguiente");
+const selectorTabla = document.getElementById("tablaElegida");
+const inputNombre = document.getElementById("nombreNino");
+const contenedorRespuestas = document.getElementById("respuestas");
+const botonSonido = document.getElementById("toggleSonido");
+
+const colores = [
+  "#fb7185", "#fbbf24", "#34d399", "#60a5fa",
+  "#a78bfa", "#f472b6", "#fb923c", "#2dd4bf",
+  "#818cf8", "#a3e635", "#38bdf8", "#e879f9"
+];
+
+const frasesAcierto = [
+  "¡Increíble! 🎉",
+  "¡Eres un genio! 🌟",
+  "¡Súper bien! 🚀",
+  "¡Qué crack! 🔥",
+  "¡Lo lograste! 🏆"
+];
+
+const TOTAL = 12;
+const sector = Math.PI * 2 / TOTAL;
+const CLAVE_PUNTAJES = "ruletaMultiplicarPuntajesV3";
+
+let angulo = 0;
+let girando = false;
+let tabla = 3;
+let factor = 0;
+let puntos = 0;
+let aciertos = 0;
+let racha = 0;
+let nombre = "";
+let sonidoActivo = true;
+let contestada = false;
+let preguntaActiva = false;
+let contadorOperaciones = {};
+
+let audioCtx = null;
+function reproducirSonido(tipo) {
+  if (!sonidoActivo) return;
+
+  try {
+    if (!audioCtx) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    const now = audioCtx.currentTime;
+    const osc = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
+    osc.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+
+    if (tipo === "acierto") {
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(440, now);
+      osc.frequency.exponentialRampToValueAtTime(880, now + 0.15);
+      gainNode.gain.setValueAtTime(0.2, now);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+      osc.start(now);
+      osc.stop(now + 0.2);
+    } else if (tipo === "error") {
+      osc.type = "sawtooth";
+      osc.frequency.setValueAtTime(200, now);
+      osc.frequency.exponentialRampToValueAtTime(120, now + 0.2);
+      gainNode.gain.setValueAtTime(0.2, now);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+      osc.start(now);
+      osc.stop(now + 0.25);
+    } else if (tipo === "click") {
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(500, now);
+      osc.frequency.exponentialRampToValueAtTime(150, now + 0.04);
+      gainNode.gain.setValueAtTime(0.1, now);
+      gainNode.gain.linearRampToValueAtTime(0.01, now + 0.04);
+      osc.start(now);
+      osc.stop(now + 0.04);
+    } else if (tipo === "racha") {
+      [523.25, 659.25, 783.99].forEach((freq, index) => {
+        const oscR = audioCtx.createOscillator();
+        const gainR = audioCtx.createGain();
+        oscR.connect(gainR);
+        gainR.connect(audioCtx.destination);
+        oscR.type = "triangle";
+        oscR.frequency.setValueAtTime(freq, now + index * 0.07);
+        gainR.gain.setValueAtTime(0.15, now + index * 0.07);
+        gainR.gain.exponentialRampToValueAtTime(0.01, now + index * 0.07 + 0.12);
+        oscR.start(now + index * 0.07);
+        oscR.stop(now + index * 0.07 + 0.12);
+      });
+    }
+  } catch (e) {}
+}
+
+function hablar(texto) {
+  if (!sonidoActivo) return;
+
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(texto);
+    utterance.lang = 'es-ES';
+    utterance.rate = 1.0;
+    window.speechSynthesis.speak(utterance);
+  }
+}
+
+function actualizarBotonSonido() {
+  botonSonido.textContent = sonidoActivo ? "🔊" : "🔇";
+  botonSonido.setAttribute("aria-label", sonidoActivo ? "Desactivar sonido" : "Activar sonido");
+}
+
+function toggleSonido() {
+  sonidoActivo = !sonidoActivo;
+  actualizarBotonSonido();
+  if (sonidoActivo) {
+    reproducirSonido("click");
+  }
+  guardarPuntajes();
+}
+
+function dibujar() {
+  const cx = 170;
+  const cy = 170;
+  const radio = 158;
+
+  ctx.clearRect(0, 0, 340, 340);
+
+  for (let i = 0; i < TOTAL; i++) {
+    const inicio = angulo + i * sector - Math.PI / 2;
+    const fin = inicio + sector;
+
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.arc(cx, cy, radio, inicio, fin);
+    ctx.closePath();
+    ctx.fillStyle = colores[i];
+    ctx.fill();
+
+    ctx.strokeStyle = "#fff";
+    ctx.lineWidth = 3;
+    ctx.stroke();
+
+    const medio = inicio + sector / 2;
+
+    ctx.fillStyle = "#172554";
+    ctx.font = "bold 21px Arial";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    ctx.fillText(
+      String(i + 1),
+      cx + Math.cos(medio) * 112,
+      cy + Math.sin(medio) * 112
+    );
+  }
+
+  ctx.beginPath();
+  ctx.arc(cx, cy, 18, 0, Math.PI * 2);
+  ctx.fillStyle = "#fff";
+  ctx.fill();
+  ctx.strokeStyle = "#172554";
+  ctx.lineWidth = 3;
+  ctx.stroke();
+}
+
+function actualizarEstadisticas() {
+  document.getElementById("puntos").textContent = puntos;
+  document.getElementById("aciertos").textContent = aciertos;
+  document.getElementById("racha").textContent = racha;
+}
+
+function cargarPuntajes() {
+  try {
+    const guardado = localStorage.getItem(CLAVE_PUNTAJES);
+
+    if (guardado) {
+      const datos = JSON.parse(guardado);
+
+      if (datos && typeof datos === "object") {
+        puntos = Number.isSafeInteger(datos.puntos) && datos.puntos >= 0 ? datos.puntos : 0;
+        aciertos = Number.isSafeInteger(datos.aciertos) && datos.aciertos >= 0 ? datos.aciertos : 0;
+        racha = Number.isSafeInteger(datos.racha) && datos.racha >= 0 ? datos.racha : 0;
+        nombre = typeof datos.nombre === "string" ? datos.nombre : "";
+        contadorOperaciones = datos.contadorOperaciones || {};
+        if (typeof datos.sonidoActivo === "boolean") {
+          sonidoActivo = datos.sonidoActivo;
+        }
+      }
+    }
+  } catch (error) {
+    console.warn("No se pudieron cargar los puntajes.", error);
+  }
+
+  inputNombre.value = nombre;
+  actualizarEstadisticas();
+  actualizarBotonSonido();
+}
+
+function guardarPuntajes() {
+  try {
+    nombre = inputNombre.value.trim();
+    localStorage.setItem(
+      CLAVE_PUNTAJES,
+      JSON.stringify({ nombre, puntos, aciertos, racha, contadorOperaciones, sonidoActivo })
+    );
+  } catch (error) {
+    console.warn("No se pudieron guardar los puntajes.", error);
+  }
+}
+
+function mezclar(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+function generarOpciones(correcta) {
+  const conjunto = new Set([correcta]);
+
+  while (conjunto.size < 4) {
+    const variacion = Math.floor(Math.random() * 21) - 10;
+    const opcion = correcta + variacion;
+
+    if (opcion >= 1 && opcion <= 144 && opcion !== correcta) {
+      conjunto.add(opcion);
+    }
+  }
+
+  return mezclar([...conjunto]);
+}
+
+function elegirFactorValido(tablaActual) {
+  let factoresDisponibles = [];
+  
+  for (let f = 1; f <= TOTAL; f++) {
+    const clave = `${tablaActual}-${f}`;
+    const veces = contadorOperaciones[clave] || 0;
+    if (veces < 4) {
+      factoresDisponibles.push(f);
+    }
+  }
+
+  if (factoresDisponibles.length === 0) {
+    for (let f = 1; f <= TOTAL; f++) {
+      delete contadorOperaciones[`${tablaActual}-${f}`];
+    }
+    factoresDisponibles = Array.from({ length: TOTAL }, (_, i) => i + 1);
+  }
+
+  const indiceAleatorio = Math.floor(Math.random() * factoresDisponibles.length);
+  return factoresDisponibles[indiceAleatorio];
+}
+
+function girarRuleta() {
+  if (girando) return;
+
+  reproducirSonido("click");
+  girando = true;
+  contestada = false;
+  preguntaActiva = false;
+
+  tabla = Number(selectorTabla.value);
+  factor = elegirFactorValido(tabla);
+
+  const claveOp = `${tabla}-${factor}`;
+  contadorOperaciones[claveOp] = (contadorOperaciones[claveOp] || 0) + 1;
+
+  botonGirar.disabled = true;
+  botonGirar.textContent = "🎯 Girando...";
+  selectorTabla.disabled = true;
+  inputNombre.disabled = true;
+  botonSiguiente.hidden = true;
+
+  contenedorRespuestas.replaceChildren();
+
+  document.getElementById("mensaje").textContent = "";
+  document.getElementById("instruccion").textContent = "¡La ruleta está girando!";
+  document.getElementById("operacion").textContent = "? × ? = ?";
+
+  const destino = -((factor - 1) * sector + sector / 2);
+
+  const vuelta = Math.PI * 2;
+  const actual = ((angulo % vuelta) + vuelta) % vuelta;
+  const objetivo = ((destino % vuelta) + vuelta) % vuelta;
+  const ajuste = (objetivo - actual + vuelta) % vuelta;
+
+  const inicio = angulo;
+  const final = angulo + vuelta * 6 + ajuste;
+  const duracion = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 50 : 3200;
+
+  const tiempoInicial = performance.now();
+
+  function animar(ahora) {
+    const progreso = Math.min((ahora - tiempoInicial) / duracion, 1);
+    const suave = 1 - Math.pow(1 - progreso, 4);
+
+    angulo = inicio + (final - inicio) * suave;
+    dibujar();
+
+    if (progreso < 1) {
+      requestAnimationFrame(animar);
+    } else {
+      angulo = ((final % vuelta) + vuelta) % vuelta;
+      dibujar();
+
+      girando = false;
+      botonGirar.disabled = false;
+      botonGirar.textContent = "🎯 ¡Girar la ruleta!";
+      selectorTabla.disabled = false;
+      inputNombre.disabled = false;
+
+      mostrarPregunta();
+    }
+  }
+
+  requestAnimationFrame(animar);
+}
+
+function mostrarPregunta() {
+  preguntaActiva = true;
+  contestada = false;
+
+  const n = inputNombre.value.trim() || "Campeón/a";
+  const textoPregunta = `¿Cuánto es ${tabla} por ${factor}?`;
+
+  document.getElementById("instruccion").textContent =
+    `¡Salió el ${factor}! ${n}, practica la tabla del ${tabla}.`;
+
+  document.getElementById("operacion").textContent =
+    tabla + " × " + factor + " = ?";
+
+  document.getElementById("mensaje").textContent =
+    "Elige la respuesta correcta.";
+
+  hablar(textoPregunta);
+
+  const correcta = tabla * factor;
+  const opciones = generarOpciones(correcta);
+
+  contenedorRespuestas.replaceChildren();
+
+  opciones.forEach(valor => {
+    const boton = document.createElement("button");
+
+    boton.type = "button";
+    boton.textContent = valor;
+    boton.setAttribute("aria-label", "Responder " + valor);
+
+    boton.addEventListener("click", () => {
+      reproducirSonido("click");
+      responder(valor);
+    });
+
+    contenedorRespuestas.appendChild(boton);
+  });
+}
+
+function responder(valor) {
+  if (!preguntaActiva || contestada || girando) return;
+
+  contestada = true;
+  preguntaActiva = false;
+
+  const correcta = tabla * factor;
+  const botones = contenedorRespuestas.querySelectorAll("button");
+
+  botones.forEach(boton => {
+    boton.disabled = true;
+
+    if (Number(boton.textContent) === correcta) {
+      boton.style.backgroundColor = "#bbf7d0";
+      boton.style.color = "#166534";
+      boton.setAttribute("aria-label", correcta + ", respuesta correcta");
+    } else if (Number(boton.textContent) === valor) {
+      boton.style.backgroundColor = "#fecaca";
+      boton.style.color = "#991b1b";
+      boton.setAttribute("aria-label", valor + ", respuesta incorrecta");
+    }
+  });
+
+  const n = inputNombre.value.trim() || "";
+
+  if (valor === correcta) {
+    puntos += 10;
+    aciertos++;
+    racha++;
+
+    if (racha >= 3) {
+      reproducirSonido("racha");
+    } else {
+      reproducirSonido("acierto");
+    }
+
+    const fraseAleatoria = frasesAcierto[Math.floor(Math.random() * frasesAcierto.length)];
+    document.getElementById("mensaje").textContent = `${fraseAleatoria} +10 puntos`;
+    
+    hablar(`¡Muy bien ${n}! ${fraseAleatoria}`);
+  } else {
+    racha = 0;
+    reproducirSonido("error");
+
+    document.getElementById("mensaje").textContent =
+      "¡Sigue practicando! La respuesta era " + correcta + ".";
+    
+    hablar(`Casi. La respuesta correcta era ${correcta}`);
+  }
+
+  actualizarEstadisticas();
+  guardarPuntajes();
+
+  botonSiguiente.hidden = false;
+  botonSiguiente.focus();
+}
+
+function reiniciarPuntajes() {
+  reproducirSonido("click");
+  const confirmado = window.confirm(
+    "¿Quieres borrar los puntos, los aciertos, la racha y cambiar el nombre?"
+  );
+
+  if (!confirmado) return;
+
+  const nuevoNombre = prompt("Introduce el nombre del niño/a:", inputNombre.value || "");
+  if (nuevoNombre !== null) {
+    inputNombre.value = nuevoNombre.trim();
+  }
+
+  puntos = 0;
+  aciertos = 0;
+  racha = 0;
+  contadorOperaciones = {};
+
+  actualizarEstadisticas();
+  guardarPuntajes();
+
+  document.getElementById("mensaje").textContent =
+    "Puntajes y historial reiniciados. ¡A jugar de nuevo!";
+}
+
+function seleccionarTablaAleatoria() {
+  const opciones = selectorTabla.options;
+  const indiceAleatorio = Math.floor(Math.random() * opciones.length);
+  selectorTabla.selectedIndex = indiceAleatorio;
+}
+
+botonSonido.addEventListener("click", toggleSonido);
+inputNombre.addEventListener("input", guardarPuntajes);
+botonGirar.addEventListener("click", girarRuleta);
+botonSiguiente.addEventListener("click", () => {
+  reproducirSonido("click");
+  girarRuleta();
+});
+document.getElementById("reiniciar").addEventListener("click", reiniciarPuntajes);
+
+seleccionarTablaAleatoria();
+dibujar();
+cargarPuntajes();
+
+if (nombre) {
+  inputNombre.value = nombre;
+}
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./service-worker.js")
+      .catch(error => {
+        console.warn("No se pudo registrar la PWA.", error);
+      });
+  });
+}
+</script>
+</body>
+</html>
