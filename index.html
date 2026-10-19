@@ -992,19 +992,16 @@ function copiarCodigoRespaldo() {
   const t = i18n[idiomaActual];
   const codigo = generarCodigoRespaldoTexto();
 
-  // Si el navegador soporta compartir de manera nativa (como WhatsApp, Telegram, etc. en móviles)
   if (navigator.share) {
     navigator.share({
       title: t.titulo,
       text: codigo
     }).catch((error) => {
       if (error.name !== 'AbortError') {
-        // Plan de respaldo si falla el share nativo: copiar al portapapeles
         copiarAlPortapapelesManual(codigo, t);
       }
     });
   } else {
-    // Para PC o navegadores sin Web Share API
     copiarAlPortapapelesManual(codigo, t);
   }
 }
@@ -1454,7 +1451,8 @@ function girarRuleta() {
 
   const seleccionVal = selectorTabla.value;
   if (seleccionVal === "mixto") {
-    tabla = Math.floor(Math.random() * TOTAL) + 1;
+    // Excluimos la tabla del 1 (genera un número aleatorio del 2 al 12)
+    tabla = Math.floor(Math.random() * 11) + 2;
   } else {
     tabla = Number(seleccionVal);
   }
