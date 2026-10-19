@@ -55,7 +55,7 @@
       }
     }
 
-    /* Botón de Idioma (Izquierda) */
+    /* Botón de Idioma (Izquierda 1) */
     .btn-idioma {
       position: absolute;
       top: 10px;
@@ -75,11 +75,67 @@
       z-index: 5;
     }
 
-    .btn-idioma:active {
-      transform: scale(0.92);
+    /* Botón de Modo Desafío (Izquierda 2) */
+    .btn-modo {
+      position: absolute;
+      top: 10px;
+      left: 54px;
+      background: #eff6ff;
+      border: 2px solid #bfdbfe;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      cursor: pointer;
+      padding: 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      z-index: 5;
     }
 
-    /* Botón de Sonido Flotante (Derecha) */
+    /* Botón de Historial (Derecha 3) */
+    .btn-historial {
+      position: absolute;
+      top: 10px;
+      right: 96px;
+      background: #eff6ff;
+      border: 2px solid #bfdbfe;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      cursor: pointer;
+      padding: 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      z-index: 5;
+    }
+
+    /* Botón de Compartir (Derecha 2) */
+    .btn-compartir {
+      position: absolute;
+      top: 10px;
+      right: 54px;
+      background: #eff6ff;
+      border: 2px solid #bfdbfe;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      cursor: pointer;
+      padding: 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      z-index: 5;
+    }
+
+    /* Botón de Sonido Flotante (Derecha 1) */
     .btn-sonido {
       position: absolute;
       top: 10px;
@@ -99,15 +155,15 @@
       z-index: 5;
     }
 
-    .btn-sonido:active {
+    .btn-idioma:active, .btn-modo:active, .btn-historial:active, .btn-compartir:active, .btn-sonido:active {
       transform: scale(0.92);
     }
 
     h1 {
       margin: 2px 0 0;
-      font-size: clamp(19px, 4.8vw, 23px);
-      padding-right: 42px;
-      padding-left: 42px;
+      font-size: clamp(17px, 4.2vw, 21px);
+      padding-right: 130px;
+      padding-left: 95px;
     }
 
     .sub {
@@ -147,9 +203,26 @@
       text-align: center;
     }
 
+    .timer-container {
+      width: 100%;
+      height: 6px;
+      background: #e2e8f0;
+      border-radius: 3px;
+      overflow: hidden;
+      margin: 2px 0;
+      display: none;
+    }
+
+    .timer-bar {
+      width: 100%;
+      height: 100%;
+      background: #2563eb;
+      transition: width 0.1s linear;
+    }
+
     .ruleta-contenedor {
-      width: min(50vw, 190px);
-      margin: 2px auto 6px;
+      width: min(48vw, 175px);
+      margin: 2px auto 4px;
       position: relative;
     }
 
@@ -165,7 +238,7 @@
       left: 50%;
       transform: translateX(-50%);
       z-index: 2;
-      font-size: 22px;
+      font-size: 20px;
       line-height: 1;
       color: #172554;
       pointer-events: none;
@@ -174,7 +247,7 @@
     button {
       border: 0;
       border-radius: 10px;
-      padding: 9px 12px;
+      padding: 8px 12px;
       font-size: 15px;
       font-weight: bold;
       cursor: pointer;
@@ -198,27 +271,44 @@
       width: 100%;
       color: #fff;
       background: #2563eb;
-      padding: 10px;
+      padding: 9px;
     }
 
     .principal:not(:disabled):active {
       transform: scale(.98);
     }
 
+    /* Botón especial para el Rincón de Revancha */
+    .btn-revancha {
+      background: #f59e0b;
+      color: #fff;
+      margin-bottom: 4px;
+      font-size: 13px;
+      padding: 7px;
+      display: none;
+      animation: pulsoRevancha 1.5s infinite;
+    }
+
+    @keyframes pulsoRevancha {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.02); background: #d97706; }
+      100% { transform: scale(1); }
+    }
+
     .pregunta {
       margin-top: 4px;
-      padding: 6px 10px;
+      padding: 5px 10px;
       background: #f1f5f9;
       border-radius: 12px;
     }
 
     #instruccion {
       margin: 2px 0;
-      font-size: 13px;
+      font-size: 12px;
     }
 
     #operacion {
-      font-size: clamp(24px, 6.5vw, 30px);
+      font-size: clamp(22px, 6vw, 28px);
       font-weight: bold;
       margin: 2px;
     }
@@ -226,16 +316,16 @@
     .respuestas {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 6px;
-      margin: 6px 0;
+      gap: 5px;
+      margin: 5px 0;
     }
 
     .respuestas button {
-      min-height: 38px;
+      min-height: 36px;
       padding: 6px;
       color: #1e3a8a;
       background: #dbeafe;
-      font-size: 17px;
+      font-size: 16px;
     }
 
     .respuestas button:disabled {
@@ -243,16 +333,16 @@
     }
 
     #mensaje {
-      min-height: 20px;
+      min-height: 18px;
       margin: 2px 0;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: bold;
       line-height: 1.2;
     }
 
     #siguiente {
       margin-top: 2px;
-      padding: 7px;
+      padding: 6px;
     }
 
     .estadisticas {
@@ -264,31 +354,115 @@
 
     .estadisticas div {
       flex: 1;
-      padding: 6px 2px;
+      padding: 5px 2px;
       background: #fef3c7;
       border-radius: 10px;
-      font-size: 12px;
+      font-size: 11px;
     }
 
     .estadisticas strong {
       display: block;
       margin-top: 2px;
-      font-size: 18px;
+      font-size: 17px;
     }
 
     .pie {
-      margin: 4px 0 2px;
+      margin: 3px 0 2px;
       color: #64748b;
-      font-size: 11px;
+      font-size: 10px;
     }
 
     .secundario {
       width: 100%;
-      margin-top: 4px;
+      margin-top: 3px;
       color: #991b1b;
       background: #fee2e2;
-      font-size: 12px;
-      padding: 7px;
+      font-size: 11px;
+      padding: 6px;
+    }
+
+    /* Modal Flotante para el Historial */
+    .modal-historial {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(2px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      padding: 16px;
+    }
+
+    .modal-historial[hidden] {
+      display: none !important;
+    }
+
+    .modal-contenido {
+      background: #fff;
+      width: 100%;
+      max-width: 330px;
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      display: flex;
+      flex-direction: column;
+      max-height: 85dvh;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-weight: bold;
+      font-size: 15px;
+    }
+
+    .lista-historial {
+      overflow-y: auto;
+      max-height: 180px;
+      margin-bottom: 10px;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 6px;
+      font-size: 11px;
+      background: #f8fafc;
+    }
+
+    .grupo-fecha {
+      font-weight: bold;
+      color: #1d4ed8;
+      background: #dbeafe;
+      padding: 3px 6px;
+      margin-top: 6px;
+      margin-bottom: 2px;
+      border-radius: 4px;
+      font-size: 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .item-historial {
+      padding: 4px 6px;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .item-historial:last-child {
+      border-bottom: none;
+    }
+
+    .btn-modal-accion {
+      width: 100%;
+      margin-top: 4px;
+      font-size: 11px;
+      padding: 6px;
     }
 
     @media (hover: hover) {
@@ -308,15 +482,11 @@
 
 <body>
 <main>
-  <!-- Botón de Idioma (Izquierda) -->
-  <button id="toggleIdioma" class="btn-idioma" type="button" aria-label="Cambiar idioma">
-    🇪🇸
-  </button>
-
-  <!-- Botón de Sonido (Derecha) -->
-  <button id="toggleSonido" class="btn-sonido" type="button" aria-label="Activar o desactivar sonido">
-    🔊
-  </button>
+  <button id="toggleIdioma" class="btn-idioma" type="button" aria-label="Cambiar idioma">🇪🇸</button>
+  <button id="toggleModo" class="btn-modo" type="button" aria-label="Activar modo desafío">⏱️</button>
+  <button id="verHistorial" class="btn-historial" type="button" aria-label="Ver historial">📋</button>
+  <button id="compartir" class="btn-compartir" type="button" aria-label="Compartir puntaje">📤</button>
+  <button id="toggleSonido" class="btn-sonido" type="button" aria-label="Activar o desactivar sonido">🔊</button>
 
   <h1 id="txtTitulo">🎡 Ruleta de Multiplicar</h1>
   <p class="sub" id="subtitulo">¡Gira, aprende y gana puntos!</p>
@@ -329,19 +499,26 @@
     <div class="selector-tabla">
       <label for="tablaElegida" id="lblTabla">Tabla:</label>
       <select id="tablaElegida">
-        <!-- Opciones se llenan dinámicamente o se adaptan -->
+        <!-- Opciones dinámicas -->
       </select>
     </div>
   </div>
 
+  <div class="timer-container" id="timerContainer">
+    <div class="timer-bar" id="timerBar"></div>
+  </div>
+
   <div class="ruleta-contenedor">
     <div class="flecha" aria-hidden="true">▼</div>
-    <canvas id="ruleta" width="340" height="340"
-            role="img"
-            aria-label="Ruleta con los números del 1 al 12">
+    <canvas id="ruleta" width="340" height="340" role="img" aria-label="Ruleta con los números del 1 al 12">
       Ruleta de los números del 1 al 12.
     </canvas>
   </div>
+
+  <!-- Botón especial de Práctica Espaciada (Rincón de Revancha) -->
+  <button id="btnRevancha" class="btn-revancha" type="button">
+    ⚡ ¡Revancha pendiente! (Repasar error)
+  </button>
 
   <button class="principal" id="girar" type="button">
     🎯 ¡Girar la ruleta!
@@ -353,11 +530,9 @@
 
     <div class="respuestas" id="respuestas"></div>
 
-    <div id="mensaje" aria-live="polite" role="status">
-    </div>
+    <div id="mensaje" aria-live="polite" role="status"></div>
 
-    <button id="siguiente" class="principal"
-            type="button" hidden>
+    <button id="siguiente" class="principal" type="button" hidden>
       Siguiente pregunta →
     </button>
   </section>
@@ -365,7 +540,7 @@
   <div class="estadisticas" aria-label="Estadísticas del juego">
     <div><span id="lblPuntos">⭐ Puntos</span><strong id="puntos">0</strong></div>
     <div><span id="lblAciertos">✅ Aciertos</span><strong id="aciertos">0</strong></div>
-    <div><span id="lblRacha">🔥 Racha</span><strong id="racha">0</strong></div>
+    <div><span id="lblRacha"><span id="lblRachaTexto">🔥 Racha</span></span><strong id="racha">0</strong></div>
   </div>
 
   <button id="reiniciar" class="secundario" type="button">
@@ -373,6 +548,21 @@
   </button>
 
   <p class="pie" id="txtPie">Tablas del 1 al 12 · ¡Sigue practicando!</p>
+
+  <!-- Modal Historial -->
+  <div id="modalHistorial" class="modal-historial" hidden>
+    <div class="modal-contenido">
+      <div class="modal-header">
+        <span id="lblHistorialTitulo">📋 Historial de Respuestas</span>
+        <button id="cerrarHistorial" type="button" style="background:#e2e8f0; padding:4px 8px; font-size:12px;">✕</button>
+      </div>
+      <div id="listaHistorial" class="lista-historial">
+        <!-- Dinámico -->
+      </div>
+      <button id="compartirHistorial" class="principal btn-modal-accion" type="button" style="background:#16a34a;">📤 Compartir historial</button>
+      <button id="limpiarHistorial" class="secundario btn-modal-accion" type="button">🗑️ Limpiar historial</button>
+    </div>
+  </div>
 </main>
 
 <script>
@@ -388,8 +578,19 @@ const inputNombre = document.getElementById("nombreNino");
 const contenedorRespuestas = document.getElementById("respuestas");
 const botonSonido = document.getElementById("toggleSonido");
 const botonIdioma = document.getElementById("toggleIdioma");
+const botonModo = document.getElementById("toggleModo");
+const botonCompartir = document.getElementById("compartir");
+const botonHistorial = document.getElementById("verHistorial");
+const modalHistorial = document.getElementById("modalHistorial");
+const cerrarHistorial = document.getElementById("cerrarHistorial");
+const limpiarHistorialBtn = document.getElementById("limpiarHistorial");
+const compartirHistorialBtn = document.getElementById("compartirHistorial");
+const listaHistorialDiv = document.getElementById("listaHistorial");
+const botonRevancha = document.getElementById("btnRevancha");
 
-// Textos traducidos
+const timerContainer = document.getElementById("timerContainer");
+const timerBar = document.getElementById("timerBar");
+
 const i18n = {
   es: {
     titulo: "🎡 Ruleta de Multiplicar",
@@ -399,24 +600,50 @@ const i18n = {
     lblTabla: "Tabla:",
     btnGirar: "🎯 ¡Girar la ruleta!",
     btnGirando: "🎯 Girando...",
+    btnRevanchaTexto: (t, f) => `⚡ ¡Revancha pendiente! (${t} × ${f})`,
     instruccionInicial: "Elige una tabla y gira para comenzar.",
     instruccionGirando: "¡La ruleta está girando!",
+    instruccionRevancha: "🧠 ¡Momento de revancha espaciada! ¿Cuánto era esto?",
     mensajeElegir: "Elige la respuesta correcta.",
     btnSiguiente: "Siguiente pregunta →",
     lblPuntos: "⭐ Puntos",
     lblAciertos: "✅ Aciertos",
     lblRacha: "🔥 Racha",
+    lblDominador: "👑 Dominador",
     btnReiniciar: "🗑️ Reiniciar puntajes y nombre",
     pie: "Tablas del 1 al 12 · ¡Sigue practicando!",
-    frasesAcierto: ["¡Increíble! 🎉", "¡Eres un genio! 🌟", "¡Súper bien! 🚀", "¡Qué crack! 🔥", "¡Lo lograste! 🏆"],
-    msjCorrecto: (f) => `${f} +10 puntos`,
-    msjIncorrecto: (c) => `¡Sigue practicando! La respuesta era ${c}.`,
+    opcionMixto: "✨ Mixto (Todas)",
+    historialTitulo: "📋 Historial de Respuestas",
+    historialVacio: "Aún no hay registros de juego.",
+    btnLimpiarHistorial: "🗑️ Limpiar historial",
+    btnCompartirHistorial: "📤 Compartir historial",
+    frasesAcierto: [
+      "¡Increíble! 🎉", "¡Eres un genio! 🌟", "¡Súper bien! 🚀", 
+      "¡Qué crack! 🔥", "¡Lo lograste! 🏆", "¡Imparable como un t-rex! 🦖", 
+      "¡Más listo que un búho con gafas! 🦉", "¡Tómala, matemáticas! 🍕"
+    ],
+    frasesRevanchaAcierto: [
+      "¡Revancha superada con éxito! 🧠⚡", "¡Eso es memoria de elefante! 🐘", "¡Venciste al error anterior! 🥇"
+    ],
+    frasesError: [
+      (c, t, f) => `❌ Casi... Era ${c}. ¡Hasta las calculadoras se equivocan! 🤖`,
+      (c, t, f) => `❌ Ups, era ${c}. ¡El monstruo de las mates se comió ese resultado! 👾`,
+      (c, t, f) => `❌ Era ${c}. ¡No te preocupes, el cerebro está creciendo! 🧠`,
+      (c, t, f) => `❌ Era ${c}. ¡A este número le dio vergüenza salir! 🙈`
+    ],
+    frasesTiempo: [
+      (c) => `⏰ ¡Reloj travieso! Era ${c}. ¡Corre más rápido que el viento! 💨`,
+      (c) => `⏰ ¡Tiempo agotado! Era ${c}. ¡El segundero te ganó por un pelo! 🏃‍♂️`,
+      (c) => `⏰ ¡Tic-tac, se fue! Era ${c}. ¡A la próxima ganamos la carrera! 🏎️`
+    ],
     hablarPregunta: (t, f) => `¿Cuánto es ${t} por ${f}?`,
     hablarAcierto: (n, frase, t, f, c) => `¡Muy bien ${n}! ${frase}. ${t} por ${f} es ${c}`,
     hablarError: (t, f, c) => `Casi. ${t} por ${f} es ${c}`,
+    hablarTiempo: (c) => `Se acabo el tiempo. La respuesta correcta era ${c}`,
     confirmarReiniciar: "¿Quieres borrar los puntos, los aciertos, la racha y cambiar el nombre?",
     promptNombre: "Introduce el nombre del niño/a:",
-    msjReiniciado: "Puntajes y historial reiniciados. ¡A jugar de nuevo!"
+    msjReiniciado: "Puntajes y historial reiniciados. ¡A jugar de nuevo!",
+    textoCompartir: (n, pts, aci) => `¡${n || 'Campeón/a'} ha conseguido ${pts} puntos y ${aci} aciertos practicando las tablas de multiplicar! `
   },
   en: {
     titulo: "🎡 Multiplication Wheel",
@@ -426,24 +653,50 @@ const i18n = {
     lblTabla: "Table:",
     btnGirar: "🎯 Spin the wheel!",
     btnGirando: "🎯 Spinning...",
+    btnRevanchaTexto: (t, f) => `⚡ Pending rematch! (${t} × ${f})`,
     instruccionInicial: "Choose a table and spin to start.",
     instruccionGirando: "The wheel is spinning!",
+    instruccionRevancha: "🧠 Spaced rematch time! What was this?",
     mensajeElegir: "Choose the correct answer.",
     btnSiguiente: "Next question →",
     lblPuntos: "⭐ Points",
     lblAciertos: "✅ Correct",
     lblRacha: "🔥 Streak",
+    lblDominador: "👑 Master",
     btnReiniciar: "🗑️ Reset scores and name",
     pie: "Tables 1 to 12 · Keep practicing!",
-    frasesAcierto: ["Awesome! 🎉", "You're a genius! 🌟", "Great job! 🚀", "Super star! 🔥", "You did it! 🏆"],
-    msjCorrecto: (f) => `${f} +10 points`,
-    msjIncorrecto: (c) => `Keep practicing! The answer was ${c}.`,
+    opcionMixto: "✨ Mixed (All)",
+    historialTitulo: "📋 Answer History",
+    historialVacio: "No game records yet.",
+    btnLimpiarHistorial: "🗑️ Clear history",
+    btnCompartirHistorial: "📤 Share history",
+    frasesAcierto: [
+      "Awesome! 🎉", "You're a genius! 🌟", "Great job! 🚀", 
+      "Super star! 🔥", "You did it! 🏆", "Unstoppable like a T-Rex! 🦖", 
+      "Smarter than an owl in glasses! 🦉", "Take that, math! 🍕"
+    ],
+    frasesRevanchaAcierto: [
+      "Rematch successfully conquered! 🧠⚡", "Elephant memory! 🐘", "You beat your past mistake! 🥇"
+    ],
+    frasesError: [
+      (c, t, f) => `❌ Almost... Was ${c}. Even calculators make mistakes! 🤖`,
+      (c, t, f) => `❌ Oops, was ${c}. The math monster ate that answer! 👾`,
+      (c, t, f) => `❌ Was ${c}. Don't worry, your brain is just growing! 🧠`,
+      (c, t, f) => `❌ Was ${c}. That number was feeling shy! 🙈`
+    ],
+    frasesTiempo: [
+      (c) => `⏰ Mischievous clock! Was ${c}. Run faster than the wind! 💨`,
+      (c) => `⏰ Time's up! Was ${c}. The second hand beat you by a hair! 🏃‍♂️`,
+      (c) => `⏰ Tick-tock, it's gone! Was ${c}. Next time we win the race! 🏎️`
+    ],
     hablarPregunta: (t, f) => `What is ${t} times ${f}?`,
     hablarAcierto: (n, frase, t, f, c) => `Very good ${n}! ${frase}. ${t} times ${f} is ${c}`,
     hablarError: (t, f, c) => `Almost. ${t} times ${f} is ${c}`,
+    hablarTiempo: (c) => `Time's up. The correct answer was ${c}`,
     confirmarReiniciar: "Do you want to clear scores, correct answers, streak and change name?",
     promptNombre: "Enter child's name:",
-    msjReiniciado: "Scores reset. Let's play again!"
+    msjReiniciado: "Scores reset. Let's play again!",
+    textoCompartir: (n, pts, aci) => `${n || 'Champion'} scored ${pts} points and got ${aci} correct answers practicing multiplication tables! `
   }
 };
 
@@ -455,7 +708,7 @@ const colores = [
 
 const TOTAL = 12;
 const sector = Math.PI * 2 / TOTAL;
-const CLAVE_PUNTAJES = "ruletaMultiplicarPuntajesV4";
+const CLAVE_PUNTAJES = "ruletaMultiplicarPuntajesV16";
 
 let angulo = 0;
 let girando = false;
@@ -467,14 +720,25 @@ let racha = 0;
 let nombre = "";
 let sonidoActivo = true;
 let idiomaActual = "es";
+let modoDesafio = false;
+let timerInterval = null;
 let contestada = false;
 let preguntaActiva = false;
 let contadorOperaciones = {};
+let historialPartidas = [];
 
-// Inicializar opciones del selector de tablas según idioma
+// Sistema de Práctica Espaciada (Cola de Revanchas)
+let revanchaPendiente = null; // Guardará { tabla, factor } si hay un error reciente pendiente
+
 function actualizarSelectorTablas() {
-  const valorActual = selectorTabla.value || 3;
+  const valorActual = selectorTabla.value || "mixto";
   selectorTabla.replaceChildren();
+  
+  const optMixto = document.createElement("option");
+  optMixto.value = "mixto";
+  optMixto.textContent = i18n[idiomaActual].opcionMixto;
+  selectorTabla.appendChild(optMixto);
+
   for (let i = 1; i <= TOTAL; i++) {
     const opt = document.createElement("option");
     opt.value = i;
@@ -482,6 +746,16 @@ function actualizarSelectorTablas() {
     selectorTabla.appendChild(opt);
   }
   selectorTabla.value = valorActual;
+}
+
+function actualizarBotonRevanchaUI() {
+  if (revanchaPendiente) {
+    const t = i18n[idiomaActual];
+    botonRevancha.textContent = t.btnRevanchaTexto(revanchaPendiente.tabla, revanchaPendiente.factor);
+    botonRevancha.style.display = "block";
+  } else {
+    botonRevancha.style.display = "none";
+  }
 }
 
 function actualizarTextosUI() {
@@ -492,6 +766,10 @@ function actualizarTextosUI() {
   inputNombre.placeholder = t.placeholderNombre;
   document.getElementById("lblTabla").textContent = t.lblTabla;
   
+  if (!selectorTabla.querySelector("option[value='mixto']").textContent.includes("Mixto") && !selectorTabla.querySelector("option[value='mixto']").textContent.includes("Mixed")) {
+    actualizarSelectorTablas();
+  }
+
   if (!girando && !preguntaActiva) {
     botonGirar.textContent = t.btnGirar;
     document.getElementById("instruccion").textContent = t.instruccionInicial;
@@ -501,13 +779,19 @@ function actualizarTextosUI() {
 
   document.getElementById("lblPuntos").textContent = t.lblPuntos;
   document.getElementById("lblAciertos").textContent = t.lblAciertos;
-  document.getElementById("lblRacha").textContent = t.lblRacha;
   document.getElementById("reiniciar").textContent = t.btnReiniciar;
   document.getElementById("txtPie").textContent = t.pie;
   botonSiguiente.textContent = t.btnSiguiente;
+  document.getElementById("lblHistorialTitulo").textContent = t.historialTitulo;
+  limpiarHistorialBtn.textContent = t.btnLimpiarHistorial;
+  compartirHistorialBtn.textContent = t.btnCompartirHistorial;
+
+  actualizarBotonRevanchaUI();
+  actualizarEstadisticas();
 
   botonIdioma.textContent = idiomaActual === "es" ? "🇪🇸" : "🇺🇸";
-  botonIdioma.setAttribute("aria-label", idiomaActual === "es" ? "Cambiar a Inglés" : "Change to Spanish");
+  botonModo.style.opacity = modoDesafio ? "1" : "0.5";
+  botonModo.setAttribute("aria-label", modoDesafio ? "Desactivar modo desafío" : "Activar modo desafío");
 }
 
 let audioCtx = null;
@@ -524,7 +808,7 @@ function reproducirSonido(tipo) {
     osc.connect(gainNode);
     gainNode.connect(audioCtx.destination);
 
-    if (tipo === "acierto") {
+    if (tipo === "acierto" || tipo === "revancha") {
       osc.type = "sine";
       osc.frequency.setValueAtTime(440, now);
       osc.frequency.exponentialRampToValueAtTime(880, now + 0.15);
@@ -585,9 +869,7 @@ function actualizarBotonSonido() {
 function toggleSonido() {
   sonidoActivo = !sonidoActivo;
   actualizarBotonSonido();
-  if (sonidoActivo) {
-    reproducirSonido("click");
-  }
+  if (sonidoActivo) reproducirSonido("click");
   guardarPuntajes();
 }
 
@@ -597,6 +879,216 @@ function toggleIdioma() {
   actualizarSelectorTablas();
   actualizarTextosUI();
   guardarPuntajes();
+}
+
+function toggleModoDesafio() {
+  reproducirSonido("click");
+  modoDesafio = !modoDesafio;
+  actualizarTextosUI();
+  guardarPuntajes();
+}
+
+function compartirResultados() {
+  reproducirSonido("click");
+  const t = i18n[idiomaActual];
+  const mensajeCompartir = t.textoCompartir(inputNombre.value.trim(), puntos, aciertos);
+
+  if (navigator.share) {
+    navigator.share({
+      title: t.titulo,
+      text: mensajeCompartir
+    }).catch(() => {});
+  } else {
+    navigator.clipboard.writeText(mensajeCompartir).then(() => {
+      alert(idiomaActual === "es" ? "¡Resultado copiado al portapapeles!" : "Result copied to clipboard!");
+    }).catch(() => {});
+  }
+}
+
+function obtenerFechaSimple() {
+  const ahora = new Date();
+  const dia = String(ahora.getDate()).padStart(2, '0');
+  const mes = String(ahora.getMonth() + 1).padStart(2, '0');
+  const anio = ahora.getFullYear();
+  return `${dia}/${mes}/${anio}`;
+}
+
+function compartirHistorialDetallado() {
+  reproducirSonido("click");
+  const t = i18n[idiomaActual];
+  const nombreNino = inputNombre.value.trim() || (idiomaActual === "es" ? "Campeón/a" : "Champion");
+  
+  if (!historialPartidas || historialPartidas.length === 0) {
+    alert(idiomaActual === "es" ? "No hay historial para compartir todavía." : "No history to share yet.");
+    return;
+  }
+
+  let textoHistorial = idiomaActual === "es"
+    ? `📋 *Historial de ${nombreNino}* (Puntos: ${puntos}, Aciertos: ${aciertos})\n\n`
+    : `📋 *${nombreNino}'s History* (Points: ${puntos}, Correct: ${aciertos})\n\n`;
+
+  let fechaActualGrupo = "";
+  historialPartidas.slice().reverse().forEach(item => {
+    if (item.fecha !== fechaActualGrupo) {
+      fechaActualGrupo = item.fecha;
+      textoHistorial += `📅 *${fechaActualGrupo}*\n`;
+    }
+    const estado = item.acertado ? "✅" : "❌";
+    textoHistorial += `  ${estado} ${item.tabla} × ${item.factor} = ${item.respuestaUsuario}${item.acertado ? '' : ` (Era ${item.correcta})`}\n`;
+  });
+
+  if (navigator.share) {
+    navigator.share({
+      title: t.historialTitulo,
+      text: textoHistorial
+    }).catch(() => {});
+  } else {
+    navigator.clipboard.writeText(textoHistorial).then(() => {
+      alert(idiomaActual === "es" ? "¡Historial copiado al portapapeles!" : "History copied to clipboard!");
+    }).catch(() => {});
+  }
+}
+
+function abrirModalHistorial() {
+  reproducirSonido("click");
+  renderizarHistorialUI();
+  modalHistorial.hidden = false;
+}
+
+function cerrarModalHistorialFunc() {
+  reproducirSonido("click");
+  modalHistorial.hidden = true;
+}
+
+function renderizarHistorialUI() {
+  listaHistorialDiv.replaceChildren();
+  const t = i18n[idiomaActual];
+  const nombreNinoActual = inputNombre.value.trim() || (idiomaActual === "es" ? "Estudiante" : "Student");
+
+  if (!historialPartidas || historialPartidas.length === 0) {
+    const p = document.createElement("p");
+    p.textContent = t.historialVacio;
+    p.style.textAlign = "center";
+    p.style.color = "#64748b";
+    p.style.margin = "10px 0";
+    listaHistorialDiv.appendChild(p);
+    return;
+  }
+
+  let fechaUltimaAgrupada = "";
+  historialPartidas.slice().reverse().forEach(item => {
+    if (item.fecha !== fechaUltimaAgrupada) {
+      fechaUltimaAgrupada = item.fecha;
+      const divGrupo = document.createElement("div");
+      divGrupo.className = "grupo-fecha";
+      
+      const spanFecha = document.createElement("span");
+      spanFecha.textContent = `📅 ${fechaUltimaAgrupada}`;
+      
+      const spanNombre = document.createElement("span");
+      spanNombre.textContent = `👤 ${nombreNinoActual}`;
+      spanNombre.style.fontWeight = "normal";
+      spanNombre.style.color = "#475569";
+
+      divGrupo.appendChild(spanFecha);
+      divGrupo.appendChild(spanNombre);
+      listaHistorialDiv.appendChild(divGrupo);
+    }
+
+    const div = document.createElement("div");
+    div.className = "item-historial";
+    
+    const spanOp = document.createElement("span");
+    spanOp.textContent = `${item.tabla} × ${item.factor} = ${item.respuestaUsuario}`;
+    spanOp.style.fontWeight = "bold";
+    spanOp.style.color = item.acertado ? "#166534" : "#991b1b";
+
+    const spanRes = document.createElement("span");
+    spanRes.textContent = item.acertado ? "✅" : `❌ (${item.correcta})`;
+
+    div.appendChild(spanOp);
+    div.appendChild(spanRes);
+    listaHistorialDiv.appendChild(div);
+  });
+}
+
+function limpiarHistorial() {
+  reproducirSonido("click");
+  historialPartidas = [];
+  renderizarHistorialUI();
+  guardarPuntajes();
+}
+
+function detenerTemporizador() {
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+  timerContainer.style.display = "none";
+}
+
+function iniciarTemporizador() {
+  detenerTemporizador();
+  if (!modoDesafio) return;
+
+  timerContainer.style.display = "block";
+  let tiempoRestante = 100;
+  timerBar.style.width = "100%";
+
+  const duracionTotal = 10000;
+  const intervaloMs = 100;
+  const decremento = (intervaloMs / duracionTotal) * 100;
+
+  timerInterval = setInterval(() => {
+    tiempoRestante -= decremento;
+    timerBar.style.width = `${Math.max(0, tiempoRestante)}%`;
+
+    if (tiempoRestante <= 0) {
+      detenerTemporizador();
+      tiempoAgotado();
+    }
+  }, intervaloMs);
+}
+
+function tiempoAgotado() {
+  if (!preguntaActiva || contestada) return;
+
+  contestada = true;
+  preguntaActiva = false;
+  racha = 0;
+  reproducirSonido("error");
+
+  const correcta = tabla * factor;
+  const t = i18n[idiomaActual];
+  const botones = contenedorRespuestas.querySelectorAll("button");
+
+  botones.forEach(boton => {
+    boton.disabled = true;
+    if (Number(boton.textContent) === correcta) {
+      boton.style.backgroundColor = "#bbf7d0";
+      boton.style.color = "#166534";
+    }
+  });
+
+  const claveOp = `${tabla}-${factor}`;
+  contadorOperaciones[claveOp] = (contadorOperaciones[claveOp] || 0) + 2;
+
+  // Activamos revancha espaciada con este error
+  revanchaPendiente = { tabla, factor };
+  actualizarBotonRevanchaUI();
+
+  historialPartidas.push({ tabla, factor, respuestaUsuario: "⏰", correcta, acertado: false, fecha: obtenerFechaSimple() });
+  if (historialPartidas.length > 30) historialPartidas.shift();
+
+  const fraseTiempoAleatoria = t.frasesTiempo[Math.floor(Math.random() * t.frasesTiempo.length)](correcta);
+  document.getElementById("mensaje").textContent = fraseTiempoAleatoria;
+  hablar(t.hablarTiempo(correcta));
+
+  actualizarEstadisticas();
+  guardarPuntajes();
+
+  botonSiguiente.hidden = false;
+  botonSiguiente.focus();
 }
 
 function dibujar() {
@@ -645,6 +1137,14 @@ function dibujar() {
 }
 
 function actualizarEstadisticas() {
+  const t = i18n[idiomaActual];
+  let textoRacha = t.lblRacha;
+  
+  if (racha >= 10) textoRacha = t.lblDominador + " 👑";
+  else if (racha >= 5) textoRacha = "🚀 " + (idiomaActual === "es" ? "Veloz" : "Speed");
+  else if (racha >= 3) textoRacha = "🔥 " + (idiomaActual === "es" ? "Racha" : "Streak");
+
+  document.getElementById("lblRachaTexto").textContent = textoRacha;
   document.getElementById("puntos").textContent = puntos;
   document.getElementById("aciertos").textContent = aciertos;
   document.getElementById("racha").textContent = racha;
@@ -653,21 +1153,20 @@ function actualizarEstadisticas() {
 function cargarPuntajes() {
   try {
     const guardado = localStorage.getItem(CLAVE_PUNTAJES);
-
     if (guardado) {
       const datos = JSON.parse(guardado);
-
       if (datos && typeof datos === "object") {
         puntos = Number.isSafeInteger(datos.puntos) && datos.puntos >= 0 ? datos.puntos : 0;
         aciertos = Number.isSafeInteger(datos.aciertos) && datos.aciertos >= 0 ? datos.aciertos : 0;
         racha = Number.isSafeInteger(datos.racha) && datos.racha >= 0 ? datos.racha : 0;
         nombre = typeof datos.nombre === "string" ? datos.nombre : "";
         contadorOperaciones = datos.contadorOperaciones || {};
-        if (typeof datos.sonidoActivo === "boolean") {
-          sonidoActivo = datos.sonidoActivo;
-        }
-        if (typeof datos.idiomaActual === "string") {
-          idiomaActual = datos.idiomaActual;
+        historialPartidas = Array.isArray(datos.historialPartidas) ? datos.historialPartidas : [];
+        if (typeof datos.sonidoActivo === "boolean") sonidoActivo = datos.sonidoActivo;
+        if (typeof datos.idiomaActual === "string") idiomaActual = datos.idiomaActual;
+        if (typeof datos.modoDesafio === "boolean") modoDesafio = datos.modoDesafio;
+        if (datos.revanchaPendiente && typeof datos.revanchaPendiente === "object") {
+          revanchaPendiente = datos.revanchaPendiente;
         }
       }
     }
@@ -687,7 +1186,7 @@ function guardarPuntajes() {
     nombre = inputNombre.value.trim();
     localStorage.setItem(
       CLAVE_PUNTAJES,
-      JSON.stringify({ nombre, puntos, aciertos, racha, contadorOperaciones, sonidoActivo, idiomaActual })
+      JSON.stringify({ nombre, puntos, aciertos, racha, contadorOperaciones, historialPartidas, sonidoActivo, idiomaActual, modoDesafio, revanchaPendiente })
     );
   } catch (error) {
     console.warn("No se pudieron guardar los puntajes.", error);
@@ -704,54 +1203,73 @@ function mezclar(array) {
 
 function generarOpciones(correcta) {
   const conjunto = new Set([correcta]);
-
   while (conjunto.size < 4) {
     const variacion = Math.floor(Math.random() * 21) - 10;
     const opcion = correcta + variacion;
-
     if (opcion >= 1 && opcion <= 144 && opcion !== correcta) {
       conjunto.add(opcion);
     }
   }
-
   return mezclar([...conjunto]);
 }
 
 function elegirFactorValido(tablaActual) {
   let factoresDisponibles = [];
-  
   for (let f = 1; f <= TOTAL; f++) {
     const clave = `${tablaActual}-${f}`;
     const veces = contadorOperaciones[clave] || 0;
-    if (veces < 4) {
+    const peso = veces >= 2 ? 3 : (veces === 1 ? 2 : 1);
+    for (let p = 0; p < peso; p++) {
       factoresDisponibles.push(f);
     }
   }
+  return factoresDisponibles[Math.floor(Math.random() * factoresDisponibles.length)];
+}
 
-  if (factoresDisponibles.length === 0) {
-    for (let f = 1; f <= TOTAL; f++) {
-      delete contadorOperaciones[`${tablaActual}-${f}`];
-    }
-    factoresDisponibles = Array.from({ length: TOTAL }, (_, i) => i + 1);
-  }
+// Iniciar juego por Revancha Espaciada Directa
+function iniciarRevancha() {
+  if (!revanchaPendiente || girando) return;
 
-  const indiceAleatorio = Math.floor(Math.random() * factoresDisponibles.length);
-  return factoresDisponibles[indiceAleatorio];
+  detenerTemporizador();
+  reproducirSonido("click");
+  contestada = false;
+  preguntaActiva = false;
+
+  tabla = revanchaPendiente.tabla;
+  factor = revanchaPendiente.factor;
+
+  const t = i18n[idiomaActual];
+  selectorTabla.disabled = true;
+  inputNombre.disabled = true;
+  botonSiguiente.hidden = true;
+  botonRevancha.style.display = "none"; // Ocultamos momentáneamente mientras responde
+
+  contenedorRespuestas.replaceChildren();
+
+  document.getElementById("mensaje").textContent = "";
+  document.getElementById("instruccion").textContent = t.instruccionRevancha;
+  document.getElementById("operacion").textContent = tabla + " × " + factor + " = ?";
+
+  mostrarPregunta(true); // true indica que es modo revancha
 }
 
 function girarRuleta() {
   if (girando) return;
 
+  detenerTemporizador();
   reproducirSonido("click");
   girando = true;
   contestada = false;
   preguntaActiva = false;
 
-  tabla = Number(selectorTabla.value);
-  factor = elegirFactorValido(tabla);
+  const seleccionVal = selectorTabla.value;
+  if (seleccionVal === "mixto") {
+    tabla = Math.floor(Math.random() * TOTAL) + 1;
+  } else {
+    tabla = Number(seleccionVal);
+  }
 
-  const claveOp = `${tabla}-${factor}`;
-  contadorOperaciones[claveOp] = (contadorOperaciones[claveOp] || 0) + 1;
+  factor = elegirFactorValido(tabla);
 
   const t = i18n[idiomaActual];
   botonGirar.disabled = true;
@@ -759,6 +1277,7 @@ function girarRuleta() {
   selectorTabla.disabled = true;
   inputNombre.disabled = true;
   botonSiguiente.hidden = true;
+  botonRevancha.style.display = "none";
 
   contenedorRespuestas.replaceChildren();
 
@@ -767,7 +1286,6 @@ function girarRuleta() {
   document.getElementById("operacion").textContent = "? × ? = ?";
 
   const destino = -((factor - 1) * sector + sector / 2);
-
   const vuelta = Math.PI * 2;
   const actual = ((angulo % vuelta) + vuelta) % vuelta;
   const objetivo = ((destino % vuelta) + vuelta) % vuelta;
@@ -776,7 +1294,6 @@ function girarRuleta() {
   const inicio = angulo;
   const final = angulo + vuelta * 6 + ajuste;
   const duracion = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 50 : 3200;
-
   const tiempoInicial = performance.now();
 
   function animar(ahora) {
@@ -798,14 +1315,14 @@ function girarRuleta() {
       selectorTabla.disabled = false;
       inputNombre.disabled = false;
 
-      mostrarPregunta();
+      mostrarPregunta(false);
     }
   }
 
   requestAnimationFrame(animar);
 }
 
-function mostrarPregunta() {
+function mostrarPregunta(esRevancha = false) {
   preguntaActiva = true;
   contestada = false;
 
@@ -813,16 +1330,17 @@ function mostrarPregunta() {
   const n = inputNombre.value.trim() || (idiomaActual === "es" ? "Campeón/a" : "Champion");
   const textoPregunta = t.hablarPregunta(tabla, factor);
 
-  document.getElementById("instruccion").textContent = idiomaActual === "es"
-    ? `¡Salió el ${factor}! ${n}, practica la tabla del ${tabla}.`
-    : `Rolled a ${factor}! ${n}, practice table ${tabla}.`;
-
-  document.getElementById("operacion").textContent =
-    tabla + " × " + factor + " = ?";
+  if (!esRevancha) {
+    document.getElementById("instruccion").textContent = idiomaActual === "es"
+      ? `¡Salió el ${factor}! Tabla del ${tabla} (${n}).`
+      : `Rolled ${factor}! Table ${tabla} (${n}).`;
+    document.getElementById("operacion").textContent = tabla + " × " + factor + " = ?";
+  }
 
   document.getElementById("mensaje").textContent = t.mensajeElegir;
 
   hablar(textoPregunta);
+  iniciarTemporizador();
 
   const correcta = tabla * factor;
   const opciones = generarOpciones(correcta);
@@ -831,23 +1349,23 @@ function mostrarPregunta() {
 
   opciones.forEach(valor => {
     const boton = document.createElement("button");
-
     boton.type = "button";
     boton.textContent = valor;
     boton.setAttribute("aria-label", "Responder " + valor);
 
     boton.addEventListener("click", () => {
       reproducirSonido("click");
-      responder(valor);
+      responder(valor, esRevancha);
     });
 
     contenedorRespuestas.appendChild(boton);
   });
 }
 
-function responder(valor) {
+function responder(valor, esRevancha = false) {
   if (!preguntaActiva || contestada || girando) return;
 
+  detenerTemporizador();
   contestada = true;
   preguntaActiva = false;
 
@@ -857,7 +1375,6 @@ function responder(valor) {
 
   botones.forEach(boton => {
     boton.disabled = true;
-
     if (Number(boton.textContent) === correcta) {
       boton.style.backgroundColor = "#bbf7d0";
       boton.style.color = "#166534";
@@ -870,38 +1387,64 @@ function responder(valor) {
   });
 
   const n = inputNombre.value.trim() || "";
+  const claveOp = `${tabla}-${factor}`;
+  const fechaSimple = obtenerFechaSimple();
 
   if (valor === correcta) {
-    puntos += 10;
+    const puntosGanados = modoDesafio ? 20 : 10;
+    puntos += puntosGanados;
     aciertos++;
     racha++;
 
-    if (racha >= 3) {
-      reproducirSonido("racha");
-    } else {
-      reproducirSonido("acierto");
+    if (contadorOperaciones[claveOp]) {
+      contadorOperaciones[claveOp] = Math.max(0, contadorOperaciones[claveOp] - 1);
     }
 
-    const fraseAleatoria = t.frasesAcierto[Math.floor(Math.random() * t.frasesAcierto.length)];
-    document.getElementById("mensaje").textContent = t.msjCorrecto(fraseAleatoria);
-    
+    // Si superó la revancha pendiente, la limpiamos con éxito
+    if (esRevancha && revanchaPendiente && revanchaPendiente.tabla === tabla && revanchaPendiente.factor === factor) {
+      revanchaPendiente = null;
+    }
+
+    historialPartidas.push({ tabla, factor, respuestaUsuario: valor, correcta, acertado: true, fecha: fechaSimple });
+    if (historialPartidas.length > 30) historialPartidas.shift();
+
+    if (racha >= 3) reproducirSonido("racha");
+    else reproducirSonido("acierto");
+
+    const fraseAleatoria = esRevancha 
+      ? t.frasesRevanchaAcierto[Math.floor(Math.random() * t.frasesRevanchaAcierto.length)]
+      : t.frasesAcierto[Math.floor(Math.random() * t.frasesAcierto.length)];
+
+    document.getElementById("mensaje").textContent = `${fraseAleatoria} +${puntosGanados} pts`;
     hablar(t.hablarAcierto(n, fraseAleatoria, tabla, factor, correcta));
   } else {
     racha = 0;
     reproducirSonido("error");
+    contadorOperaciones[claveOp] = (contadorOperaciones[claveOp] || 0) + 2;
 
-    document.getElementById("mensaje").textContent = t.msjIncorrecto(correcta);
+    // Actualizamos la revancha pendiente con este error reciente
+    revanchaPendiente = { tabla, factor };
+
+    historialPartidas.push({ tabla, factor, respuestaUsuario: valor, correcta, acertado: false, fecha: fechaSimple });
+    if (historialPartidas.length > 30) historialPartidas.shift();
+
+    const fraseErrorAleatoria = t.frasesError[Math.floor(Math.random() * t.frasesError.length)](correcta, tabla, factor);
+    document.getElementById("mensaje").textContent = fraseErrorAleatoria;
     hablar(t.hablarError(tabla, factor, correcta));
   }
 
+  actualizarBotonRevanchaUI();
   actualizarEstadisticas();
   guardarPuntajes();
 
+  selectorTabla.disabled = false;
+  inputNombre.disabled = false;
   botonSiguiente.hidden = false;
   botonSiguiente.focus();
 }
 
 function reiniciarPuntajes() {
+  detenerTemporizador();
   reproducirSonido("click");
   const t = i18n[idiomaActual];
   const confirmado = window.confirm(t.confirmarReiniciar);
@@ -917,21 +1460,26 @@ function reiniciarPuntajes() {
   aciertos = 0;
   racha = 0;
   contadorOperaciones = {};
+  historialPartidas = [];
+  revanchaPendiente = null;
 
+  actualizarBotonRevanchaUI();
   actualizarEstadisticas();
   guardarPuntajes();
 
   document.getElementById("mensaje").textContent = t.msjReiniciado;
 }
 
-function seleccionarTablaAleatoria() {
-  const opciones = selectorTabla.options;
-  const indiceAleatorio = Math.floor(Math.random() * opciones.length);
-  selectorTabla.selectedIndex = indiceAleatorio;
-}
-
 botonSonido.addEventListener("click", toggleSonido);
 botonIdioma.addEventListener("click", toggleIdioma);
+botonModo.addEventListener("click", toggleModoDesafio);
+botonCompartir.addEventListener("click", compartirResultados);
+botonHistorial.addEventListener("click", abrirModalHistorial);
+cerrarHistorial.addEventListener("click", cerrarModalHistorialFunc);
+limpiarHistorialBtn.addEventListener("click", limpiarHistorial);
+compartirHistorialBtn.addEventListener("click", compartirHistorialDetallado);
+botonRevancha.addEventListener("click", iniciarRevancha);
+
 inputNombre.addEventListener("input", guardarPuntajes);
 botonGirar.addEventListener("click", girarRuleta);
 botonSiguiente.addEventListener("click", () => {
@@ -940,10 +1488,16 @@ botonSiguiente.addEventListener("click", () => {
 });
 document.getElementById("reiniciar").addEventListener("click", reiniciarPuntajes);
 
+modalHistorial.hidden = true;
+
 actualizarSelectorTablas();
-seleccionarTablaAleatoria();
-dibujar();
 cargarPuntajes();
+
+if (!localStorage.getItem(CLAVE_PUNTAJES)) {
+  selectorTabla.value = "mixto";
+}
+
+dibujar();
 
 if (nombre) {
   inputNombre.value = nombre;
