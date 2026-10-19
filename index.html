@@ -11,9 +11,7 @@
   <link rel="manifest" href="./manifest.json">
   <title>Ruleta de Multiplicar</title>
 
-  <!-- Librería para generar códigos QR -->
-  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
-  <!-- Librería para leer códigos QR desde la cámara o una imagen -->
+  <!-- Librería para leer códigos QR (opcional si se conserva de antes, se mantiene por compatibilidad) -->
   <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
 
   <style>
@@ -399,11 +397,12 @@
       width: 100%;
       max-width: 320px;
       border-radius: 16px;
-      padding: 14px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      padding: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
       display: flex;
       flex-direction: column;
-      max-height: 85dvh;
+      height: auto;
+      max-height: 90dvh;
     }
 
     .modal-header {
@@ -412,7 +411,7 @@
       align-items: center;
       margin-bottom: 6px;
       font-weight: bold;
-      font-size: 14px;
+      font-size: 13px;
     }
 
     .lista-historial {
@@ -453,49 +452,9 @@
 
     .btn-modal-accion {
       width: 100%;
-      margin-top: 3px;
+      margin-top: 4px;
       font-size: 10px;
-      padding: 5px;
-    }
-
-    .modal-qr {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(2px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 20;
-      padding: 12px;
-    }
-
-    .modal-qr[hidden] {
-      display: none !important;
-    }
-
-    .modal-qr-contenido {
-      background: #fff;
-      width: 100%;
-      max-width: 290px;
-      border-radius: 16px;
-      padding: 14px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    #canvasQR {
-      margin: 8px auto;
-      display: block;
-      max-width: 160px;
-      height: auto;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 6px;
     }
 
     @media (hover: hover) {
@@ -601,31 +560,21 @@
 
   <p class="pie" id="txtPie">Tablas del 1 al 12 · ¡Sigue practicando!</p>
 
+  <!-- Ventana Modal Compacta con Código de Texto -->
   <div id="modalHistorial" class="modal-historial" hidden>
     <div class="modal-contenido">
       <div class="modal-header">
         <span id="lblHistorialTitulo">📋 Historial de Respuestas</span>
         <button id="cerrarHistorial" type="button" style="background:#e2e8f0; padding:3px 7px; font-size:11px;">✕</button>
       </div>
+      
       <div id="listaHistorial" class="lista-historial"></div>
-      <button id="compartirHistorial" class="principal btn-modal-accion" type="button" style="background:#16a34a;">📤 Compartir historial y puntaje</button>
-      <button id="btnVerQR" class="principal btn-modal-accion" type="button" style="background:#8b5cf6;">📱 Compartir QR de Respaldo</button>
-      <button id="btnSubirQR" class="principal btn-modal-accion" type="button" style="background:#2563eb;">📥 Restaurar desde QR (Imagen)</button>
-      <input type="file" id="inputSubirQR" accept="image/*" hidden>
+      
+      <button id="compartirHistorial" class="principal btn-modal-accion" type="button" style="background:#16a34a;">📤 Compartir resumen general</button>
+      <button id="btnCopiarCodigo" class="principal btn-modal-accion" type="button" style="background:#8b5cf6;">📤 Enviar / Copiar código de respaldo</button>
+      <button id="btnPegarCodigo" class="principal btn-modal-accion" type="button" style="background:#2563eb;">📥 Restaurar desde código de texto</button>
+      
       <button id="limpiarHistorial" class="secundario btn-modal-accion" type="button">🗑️ Limpiar historial</button>
-    </div>
-  </div>
-
-  <div id="modalQR" class="modal-qr" hidden>
-    <div class="modal-qr-contenido">
-      <div class="modal-header" style="width:100%; margin-bottom:4px;">
-        <span id="lblQRTitle" style="font-size:13px;">📱 Compartir QR de Respaldo</span>
-        <button id="cerrarModalQ фильма" type="button" style="background:#e2e8f0; padding:3px 7px; font-size:11px;" onclick="cerrarQR()">✕</button>
-      </div>
-      <p style="font-size:10px; color:#64748b; margin:0 0 6px; text-align:center;" id="lblQRSub">Muestra o comparte este QR para restaurar tus puntajes luego.</p>
-      <canvas id="canvasQR"></canvas>
-      <button id="btnCompartirImagenQR" class="principal btn-modal-accion" style="background:#16a34a; margin-top:6px;">📤 Descargar / Compartir Imagen QR</button>
-      <button id="cerrarModalQR" class="principal btn-modal-accion" style="background:#e2e8f0; color:#1e3a8a; margin-top:4px;">Cerrar</button>
     </div>
   </div>
 </main>
@@ -659,13 +608,8 @@ const cardPuntos = document.getElementById("cardPuntos");
 const cardAciertos = document.getElementById("cardAciertos");
 const cardRacha = document.getElementById("cardRacha");
 
-const btnVerQR = document.getElementById("btnVerQR");
-const btnSubirQR = document.getElementById("btnSubirQR");
-const inputSubirQR = document.getElementById("inputSubirQR");
-const modalQR = document.getElementById("modalQR");
-const cerrarModalQR = document.getElementById("cerrarModalQR");
-const canvasQR = document.getElementById("canvasQR");
-const btnCompartirImagenQR = document.getElementById("btnCompartirImagenQR");
+const btnCopiarCodigo = document.getElementById("btnCopiarCodigo");
+const btnPegarCodigo = document.getElementById("btnPegarCodigo");
 
 const timerContainer = document.getElementById("timerContainer");
 const timerBar = document.getElementById("timerBar");
@@ -698,12 +642,9 @@ const i18n = {
     evolucionTitulo: "📈 Evolución y Racha",
     historialVacio: "Aún no hay registros de juego.",
     btnLimpiarHistorial: "🗑️ Limpiar historial",
-    btnCompartirHistorial: "📤 Compartir historial y puntaje",
-    btnVerQR: "📱 Compartir QR de Respaldo",
-    btnSubirQR: "📥 Restaurar desde QR (Imagen)",
-    btnCompartirImagenQR: "📤 Descargar / Compartir Imagen QR",
-    qrTitle: "📱 Compartir QR de Respaldo",
-    qrSub: "Muestra o comparte este QR para restaurar tus puntajes luego.",
+    btnCompartirHistorial: "📤 Compartir resumen general",
+    btnCopiarCodigo: "📤 Enviar / Copiar código de respaldo",
+    btnPegarCodigo: "📥 Restaurar desde código de texto",
     frasesAcierto: [
       "¡Increíble! 🎉", "¡Eres un genio! 🌟", "¡Súper bien! 🚀", 
       "¡Qué crack! 🔥", "¡Lo lograste! 🏆", "¡Imparable como un t-rex! 🦖", 
@@ -729,10 +670,18 @@ const i18n = {
     hablarTiempo: (c) => `Se acabo el tiempo. La respuesta correcta era ${c}`,
     confirmarReiniciar: "¿Quieres borrar los puntos, los aciertos, la racha y cambiar el nombre?",
     promptNombre: "Introduce el nombre del niño/a:",
+    promptPegarCodigo: "Pega aquí tu código de texto de respaldo:",
     msjReiniciado: "Puntajes y historial reiniciados. ¡A jugar de nuevo!",
-    msjRestaurado: "¡Historial y puntajes restaurados con éxito desde el QR! 🎉",
-    msjErrorQR: "No se pudo leer ningún código QR válido en la imagen.",
-    textoCompartir: (n, pts, aci) => `¡${n || 'Campeón/a'} ha conseguido ${pts} puntos y ${aci} aciertos practicando las tablas de multiplicar! `
+    msjRestaurado: "¡Historial y puntajes restaurados con éxito desde el código! 🎉",
+    msjErrorCodigo: "El código ingresado no es válido o está incompleto.",
+    msjCopiadoCodigo: "📤 ¡Código de respaldo enviado o copiado al portapapeles con éxito!",
+    textoCompartir: (n, pts, aci, racha, maxRacha) => 
+      `🌟 ¡Hola! Les comparto el avance de ${n || 'nuestro campeón/a'} en la Ruleta de Multiplicar:\n\n` +
+      `⭐ Puntos totales: ${pts}\n` +
+      `✅ Aciertos: ${aci}\n` +
+      `🔥 Racha actual: ${racha}\n` +
+      `👑 Racha máxima: ${maxRacha}\n\n` +
+      `🚀 ¡Sigue practicando y dominando las matemáticas con alegría!`
   },
   en: {
     titulo: "🎡 Multiplication Wheel",
@@ -761,12 +710,9 @@ const i18n = {
     evolucionTitulo: "📈 Streak & Evolution",
     historialVacio: "No game records yet.",
     btnLimpiarHistorial: "🗑️ Clear history",
-    btnCompartirHistorial: "📤 Share history & score",
-    btnVerQR: "📱 Share Backup QR Code",
-    btnSubirQR: "📥 Restore from QR (Image)",
-    btnCompartirImagenQR: "📤 Download / Share QR Image",
-    qrTitle: "📱 Share Backup QR",
-    qrSub: "Show or share this QR to restore your scores later.",
+    btnCompartirHistorial: "📤 Share general summary",
+    btnCopiarCodigo: "📤 Send / Copy backup code",
+    btnPegarCodigo: "📥 Restore from text code",
     frasesAcierto: [
       "Awesome! 🎉", "You're a genius! 🌟", "Great job! 🚀", 
       "Super star! 🔥", "You did it! 🏆", "Unstoppable like a T-Rex! 🦖", 
@@ -792,10 +738,18 @@ const i18n = {
     hablarTiempo: (c) => `Time's up. The correct answer was ${c}`,
     confirmarReiniciar: "Do you want to clear scores, correct answers, streak and change name?",
     promptNombre: "Enter child's name:",
+    promptPegarCodigo: "Paste your text backup code here:",
     msjReiniciado: "Scores reset. Let's play again!",
-    msjRestaurado: "Scores and history successfully restored from QR! 🎉",
-    msjErrorQR: "Could not read a valid QR code in the image.",
-    textoCompartir: (n, pts, aci) => `${n || 'Champion'} scored ${pts} points and got ${aci} correct answers practicing multiplication tables! `
+    msjRestaurado: "Scores and history successfully restored from code! 🎉",
+    msjErrorCodigo: "The entered code is invalid or incomplete.",
+    msjCopiadoCodigo: "📤 Backup code successfully sent or copied to clipboard!",
+    textoCompartir: (n, pts, aci, racha, maxRacha) => 
+      `🌟 Hi! Sharing ${n || 'our champion'}'s progress in the Multiplication Wheel:\n\n` +
+      `⭐ Total points: ${pts}\n` +
+      `✅ Correct answers: ${aci}\n` +
+      `🔥 Current streak: ${racha}\n` +
+      `👑 Max streak: ${maxRacha}\n\n` +
+      `🚀 Keep practicing and mastering math with joy!`
   }
 };
 
@@ -908,11 +862,8 @@ function actualizarTextosUI() {
   botonSiguiente.textContent = t.btnSiguiente;
   limpiarHistorialBtn.textContent = t.btnLimpiarHistorial;
   compartirHistorialBtn.textContent = t.btnCompartirHistorial;
-  btnVerQR.textContent = t.btnVerQR;
-  btnSubirQR.textContent = t.btnSubirQR;
-  btnCompartirImagenQR.textContent = t.btnCompartirImagenQR;
-  document.getElementById("lblQRTitle").textContent = t.qrTitle;
-  document.getElementById("lblQRSub").textContent = t.qrSub;
+  btnCopiarCodigo.textContent = t.btnCopiarCodigo;
+  btnPegarCodigo.textContent = t.btnPegarCodigo;
 
   actualizarBadgeTablaActiva();
   actualizarBotonRevanchaUI();
@@ -1024,7 +975,7 @@ function cambiarModoTiempo() {
   guardarPuntajes();
 }
 
-function generarPayloadRespaldo() {
+function generarCodigoRespaldoTexto() {
   const datosRespaldo = {
     v: 1,
     n: inputNombre.value.trim(),
@@ -1036,65 +987,102 @@ function generarPayloadRespaldo() {
   return "RULETA_BK:" + btoa(encodeURIComponent(JSON.stringify(datosRespaldo)));
 }
 
-function mostrarModalQR() {
+function copiarCodigoRespaldo() {
   reproducirSonido("click");
-  const payload = generarPayloadRespaldo();
-  QRCode.toCanvas(canvasQR, payload, { width: 160, margin: 1 }, function (error) {
-    if (error) console.error(error);
-  });
-  modalQR.hidden = false;
-}
+  const t = i18n[idiomaActual];
+  const codigo = generarCodigoRespaldoTexto();
 
-function cerrarQR() {
-  reproducirSonido("click");
-  modalQR.hidden = true;
-}
-
-async function compartirQRImagen() {
-  reproducirSonido("click");
-  canvasQR.toBlob(async blob => {
-    if (!blob) return;
-    const archivo = new File([blob], "respaldo-ruleta.png", { type: "image/png" });
-    const t = i18n[idiomaActual];
-    
-    if (navigator.canShare && navigator.canShare({ files: [archivo] })) {
-      try {
-        await navigator.share({
-          title: t.qrTitle,
-          text: idiomaActual === "es" ? "¡Aquí tienes tu código QR de respaldo para restaurar los puntajes!" : "Here is your backup QR code to restore scores!",
-          files: [archivo]
-        });
-        return;
-      } catch (e) {
-        if (e.name === "AbortError") return;
+  // Si el navegador soporta compartir de manera nativa (como WhatsApp, Telegram, etc. en móviles)
+  if (navigator.share) {
+    navigator.share({
+      title: t.titulo,
+      text: codigo
+    }).catch((error) => {
+      if (error.name !== 'AbortError') {
+        // Plan de respaldo si falla el share nativo: copiar al portapapeles
+        copiarAlPortapapelesManual(codigo, t);
       }
-    }
+    });
+  } else {
+    // Para PC o navegadores sin Web Share API
+    copiarAlPortapapelesManual(codigo, t);
+  }
+}
 
-    const link = document.createElement("a");
-    link.download = "respaldo-ruleta.png";
-    link.href = canvasQR.toDataURL("image/png");
-    link.click();
-    
-    alert(idiomaActual === "es" 
-      ? "📥 Imagen QR descargada en tu equipo con éxito." 
-      : "📥 QR image downloaded successfully to your device.");
+function copiarAlPortapapelesManual(codigo, t) {
+  navigator.clipboard.writeText(codigo).then(() => {
+    alert(t.msjCopiadoCodigo);
+  }).catch(() => {
+    prompt("Copia este código de respaldo manualmente:", codigo);
   });
+}
+
+function restaurarDesdeCodigoTexto() {
+  reproducirSonido("click");
+  const t = i18n[idiomaActual];
+  const codigoIngresado = prompt(t.promptPegarCodigo, "");
+
+  if (!codigoIngresado || !codigoIngresado.startsWith("RULETA_BK:")) {
+    if (codigoIngresado !== null) {
+      alert(t.msjErrorCodigo);
+    }
+    return;
+  }
+
+  try {
+    const base64Str = codigoIngresado.replace("RULETA_BK:", "");
+    const jsonStr = decodeURIComponent(atob(base64Str));
+    const datos = JSON.parse(jsonStr);
+
+    if (datos && typeof datos === "object") {
+      if (typeof datos.n === "string") {
+        nombre = datos.n;
+        inputNombre.value = nombre;
+      }
+      if (typeof datos.p === "number") puntos = datos.p;
+      if (typeof datos.a === "number") aciertos = datos.a;
+      if (typeof datos.r === "number") maxRacha = datos.r;
+      if (Array.isArray(datos.h)) historialPartidas = datos.h;
+
+      guardarPuntajes();
+      actualizarEstadisticas();
+      renderizarHistorialUI();
+      alert(t.msjRestaurado);
+      modalHistorial.hidden = true;
+    }
+  } catch (err) {
+    alert(t.msjErrorCodigo);
+  }
 }
 
 function compartirResultados() {
   reproducirSonido("click");
   const t = i18n[idiomaActual];
-  const mensajeCompartir = t.textoCompartir(inputNombre.value.trim(), puntos, aciertos);
+  const mensajeCompartir = t.textoCompartir(
+    inputNombre.value.trim(), 
+    puntos, 
+    aciertos, 
+    racha, 
+    maxRacha
+  );
 
   if (navigator.share) {
     navigator.share({
       title: t.titulo,
       text: mensajeCompartir
-    }).catch(() => {});
+    }).catch((error) => {
+      if (error.name !== 'AbortError') {
+        console.warn("Error al compartir:", error);
+      }
+    });
   } else {
     navigator.clipboard.writeText(mensajeCompartir).then(() => {
-      alert(idiomaActual === "es" ? "¡Resultado copiado al portapapeles!" : "Result copied to clipboard!");
-    }).catch(() => {});
+      alert(idiomaActual === "es" 
+        ? "📋 ¡Resumen detallado copiado al portapapeles para pegar en WhatsApp o redes!" 
+        : "📋 Detailed summary copied to clipboard to paste in WhatsApp or social media!");
+    }).catch(() => {
+      prompt(idiomaActual === "es" ? "Copia tu resumen:" : "Copy your summary:", mensajeCompartir);
+    });
   }
 }
 
@@ -1206,57 +1194,6 @@ function limpiarHistorial() {
   historialPartidas = [];
   renderizarHistorialUI();
   guardarPuntajes();
-}
-
-function procesarImagenQR(e) {
-  const archivo = e.target.files[0];
-  if (!archivo) return;
-
-  const lector = new FileReader();
-  lector.onload = function(event) {
-    const img = new Image();
-    img.onload = function() {
-      const canvasTemp = document.createElement("canvas");
-      const ctxTemp = canvasTemp.getContext("2d");
-      canvasTemp.width = img.width;
-      canvasTemp.height = img.height;
-      ctxTemp.drawImage(img, 0, 0);
-
-      const imagenData = ctxTemp.getImageData(0, 0, canvasTemp.width, canvasTemp.height);
-      const codigoQR = jsQR(imagenData.data, imagenData.width, imagenData.height);
-
-      if (codigoQR && codigoQR.data.startsWith("RULETA_BK:")) {
-        try {
-          const base64Str = codigoQR.data.replace("RULETA_BK:", "");
-          const jsonStr = decodeURIComponent(atob(base64Str));
-          const datos = JSON.parse(jsonStr);
-
-          if (datos && typeof datos === "object") {
-            if (typeof datos.n === "string") {
-              nombre = datos.n;
-              inputNombre.value = nombre;
-            }
-            if (typeof datos.p === "number") puntos = datos.p;
-            if (typeof datos.a === "number") aciertos = datos.a;
-            if (typeof datos.r === "number") maxRacha = datos.r;
-            if (Array.isArray(datos.h)) historialPartidas = datos.h;
-
-            guardarPuntajes();
-            actualizarEstadisticas();
-            renderizarHistorialUI();
-            alert(i18n[idiomaActual].msjRestaurado);
-            modalQR.hidden = true;
-          }
-        } catch (err) {
-          alert(i18n[idiomaActual].msjErrorQR);
-        }
-      } else {
-        alert(i18n[idiomaActual].msjErrorQR);
-      }
-    };
-    img.src = event.target.result;
-  };
-  lector.readAsDataURL(archivo);
 }
 
 function detenerTemporizador() {
@@ -1741,20 +1678,8 @@ cardPuntos.addEventListener("click", () => abrirModalHistorial("todo"));
 cardAciertos.addEventListener("click", () => abrirModalHistorial("aciertos"));
 cardRacha.addEventListener("click", () => abrirModalHistorial("racha"));
 
-btnVerQR.addEventListener("click", () => {
-  reproducirSonido("click");
-  mostrarModalQR();
-});
-
-btnSubirQR.addEventListener("click", () => {
-  reproducirSonido("click");
-  inputSubirQR.click();
-});
-
-inputSubirQR.addEventListener("change", procesarImagenQR);
-cerrarModalQR.addEventListener("click", cerrarQR);
-
-btnCompartirImagenQR.addEventListener("click", compartirQRImagen);
+btnCopiarCodigo.addEventListener("click", copiarCodigoRespaldo);
+btnPegarCodigo.addEventListener("click", restaurarDesdeCodigoTexto);
 
 inputNombre.addEventListener("input", guardarPuntajes);
 selectorTabla.addEventListener("change", () => {
@@ -1774,7 +1699,6 @@ botonSiguiente.addEventListener("click", () => {
 document.getElementById("reiniciar").addEventListener("click", reiniciarPuntajes);
 
 modalHistorial.hidden = true;
-modalQR.hidden = true;
 
 actualizarSelectorTablas();
 cargarPuntajes();
