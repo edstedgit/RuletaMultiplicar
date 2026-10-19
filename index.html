@@ -23,7 +23,7 @@
       width: 100%;
       height: 100vh;
       height: 100dvh;
-      overflow: hidden; /* Bloquea el scroll para asegurar pantalla única en iPhone 14 */
+      overflow: hidden;
       font-family: Arial, sans-serif;
       color: #172554;
       background: linear-gradient(135deg, #dbeafe, #fef3c7);
@@ -34,7 +34,7 @@
 
     main {
       width: 100%;
-      max-width: 390px; /* Medida perfecta para iPhone 14 */
+      max-width: 390px;
       height: 100dvh;
       margin: 0 auto;
       padding: 8px 12px;
@@ -55,7 +55,31 @@
       }
     }
 
-    /* Botón de Sonido Flotante */
+    /* Botón de Idioma (Izquierda) */
+    .btn-idioma {
+      position: absolute;
+      top: 10px;
+      left: 12px;
+      background: #eff6ff;
+      border: 2px solid #bfdbfe;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      cursor: pointer;
+      padding: 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      z-index: 5;
+    }
+
+    .btn-idioma:active {
+      transform: scale(0.92);
+    }
+
+    /* Botón de Sonido Flotante (Derecha) */
     .btn-sonido {
       position: absolute;
       top: 10px;
@@ -81,9 +105,9 @@
 
     h1 {
       margin: 2px 0 0;
-      font-size: clamp(20px, 5vw, 24px);
-      padding-right: 38px;
-      padding-left: 38px;
+      font-size: clamp(19px, 4.8vw, 23px);
+      padding-right: 42px;
+      padding-left: 42px;
     }
 
     .sub {
@@ -284,34 +308,28 @@
 
 <body>
 <main>
-  <!-- Botón de Sonido -->
+  <!-- Botón de Idioma (Izquierda) -->
+  <button id="toggleIdioma" class="btn-idioma" type="button" aria-label="Cambiar idioma">
+    🇪🇸
+  </button>
+
+  <!-- Botón de Sonido (Derecha) -->
   <button id="toggleSonido" class="btn-sonido" type="button" aria-label="Activar o desactivar sonido">
     🔊
   </button>
 
-  <h1>🎡 Ruleta de Multiplicar</h1>
+  <h1 id="txtTitulo">🎡 Ruleta de Multiplicar</h1>
   <p class="sub" id="subtitulo">¡Gira, aprende y gana puntos!</p>
 
   <div class="config-container">
     <div class="selector-tabla">
-      <label for="nombreNino">Nombre:</label>
+      <label for="nombreNino" id="lblNombre">Nombre:</label>
       <input type="text" id="nombreNino" placeholder="Tu nombre" maxlength="15">
     </div>
     <div class="selector-tabla">
-      <label for="tablaElegida">Tabla:</label>
+      <label for="tablaElegida" id="lblTabla">Tabla:</label>
       <select id="tablaElegida">
-        <option value="1">Tabla 1</option>
-        <option value="2">Tabla 2</option>
-        <option value="3">Tabla 3</option>
-        <option value="4">Tabla 4</option>
-        <option value="5">Tabla 5</option>
-        <option value="6">Tabla 6</option>
-        <option value="7">Tabla 7</option>
-        <option value="8">Tabla 8</option>
-        <option value="9">Tabla 9</option>
-        <option value="10">Tabla 10</option>
-        <option value="11">Tabla 11</option>
-        <option value="12">Tabla 12</option>
+        <!-- Opciones se llenan dinámicamente o se adaptan -->
       </select>
     </div>
   </div>
@@ -345,16 +363,16 @@
   </section>
 
   <div class="estadisticas" aria-label="Estadísticas del juego">
-    <div>⭐ Puntos<strong id="puntos">0</strong></div>
-    <div>✅ Aciertos<strong id="aciertos">0</strong></div>
-    <div>🔥 Racha<strong id="racha">0</strong></div>
+    <div><span id="lblPuntos">⭐ Puntos</span><strong id="puntos">0</strong></div>
+    <div><span id="lblAciertos">✅ Aciertos</span><strong id="aciertos">0</strong></div>
+    <div><span id="lblRacha">🔥 Racha</span><strong id="racha">0</strong></div>
   </div>
 
   <button id="reiniciar" class="secundario" type="button">
     🗑️ Reiniciar puntajes y nombre
   </button>
 
-  <p class="pie">Tablas del 1 al 12 · ¡Sigue practicando!</p>
+  <p class="pie" id="txtPie">Tablas del 1 al 12 · ¡Sigue practicando!</p>
 </main>
 
 <script>
@@ -369,6 +387,65 @@ const selectorTabla = document.getElementById("tablaElegida");
 const inputNombre = document.getElementById("nombreNino");
 const contenedorRespuestas = document.getElementById("respuestas");
 const botonSonido = document.getElementById("toggleSonido");
+const botonIdioma = document.getElementById("toggleIdioma");
+
+// Textos traducidos
+const i18n = {
+  es: {
+    titulo: "🎡 Ruleta de Multiplicar",
+    subtitulo: "¡Gira, aprende y gana puntos!",
+    lblNombre: "Nombre:",
+    placeholderNombre: "Tu nombre",
+    lblTabla: "Tabla:",
+    btnGirar: "🎯 ¡Girar la ruleta!",
+    btnGirando: "🎯 Girando...",
+    instruccionInicial: "Elige una tabla y gira para comenzar.",
+    instruccionGirando: "¡La ruleta está girando!",
+    mensajeElegir: "Elige la respuesta correcta.",
+    btnSiguiente: "Siguiente pregunta →",
+    lblPuntos: "⭐ Puntos",
+    lblAciertos: "✅ Aciertos",
+    lblRacha: "🔥 Racha",
+    btnReiniciar: "🗑️ Reiniciar puntajes y nombre",
+    pie: "Tablas del 1 al 12 · ¡Sigue practicando!",
+    frasesAcierto: ["¡Increíble! 🎉", "¡Eres un genio! 🌟", "¡Súper bien! 🚀", "¡Qué crack! 🔥", "¡Lo lograste! 🏆"],
+    msjCorrecto: (f) => `${f} +10 puntos`,
+    msjIncorrecto: (c) => `¡Sigue practicando! La respuesta era ${c}.`,
+    hablarPregunta: (t, f) => `¿Cuánto es ${t} por ${f}?`,
+    hablarAcierto: (n, frase, t, f, c) => `¡Muy bien ${n}! ${frase}. ${t} por ${f} es ${c}`,
+    hablarError: (t, f, c) => `Casi. ${t} por ${f} es ${c}`,
+    confirmarReiniciar: "¿Quieres borrar los puntos, los aciertos, la racha y cambiar el nombre?",
+    promptNombre: "Introduce el nombre del niño/a:",
+    msjReiniciado: "Puntajes y historial reiniciados. ¡A jugar de nuevo!"
+  },
+  en: {
+    titulo: "🎡 Multiplication Wheel",
+    subtitulo: "Spin, learn and score!",
+    lblNombre: "Name:",
+    placeholderNombre: "Your name",
+    lblTabla: "Table:",
+    btnGirar: "🎯 Spin the wheel!",
+    btnGirando: "🎯 Spinning...",
+    instruccionInicial: "Choose a table and spin to start.",
+    instruccionGirando: "The wheel is spinning!",
+    mensajeElegir: "Choose the correct answer.",
+    btnSiguiente: "Next question →",
+    lblPuntos: "⭐ Points",
+    lblAciertos: "✅ Correct",
+    lblRacha: "🔥 Streak",
+    btnReiniciar: "🗑️ Reset scores and name",
+    pie: "Tables 1 to 12 · Keep practicing!",
+    frasesAcierto: ["Awesome! 🎉", "You're a genius! 🌟", "Great job! 🚀", "Super star! 🔥", "You did it! 🏆"],
+    msjCorrecto: (f) => `${f} +10 points`,
+    msjIncorrecto: (c) => `Keep practicing! The answer was ${c}.`,
+    hablarPregunta: (t, f) => `What is ${t} times ${f}?`,
+    hablarAcierto: (n, frase, t, f, c) => `Very good ${n}! ${frase}. ${t} times ${f} is ${c}`,
+    hablarError: (t, f, c) => `Almost. ${t} times ${f} is ${c}`,
+    confirmarReiniciar: "Do you want to clear scores, correct answers, streak and change name?",
+    promptNombre: "Enter child's name:",
+    msjReiniciado: "Scores reset. Let's play again!"
+  }
+};
 
 const colores = [
   "#fb7185", "#fbbf24", "#34d399", "#60a5fa",
@@ -376,17 +453,9 @@ const colores = [
   "#818cf8", "#a3e635", "#38bdf8", "#e879f9"
 ];
 
-const frasesAcierto = [
-  "¡Increíble! 🎉",
-  "¡Eres un genio! 🌟",
-  "¡Súper bien! 🚀",
-  "¡Qué crack! 🔥",
-  "¡Lo lograste! 🏆"
-];
-
 const TOTAL = 12;
 const sector = Math.PI * 2 / TOTAL;
-const CLAVE_PUNTAJES = "ruletaMultiplicarPuntajesV3";
+const CLAVE_PUNTAJES = "ruletaMultiplicarPuntajesV4";
 
 let angulo = 0;
 let girando = false;
@@ -397,9 +466,49 @@ let aciertos = 0;
 let racha = 0;
 let nombre = "";
 let sonidoActivo = true;
+let idiomaActual = "es";
 let contestada = false;
 let preguntaActiva = false;
 let contadorOperaciones = {};
+
+// Inicializar opciones del selector de tablas según idioma
+function actualizarSelectorTablas() {
+  const valorActual = selectorTabla.value || 3;
+  selectorTabla.replaceChildren();
+  for (let i = 1; i <= TOTAL; i++) {
+    const opt = document.createElement("option");
+    opt.value = i;
+    opt.textContent = idiomaActual === "es" ? `Tabla ${i}` : `Table ${i}`;
+    selectorTabla.appendChild(opt);
+  }
+  selectorTabla.value = valorActual;
+}
+
+function actualizarTextosUI() {
+  const t = i18n[idiomaActual];
+  document.getElementById("txtTitulo").textContent = t.titulo;
+  document.getElementById("subtitulo").textContent = t.subtitulo;
+  document.getElementById("lblNombre").textContent = t.lblNombre;
+  inputNombre.placeholder = t.placeholderNombre;
+  document.getElementById("lblTabla").textContent = t.lblTabla;
+  
+  if (!girando && !preguntaActiva) {
+    botonGirar.textContent = t.btnGirar;
+    document.getElementById("instruccion").textContent = t.instruccionInicial;
+  } else if (girando) {
+    botonGirar.textContent = t.btnGirando;
+  }
+
+  document.getElementById("lblPuntos").textContent = t.lblPuntos;
+  document.getElementById("lblAciertos").textContent = t.lblAciertos;
+  document.getElementById("lblRacha").textContent = t.lblRacha;
+  document.getElementById("reiniciar").textContent = t.btnReiniciar;
+  document.getElementById("txtPie").textContent = t.pie;
+  botonSiguiente.textContent = t.btnSiguiente;
+
+  botonIdioma.textContent = idiomaActual === "es" ? "🇪🇸" : "🇺🇸";
+  botonIdioma.setAttribute("aria-label", idiomaActual === "es" ? "Cambiar a Inglés" : "Change to Spanish");
+}
 
 let audioCtx = null;
 function reproducirSonido(tipo) {
@@ -462,7 +571,7 @@ function hablar(texto) {
   if ('speechSynthesis' in window) {
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(texto);
-    utterance.lang = 'es-ES';
+    utterance.lang = idiomaActual === "es" ? 'es-ES' : 'en-US';
     utterance.rate = 1.0;
     window.speechSynthesis.speak(utterance);
   }
@@ -479,6 +588,14 @@ function toggleSonido() {
   if (sonidoActivo) {
     reproducirSonido("click");
   }
+  guardarPuntajes();
+}
+
+function toggleIdioma() {
+  reproducirSonido("click");
+  idiomaActual = idiomaActual === "es" ? "en" : "es";
+  actualizarSelectorTablas();
+  actualizarTextosUI();
   guardarPuntajes();
 }
 
@@ -549,6 +666,9 @@ function cargarPuntajes() {
         if (typeof datos.sonidoActivo === "boolean") {
           sonidoActivo = datos.sonidoActivo;
         }
+        if (typeof datos.idiomaActual === "string") {
+          idiomaActual = datos.idiomaActual;
+        }
       }
     }
   } catch (error) {
@@ -556,8 +676,10 @@ function cargarPuntajes() {
   }
 
   inputNombre.value = nombre;
+  actualizarSelectorTablas();
   actualizarEstadisticas();
   actualizarBotonSonido();
+  actualizarTextosUI();
 }
 
 function guardarPuntajes() {
@@ -565,7 +687,7 @@ function guardarPuntajes() {
     nombre = inputNombre.value.trim();
     localStorage.setItem(
       CLAVE_PUNTAJES,
-      JSON.stringify({ nombre, puntos, aciertos, racha, contadorOperaciones, sonidoActivo })
+      JSON.stringify({ nombre, puntos, aciertos, racha, contadorOperaciones, sonidoActivo, idiomaActual })
     );
   } catch (error) {
     console.warn("No se pudieron guardar los puntajes.", error);
@@ -631,8 +753,9 @@ function girarRuleta() {
   const claveOp = `${tabla}-${factor}`;
   contadorOperaciones[claveOp] = (contadorOperaciones[claveOp] || 0) + 1;
 
+  const t = i18n[idiomaActual];
   botonGirar.disabled = true;
-  botonGirar.textContent = "🎯 Girando...";
+  botonGirar.textContent = t.btnGirando;
   selectorTabla.disabled = true;
   inputNombre.disabled = true;
   botonSiguiente.hidden = true;
@@ -640,7 +763,7 @@ function girarRuleta() {
   contenedorRespuestas.replaceChildren();
 
   document.getElementById("mensaje").textContent = "";
-  document.getElementById("instruccion").textContent = "¡La ruleta está girando!";
+  document.getElementById("instruccion").textContent = t.instruccionGirando;
   document.getElementById("operacion").textContent = "? × ? = ?";
 
   const destino = -((factor - 1) * sector + sector / 2);
@@ -671,7 +794,7 @@ function girarRuleta() {
 
       girando = false;
       botonGirar.disabled = false;
-      botonGirar.textContent = "🎯 ¡Girar la ruleta!";
+      botonGirar.textContent = t.btnGirar;
       selectorTabla.disabled = false;
       inputNombre.disabled = false;
 
@@ -686,17 +809,18 @@ function mostrarPregunta() {
   preguntaActiva = true;
   contestada = false;
 
-  const n = inputNombre.value.trim() || "Campeón/a";
-  const textoPregunta = `¿Cuánto es ${tabla} por ${factor}?`;
+  const t = i18n[idiomaActual];
+  const n = inputNombre.value.trim() || (idiomaActual === "es" ? "Campeón/a" : "Champion");
+  const textoPregunta = t.hablarPregunta(tabla, factor);
 
-  document.getElementById("instruccion").textContent =
-    `¡Salió el ${factor}! ${n}, practica la tabla del ${tabla}.`;
+  document.getElementById("instruccion").textContent = idiomaActual === "es"
+    ? `¡Salió el ${factor}! ${n}, practica la tabla del ${tabla}.`
+    : `Rolled a ${factor}! ${n}, practice table ${tabla}.`;
 
   document.getElementById("operacion").textContent =
     tabla + " × " + factor + " = ?";
 
-  document.getElementById("mensaje").textContent =
-    "Elige la respuesta correcta.";
+  document.getElementById("mensaje").textContent = t.mensajeElegir;
 
   hablar(textoPregunta);
 
@@ -727,6 +851,7 @@ function responder(valor) {
   contestada = true;
   preguntaActiva = false;
 
+  const t = i18n[idiomaActual];
   const correcta = tabla * factor;
   const botones = contenedorRespuestas.querySelectorAll("button");
 
@@ -757,18 +882,16 @@ function responder(valor) {
       reproducirSonido("acierto");
     }
 
-    const fraseAleatoria = frasesAcierto[Math.floor(Math.random() * frasesAcierto.length)];
-    document.getElementById("mensaje").textContent = `${fraseAleatoria} +10 puntos`;
+    const fraseAleatoria = t.frasesAcierto[Math.floor(Math.random() * t.frasesAcierto.length)];
+    document.getElementById("mensaje").textContent = t.msjCorrecto(fraseAleatoria);
     
-    hablar(`¡Muy bien ${n}! ${fraseAleatoria}`);
+    hablar(t.hablarAcierto(n, fraseAleatoria, tabla, factor, correcta));
   } else {
     racha = 0;
     reproducirSonido("error");
 
-    document.getElementById("mensaje").textContent =
-      "¡Sigue practicando! La respuesta era " + correcta + ".";
-    
-    hablar(`Casi. La respuesta correcta era ${correcta}`);
+    document.getElementById("mensaje").textContent = t.msjIncorrecto(correcta);
+    hablar(t.hablarError(tabla, factor, correcta));
   }
 
   actualizarEstadisticas();
@@ -780,13 +903,12 @@ function responder(valor) {
 
 function reiniciarPuntajes() {
   reproducirSonido("click");
-  const confirmado = window.confirm(
-    "¿Quieres borrar los puntos, los aciertos, la racha y cambiar el nombre?"
-  );
+  const t = i18n[idiomaActual];
+  const confirmado = window.confirm(t.confirmarReiniciar);
 
   if (!confirmado) return;
 
-  const nuevoNombre = prompt("Introduce el nombre del niño/a:", inputNombre.value || "");
+  const nuevoNombre = prompt(t.promptNombre, inputNombre.value || "");
   if (nuevoNombre !== null) {
     inputNombre.value = nuevoNombre.trim();
   }
@@ -799,8 +921,7 @@ function reiniciarPuntajes() {
   actualizarEstadisticas();
   guardarPuntajes();
 
-  document.getElementById("mensaje").textContent =
-    "Puntajes y historial reiniciados. ¡A jugar de nuevo!";
+  document.getElementById("mensaje").textContent = t.msjReiniciado;
 }
 
 function seleccionarTablaAleatoria() {
@@ -810,6 +931,7 @@ function seleccionarTablaAleatoria() {
 }
 
 botonSonido.addEventListener("click", toggleSonido);
+botonIdioma.addEventListener("click", toggleIdioma);
 inputNombre.addEventListener("input", guardarPuntajes);
 botonGirar.addEventListener("click", girarRuleta);
 botonSiguiente.addEventListener("click", () => {
@@ -818,6 +940,7 @@ botonSiguiente.addEventListener("click", () => {
 });
 document.getElementById("reiniciar").addEventListener("click", reiniciarPuntajes);
 
+actualizarSelectorTablas();
 seleccionarTablaAleatoria();
 dibujar();
 cargarPuntajes();
