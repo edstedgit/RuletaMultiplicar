@@ -2,8 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#172554">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -11,6 +10,11 @@
   <meta name="description" content="Aprende las tablas de multiplicar jugando.">
   <link rel="manifest" href="./manifest.json">
   <title>Ruleta de Multiplicar</title>
+
+  <!-- Librería para generar códigos QR -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+  <!-- Librería para leer códigos QR desde la cámara o una imagen -->
+  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
 
   <style>
     * {
@@ -37,7 +41,7 @@
       max-width: 390px;
       height: 100dvh;
       margin: 0 auto;
-      padding: 8px 12px;
+      padding: 6px 10px;
       background: #fff;
       border-radius: 0;
       box-shadow: 0 4px 20px #33415522;
@@ -51,164 +55,99 @@
       main {
         height: 94dvh;
         border-radius: 24px;
-        padding: 12px 16px;
+        padding: 10px 14px;
       }
     }
 
-    /* Botón de Idioma (Izquierda 1) */
-    .btn-idioma {
-      position: absolute;
-      top: 10px;
-      left: 12px;
-      background: #eff6ff;
-      border: 2px solid #bfdbfe;
-      border-radius: 50%;
-      width: 36px;
-      height: 36px;
+    .header-controles {
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      justify-content: center;
-      font-size: 15px;
-      cursor: pointer;
-      padding: 0;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      width: 100%;
+      margin-bottom: 1px;
       z-index: 5;
     }
 
-    /* Botón de Modo Desafío (Izquierda 2) */
-    .btn-modo {
-      position: absolute;
-      top: 10px;
-      left: 54px;
+    .grupo-controles {
+      display: flex;
+      gap: 5px;
+    }
+
+    .btn-control {
       background: #eff6ff;
       border: 2px solid #bfdbfe;
       border-radius: 50%;
-      width: 36px;
-      height: 36px;
+      width: 34px;
+      height: 34px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 15px;
+      font-size: 14px;
       cursor: pointer;
       padding: 0;
       box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-      z-index: 5;
+      color: #1e3a8a;
     }
 
-    /* Botón de Historial (Derecha 3) */
-    .btn-historial {
-      position: absolute;
-      top: 10px;
-      right: 96px;
-      background: #eff6ff;
-      border: 2px solid #bfdbfe;
-      border-radius: 50%;
-      width: 36px;
-      height: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 15px;
-      cursor: pointer;
-      padding: 0;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-      z-index: 5;
-    }
-
-    /* Botón de Compartir (Derecha 2) */
-    .btn-compartir {
-      position: absolute;
-      top: 10px;
-      right: 54px;
-      background: #eff6ff;
-      border: 2px solid #bfdbfe;
-      border-radius: 50%;
-      width: 36px;
-      height: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 15px;
-      cursor: pointer;
-      padding: 0;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-      z-index: 5;
-    }
-
-    /* Botón de Sonido Flotante (Derecha 1) */
-    .btn-sonido {
-      position: absolute;
-      top: 10px;
-      right: 12px;
-      background: #eff6ff;
-      border: 2px solid #bfdbfe;
-      border-radius: 50%;
-      width: 36px;
-      height: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-      cursor: pointer;
-      padding: 0;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-      z-index: 5;
-    }
-
-    .btn-idioma:active, .btn-modo:active, .btn-historial:active, .btn-compartir:active, .btn-sonido:active {
+    .btn-control:active {
       transform: scale(0.92);
     }
 
+    .titulo-contenedor {
+      width: 100%;
+      text-align: center;
+      margin: 1px 0 0;
+    }
+
     h1 {
-      margin: 2px 0 0;
-      font-size: clamp(17px, 4.2vw, 21px);
-      padding-right: 130px;
-      padding-left: 95px;
+      margin: 0;
+      font-size: clamp(15px, 3.8vw, 19px);
+      line-height: 1.2;
     }
 
     .sub {
       color: #64748b;
-      font-size: 12px;
-      margin: 2px 0 4px;
+      font-size: 11px;
+      margin: 1px 0 3px;
+      text-align: center;
     }
 
     .config-container {
       display: flex;
       justify-content: center;
-      gap: 6px;
-      margin: 4px 0;
+      gap: 5px;
+      margin: 2px 0;
       align-items: center;
     }
 
     .selector-tabla {
       display: flex;
       align-items: center;
-      gap: 4px;
-      font-size: 12px;
+      gap: 3px;
+      font-size: 11px;
       font-weight: bold;
     }
 
     .selector-tabla select,
     .selector-tabla input {
-      padding: 5px 6px;
+      padding: 4px 5px;
       border: 2px solid #bfdbfe;
       border-radius: 8px;
       background: #eff6ff;
       color: #1e3a8a;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: bold;
     }
 
     .selector-tabla input {
-      width: 95px;
+      width: 85px;
       text-align: center;
     }
 
     .selector-tabla select {
-      max-width: 105px;
+      max-width: 95px;
     }
 
-    /* Cuadrito compacto junto al selector con la tabla activa del turno */
     .badge-tabla-actual {
       display: flex;
       flex-direction: column;
@@ -217,31 +156,31 @@
       background: #2563eb;
       color: #fff;
       border-radius: 8px;
-      padding: 3px 6px;
-      min-width: 52px;
+      padding: 2px 5px;
+      min-width: 48px;
       box-shadow: 0 2px 4px rgba(37,99,235,0.2);
     }
 
     .badge-label {
-      font-size: 9px;
+      font-size: 8px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       opacity: 0.9;
     }
 
     .badge-value {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: bold;
       line-height: 1.1;
     }
 
     .timer-container {
       width: 100%;
-      height: 6px;
+      height: 5px;
       background: #e2e8f0;
       border-radius: 3px;
       overflow: hidden;
-      margin: 2px 0;
+      margin: 1px 0;
       display: none;
     }
 
@@ -252,42 +191,41 @@
       transition: width 0.1s linear;
     }
 
-    /* Contenedor de la ruleta con zoom súper grande al girar */
     .ruleta-wrapper {
       width: 100%;
-      height: 185px;
+      height: 170px;
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
-      margin: 2px 0;
+      margin: 1px 0;
     }
 
     .ruleta-contenedor {
-      width: min(48vw, 165px);
+      width: min(44vw, 150px);
       position: relative;
       transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
       z-index: 4;
     }
 
     .ruleta-contenedor.girando-zoom {
-      transform: scale(1.65);
+      transform: scale(1.6);
     }
 
     canvas {
       display: block;
       width: 100%;
       height: auto;
-      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.12));
+      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.12));
     }
 
     .flecha {
       position: absolute;
-      top: -6px;
+      top: -5px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 5;
-      font-size: 22px;
+      font-size: 20px;
       line-height: 1;
       color: #172554;
       pointer-events: none;
@@ -296,8 +234,8 @@
     button {
       border: 0;
       border-radius: 10px;
-      padding: 8px 12px;
-      font-size: 15px;
+      padding: 7px 10px;
+      font-size: 14px;
       font-weight: bold;
       cursor: pointer;
       touch-action: manipulation;
@@ -320,7 +258,7 @@
       width: 100%;
       color: #fff;
       background: #2563eb;
-      padding: 9px;
+      padding: 8px;
     }
 
     .principal:not(:disabled):active {
@@ -330,9 +268,9 @@
     .btn-revancha {
       background: #f59e0b;
       color: #fff;
-      margin-bottom: 4px;
-      font-size: 13px;
-      padding: 7px;
+      margin-bottom: 3px;
+      font-size: 12px;
+      padding: 6px;
       display: none;
       animation: pulsoRevancha 1.5s infinite;
     }
@@ -344,36 +282,36 @@
     }
 
     .pregunta {
-      margin-top: 4px;
-      padding: 5px 10px;
+      margin-top: 3px;
+      padding: 4px 8px;
       background: #f1f5f9;
       border-radius: 12px;
     }
 
     #instruccion {
-      margin: 2px 0;
-      font-size: 12px;
+      margin: 1px 0;
+      font-size: 11px;
     }
 
     #operacion {
-      font-size: clamp(22px, 6vw, 28px);
+      font-size: clamp(20px, 5.5vw, 26px);
       font-weight: bold;
-      margin: 2px;
+      margin: 1px;
     }
 
     .respuestas {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 5px;
-      margin: 5px 0;
+      gap: 4px;
+      margin: 4px 0;
     }
 
     .respuestas button {
-      min-height: 36px;
-      padding: 6px;
+      min-height: 32px;
+      padding: 5px;
       color: #1e3a8a;
       background: #dbeafe;
-      font-size: 16px;
+      font-size: 15px;
     }
 
     .respuestas button:disabled {
@@ -381,55 +319,62 @@
     }
 
     #mensaje {
-      min-height: 18px;
-      margin: 2px 0;
-      font-size: 12px;
+      min-height: 16px;
+      margin: 1px 0;
+      font-size: 11px;
       font-weight: bold;
-      line-height: 1.2;
+      line-height: 1.1;
     }
 
     #siguiente {
       margin-top: 2px;
-      padding: 6px;
+      padding: 5px;
     }
 
     .estadisticas {
       display: flex;
       justify-content: space-around;
-      gap: 6px;
-      margin-top: 4px;
+      gap: 5px;
+      margin-top: 3px;
     }
 
     .estadisticas div {
       flex: 1;
-      padding: 5px 2px;
+      padding: 4px 2px;
       background: #fef3c7;
-      border-radius: 10px;
-      font-size: 11px;
+      border-radius: 9px;
+      font-size: 10px;
+      cursor: pointer;
+      transition: transform 0.1s ease, background-color 0.1s ease;
+    }
+
+    .estadisticas div:active {
+      transform: scale(0.95);
+      background: #fde68a;
     }
 
     .estadisticas strong {
       display: block;
-      margin-top: 2px;
-      font-size: 17px;
+      margin-top: 1px;
+      font-size: 16px;
     }
 
     .pie {
-      margin: 3px 0 2px;
+      margin: 2px 0 1px;
       color: #64748b;
-      font-size: 10px;
+      font-size: 9px;
+      text-align: center;
     }
 
     .secundario {
       width: 100%;
-      margin-top: 3px;
+      margin-top: 2px;
       color: #991b1b;
       background: #fee2e2;
-      font-size: 11px;
-      padding: 6px;
+      font-size: 10px;
+      padding: 5px;
     }
 
-    /* Modal Flotante para el Historial */
     .modal-historial {
       position: absolute;
       top: 0;
@@ -442,7 +387,7 @@
       align-items: center;
       justify-content: center;
       z-index: 10;
-      padding: 16px;
+      padding: 12px;
     }
 
     .modal-historial[hidden] {
@@ -452,9 +397,9 @@
     .modal-contenido {
       background: #fff;
       width: 100%;
-      max-width: 330px;
+      max-width: 320px;
       border-radius: 16px;
-      padding: 16px;
+      padding: 14px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.15);
       display: flex;
       flex-direction: column;
@@ -465,18 +410,18 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       font-weight: bold;
-      font-size: 15px;
+      font-size: 14px;
     }
 
     .lista-historial {
       overflow-y: auto;
-      max-height: 180px;
-      margin-bottom: 10px;
+      max-height: 140px;
+      margin-bottom: 6px;
       border: 1px solid #e2e8f0;
       border-radius: 8px;
-      padding: 6px;
+      padding: 5px;
       font-size: 11px;
       background: #f8fafc;
     }
@@ -485,17 +430,17 @@
       font-weight: bold;
       color: #1d4ed8;
       background: #dbeafe;
-      padding: 3px 6px;
-      margin-top: 6px;
+      padding: 2px 5px;
+      margin-top: 5px;
       margin-bottom: 2px;
       border-radius: 4px;
-      font-size: 10px;
+      font-size: 9px;
       display: flex;
       justify-content: space-between;
     }
 
     .item-historial {
-      padding: 4px 6px;
+      padding: 3px 5px;
       border-bottom: 1px solid #e2e8f0;
       display: flex;
       justify-content: space-between;
@@ -508,9 +453,49 @@
 
     .btn-modal-accion {
       width: 100%;
-      margin-top: 4px;
-      font-size: 11px;
-      padding: 6px;
+      margin-top: 3px;
+      font-size: 10px;
+      padding: 5px;
+    }
+
+    .modal-qr {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(2px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 20;
+      padding: 12px;
+    }
+
+    .modal-qr[hidden] {
+      display: none !important;
+    }
+
+    .modal-qr-contenido {
+      background: #fff;
+      width: 100%;
+      max-width: 290px;
+      border-radius: 16px;
+      padding: 14px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #canvasQR {
+      margin: 8px auto;
+      display: block;
+      max-width: 160px;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
     @media (hover: hover) {
@@ -530,13 +515,20 @@
 
 <body>
 <main>
-  <button id="toggleIdioma" class="btn-idioma" type="button" aria-label="Cambiar idioma">🇪🇸</button>
-  <button id="toggleModo" class="btn-modo" type="button" aria-label="Activar modo desafío">⏱️</button>
-  <button id="verHistorial" class="btn-historial" type="button" aria-label="Ver historial">📋</button>
-  <button id="compartir" class="btn-compartir" type="button" aria-label="Compartir puntaje">📤</button>
-  <button id="toggleSonido" class="btn-sonido" type="button" aria-label="Activar o desactivar sonido">🔊</button>
+  <div class="header-controles">
+    <div class="grupo-controles">
+      <button id="toggleIdioma" class="btn-control" type="button" aria-label="Cambiar idioma">🇪🇸</button>
+      <button id="toggleModo" class="btn-control" type="button" aria-label="Modo de tiempo">⏱️</button>
+    </div>
+    <div class="grupo-controles">
+      <button id="verHistorial" class="btn-control" type="button" aria-label="Ver historial">📋</button>
+      <button id="toggleSonido" class="btn-control" type="button" aria-label="Activar o desactivar sonido">🔊</button>
+    </div>
+  </div>
 
-  <h1 id="txtTitulo">🎡 Ruleta de Multiplicar</h1>
+  <div class="titulo-contenedor">
+    <h1 id="txtTitulo">🎡 Ruleta de Multiplicar</h1>
+  </div>
   <p class="sub" id="subtitulo">¡Gira, aprende y gana puntos!</p>
 
   <div class="config-container">
@@ -546,11 +538,8 @@
     </div>
     <div class="selector-tabla">
       <label for="tablaElegida" id="lblTabla">Tabla:</label>
-      <select id="tablaElegida">
-        <!-- Opciones dinámicas -->
-      </select>
+      <select id="tablaElegida"></select>
     </div>
-    <!-- Cuadrito compacto con la tabla activa del turno actual -->
     <div class="badge-tabla-actual" aria-label="Tabla actual del turno">
       <span class="badge-label" id="lblBadgeTabla">Tabla</span>
       <span class="badge-value" id="valBadgeTabla">3</span>
@@ -592,9 +581,18 @@
   </section>
 
   <div class="estadisticas" aria-label="Estadísticas del juego">
-    <div><span id="lblPuntos">⭐ Puntos</span><strong id="puntos">0</strong></div>
-    <div><span id="lblAciertos">✅ Aciertos</span><strong id="aciertos">0</strong></div>
-    <div><span id="lblRacha"><span id="lblRachaTexto">🔥 Racha</span></span><strong id="racha">0</strong></div>
+    <div id="cardPuntos" role="button" tabindex="0" aria-label="Ver historial de puntos">
+      <span id="lblPuntos">⭐ Puntos</span>
+      <strong id="puntos">0</strong>
+    </div>
+    <div id="cardAciertos" role="button" tabindex="0" aria-label="Ver historial de aciertos">
+      <span id="lblAciertos">✅ Aciertos</span>
+      <strong id="aciertos">0</strong>
+    </div>
+    <div id="cardRacha" role="button" tabindex="0" aria-label="Ver resumen de racha y evolución">
+      <span id="lblRacha"><span id="lblRachaTexto">🔥 Racha</span></span>
+      <strong id="racha">0</strong>
+    </div>
   </div>
 
   <button id="reiniciar" class="secundario" type="button">
@@ -603,18 +601,31 @@
 
   <p class="pie" id="txtPie">Tablas del 1 al 12 · ¡Sigue practicando!</p>
 
-  <!-- Modal Historial -->
   <div id="modalHistorial" class="modal-historial" hidden>
     <div class="modal-contenido">
       <div class="modal-header">
         <span id="lblHistorialTitulo">📋 Historial de Respuestas</span>
-        <button id="cerrarHistorial" type="button" style="background:#e2e8f0; padding:4px 8px; font-size:12px;">✕</button>
+        <button id="cerrarHistorial" type="button" style="background:#e2e8f0; padding:3px 7px; font-size:11px;">✕</button>
       </div>
-      <div id="listaHistorial" class="lista-historial">
-        <!-- Dinámico -->
-      </div>
-      <button id="compartirHistorial" class="principal btn-modal-accion" type="button" style="background:#16a34a;">📤 Compartir historial</button>
+      <div id="listaHistorial" class="lista-historial"></div>
+      <button id="compartirHistorial" class="principal btn-modal-accion" type="button" style="background:#16a34a;">📤 Compartir historial y puntaje</button>
+      <button id="btnVerQR" class="principal btn-modal-accion" type="button" style="background:#8b5cf6;">📱 Compartir QR de Respaldo</button>
+      <button id="btnSubirQR" class="principal btn-modal-accion" type="button" style="background:#2563eb;">📥 Restaurar desde QR (Imagen)</button>
+      <input type="file" id="inputSubirQR" accept="image/*" hidden>
       <button id="limpiarHistorial" class="secundario btn-modal-accion" type="button">🗑️ Limpiar historial</button>
+    </div>
+  </div>
+
+  <div id="modalQR" class="modal-qr" hidden>
+    <div class="modal-qr-contenido">
+      <div class="modal-header" style="width:100%; margin-bottom:4px;">
+        <span id="lblQRTitle" style="font-size:13px;">📱 Compartir QR de Respaldo</span>
+        <button id="cerrarModalQ фильма" type="button" style="background:#e2e8f0; padding:3px 7px; font-size:11px;" onclick="cerrarQR()">✕</button>
+      </div>
+      <p style="font-size:10px; color:#64748b; margin:0 0 6px; text-align:center;" id="lblQRSub">Muestra o comparte este QR para restaurar tus puntajes luego.</p>
+      <canvas id="canvasQR"></canvas>
+      <button id="btnCompartirImagenQR" class="principal btn-modal-accion" style="background:#16a34a; margin-top:6px;">📤 Descargar / Compartir Imagen QR</button>
+      <button id="cerrarModalQR" class="principal btn-modal-accion" style="background:#e2e8f0; color:#1e3a8a; margin-top:4px;">Cerrar</button>
     </div>
   </div>
 </main>
@@ -633,7 +644,6 @@ const contenedorRespuestas = document.getElementById("respuestas");
 const botonSonido = document.getElementById("toggleSonido");
 const botonIdioma = document.getElementById("toggleIdioma");
 const botonModo = document.getElementById("toggleModo");
-const botonCompartir = document.getElementById("compartir");
 const botonHistorial = document.getElementById("verHistorial");
 const modalHistorial = document.getElementById("modalHistorial");
 const cerrarHistorial = document.getElementById("cerrarHistorial");
@@ -644,6 +654,18 @@ const botonRevancha = document.getElementById("btnRevancha");
 const ruletaContenedorDiv = document.getElementById("ruletaContenedorDiv");
 const valBadgeTabla = document.getElementById("valBadgeTabla");
 const lblBadgeTabla = document.getElementById("lblBadgeTabla");
+
+const cardPuntos = document.getElementById("cardPuntos");
+const cardAciertos = document.getElementById("cardAciertos");
+const cardRacha = document.getElementById("cardRacha");
+
+const btnVerQR = document.getElementById("btnVerQR");
+const btnSubirQR = document.getElementById("btnSubirQR");
+const inputSubirQR = document.getElementById("inputSubirQR");
+const modalQR = document.getElementById("modalQR");
+const cerrarModalQR = document.getElementById("cerrarModalQR");
+const canvasQR = document.getElementById("canvasQR");
+const btnCompartirImagenQR = document.getElementById("btnCompartirImagenQR");
 
 const timerContainer = document.getElementById("timerContainer");
 const timerBar = document.getElementById("timerBar");
@@ -672,9 +694,16 @@ const i18n = {
     pie: "Tablas del 1 al 12 · ¡Sigue practicando!",
     opcionMixto: "✨ Mixto (Todas)",
     historialTitulo: "📋 Historial de Respuestas",
+    historialAciertosTitulo: "✅ Historial de Aciertos",
+    evolucionTitulo: "📈 Evolución y Racha",
     historialVacio: "Aún no hay registros de juego.",
     btnLimpiarHistorial: "🗑️ Limpiar historial",
-    btnCompartirHistorial: "📤 Compartir historial",
+    btnCompartirHistorial: "📤 Compartir historial y puntaje",
+    btnVerQR: "📱 Compartir QR de Respaldo",
+    btnSubirQR: "📥 Restaurar desde QR (Imagen)",
+    btnCompartirImagenQR: "📤 Descargar / Compartir Imagen QR",
+    qrTitle: "📱 Compartir QR de Respaldo",
+    qrSub: "Muestra o comparte este QR para restaurar tus puntajes luego.",
     frasesAcierto: [
       "¡Increíble! 🎉", "¡Eres un genio! 🌟", "¡Súper bien! 🚀", 
       "¡Qué crack! 🔥", "¡Lo lograste! 🏆", "¡Imparable como un t-rex! 🦖", 
@@ -701,6 +730,8 @@ const i18n = {
     confirmarReiniciar: "¿Quieres borrar los puntos, los aciertos, la racha y cambiar el nombre?",
     promptNombre: "Introduce el nombre del niño/a:",
     msjReiniciado: "Puntajes y historial reiniciados. ¡A jugar de nuevo!",
+    msjRestaurado: "¡Historial y puntajes restaurados con éxito desde el QR! 🎉",
+    msjErrorQR: "No se pudo leer ningún código QR válido en la imagen.",
     textoCompartir: (n, pts, aci) => `¡${n || 'Campeón/a'} ha conseguido ${pts} puntos y ${aci} aciertos practicando las tablas de multiplicar! `
   },
   en: {
@@ -726,9 +757,16 @@ const i18n = {
     pie: "Tables 1 to 12 · Keep practicing!",
     opcionMixto: "✨ Mixed (All)",
     historialTitulo: "📋 Answer History",
+    historialAciertosTitulo: "✅ Correct Answers History",
+    evolucionTitulo: "📈 Streak & Evolution",
     historialVacio: "No game records yet.",
     btnLimpiarHistorial: "🗑️ Clear history",
-    btnCompartirHistorial: "📤 Share history",
+    btnCompartirHistorial: "📤 Share history & score",
+    btnVerQR: "📱 Share Backup QR Code",
+    btnSubirQR: "📥 Restore from QR (Image)",
+    btnCompartirImagenQR: "📤 Download / Share QR Image",
+    qrTitle: "📱 Share Backup QR",
+    qrSub: "Show or share this QR to restore your scores later.",
     frasesAcierto: [
       "Awesome! 🎉", "You're a genius! 🌟", "Great job! 🚀", 
       "Super star! 🔥", "You did it! 🏆", "Unstoppable like a T-Rex! 🦖", 
@@ -755,6 +793,8 @@ const i18n = {
     confirmarReiniciar: "Do you want to clear scores, correct answers, streak and change name?",
     promptNombre: "Enter child's name:",
     msjReiniciado: "Scores reset. Let's play again!",
+    msjRestaurado: "Scores and history successfully restored from QR! 🎉",
+    msjErrorQR: "Could not read a valid QR code in the image.",
     textoCompartir: (n, pts, aci) => `${n || 'Champion'} scored ${pts} points and got ${aci} correct answers practicing multiplication tables! `
   }
 };
@@ -767,7 +807,7 @@ const colores = [
 
 const TOTAL = 12;
 const sector = Math.PI * 2 / TOTAL;
-const CLAVE_PUNTAJES = "ruletaMultiplicarPuntajesV19";
+const CLAVE_PUNTAJES = "ruletaMultiplicarPuntajesV27";
 
 let angulo = 0;
 let girando = false;
@@ -776,16 +816,19 @@ let factor = 0;
 let puntos = 0;
 let aciertos = 0;
 let racha = 0;
+let maxRacha = 0;
 let nombre = "";
 let sonidoActivo = true;
 let idiomaActual = "es";
-let modoDesafio = false;
+let modoTiempo = 1;
 let timerInterval = null;
 let contestada = false;
 let preguntaActiva = false;
 let contadorOperaciones = {};
 let historialPartidas = [];
 let revanchaPendiente = null;
+let ultimoTickSegundo = -1;
+let filtroModalActual = "todo";
 
 function actualizarSelectorTablas() {
   const valorActual = selectorTabla.value || "mixto";
@@ -809,7 +852,7 @@ function actualizarBadgeTablaActiva() {
   lblBadgeTabla.textContent = i18n[idiomaActual].lblBadge;
   const valorSel = selectorTabla.value;
   if (valorSel === "mixto") {
-    valBadgeTabla.textContent = tabla; // Muestra la tabla aleatoria seleccionada en este turno
+    valBadgeTabla.textContent = tabla;
   } else {
     valBadgeTabla.textContent = valorSel;
   }
@@ -825,6 +868,19 @@ function actualizarBotonRevanchaUI() {
   }
 }
 
+function actualizarBotonModoUI() {
+  if (modoTiempo === 0) modoTiempo = 1;
+  if (modoTiempo === 1) {
+    botonModo.textContent = "⏱️";
+    botonModo.style.opacity = "1";
+    botonModo.setAttribute("aria-label", "Tiempo normal (10s)");
+  } else if (modoTiempo === 2) {
+    botonModo.textContent = "⚡";
+    botonModo.style.opacity = "1";
+    botonModo.setAttribute("aria-label", "Tiempo rápido (6s)");
+  }
+}
+
 function actualizarTextosUI() {
   const t = i18n[idiomaActual];
   document.getElementById("txtTitulo").textContent = t.titulo;
@@ -833,7 +889,8 @@ function actualizarTextosUI() {
   inputNombre.placeholder = t.placeholderNombre;
   document.getElementById("lblTabla").textContent = t.lblTabla;
   
-  if (!selectorTabla.querySelector("option[value='mixto']").textContent.includes("Mixto") && !selectorTabla.querySelector("option[value='mixto']").textContent.includes("Mixed")) {
+  if (!selectorTabla.querySelector("option[value='mixto']").textContent.includes("Mixto") && 
+      !selectorTabla.querySelector("option[value='mixto']").textContent.includes("Mixed")) {
     actualizarSelectorTablas();
   }
 
@@ -849,17 +906,20 @@ function actualizarTextosUI() {
   document.getElementById("reiniciar").textContent = t.btnReiniciar;
   document.getElementById("txtPie").textContent = t.pie;
   botonSiguiente.textContent = t.btnSiguiente;
-  document.getElementById("lblHistorialTitulo").textContent = t.historialTitulo;
   limpiarHistorialBtn.textContent = t.btnLimpiarHistorial;
   compartirHistorialBtn.textContent = t.btnCompartirHistorial;
+  btnVerQR.textContent = t.btnVerQR;
+  btnSubirQR.textContent = t.btnSubirQR;
+  btnCompartirImagenQR.textContent = t.btnCompartirImagenQR;
+  document.getElementById("lblQRTitle").textContent = t.qrTitle;
+  document.getElementById("lblQRSub").textContent = t.qrSub;
 
   actualizarBadgeTablaActiva();
   actualizarBotonRevanchaUI();
+  actualizarBotonModoUI();
   actualizarEstadisticas();
 
   botonIdioma.textContent = idiomaActual === "es" ? "🇪🇸" : "🇺🇸";
-  botonModo.style.opacity = modoDesafio ? "1" : "0.5";
-  botonModo.setAttribute("aria-label", modoDesafio ? "Desactivar modo desafío" : "Activar modo desafío");
 }
 
 let audioCtx = null;
@@ -900,6 +960,14 @@ function reproducirSonido(tipo) {
       gainNode.gain.linearRampToValueAtTime(0.01, now + 0.04);
       osc.start(now);
       osc.stop(now + 0.04);
+    } else if (tipo === "tick") {
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(800, now);
+      osc.frequency.exponentialRampToValueAtTime(400, now + 0.03);
+      gainNode.gain.setValueAtTime(0.08, now);
+      gainNode.gain.linearRampToValueAtTime(0.001, now + 0.03);
+      osc.start(now);
+      osc.stop(now + 0.03);
     } else if (tipo === "racha") {
       [523.25, 659.25, 783.99].forEach((freq, index) => {
         const oscR = audioCtx.createOscillator();
@@ -949,11 +1017,68 @@ function toggleIdioma() {
   guardarPuntajes();
 }
 
-function toggleModoDesafio() {
+function cambiarModoTiempo() {
   reproducirSonido("click");
-  modoDesafio = !modoDesafio;
-  actualizarTextosUI();
+  modoTiempo = modoTiempo === 1 ? 2 : 1;
+  actualizarBotonModoUI();
   guardarPuntajes();
+}
+
+function generarPayloadRespaldo() {
+  const datosRespaldo = {
+    v: 1,
+    n: inputNombre.value.trim(),
+    p: puntos,
+    a: aciertos,
+    r: maxRacha,
+    h: historialPartidas.slice(-15)
+  };
+  return "RULETA_BK:" + btoa(encodeURIComponent(JSON.stringify(datosRespaldo)));
+}
+
+function mostrarModalQR() {
+  reproducirSonido("click");
+  const payload = generarPayloadRespaldo();
+  QRCode.toCanvas(canvasQR, payload, { width: 160, margin: 1 }, function (error) {
+    if (error) console.error(error);
+  });
+  modalQR.hidden = false;
+}
+
+function cerrarQR() {
+  reproducirSonido("click");
+  modalQR.hidden = true;
+}
+
+async function compartirQRImagen() {
+  reproducirSonido("click");
+  canvasQR.toBlob(async blob => {
+    if (!blob) return;
+    const archivo = new File([blob], "respaldo-ruleta.png", { type: "image/png" });
+    const t = i18n[idiomaActual];
+    
+    if (navigator.canShare && navigator.canShare({ files: [archivo] })) {
+      try {
+        await navigator.share({
+          title: t.qrTitle,
+          text: idiomaActual === "es" ? "¡Aquí tienes tu código QR de respaldo para restaurar los puntajes!" : "Here is your backup QR code to restore scores!",
+          files: [archivo]
+        });
+        return;
+      } catch (e) {
+        if (e.name === "AbortError") return;
+      }
+    }
+
+    const link = document.createElement("a");
+    link.download = "respaldo-ruleta.png";
+    link.href = canvasQR.toDataURL("image/png");
+    link.click();
+    
+    alert(idiomaActual === "es" 
+      ? "📥 Imagen QR descargada en tu equipo con éxito." 
+      : "📥 QR image downloaded successfully to your device.");
+  });
 }
 
 function compartirResultados() {
@@ -981,44 +1106,9 @@ function obtenerFechaSimple() {
   return `${dia}/${mes}/${anio}`;
 }
 
-function compartirHistorialDetallado() {
+function abrirModalHistorial(filtro = "todo") {
   reproducirSonido("click");
-  const t = i18n[idiomaActual];
-  const nombreNino = inputNombre.value.trim() || (idiomaActual === "es" ? "Campeón/a" : "Champion");
-  
-  if (!historialPartidas || historialPartidas.length === 0) {
-    alert(idiomaActual === "es" ? "No hay historial para compartir todavía." : "No history to share yet.");
-    return;
-  }
-
-  let textoHistorial = idiomaActual === "es"
-    ? `📋 *Historial de ${nombreNino}* (Puntos: ${puntos}, Aciertos: ${aciertos})\n\n`
-    : `📋 *${nombreNino}'s History* (Points: ${puntos}, Correct: ${aciertos})\n\n`;
-
-  let fechaActualGrupo = "";
-  historialPartidas.slice().reverse().forEach(item => {
-    if (item.fecha !== fechaActualGrupo) {
-      fechaActualGrupo = item.fecha;
-      textoHistorial += `📅 *${fechaActualGrupo}*\n`;
-    }
-    const estado = item.acertado ? "✅" : "❌";
-    textoHistorial += `  ${estado} ${item.tabla} × ${item.factor} = ${item.respuestaUsuario}${item.acertado ? '' : ` (Era ${item.correcta})`}\n`;
-  });
-
-  if (navigator.share) {
-    navigator.share({
-      title: t.historialTitulo,
-      text: textoHistorial
-    }).catch(() => {});
-  } else {
-    navigator.clipboard.writeText(textoHistorial).then(() => {
-      alert(idiomaActual === "es" ? "¡Historial copiado al portapapeles!" : "History copied to clipboard!");
-    }).catch(() => {});
-  }
-}
-
-function abrirModalHistorial() {
-  reproducirSonido("click");
+  filtroModalActual = filtro;
   renderizarHistorialUI();
   modalHistorial.hidden = false;
 }
@@ -1033,18 +1123,49 @@ function renderizarHistorialUI() {
   const t = i18n[idiomaActual];
   const nombreNinoActual = inputNombre.value.trim() || (idiomaActual === "es" ? "Estudiante" : "Student");
 
-  if (!historialPartidas || historialPartidas.length === 0) {
+  const tituloModalElemento = document.getElementById("lblHistorialTitulo");
+  if (filtroModalActual === "aciertos") {
+    tituloModalElemento.textContent = t.historialAciertosTitulo;
+  } else if (filtroModalActual === "racha") {
+    tituloModalElemento.textContent = t.evolucionTitulo;
+  } else {
+    tituloModalElemento.textContent = t.historialTitulo;
+  }
+
+  if (filtroModalActual === "racha") {
+    const divRachaInfo = document.createElement("div");
+    divRachaInfo.style.padding = "8px";
+    divRachaInfo.style.fontSize = "11px";
+    divRachaInfo.style.lineHeight = "1.4";
+    divRachaInfo.innerHTML = `
+      🔥 <b>${idiomaActual === "es" ? "Racha actual" : "Current streak"}:</b> ${racha} <br>
+      👑 <b>${idiomaActual === "es" ? "Racha máxima" : "Max streak"}:</b> ${maxRacha} <br>
+      ⭐ <b>${idiomaActual === "es" ? "Puntos totales" : "Total points"}:</b> ${puntos} <br>
+      ✅ <b>${idiomaActual === "es" ? "Total aciertos" : "Total correct"}:</b> ${aciertos} <br>
+      <hr style="border:0; border-top:1px solid #cbd5e1; margin:6px 0;">
+      <p style="color:#475569; margin:2px 0;">${idiomaActual === "es" ? "¡Mantén una racha alta para convertirte en el Dominador de las Matemáticas!" : "Keep a high streak to become the Math Master!"}</p>
+    `;
+    listaHistorialDiv.appendChild(divRachaInfo);
+    return;
+  }
+
+  const partidasFiltradas = historialPartidas.filter(item => {
+    if (filtroModalActual === "aciertos") return item.acertado === true;
+    return true;
+  });
+
+  if (!partidasFiltradas || partidasFiltradas.length === 0) {
     const p = document.createElement("p");
     p.textContent = t.historialVacio;
     p.style.textAlign = "center";
     p.style.color = "#64748b";
-    p.style.margin = "10px 0";
+    p.style.margin = "8px 0";
     listaHistorialDiv.appendChild(p);
     return;
   }
 
   let fechaUltimaAgrupada = "";
-  historialPartidas.slice().reverse().forEach(item => {
+  partidasFiltradas.slice().reverse().forEach(item => {
     if (item.fecha !== fechaUltimaAgrupada) {
       fechaUltimaAgrupada = item.fecha;
       const divGrupo = document.createElement("div");
@@ -1087,6 +1208,57 @@ function limpiarHistorial() {
   guardarPuntajes();
 }
 
+function procesarImagenQR(e) {
+  const archivo = e.target.files[0];
+  if (!archivo) return;
+
+  const lector = new FileReader();
+  lector.onload = function(event) {
+    const img = new Image();
+    img.onload = function() {
+      const canvasTemp = document.createElement("canvas");
+      const ctxTemp = canvasTemp.getContext("2d");
+      canvasTemp.width = img.width;
+      canvasTemp.height = img.height;
+      ctxTemp.drawImage(img, 0, 0);
+
+      const imagenData = ctxTemp.getImageData(0, 0, canvasTemp.width, canvasTemp.height);
+      const codigoQR = jsQR(imagenData.data, imagenData.width, imagenData.height);
+
+      if (codigoQR && codigoQR.data.startsWith("RULETA_BK:")) {
+        try {
+          const base64Str = codigoQR.data.replace("RULETA_BK:", "");
+          const jsonStr = decodeURIComponent(atob(base64Str));
+          const datos = JSON.parse(jsonStr);
+
+          if (datos && typeof datos === "object") {
+            if (typeof datos.n === "string") {
+              nombre = datos.n;
+              inputNombre.value = nombre;
+            }
+            if (typeof datos.p === "number") puntos = datos.p;
+            if (typeof datos.a === "number") aciertos = datos.a;
+            if (typeof datos.r === "number") maxRacha = datos.r;
+            if (Array.isArray(datos.h)) historialPartidas = datos.h;
+
+            guardarPuntajes();
+            actualizarEstadisticas();
+            renderizarHistorialUI();
+            alert(i18n[idiomaActual].msjRestaurado);
+            modalQR.hidden = true;
+          }
+        } catch (err) {
+          alert(i18n[idiomaActual].msjErrorQR);
+        }
+      } else {
+        alert(i18n[idiomaActual].msjErrorQR);
+      }
+    };
+    img.src = event.target.result;
+  };
+  lector.readAsDataURL(archivo);
+}
+
 function detenerTemporizador() {
   if (timerInterval) {
     clearInterval(timerInterval);
@@ -1097,19 +1269,27 @@ function detenerTemporizador() {
 
 function iniciarTemporizador() {
   detenerTemporizador();
-  if (!modoDesafio) return;
 
   timerContainer.style.display = "block";
   let tiempoRestante = 100;
   timerBar.style.width = "100%";
+  ultimoTickSegundo = -1;
 
-  const duracionTotal = 10000;
+  const duracionTotal = modoTiempo === 2 ? 6000 : 10000;
   const intervaloMs = 100;
   const decremento = (intervaloMs / duracionTotal) * 100;
 
   timerInterval = setInterval(() => {
     tiempoRestante -= decremento;
     timerBar.style.width = `${Math.max(0, tiempoRestante)}%`;
+
+    if (tiempoRestante <= 30 && tiempoRestante > 0) {
+      const segundoActual = Math.floor(tiempoRestante / 10);
+      if (segundoActual !== ultimoTickSegundo) {
+        ultimoTickSegundo = segundoActual;
+        reproducirSonido("tick");
+      }
+    }
 
     if (tiempoRestante <= 0) {
       detenerTemporizador();
@@ -1211,6 +1391,10 @@ function actualizarEstadisticas() {
   else if (racha >= 5) textoRacha = "🚀 " + (idiomaActual === "es" ? "Veloz" : "Speed");
   else if (racha >= 3) textoRacha = "🔥 " + (idiomaActual === "es" ? "Racha" : "Streak");
 
+  if (racha > maxRacha) {
+    maxRacha = racha;
+  }
+
   document.getElementById("lblRachaTexto").textContent = textoRacha;
   document.getElementById("puntos").textContent = puntos;
   document.getElementById("aciertos").textContent = aciertos;
@@ -1226,12 +1410,13 @@ function cargarPuntajes() {
         puntos = Number.isSafeInteger(datos.puntos) && datos.puntos >= 0 ? datos.puntos : 0;
         aciertos = Number.isSafeInteger(datos.aciertos) && datos.aciertos >= 0 ? datos.aciertos : 0;
         racha = Number.isSafeInteger(datos.racha) && datos.racha >= 0 ? datos.racha : 0;
+        maxRacha = Number.isSafeInteger(datos.maxRacha) && datos.maxRacha >= 0 ? datos.maxRacha : racha;
         nombre = typeof datos.nombre === "string" ? datos.nombre : "";
         contadorOperaciones = datos.contadorOperaciones || {};
         historialPartidas = Array.isArray(datos.historialPartidas) ? datos.historialPartidas : [];
         if (typeof datos.sonidoActivo === "boolean") sonidoActivo = datos.sonidoActivo;
         if (typeof datos.idiomaActual === "string") idiomaActual = datos.idiomaActual;
-        if (typeof datos.modoDesafio === "boolean") modoDesafio = datos.modoDesafio;
+        if (typeof datos.modoTiempo === "number") modoTiempo = datos.modoTiempo;
         if (datos.revanchaPendiente && typeof datos.revanchaPendiente === "object") {
           revanchaPendiente = datos.revanchaPendiente;
         }
@@ -1253,7 +1438,7 @@ function guardarPuntajes() {
     nombre = inputNombre.value.trim();
     localStorage.setItem(
       CLAVE_PUNTAJES,
-      JSON.stringify({ nombre, puntos, aciertos, racha, contadorOperaciones, historialPartidas, sonidoActivo, idiomaActual, modoDesafio, revanchaPendiente })
+      JSON.stringify({ nombre, puntos, aciertos, racha, maxRacha, contadorOperaciones, historialPartidas, sonidoActivo, idiomaActual, modoTiempo, revanchaPendiente })
     );
   } catch (error) {
     console.warn("No se pudieron guardar los puntajes.", error);
@@ -1464,7 +1649,7 @@ function responder(valor, esRevancha = false) {
   const fechaSimple = obtenerFechaSimple();
 
   if (valor === correcta) {
-    const puntosGanados = modoDesafio ? 20 : 10;
+    const puntosGanados = modoTiempo === 2 ? 30 : 20;
     puntos += puntosGanados;
     aciertos++;
     racha++;
@@ -1530,6 +1715,7 @@ function reiniciarPuntajes() {
   puntos = 0;
   aciertos = 0;
   racha = 0;
+  maxRacha = 0;
   contadorOperaciones = {};
   historialPartidas = [];
   revanchaPendiente = null;
@@ -1544,13 +1730,31 @@ function reiniciarPuntajes() {
 
 botonSonido.addEventListener("click", toggleSonido);
 botonIdioma.addEventListener("click", toggleIdioma);
-botonModo.addEventListener("click", toggleModoDesafio);
-botonCompartir.addEventListener("click", compartirResultados);
-botonHistorial.addEventListener("click", abrirModalHistorial);
+botonModo.addEventListener("click", cambiarModoTiempo);
+botonHistorial.addEventListener("click", () => abrirModalHistorial("todo"));
 cerrarHistorial.addEventListener("click", cerrarModalHistorialFunc);
 limpiarHistorialBtn.addEventListener("click", limpiarHistorial);
-compartirHistorialBtn.addEventListener("click", compartirHistorialDetallado);
+compartirHistorialBtn.addEventListener("click", compartirResultados);
 botonRevancha.addEventListener("click", iniciarRevancha);
+
+cardPuntos.addEventListener("click", () => abrirModalHistorial("todo"));
+cardAciertos.addEventListener("click", () => abrirModalHistorial("aciertos"));
+cardRacha.addEventListener("click", () => abrirModalHistorial("racha"));
+
+btnVerQR.addEventListener("click", () => {
+  reproducirSonido("click");
+  mostrarModalQR();
+});
+
+btnSubirQR.addEventListener("click", () => {
+  reproducirSonido("click");
+  inputSubirQR.click();
+});
+
+inputSubirQR.addEventListener("change", procesarImagenQR);
+cerrarModalQR.addEventListener("click", cerrarQR);
+
+btnCompartirImagenQR.addEventListener("click", compartirQRImagen);
 
 inputNombre.addEventListener("input", guardarPuntajes);
 selectorTabla.addEventListener("change", () => {
@@ -1570,6 +1774,7 @@ botonSiguiente.addEventListener("click", () => {
 document.getElementById("reiniciar").addEventListener("click", reiniciarPuntajes);
 
 modalHistorial.hidden = true;
+modalQR.hidden = true;
 
 actualizarSelectorTablas();
 cargarPuntajes();
