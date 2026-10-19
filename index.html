@@ -888,6 +888,28 @@ function obtenerAudioContext() {
   return audioCtx;
 }
 
+// Desbloqueo seguro por interacción táctil inicial para iPhone
+function desbloquearAudioIOS() {
+  try {
+    const ctx = obtenerAudioContext();
+    if (ctx) {
+      const buffer = ctx.createBuffer(1, 1, 22050);
+      const source = ctx.createBufferSource();
+      source.buffer = buffer;
+      source.connect(ctx.destination);
+      source.start(0);
+    }
+  } catch (e) {}
+}
+
+window.addEventListener('touchstart', () => {
+  desbloquearAudioIOS();
+}, { once: true });
+
+window.addEventListener('click', () => {
+  desbloquearAudioIOS();
+}, { once: true });
+
 function reproducirSonido(tipo) {
   if (!sonidoActivo) return;
 
@@ -955,13 +977,16 @@ function hablar(texto) {
   if (!sonidoActivo) return;
 
   if ('speechSynthesis' in window) {
-    window.speechSynthesis.cancel();
-    
-    currentUtterance = new SpeechSynthesisUtterance(texto);
-    currentUtterance.lang = idiomaActual === "es" ? 'es-ES' : 'en-US';
-    currentUtterance.rate = 1.0;
+    try {
+      window.speechSynthesis.cancel();
+      
+      currentUtterance = new SpeechSynthesisUtterance(texto);
+      currentUtterance.lang = idiomaActual === "es" ? 'es-ES' : 'en-US';
+      currentUtterance.rate = 1.0;
+      currentUtterance.volume = 1.0;
 
-    window.speechSynthesis.speak(currentUtterance);
+      window.speechSynthesis.speak(currentUtterance);
+    } catch (e) {}
   }
 }
 
@@ -1049,7 +1074,6 @@ function restaurarDesdeCodigoTexto() {
     const datos = JSON.parse(jsonStr);
 
     if (datos && typeof datos === "object") {
-      // AQUÍ RESTAURAMOS CORRECTAMENTE EL NOMBRE DEL NIÑO
       if (typeof datos.n === "string") {
         nombre = datos.n;
         inputNombre.value = nombre;
