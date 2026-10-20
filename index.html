@@ -719,7 +719,7 @@
         <span id="lblAvatarTitulo">👤 Elige tu Personaje</span>
         <button id="cerrarAvatares" type="button" style="background:#e2e8f0; border-radius:50%; width:28px; height:28px; font-size:12px; font-weight:bold;">✕</button>
       </div>
-      <p style="font-size: 12px; color: #475569; text-align: center; margin: 6px 0;">¡Selecciona con quién quieres jugar hoy!</p>
+      <p id="lblAvatarSub" style="font-size: 12px; color: #475569; text-align: center; margin: 6px 0;">¡Selecciona con quién quieres jugar hoy!</p>
       <div class="grid-avatares">
         <div class="opcion-avatar" data-avatar="🦖">🦖</div>
         <div class="opcion-avatar" data-avatar="🚀">🚀</div>
@@ -807,7 +807,7 @@
 "use strict";
 
 const canvas = document.getElementById("ruleta");
-const ctx = canvas.getContext("2d");
+const ctx = canvas ? canvas.getContext("2d") : null;
 
 const botonGirar = document.getElementById("girar");
 const botonSiguiente = document.getElementById("siguiente");
@@ -924,6 +924,9 @@ const i18n = {
     btnCompartirHistorial: "📤 Compartir resumen general",
     btnCopiarCodigo: "📤 Enviar / Copiar código de respaldo",
     btnPegarCodigo: "📥 Restaurar desde código de texto",
+    avatarTitulo: "👤 Elige tu Personaje",
+    avatarSub: "¡Selecciona con quién quieres jugar hoy!",
+    msjNuevaInsignia: "🏆 ¡Nueva Insignia Desbloqueada!",
     activacionTitulo: "🔒 Activación Requerida",
     activacionSub: "Espera unos segundos o introduce tu código para desbloquear:",
     activacionPlaceholder: "Introduce el código...",
@@ -1023,6 +1026,9 @@ const i18n = {
     btnCompartirHistorial: "📤 Share general summary",
     btnCopiarCodigo: "📤 Send / Copy backup code",
     btnPegarCodigo: "📥 Restore from text code",
+    avatarTitulo: "👤 Choose Your Character",
+    avatarSub: "Select who you want to play with today!",
+    msjNuevaInsignia: "🏆 New Badge Unlocked!",
     activacionTitulo: "🔒 Activation Required",
     activacionSub: "Wait a few seconds or enter your code to unlock:",
     activacionPlaceholder: "Enter code...",
@@ -1267,6 +1273,9 @@ function actualizarTextosUI() {
   btnMinijuego.setAttribute("title", idiomaActual === "es" ? "Minijuego: ¿Correcto o Trampa?" : "Minigame: Correct or Trap?");
   btnResetTestActivacion.textContent = idiomaActual === "es" ? "🛠️ [TEST] Resetear Activación" : "🛠️ [TEST] Reset Activation";
 
+  document.getElementById("lblAvatarTitulo").textContent = t.avatarTitulo;
+  document.getElementById("lblAvatarSub").textContent = t.avatarSub;
+
   document.getElementById("lblActivacionTitulo").textContent = t.activacionTitulo;
   document.getElementById("lblActivacionSub").textContent = t.activacionSub;
   inputCodigoActivacion.placeholder = t.activacionPlaceholder;
@@ -1484,7 +1493,8 @@ function verificarInsignias(esSuperacion = false) {
   if (nuevaDesbloqueada) {
     reproducirSonido("festejo");
     setTimeout(() => {
-      mostrarTextoFlotante("🏆 ¡Nueva Insignia Desbloqueada!", true, "66%");
+      const t = i18n[idiomaActual];
+      mostrarTextoFlotante(t.msjNuevaInsignia, true, "66%");
     }, 1400);
   }
 
@@ -2313,9 +2323,9 @@ function responder(valor, esRevancha = false) {
     verificarInsignias(esSuperacion);
 
     let textoPuntosFlotante = `${avatarActual} +${puntosGanados} pts ⭐`;
-    if (racha === 3) textoPuntosFlotante = "¡Racha de Fuego! 🔥";
-    else if (racha === 5) textoPuntosFlotante = "¡Velocidad Luz! 🚀";
-    else if (racha === 10) textoPuntosFlotante = "¡Dominador Supremo! 👑";
+    if (racha === 3) textoPuntosFlotante = idiomaActual === "es" ? "¡Racha de Fuego! 🔥" : "Fire Streak! 🔥";
+    else if (racha === 5) textoPuntosFlotante = idiomaActual === "es" ? "¡Velocidad Luz! 🚀" : "Speed of Light! 🚀";
+    else if (racha === 10) textoPuntosFlotante = idiomaActual === "es" ? "¡Dominador Supremo! 👑" : "Supreme Master! 👑";
     
     let fraseAleatoria = "";
     if (esSuperacion) {
