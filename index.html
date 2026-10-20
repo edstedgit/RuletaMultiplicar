@@ -575,6 +575,25 @@
       <button id="btnPegarCodigo" class="principal btn-modal-accion" type="button" style="background:#2563eb;">📥 Restaurar desde código de texto</button>
       
       <button id="limpiarHistorial" class="secundario btn-modal-accion" type="button">🗑️ Limpiar historial</button>
+      <button id="btnResetTestActivacion" class="secundario btn-modal-accion" type="button" style="color: #b45309; background: #fef3c7; border: 1px dashed #f59e0b;">🛠️ [TEST] Resetear Activación</button>
+    </div>
+  </div>
+
+  <div id="modalActivacion" class="modal-historial" hidden>
+    <div class="modal-contenido">
+      <div class="modal-header">
+        <span id="lblActivacionTitulo">🔒 Activación Requerida</span>
+      </div>
+      <p id="lblActivacionSub" style="font-size: 11px; color: #475569; margin: 4px 0;">Espera unos segundos o introduce tu código para desbloquear:</p>
+      
+      <div class="timer-container" style="margin: 8px 0;">
+        <div class="timer-bar" id="timerBarActivacion" style="width: 100%;"></div>
+      </div>
+      
+      <input type="text" id="inputCodigoActivacion" placeholder="Introduce el código..." style="width:100%; padding:6px; border:2px solid #bfdbfe; border-radius:8px; font-size:11px; margin-bottom:6px; text-align:center;">
+      
+      <button id="btnValidarActivacion" class="principal btn-modal-accion" type="button" style="background:#16a34a; margin-top:2px;">✨ Validar Código</button>
+      <button id="btnCerrarActivacion" class="secundario btn-modal-accion" type="button" disabled style="opacity:0.6;">⏳ Espera (5s)...</button>
     </div>
   </div>
 </main>
@@ -614,9 +633,21 @@ const cardRacha = document.getElementById("cardRacha");
 
 const btnCopiarCodigo = document.getElementById("btnCopiarCodigo");
 const btnPegarCodigo = document.getElementById("btnPegarCodigo");
+const btnResetTestActivacion = document.getElementById("btnResetTestActivacion");
 
 const timerContainer = document.getElementById("timerContainer");
 const timerBar = document.getElementById("timerBar");
+
+const modalActivacion = document.getElementById("modalActivacion");
+const timerBarActivacion = document.getElementById("timerBarActivacion");
+const inputCodigoActivacion = document.getElementById("inputCodigoActivacion");
+const btnValidarActivacion = document.getElementById("btnValidarActivacion");
+const btnCerrarActivacion = document.getElementById("btnCerrarActivacion");
+
+const CODIGO_SECRETO_VALIDEZ = "RULETA2026";
+let activado = false;
+let girosRealizados = 0;
+let activacionTimerInterval = null;
 
 const i18n = {
   es: {
@@ -649,23 +680,29 @@ const i18n = {
     btnCompartirHistorial: "📤 Compartir resumen general",
     btnCopiarCodigo: "📤 Enviar / Copiar código de respaldo",
     btnPegarCodigo: "📥 Restaurar desde código de texto",
+    activacionTitulo: "🔒 Activación Requerida",
+    activacionSub: "Espera unos segundos o introduce tu código para desbloquear:",
+    activacionPlaceholder: "Introduce el código...",
+    btnValidar: "✨ Validar Código",
+    msjExitoActivacion: "✨ ¡Código aceptado con éxito! No se volverá a solicitar.",
+    msjErrorActivacion: "❌ Código incorrecto. Inténtalo de nuevo.",
     frasesAcierto: [
       "¡Increíble! 🎉", "¡Eres un genio! 🌟", "¡Súper bien! 🚀", 
       "¡Qué crack! 🔥", "¡Lo lograste! 🏆", "¡Imparable como un t-rex! 🦖", 
       "¡Más listo que un búho con gafas! 🦉", "¡Tómala, matemáticas! 🍕" ,
-	  "¡Les ganaste a los números! 🧮",
-	  "¡Hasta Einstein te aplaudía! 🧠",
-	  "¡Ese cerebro funciona a cohete! 🚀",
-	  "¡Pura dinamita mental! 🧨",
-	  "¡Tiembla, tabla de multiplicar! 🎸",
-	  "¡De seguro desayunaste superhéroes! 🦸",
-	  "¡Resolviste eso más rápido que un gato a un rayo láser! 🐱",
-	  "¡Eres la pesadilla de las calculadoras! 🤖"
+      "¡Les ganaste a los números! 🧮",
+      "¡Hasta Einstein te aplaudía! 🧠",
+      "¡Ese cerebro funciona a cohete! 🚀",
+      "¡Pura dinamita mental! 🧨",
+      "¡Tiembla, tabla de multiplicar! 🎸",
+      "¡De seguro desayunaste superhéroes! 🦸",
+      "¡Resolviste eso más rápido que un gato a un rayo láser! 🐱",
+      "¡Eres la pesadilla de las calculadoras! 🤖"
     ],
     frasesRevanchaAcierto: [
       "¡Revancha superada con éxito! 🧠⚡", "¡Eso es memoria de elefante! 🐘", "¡Venciste al error anterior! 🥇"
     ],
-	frasesSuperacionError: [
+    frasesSuperacionError: [
       "¡Venciste tu trampa favorita! 🏆", 
       "¡Esa multiplicación ya no te asusta! 💪", 
       "¡Misión cumplida con el monstruo de los errores! 🦖"
@@ -730,23 +767,29 @@ const i18n = {
     btnCompartirHistorial: "📤 Share general summary",
     btnCopiarCodigo: "📤 Send / Copy backup code",
     btnPegarCodigo: "📥 Restore from text code",
+    activacionTitulo: "🔒 Activation Required",
+    activacionSub: "Wait a few seconds or enter your code to unlock:",
+    activacionPlaceholder: "Enter code...",
+    btnValidar: "✨ Validate Code",
+    msjExitoActivacion: "✨ Code successfully accepted! It won't be requested again.",
+    msjErrorActivacion: "❌ Incorrect code. Try again.",
     frasesAcierto: [
       "Awesome! 🎉", "You're a genius! 🌟", "Great job! 🚀", 
       "Super star! 🔥", "You did it! 🏆", "Unstoppable like a T-Rex! 🦖", 
       "Smarter than an owl in glasses! 🦉", "Take that, math! 🍕" ,
-	  "You outsmarted the numbers! 🧮",
-	  "Even Einstein would high-five you! 🧠",
-	  "Rocket science has nothing on you! 🚀",
-	  "Pure mental dynamite! 🧨",
-	  "Look out, multiplication tables! 🎸",
-	  "Did you eat superheroes for breakfast? 🦸‍♂️",
-	  "Faster than a cat chasing a laser pointer! 🐱",
-	  "You're a calculator's worst nightmare! 🤖"
+      "You outsmarted the numbers! 🧮",
+      "Even Einstein would high-five you! 🧠",
+      "Rocket science has nothing on you! 🚀",
+      "Pure mental dynamite! 🧨",
+      "Look out, multiplication tables! 🎸",
+      "Did you eat superheroes for breakfast? 🦸‍♂️",
+      "Faster than a cat chasing a laser pointer! 🐱",
+      "You're a calculator's worst nightmare! 🤖"
     ],
     frasesRevanchaAcierto: [
       "Rematch successfully conquered! 🧠⚡", "Elephant memory! 🐘", "You beat your past mistake! 🥇"
     ],
-	frasesSuperacionError: [
+    frasesSuperacionError: [
       "You conquered your tricky problem! 🏆", 
       "That multiplication doesn't scare you anymore! 💪", 
       "Mission accomplished against the error monster! 🦖"
@@ -901,6 +944,13 @@ function actualizarTextosUI() {
   compartirHistorialBtn.textContent = t.btnCompartirHistorial;
   btnCopiarCodigo.textContent = t.btnCopiarCodigo;
   btnPegarCodigo.textContent = t.btnPegarCodigo;
+  btnResetTestActivacion.textContent = idiomaActual === "es" ? "🛠️ [TEST] Resetear Activación" : "🛠️ [TEST] Reset Activation";
+
+  // Textos del modal de activación
+  document.getElementById("lblActivacionTitulo").textContent = t.activacionTitulo;
+  document.getElementById("lblActivacionSub").textContent = t.activacionSub;
+  inputCodigoActivacion.placeholder = t.activacionPlaceholder;
+  btnValidarActivacion.textContent = t.btnValidar;
 
   actualizarBadgeTablaActiva();
   actualizarBotonRevanchaUI();
@@ -925,16 +975,13 @@ function obtenerAudioContext() {
   return audioCtx;
 }
 
-// Desbloqueo seguro por interacción táctil inicial para iPhone
 function desbloquearAudioIOS() {
   try {
-    // 1. Truco para forzar el canal multimedia en iOS (salta el modo silencio)
     const audioFuerza = document.getElementById("audioFuerzaSilencio");
     if (audioFuerza) {
       audioFuerza.play().catch(() => {});
     }
 
-    // 2. Tu código original de desbloqueo del AudioContext
     const ctx = obtenerAudioContext();
     if (ctx) {
       const buffer = ctx.createBuffer(1, 1, 22050);
@@ -946,12 +993,24 @@ function desbloquearAudioIOS() {
   } catch (e) {}
 }
 
+function despertarVozIOS() {
+  if ('speechSynthesis' in window) {
+    try {
+      const utterance = new SpeechSynthesisUtterance("");
+      utterance.volume = 0;
+      window.speechSynthesis.speak(utterance);
+    } catch (e) {}
+  }
+}
+
 window.addEventListener('touchstart', () => {
   desbloquearAudioIOS();
+  despertarVozIOS();
 }, { once: true });
 
 window.addEventListener('click', () => {
   desbloquearAudioIOS();
+  despertarVozIOS();
 }, { once: true });
 
 function reproducirSonido(tipo) {
@@ -1024,14 +1083,18 @@ function hablar(texto) {
     try {
       window.speechSynthesis.cancel();
       
-      // Pequeño respiro de 10ms para que iOS reconozca el canal multimedia
       setTimeout(() => {
         const utterance = new SpeechSynthesisUtterance(texto);
         utterance.lang = idiomaActual === "es" ? 'es-ES' : 'en-US';
         utterance.rate = 1.0;
-        utterance.volume = 1.0; // Forzar volumen al máximo
+        utterance.volume = 1.0;
+
+        if (window.speechSynthesis.paused) {
+          window.speechSynthesis.resume();
+        }
+
         window.speechSynthesis.speak(utterance);
-      }, 10);
+      }, 50);
     } catch (e) {}
   }
 }
@@ -1451,6 +1514,8 @@ function cargarPuntajes() {
         if (datos.revanchaPendiente && typeof datos.revanchaPendiente === "object") {
           revanchaPendiente = datos.revanchaPendiente;
         }
+        if (typeof datos.activado === "boolean") activado = datos.activado;
+        if (typeof datos.girosRealizados === "number") girosRealizados = datos.girosRealizados;
       }
     }
   } catch (error) {
@@ -1469,7 +1534,7 @@ function guardarPuntajes() {
     nombre = inputNombre.value.trim();
     localStorage.setItem(
       CLAVE_PUNTAJES,
-      JSON.stringify({ nombre, puntos, aciertos, racha, maxRacha, contadorOperaciones, historialPartidas, sonidoActivo, idiomaActual, modoTiempo, revanchaPendiente })
+      JSON.stringify({ nombre, puntos, aciertos, racha, maxRacha, contadorOperaciones, historialPartidas, sonidoActivo, idiomaActual, modoTiempo, revanchaPendiente, activado, girosRealizados })
     );
   } catch (error) {
     console.warn("No se pudieron guardar los puntajes.", error);
@@ -1537,8 +1602,87 @@ function iniciarRevancha() {
   mostrarPregunta(true);
 }
 
+function verificarActivacionTurno() {
+  if (activado) return false;
+
+  girosRealizados++;
+  guardarPuntajes();
+
+  if (girosRealizados % 2 === 0) {
+    mostrarModalActivacion();
+    return true;
+  }
+  return false;
+}
+
+function mostrarModalActivacion() {
+  modalActivacion.hidden = false;
+  inputCodigoActivacion.value = "";
+  btnCerrarActivacion.disabled = true;
+  btnCerrarActivacion.style.opacity = "0.6";
+
+  // Genera un número aleatorio de segundos entre 5 y 10 (5, 6, 7, 8, 9 o 10)
+  const segundosAleatorios = Math.floor(Math.random() * (10 - 5 + 1)) + 5;
+  const duracionTotal = segundosAleatorios * 1000; // Convertido a milisegundos
+
+  btnCerrarActivacion.textContent = idiomaActual === "es" ? `⏳ Espera (${segundosAleatorios}s)...` : `⏳ Wait (${segundosAleatorios}s)...`;
+
+  let tiempoRestante = 100;
+  timerBarActivacion.style.width = "100%";
+  const intervaloMs = 100;
+  const decremento = (intervaloMs / duracionTotal) * 100;
+
+  if (activacionTimerInterval) clearInterval(activacionTimerInterval);
+
+  let segundosFaltantes = segundosAleatorios;
+  activacionTimerInterval = setInterval(() => {
+    tiempoRestante -= decremento;
+    timerBarActivacion.style.width = `${Math.max(0, tiempoRestante)}%`;
+
+    // Calculamos los segundos restantes basándonos en la duración total elegida
+    segundosFaltantes = Math.ceil((tiempoRestante * duracionTotal) / 100000);
+    if (segundosFaltantes > 0) {
+      btnCerrarActivacion.textContent = idiomaActual === "es" ? `⏳ Espera (${segundosFaltantes}s)...` : `⏳ Wait (${segundosFaltantes}s)...`;
+    }
+
+    if (tiempoRestante <= 0) {
+      clearInterval(activacionTimerInterval);
+      btnCerrarActivacion.disabled = false;
+      btnCerrarActivacion.style.opacity = "1";
+      btnCerrarActivacion.textContent = idiomaActual === "es" ? "✖️ Continuar jugando" : "✖️ Continue playing";
+    }
+  }, intervaloMs);
+}
+
+const CODIGO_SECRETO_HASH = "UlVMRVRBMjAyNg=="; 
+
+function validarCodigoActivacion() {
+  const t = i18n[idiomaActual];
+  const codigoIngresado = inputCodigoActivacion.value.trim();
+  
+  try {
+    // Codificamos lo que escribe el usuario para compararlo de forma oculta
+    const codigoIngresadoHash = btoa(encodeURIComponent(codigoIngresado));
+    
+    if (codigoIngresadoHash === CODIGO_SECRETO_HASH) {
+      activado = true;
+      if (activacionTimerInterval) clearInterval(activacionTimerInterval);
+      modalActivacion.hidden = true;
+      guardarPuntajes();
+      alert(t.msjExitoActivacion);
+    } else {
+      alert(t.msjErrorActivacion);
+    }
+  } catch (e) {
+    alert(t.msjErrorActivacion);
+  }
+}
 function girarRuleta() {
   if (girando) return;
+
+  if (verificarActivacionTurno()) {
+    return;
+  }
 
   detenerTemporizador();
   reproducirSonido("click");
@@ -1783,6 +1927,26 @@ cardRacha.addEventListener("click", () => abrirModalHistorial("racha"));
 btnCopiarCodigo.addEventListener("click", copiarCodigoRespaldo);
 btnPegarCodigo.addEventListener("click", restaurarDesdeCodigoTexto);
 
+btnValidarActivacion.addEventListener("click", validarCodigoActivacion);
+btnCerrarActivacion.addEventListener("click", () => {
+  reproducirSonido("click");
+  modalActivacion.hidden = true;
+});
+
+btnResetTestActivacion.addEventListener("click", () => {
+  reproducirSonido("click");
+  activado = false;
+  girosRealizados = 0;
+  guardarPuntajes();
+  modalHistorial.hidden = true;
+  
+  const mensajeTest = idiomaActual === "es"
+    ? "🛠️ [TEST] Activación resuelta. El próximo giro iniciará la prueba de los 5 segundos."
+    : "🛠️ [TEST] Activation reset. The next spin will start the 5-second test.";
+    
+  alert(mensajeTest);
+});
+
 inputNombre.addEventListener("input", guardarPuntajes);
 selectorTabla.addEventListener("change", () => {
   const sel = selectorTabla.value;
@@ -1801,6 +1965,7 @@ botonSiguiente.addEventListener("click", () => {
 document.getElementById("reiniciar").addEventListener("click", reiniciarPuntajes);
 
 modalHistorial.hidden = true;
+modalActivacion.hidden = true;
 
 actualizarSelectorTablas();
 cargarPuntajes();
@@ -1828,16 +1993,7 @@ if ("serviceWorker" in navigator) {
       });
   });
 }
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./service-worker.js")
-      .catch(error => {
-        console.warn("No se pudo registrar la PWA.", error);
-      });
-  });
-}
 
-// 📱 DETECCIÓN Y MOSTRADO DEL AVISO PARA IPHONE
 const esIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 if (esIOS) {
   const aviso = document.getElementById("avisoSilencio");
@@ -1845,7 +2001,7 @@ if (esIOS) {
     aviso.style.display = "block";
     setTimeout(() => {
       aviso.style.display = "none";
-    }, 7000); // El aviso desaparecerá solo después de 7 segundos para no ocupar espacio
+    }, 7000);
   }
 }
 </script>
