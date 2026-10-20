@@ -472,6 +472,9 @@
 
 <body>
 <main>
+  <div id="avisoSilencio" style="display:none; background:#fef3c7; color:#92400e; font-size:10px; padding:6px; text-align:center; border-radius:6px; margin-bottom:4px;">
+    🔇 iPhone en silencio: Los sonidos y la voz pueden no escucharse. Desactiva el interruptor lateral si lo deseas.
+  </div>
   <div class="header-controles">
     <div class="grupo-controles">
       <button id="toggleIdioma" class="btn-control" type="button" aria-label="Cambiar idioma">🇪🇸</button>
@@ -1786,6 +1789,26 @@ if ("serviceWorker" in navigator) {
         console.warn("No se pudo registrar la PWA.", error);
       });
   });
+}
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./service-worker.js")
+      .catch(error => {
+        console.warn("No se pudo registrar la PWA.", error);
+      });
+  });
+}
+
+// 📱 DETECCIÓN Y MOSTRADO DEL AVISO PARA IPHONE
+const esIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+if (esIOS) {
+  const aviso = document.getElementById("avisoSilencio");
+  if (aviso) {
+    aviso.style.display = "block";
+    setTimeout(() => {
+      aviso.style.display = "none";
+    }, 7000); // El aviso desaparecerá solo después de 7 segundos para no ocupar espacio
+  }
 }
 </script>
 </body>
