@@ -652,10 +652,23 @@ const i18n = {
     frasesAcierto: [
       "¡Increíble! 🎉", "¡Eres un genio! 🌟", "¡Súper bien! 🚀", 
       "¡Qué crack! 🔥", "¡Lo lograste! 🏆", "¡Imparable como un t-rex! 🦖", 
-      "¡Más listo que un búho con gafas! 🦉", "¡Tómala, matemáticas! 🍕"
+      "¡Más listo que un búho con gafas! 🦉", "¡Tómala, matemáticas! 🍕" ,
+	  "¡Les ganaste a los números! 🧮",
+	  "¡Hasta Einstein te aplaudía! 🧠",
+	  "¡Ese cerebro funciona a cohete! 🚀",
+	  "¡Pura dinamita mental! 🧨",
+	  "¡Tiembla, tabla de multiplicar! 🎸",
+	  "¡De seguro desayunaste superhéroes! 🦸",
+	  "¡Resolviste eso más rápido que un gato a un rayo láser! 🐱",
+	  "¡Eres la pesadilla de las calculadoras! 🤖"
     ],
     frasesRevanchaAcierto: [
       "¡Revancha superada con éxito! 🧠⚡", "¡Eso es memoria de elefante! 🐘", "¡Venciste al error anterior! 🥇"
+    ],
+	frasesSuperacionError: [
+      "¡Venciste tu trampa favorita! 🏆", 
+      "¡Esa multiplicación ya no te asusta! 💪", 
+      "¡Misión cumplida con el monstruo de los errores! 🦖"
     ],
     frasesError: [
       (c, t, f) => `❌ Casi... Era ${c}. ¡Hasta las calculadoras se equivocan! 🤖`,
@@ -720,10 +733,23 @@ const i18n = {
     frasesAcierto: [
       "Awesome! 🎉", "You're a genius! 🌟", "Great job! 🚀", 
       "Super star! 🔥", "You did it! 🏆", "Unstoppable like a T-Rex! 🦖", 
-      "Smarter than an owl in glasses! 🦉", "Take that, math! 🍕"
+      "Smarter than an owl in glasses! 🦉", "Take that, math! 🍕" ,
+	  "You outsmarted the numbers! 🧮",
+	  "Even Einstein would high-five you! 🧠",
+	  "Rocket science has nothing on you! 🚀",
+	  "Pure mental dynamite! 🧨",
+	  "Look out, multiplication tables! 🎸",
+	  "Did you eat superheroes for breakfast? 🦸‍♂️",
+	  "Faster than a cat chasing a laser pointer! 🐱",
+	  "You're a calculator's worst nightmare! 🤖"
     ],
     frasesRevanchaAcierto: [
       "Rematch successfully conquered! 🧠⚡", "Elephant memory! 🐘", "You beat your past mistake! 🥇"
+    ],
+	frasesSuperacionError: [
+      "You conquered your tricky problem! 🏆", 
+      "That multiplication doesn't scare you anymore! 💪", 
+      "Mission accomplished against the error monster! 🦖"
     ],
     frasesError: [
       (c, t, f) => `❌ Almost... Was ${c}. Even calculators make mistakes! 🤖`,
@@ -1655,12 +1681,14 @@ function responder(valor, esRevancha = false) {
     aciertos++;
     racha++;
 
-    if (contadorOperaciones[claveOp]) {
-      contadorOperaciones[claveOp] = Math.max(0, contadorOperaciones[claveOp] - 1);
+    let esSuperacion = false;
+    if (revanchaPendiente && revanchaPendiente.tabla === tabla && revanchaPendiente.factor === factor) {
+      esSuperacion = true;
+      revanchaPendiente = null;
     }
 
-    if (esRevancha && revanchaPendiente && revanchaPendiente.tabla === tabla && revanchaPendiente.factor === factor) {
-      revanchaPendiente = null;
+    if (contadorOperaciones[claveOp]) {
+      contadorOperaciones[claveOp] = Math.max(0, contadorOperaciones[claveOp] - 1);
     }
 
     historialPartidas.push({ tabla, factor, respuestaUsuario: valor, correcta, acertado: true, fecha: fechaSimple });
@@ -1669,9 +1697,15 @@ function responder(valor, esRevancha = false) {
     if (racha >= 3) reproducirSonido("racha");
     else reproducirSonido("acierto");
 
-    const fraseAleatoria = esRevancha 
-      ? t.frasesRevanchaAcierto[Math.floor(Math.random() * t.frasesRevanchaAcierto.length)]
-      : t.frasesAcierto[Math.floor(Math.random() * t.frasesAcierto.length)];
+    let fraseAleatoria = "";
+    if (esSuperacion) {
+      const listaSuperacion = t.frasesSuperacionError || t.frasesRevanchaAcierto;
+      fraseAleatoria = listaSuperacion[Math.floor(Math.random() * listaSuperacion.length)];
+    } else {
+      fraseAleatoria = esRevancha 
+        ? t.frasesRevanchaAcierto[Math.floor(Math.random() * t.frasesRevanchaAcierto.length)]
+        : t.frasesAcierto[Math.floor(Math.random() * t.frasesAcierto.length)];
+    }
 
     document.getElementById("mensaje").textContent = `${fraseAleatoria} +${puntosGanados} pts`;
     hablar(t.hablarAcierto(n, fraseAleatoria, tabla, factor, correcta));
