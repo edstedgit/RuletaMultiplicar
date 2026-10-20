@@ -991,12 +991,14 @@ function hablar(texto) {
     try {
       window.speechSynthesis.cancel();
       
-      currentUtterance = new SpeechSynthesisUtterance(texto);
-      currentUtterance.lang = idiomaActual === "es" ? 'es-ES' : 'en-US';
-      currentUtterance.rate = 1.0;
-      currentUtterance.volume = 1.0;
-
-      window.speechSynthesis.speak(currentUtterance);
+      // Pequeño respiro de 10ms para que iOS reconozca el canal multimedia
+      setTimeout(() => {
+        const utterance = new SpeechSynthesisUtterance(texto);
+        utterance.lang = idiomaActual === "es" ? 'es-ES' : 'en-US';
+        utterance.rate = 1.0;
+        utterance.volume = 1.0; // Forzar volumen al máximo
+        window.speechSynthesis.speak(utterance);
+      }, 10);
     } catch (e) {}
   }
 }
