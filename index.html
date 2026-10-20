@@ -865,6 +865,10 @@ function actualizarBotonModoUI() {
     botonModo.textContent = "⚡";
     botonModo.style.opacity = "1";
     botonModo.setAttribute("aria-label", "Tiempo rápido (6s)");
+  } else if (modoTiempo === 3) {
+    botonModo.textContent = "🚀";
+    botonModo.style.opacity = "1";
+    botonModo.setAttribute("aria-label", "Modo bala (3s)");
   }
 }
 
@@ -1054,7 +1058,7 @@ function toggleIdioma() {
 
 function cambiarModoTiempo() {
   reproducirSonido("click");
-  modoTiempo = (modoTiempo + 1) % 3;
+  modoTiempo = (modoTiempo + 1) % 4;
   actualizarBotonModoUI();
   guardarPuntajes();
 }
