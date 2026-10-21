@@ -1020,7 +1020,7 @@ const i18n = {
     desafioBtnJugarOtra: "⚡ ¡Jugar otra vez!",
     desafioFin: (score, pts, nuevoRec) => `⏰ ¡TIEMPO! Acertaste ${score} operaciones. ${nuevoRec ? '🏆 ¡NUEVO RÉCORD!' : ''} +${pts} ⭐!`,
     activacionTitulo: "🔒 Activación de Licencia",
-    activacionSub: "Genera tu código de solicitud encriptado y compártelo para recibir tu llave única:",
+    activacionSub: "Para usar todas las tablas necesitas activar la licencia. ¡Recuerda que la Tabla del 1 es gratis para practicar!",
     activacionPlaceholder: "Pega aquí tu llave de activación...",
     btnValidar: "✨ Validar Llave",
     msjExitoActivacion: "✨ ¡Llave de activación aceptada con éxito!",
@@ -1128,7 +1128,7 @@ const i18n = {
     desafioBtnJugarOtra: "⚡ Play Again!",
     desafioFin: (score, pts, nuevoRec) => `⏰ TIME'S UP! Got ${score} correct. ${nuevoRec ? '🏆 NEW RECORD!' : ''} +${pts} ⭐!`,
     activacionTitulo: "🔒 License Activation",
-    activacionSub: "Generate your encrypted request code and share it to get your unique key:",
+    activacionSub: "To use all tables you need to activate your license. Remember that Table 1 is free to practice!",
     activacionPlaceholder: "Paste your activation key here...",
     btnValidar: "✨ Validate Key",
     msjExitoActivacion: "✨ Activation key successfully accepted!",
@@ -1752,7 +1752,9 @@ function iniciarRevancha() {
 }
 
 function verificarActivacionTurno() {
-  if (activado) return false;
+  // Si ya está activado O si el usuario está practicando la Tabla 1, no pedimos activación
+  if (activado || Number(selectorTabla.value) === 1) return false;
+  
   girosRealizados++;
   guardarPuntajes();
   if (girosRealizados % 2 === 0) {
