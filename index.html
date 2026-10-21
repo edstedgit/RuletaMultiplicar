@@ -709,7 +709,7 @@
     </div>
   </div>
 
-  <!-- Modal Selector de Avatar y Tienda -->
+<!-- Modal Selector de Avatar y Tienda -->
   <div id="modalAvatares" class="modal-historial" hidden>
     <div class="modal-contenido">
       <div class="modal-header">
@@ -717,6 +717,12 @@
         <button id="cerrarAvatares" type="button" style="background:#e2e8f0; border-radius:50%; width:28px; height:28px; font-size:12px; font-weight:bold;">✕</button>
       </div>
       <p id="lblAvatarSub" style="font-size: 12px; color: #475569; text-align: center; margin: 2px 0;">¡Selecciona con quién quieres jugar hoy!</p>
+      
+      <!-- NUEVO: Campo para escribir el nombre dentro de la ventanita -->
+      <div style="margin: 8px 0;">
+        <input type="text" id="inputNombreModal" placeholder="Escribe tu nombre aquí..." maxlength="20" style="width: 100%; padding: 8px; border: 2px solid #cbd5e1; border-radius: 8px; font-size: 14px; text-align: center; box-sizing: border-box;">
+      </div>
+
       <div class="grid-avatares"></div>
       
       <hr style="border:0; border-top:1px solid #e2e8f0; margin: 8px 0;">
@@ -846,6 +852,7 @@ const botonGirar = document.getElementById("girar");
 const botonSiguiente = document.getElementById("siguiente");
 const selectorTabla = document.getElementById("tablaElegida");
 const inputNombre = document.getElementById("nombreNino");
+const inputNombreModal = document.getElementById("inputNombreModal");
 const contenedorRespuestas = document.getElementById("respuestas");
 const botonSonido = document.getElementById("toggleSonido");
 const botonIdioma = document.getElementById("toggleIdioma");
@@ -1210,6 +1217,15 @@ let contestada = false;
 let preguntaActiva = false;
 let historialPartidas = [];
 let revanchaPendiente = null;
+
+
+if (inputNombreModal) {
+  // Sincronizar cuando escriben en el modal -> actualiza el input principal
+  inputNombreModal.addEventListener("input", (e) => {
+    inputNombre.value = e.target.value;
+    if (typeof guardarPuntajes === "function") guardarPuntajes();
+  });
+}
 
 function vibrar(patron) {
   if ("vibrate" in navigator) {
@@ -2003,7 +2019,7 @@ function finalizarDesafioRelampago() {
 // ---------------------------------------------------------------------------
 
 function girarRuleta() {
-  // Validación: Si no ha escrito el nombre, pedírselo antes de girar
+  // Validación: Si no ha escrito el nombre, pedírselo y abrir la ventana de avatares
   const nombreIngresado = inputNombre.value.trim();
   if (!nombreIngresado) {
     const mensajeAlerta = idiomaActual === "es" 
@@ -2011,7 +2027,20 @@ function girarRuleta() {
       : "👋 Hello! Please type the champion's name before spinning the wheel.";
     
     alert(mensajeAlerta);
-    inputNombre.focus();
+    
+    // Abre la ventanita de elegir avatar automáticamente después de la alerta
+    if (typeof btnAbrirAvatares !== "undefined" && btnAbrirAvatares) {
+      btnAbrirAvatares.click();
+    }
+    
+    // Enfoca el input que está dentro de la ventanita modal si existe, si no al principal
+    const inputNombreModal = document.getElementById("inputNombreModal");
+    if (inputNombreModal) {
+      inputNombreModal.focus();
+    } else {
+      inputNombre.focus();
+    }
+
     reproducirSonido("error");
     return;
   }
