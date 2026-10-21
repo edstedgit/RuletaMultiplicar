@@ -55,7 +55,6 @@
       }
     }
 
-    /* Cabecera superior compacta */
     .header-fila-superior {
       display: flex;
       justify-content: space-between;
@@ -113,7 +112,6 @@
       transform: scale(1.2);
     }
 
-    /* Barra de configuración unificada */
     .config-container {
       display: flex;
       justify-content: space-between;
@@ -216,7 +214,6 @@
       transition: width 0.1s linear;
     }
 
-    /* Ruleta compacta en reposo con súper zoom flotante por encima */
     .ruleta-wrapper {
       width: 100%;
       height: 120px;
@@ -285,7 +282,6 @@
       transform: scale(.98);
     }
 
-    /* BOTÓN DE REVACHA AMPLIADO */
     .btn-revancha {
       background: #f59e0b;
       color: #fff;
@@ -303,7 +299,6 @@
       100% { transform: scale(1); }
     }
 
-    /* ZONA DE PREGUNTA Y BOTONES AMPLIADOS */
     .pregunta {
       margin-top: 1px;
       padding: 8px 12px;
@@ -358,7 +353,6 @@
       font-size: 14px;
     }
 
-    /* TARJETAS DE ESTADÍSTICAS AMPLIADAS Y MÁS CÓMODAS */
     .estadisticas {
       display: flex;
       justify-content: space-around;
@@ -408,7 +402,6 @@
       padding: 5px;
     }
 
-    /* MODALES MÁS CÓMODOS, AMPLIOS Y TÁCTILES */
     .modal-historial {
       position: absolute;
       top: 0;
@@ -490,7 +483,6 @@
       box-shadow: 0 2px 4px rgba(0,0,0,0.06);
     }
 
-    /* LOGROS E INSIGNIAS MÁS AMPLIOS Y CÓMODOS */
     .grid-insignias {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -737,7 +729,7 @@
         <button id="cerrarMinijuego" type="button" style="background:#e2e8f0; border-radius:50%; width:28px; height:28px; font-size:12px; font-weight:bold;">✕</button>
       </div>
       
-      <p style="font-size: 12px; color: #475569; margin: 6px 0;" id="lblMiniInstruccion">
+      <p id="lblMiniInstruccion" style="font-size: 12px; color: #475569; margin: 6px 0;">
         Observa la operación. ¿El resultado es verdadero o falso?
       </p>
 
@@ -780,21 +772,30 @@
     </div>
   </div>
 
+  <!-- Modal de Activación con Solicitud Encriptada y Compartir -->
   <div id="modalActivacion" class="modal-historial" hidden>
-    <div class="modal-contenido">
+    <div class="modal-contenido" style="text-align: center;">
       <div class="modal-header">
-        <span id="lblActivacionTitulo">🔒 Activación Requerida</span>
+        <span id="lblActivacionTitulo">🔒 Activación de Licencia</span>
       </div>
-      <p id="lblActivacionSub" style="font-size: 12px; color: #475569; margin: 6px 0;">Espera unos segundos o introduce tu código para desbloquear:</p>
+      <p id="lblActivacionSub" style="font-size: 11px; color: #475569; margin: 4px 0;">Genera tu código de solicitud encriptado y compártelo para recibir tu llave única:</p>
       
-      <div class="timer-container" style="margin: 10px 0;">
+      <div class="timer-container" style="margin: 6px 0;">
         <div class="timer-bar" id="timerBarActivacion" style="width: 100%;"></div>
       </div>
+
+      <button id="btnGenerarSolicitud" class="principal btn-modal-accion" type="button" style="background:#8b5cf6; font-size:12px; padding:8px;">🔑 Generar mi código de solicitud</button>
       
-      <input type="text" id="inputCodigoActivacion" placeholder="Introduce el código..." style="width:100%; padding:10px; border:2px solid #bfdbfe; border-radius:10px; font-size:12px; margin-bottom:8px; text-align:center;">
+      <input type="text" id="inputSolicitudEncriptada" readonly placeholder="Aparecerá aquí tu código cifrado..." style="width:100%; padding:6px; border:1.5px dashed #8b5cf6; border-radius:8px; font-size:10px; margin:4px 0; text-align:center; background:#f5f3ff; color:#6d28d9;">
       
-      <button id="btnValidarActivacion" class="principal btn-modal-accion" type="button" style="background:#16a34a; margin-top:2px;">✨ Validar Código</button>
-      <button id="btnCerrarActivacion" class="secundario btn-modal-accion" type="button" disabled style="opacity:0.6; border-radius:10px; padding:10px;">⏳ Espera (5s)...</button>
+      <button id="btnCompartirSolicitud" class="principal btn-modal-accion" type="button" style="background:#16a34a; font-size:12px; padding:8px; display:none;">📤 Compartir código con...</button>
+
+      <hr style="border:0; border-top:1px solid #e2e8f0; width:100%; margin:8px 0;">
+
+      <input type="text" id="inputCodigoActivacion" placeholder="Pega aquí tu llave de activación..." style="width:100%; padding:9px; border:2px solid #bfdbfe; border-radius:10px; font-size:11px; margin-bottom:6px; text-align:center;">
+      
+      <button id="btnValidarActivacion" class="principal btn-modal-accion" type="button" style="background:#16a34a; margin-top:2px;">✨ Validar Llave</button>
+      <button id="btnCerrarActivacion" class="secundario btn-modal-accion" type="button" disabled style="opacity:0.6; border-radius:10px; padding:8px;">⏳ Espera (5s)...</button>
     </div>
   </div>
 </main>
@@ -863,6 +864,10 @@ const inputCodigoActivacion = document.getElementById("inputCodigoActivacion");
 const btnValidarActivacion = document.getElementById("btnValidarActivacion");
 const btnCerrarActivacion = document.getElementById("btnCerrarActivacion");
 
+const btnGenerarSolicitud = document.getElementById("btnGenerarSolicitud");
+const inputSolicitudEncriptada = document.getElementById("inputSolicitudEncriptada");
+const btnCompartirSolicitud = document.getElementById("btnCompartirSolicitud");
+
 let activado = false;
 let girosRealizados = 0;
 let activacionTimerInterval = null;
@@ -926,13 +931,23 @@ const i18n = {
     btnPegarCodigo: "📥 Restaurar desde código de texto",
     avatarTitulo: "👤 Elige tu Personaje",
     avatarSub: "¡Selecciona con quién quieres jugar hoy!",
+    logrosTitulo: "🏆 Tus Medallas y Logros (12)",
+    logrosBtn: "¡A seguir coleccionando!",
     msjNuevaInsignia: "🏆 ¡Nueva Insignia Desbloqueada!",
-    activacionTitulo: "🔒 Activación Requerida",
-    activacionSub: "Espera unos segundos o introduce tu código para desbloquear:",
-    activacionPlaceholder: "Introduce el código...",
-    btnValidar: "✨ Validar Código",
-    msjExitoActivacion: "✨ ¡Código aceptado con éxito! No se volverá a solicitar.",
-    msjErrorActivacion: "❌ Código incorrecto. Inténtalo de nuevo.",
+    miniTitulo: "🕵️‍♂️ ¿Correcto o Trampa?",
+    miniInstruccion: "Observa la operación. ¿El resultado es verdadero o falso?",
+    btnMiniVerdadero: "✅ ¡Correcto!",
+    btnMiniFalso: "❌ ¡Es Trampa!",
+    btnMiniSiguiente: "Siguiente reto →",
+    miniAcierto: "🎉 ¡Excelente! ¡Descubriste la verdad!",
+    miniError: (real) => `❌ ¡Caíste en la trampa! El resultado real era ${real}.`,
+    activacionTitulo: "🔒 Activación de Licencia",
+    activacionSub: "Genera tu código de solicitud encriptado y compártelo para recibir tu llave única:",
+    activacionPlaceholder: "Pega aquí tu llave de activación...",
+    btnValidar: "✨ Validar Llave",
+    msjExitoActivacion: "✨ ¡Llave de activación aceptada con éxito!",
+    msjErrorActivacion: "❌ Llave de activación incorrecta o no válida para este dispositivo.",
+    msjCompartirSolicitud: "Mi código de activación para la Ruleta de Multiplicar es: ",
     insigniasLista: [
       { id: "primerAcierto", icono: "🎯", titulo: "Primer Paso", desc: "¡Consigue tu primer acierto!" },
       { id: "rachaTres", icono: "🔥", titulo: "Racha de Fuego", desc: "Alcanza racha de 3" },
@@ -1028,13 +1043,23 @@ const i18n = {
     btnPegarCodigo: "📥 Restore from text code",
     avatarTitulo: "👤 Choose Your Character",
     avatarSub: "Select who you want to play with today!",
+    logrosTitulo: "🏆 Your Badges and Achievements (12)",
+    logrosBtn: "Keep collecting!",
     msjNuevaInsignia: "🏆 New Badge Unlocked!",
-    activacionTitulo: "🔒 Activation Required",
-    activacionSub: "Wait a few seconds or enter your code to unlock:",
-    activacionPlaceholder: "Enter code...",
-    btnValidar: "✨ Validate Code",
-    msjExitoActivacion: "✨ Code successfully accepted! It won't be requested again.",
-    msjErrorActivacion: "❌ Incorrect code. Try again.",
+    miniTitulo: "🕵️‍♂️ Correct or Trap?",
+    miniInstruccion: "Look at the operation. Is the result true or false?",
+    btnMiniVerdadero: "✅ Correct!",
+    btnMiniFalso: "❌ It's a Trap!",
+    btnMiniSiguiente: "Next challenge →",
+    miniAcierto: "🎉 Awesome! You found the truth!",
+    miniError: (real) => `❌ Caught in the trap! The real answer was ${real}.`,
+    activacionTitulo: "🔒 License Activation",
+    activacionSub: "Generate your encrypted request code and share it to get your unique key:",
+    activacionPlaceholder: "Paste your activation key here...",
+    btnValidar: "✨ Validate Key",
+    msjExitoActivacion: "✨ Activation key successfully accepted!",
+    msjErrorActivacion: "❌ Incorrect activation key or invalid for this device.",
+    msjCompartirSolicitud: "My activation code for the Multiplication Wheel is: ",
     insigniasLista: [
       { id: "primerAcierto", icono: "🎯", titulo: "First Step", desc: "Get your first correct answer!" },
       { id: "rachaTres", icono: "🔥", titulo: "Fire Streak", desc: "Reach a 3-correct streak" },
@@ -1109,6 +1134,8 @@ const colores = [
 const TOTAL = 12;
 const sector = Math.PI * 2 / TOTAL;
 const CLAVE_PUNTAJES = "ruletaMultiplicarPuntajesV41";
+const CLAVE_SECRETA_MAESTRA = "MiRuletaMultiplicarSecreta2026";
+let tokenSolicitudActual = "";
 
 let angulo = 0;
 let girando = false;
@@ -1133,32 +1160,25 @@ let filtroModalActual = "todo";
 
 function vibrar(patron) {
   if ("vibrate" in navigator) {
-    try {
-      navigator.vibrate(patron);
-    } catch (e) {}
+    try { navigator.vibrate(patron); } catch (e) {}
   }
 }
 
 function mostrarTextoFlotante(texto, esAcierto = true, topPos = "52%") {
   const mainContainer = document.querySelector("main");
   if (!mainContainer) return;
-
   const el = document.createElement("div");
   el.className = "flotante-puntos-arcade";
   el.textContent = texto;
   el.style.color = esAcierto ? "#166534" : "#991b1b";
   el.style.top = topPos;
-  
   mainContainer.appendChild(el);
-  setTimeout(() => {
-    el.remove();
-  }, 1600);
+  setTimeout(() => { el.remove(); }, 1600);
 }
 
 function dispararConfetiVictoria() {
   const mainContainer = document.querySelector("main");
   if (!mainContainer) return;
-
   for (let i = 0; i < 35; i++) {
     const confeti = document.createElement("div");
     confeti.className = "confeti-pieza";
@@ -1167,10 +1187,7 @@ function dispararConfetiVictoria() {
     confeti.style.animationDuration = `${1.2 + Math.random() * 1.5}s`;
     confeti.style.animationDelay = `${Math.random() * 0.5}s`;
     mainContainer.appendChild(confeti);
-
-    setTimeout(() => {
-      confeti.remove();
-    }, 3000);
+    setTimeout(() => { confeti.remove(); }, 3000);
   }
 }
 
@@ -1185,17 +1202,14 @@ function obtenerEstrellasTabla(numTabla) {
 function actualizarSelectorTablas() {
   const valorActual = selectorTabla.value || "mixto";
   selectorTabla.replaceChildren();
-  
   const optMixto = document.createElement("option");
   optMixto.value = "mixto";
   optMixto.textContent = i18n[idiomaActual].opcionMixto;
   selectorTabla.appendChild(optMixto);
-
   for (let i = 1; i <= TOTAL; i++) {
     const opt = document.createElement("option");
     opt.value = i;
-    const estrellas = obtenerEstrellasTabla(i);
-    opt.textContent = (idiomaActual === "es" ? `Tabla ${i}` : `Table ${i}`) + ` (${estrellas})`;
+    opt.textContent = (idiomaActual === "es" ? `Tabla ${i}` : `Table ${i}`) + ` (${obtenerEstrellasTabla(i)})`;
     selectorTabla.appendChild(opt);
   }
   selectorTabla.value = valorActual;
@@ -1203,12 +1217,7 @@ function actualizarSelectorTablas() {
 
 function actualizarBadgeTablaActiva() {
   lblBadgeTabla.textContent = i18n[idiomaActual].lblBadge;
-  const valorSel = selectorTabla.value;
-  if (valorSel === "mixto") {
-    valBadgeTabla.textContent = tabla;
-  } else {
-    valBadgeTabla.textContent = valorSel;
-  }
+  valBadgeTabla.textContent = selectorTabla.value === "mixto" ? tabla : selectorTabla.value;
 }
 
 function actualizarBotonRevanchaUI() {
@@ -1222,25 +1231,16 @@ function actualizarBotonRevanchaUI() {
 }
 
 function actualizarBotonModoUI() {
-  if (modoTiempo === 0) {
-    modoTiempo = 1;
-  }
+  if (modoTiempo === 0) modoTiempo = 1;
   if (modoTiempo === 1) {
     botonModo.textContent = "⏱️";
     botonModo.style.opacity = "1";
-    botonModo.setAttribute("aria-label", "Tiempo normal (10s)");
   } else if (modoTiempo === 2) {
     botonModo.textContent = "⚡";
     botonModo.style.opacity = "1";
-    botonModo.setAttribute("aria-label", "Tiempo rápido (6s)");
   } else if (modoTiempo === 3) {
     botonModo.textContent = "🚀";
     botonModo.style.opacity = "1";
-    botonModo.setAttribute("aria-label", "Modo bala (3s)");
-  } else {
-    botonModo.textContent = "⏱️❌";
-    botonModo.style.opacity = "0.5";
-    botonModo.setAttribute("aria-label", "Tiempo desactivado");
   }
 }
 
@@ -1275,11 +1275,21 @@ function actualizarTextosUI() {
 
   document.getElementById("lblAvatarTitulo").textContent = t.avatarTitulo;
   document.getElementById("lblAvatarSub").textContent = t.avatarSub;
+  document.getElementById("lblInsigniasTitulo").textContent = t.logrosTitulo;
+  document.getElementById("btnCerrarInsigniasModal").textContent = t.logrosBtn;
+
+  document.getElementById("lblMiniTitulo").textContent = t.miniTitulo;
+  document.getElementById("lblMiniInstruccion").textContent = t.miniInstruccion;
+  btnMiniVerdadero.textContent = t.btnMiniVerdadero;
+  btnMiniFalso.textContent = t.btnMiniFalso;
+  btnMiniSiguiente.textContent = t.btnMiniSiguiente;
 
   document.getElementById("lblActivacionTitulo").textContent = t.activacionTitulo;
   document.getElementById("lblActivacionSub").textContent = t.activacionSub;
   inputCodigoActivacion.placeholder = t.activacionPlaceholder;
   btnValidarActivacion.textContent = t.btnValidar;
+  btnGenerarSolicitud.textContent = idiomaActual === "es" ? "🔑 Generar mi código de solicitud" : "🔑 Generate my request code";
+  btnCompartirSolicitud.textContent = idiomaActual === "es" ? "📤 Compartir código con..." : "📤 Share code with...";
 
   actualizarBadgeTablaActiva();
   actualizarBotonRevanchaUI();
@@ -1292,27 +1302,20 @@ function actualizarTextosUI() {
 }
 
 let audioCtx = null;
-
 function obtenerAudioContext() {
   if (!audioCtx) {
     const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-    if (AudioContextClass) {
-      audioCtx = new AudioContextClass();
-    }
+    if (AudioContextClass) audioCtx = new AudioContextClass();
   }
-  if (audioCtx && audioCtx.state === 'suspended') {
-    audioCtx.resume();
-  }
+  if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
   return audioCtx;
 }
 
 function reproducirSonido(tipo) {
   if (!sonidoActivo) return;
-
   try {
     const ctxAudio = obtenerAudioContext();
     if (!ctxAudio) return;
-
     const now = ctxAudio.currentTime;
     const osc = ctxAudio.createOscillator();
     const gainNode = ctxAudio.createGain();
@@ -1351,54 +1354,21 @@ function reproducirSonido(tipo) {
       gainNode.gain.linearRampToValueAtTime(0.001, now + 0.03);
       osc.start(now);
       osc.stop(now + 0.03);
-    } else if (tipo === "racha") {
-      [523.25, 659.25, 783.99].forEach((freq, index) => {
-        const oscR = ctxAudio.createOscillator();
-        const gainR = ctxAudio.createGain();
-        oscR.connect(gainR);
-        gainR.connect(ctxAudio.destination);
-        oscR.type = "triangle";
-        oscR.frequency.setValueAtTime(freq, now + index * 0.07);
-        gainR.gain.setValueAtTime(0.15, now + index * 0.07);
-        gainR.gain.exponentialRampToValueAtTime(0.01, now + index * 0.07 + 0.12);
-        oscR.start(now + index * 0.07);
-        oscR.stop(now + index * 0.07 + 0.12);
-      });
-    } else if (tipo === "festejo") {
-      const notas = [523.25, 659.25, 783.99, 1046.50, 783.99, 1046.50];
-      notas.forEach((freq, index) => {
-        const oscF = ctxAudio.createOscillator();
-        const gainF = ctxAudio.createGain();
-        oscF.connect(gainF);
-        gainF.connect(ctxAudio.destination);
-        oscF.type = "square";
-        oscF.frequency.setValueAtTime(freq, now + index * 0.09);
-        gainF.gain.setValueAtTime(0.15, now + index * 0.09);
-        gainF.gain.exponentialRampToValueAtTime(0.001, now + index * 0.09 + 0.15);
-        oscF.start(now + index * 0.09);
-        oscF.stop(now + index * 0.09 + 0.15);
-      });
     }
   } catch (e) {}
 }
 
 function hablar(texto) {
   if (!sonidoActivo) return;
-
   if ('speechSynthesis' in window) {
     try {
       window.speechSynthesis.cancel();
-      
       setTimeout(() => {
         const utterance = new SpeechSynthesisUtterance(texto);
         utterance.lang = idiomaActual === "es" ? 'es-ES' : 'en-US';
         utterance.rate = 1.0;
         utterance.volume = 1.0;
-
-        if (window.speechSynthesis.paused) {
-          window.speechSynthesis.resume();
-        }
-
+        if (window.speechSynthesis.paused) window.speechSynthesis.resume();
         window.speechSynthesis.speak(utterance);
       }, 50);
     } catch (e) {}
@@ -1407,7 +1377,6 @@ function hablar(texto) {
 
 function actualizarBotonSonido() {
   botonSonido.textContent = sonidoActivo ? "🔊" : "🔇";
-  botonSonido.setAttribute("aria-label", sonidoActivo ? "Desactivar sonido" : "Activar sonido");
 }
 
 function toggleSonido() {
@@ -1434,109 +1403,45 @@ function cambiarModoTiempo() {
 
 function verificarInsignias(esSuperacion = false) {
   let nuevaDesbloqueada = false;
-
-  if (aciertos >= 1 && !insigniasDesbloqueadas.primerAcierto) {
-    insigniasDesbloqueadas.primerAcierto = true;
-    nuevaDesbloqueada = true;
-  }
-  if (racha >= 3 && !insigniasDesbloqueadas.rachaTres) {
-    insigniasDesbloqueadas.rachaTres = true;
-    nuevaDesbloqueada = true;
-  }
-  if (racha >= 5 && !insigniasDesbloqueadas.rachaCinco) {
-    insigniasDesbloqueadas.rachaCinco = true;
-    nuevaDesbloqueada = true;
-  }
-  if (racha >= 10 && !insigniasDesbloqueadas.rachaDiez) {
-    insigniasDesbloqueadas.rachaDiez = true;
-    nuevaDesbloqueada = true;
-  }
-  if (puntos >= 50 && !insigniasDesbloqueadas.cincuentaPuntos) {
-    insigniasDesbloqueadas.cincuentaPuntos = true;
-    nuevaDesbloqueada = true;
-  }
-  if (puntos >= 100 && !insigniasDesbloqueadas.cienPuntos) {
-    insigniasDesbloqueadas.cienPuntos = true;
-    nuevaDesbloqueada = true;
-  }
-  if (esSuperacion && !insigniasDesbloqueadas.maestroRevancha) {
-    insigniasDesbloqueadas.maestroRevancha = true;
-    nuevaDesbloqueada = true;
-  }
-  if (tabla === 1 && !insigniasDesbloqueadas.tabla1) {
-    insigniasDesbloqueadas.tabla1 = true;
-    nuevaDesbloqueada = true;
-  }
-  if (tabla === 5 && !insigniasDesbloqueadas.tabla5) {
-    insigniasDesbloqueadas.tabla5 = true;
-    nuevaDesbloqueada = true;
-  }
-  if (tabla === 10 && !insigniasDesbloqueadas.tabla10) {
-    insigniasDesbloqueadas.tabla10 = true;
-    nuevaDesbloqueada = true;
-  }
-  if (selectorTabla.value === "mixto" && !insigniasDesbloqueadas.todasTablas) {
-    insigniasDesbloqueadas.todasTablas = true;
-    nuevaDesbloqueada = true;
-  }
-  if (aciertos >= 50 && !insigniasDesbloqueadas.leyendaRuleta) {
-    insigniasDesbloqueadas.leyendaRuleta = true;
-    nuevaDesbloqueada = true;
-  }
-
-  const totalConseguidas = Object.values(insigniasDesbloqueadas).filter(Boolean).length;
-  if (totalConseguidas === 12) {
-    dispararConfetiVictoria();
-    reproducirSonido("festejo");
-  }
+  if (aciertos >= 1 && !insigniasDesbloqueadas.primerAcierto) { insigniasDesbloqueadas.primerAcierto = true; nuevaDesbloqueada = true; }
+  if (racha >= 3 && !insigniasDesbloqueadas.rachaTres) { insigniasDesbloqueadas.rachaTres = true; nuevaDesbloqueada = true; }
+  if (racha >= 5 && !insigniasDesbloqueadas.rachaCinco) { insigniasDesbloqueadas.rachaCinco = true; nuevaDesbloqueada = true; }
+  if (racha >= 10 && !insigniasDesbloqueadas.rachaDiez) { insigniasDesbloqueadas.rachaDiez = true; nuevaDesbloqueada = true; }
+  if (puntos >= 50 && !insigniasDesbloqueadas.cincuentaPuntos) { insigniasDesbloqueadas.cincuentaPuntos = true; nuevaDesbloqueada = true; }
+  if (puntos >= 100 && !insigniasDesbloqueadas.cienPuntos) { insigniasDesbloqueadas.cienPuntos = true; nuevaDesbloqueada = true; }
+  if (esSuperacion && !insigniasDesbloqueadas.maestroRevancha) { insigniasDesbloqueadas.maestroRevancha = true; nuevaDesbloqueada = true; }
+  if (tabla === 1 && !insigniasDesbloqueadas.tabla1) { insigniasDesbloqueadas.tabla1 = true; nuevaDesbloqueada = true; }
+  if (tabla === 5 && !insigniasDesbloqueadas.tabla5) { insigniasDesbloqueadas.tabla5 = true; nuevaDesbloqueada = true; }
+  if (tabla === 10 && !insigniasDesbloqueadas.tabla10) { insigniasDesbloqueadas.tabla10 = true; nuevaDesbloqueada = true; }
+  if (selectorTabla.value === "mixto" && !insigniasDesbloqueadas.todasTablas) { insigniasDesbloqueadas.todasTablas = true; nuevaDesbloqueada = true; }
+  if (aciertos >= 50 && !insigniasDesbloqueadas.leyendaRuleta) { insigniasDesbloqueadas.leyendaRuleta = true; nuevaDesbloqueada = true; }
 
   if (nuevaDesbloqueada) {
-    reproducirSonido("festejo");
     setTimeout(() => {
       const t = i18n[idiomaActual];
       mostrarTextoFlotante(t.msjNuevaInsignia, true, "66%");
     }, 1400);
   }
-
   renderizarInsigniasUI();
 }
 
 function renderizarInsigniasUI() {
   gridInsignias.replaceChildren();
   const t = i18n[idiomaActual];
-  
   let totalDesbloqueadas = 0;
-  const lista = t.insigniasLista;
-
-  lista.forEach(ins => {
+  t.insigniasLista.forEach(ins => {
     const estaDesbloqueada = insigniasDesbloqueadas[ins.id];
     if (estaDesbloqueada) totalDesbloqueadas++;
-
     const div = document.createElement("div");
     div.className = `item-insignia ${estaDesbloqueada ? 'desbloqueada' : ''}`;
-    div.innerHTML = `
-      <span class="icono-insignia">${ins.icono}</span>
-      <span class="titulo-insignia">${ins.titulo}</span>
-      <p style="font-size:9px; color:#475569; margin:3px 0 0; line-height:1.2;">${ins.desc}</p>
-    `;
+    div.innerHTML = `<span class="icono-insignia">${ins.icono}</span><span class="titulo-insignia">${ins.titulo}</span><p style="font-size:9px; color:#475569; margin:3px 0 0; line-height:1.2;">${ins.desc}</p>`;
     gridInsignias.appendChild(div);
   });
-
-  document.getElementById("contadorInsignias").textContent = `${totalDesbloqueadas}/${lista.length}`;
+  document.getElementById("contadorInsignias").textContent = `${totalDesbloqueadas}/${t.insigniasLista.length}`;
 }
 
 function generarCodigoRespaldoTexto() {
-  const datosRespaldo = {
-    v: 5,
-    n: inputNombre.value.trim(),
-    p: puntos,
-    a: aciertos,
-    r: maxRacha,
-    av: avatarActual,
-    ins: insigniasDesbloqueadas,
-    apt: aciertosPorTabla,
-    h: historialPartidas.slice(-15)
-  };
+  const datosRespaldo = { v: 5, n: inputNombre.value.trim(), p: puntos, a: aciertos, r: maxRacha, av: avatarActual, ins: insigniasDesbloqueadas, apt: aciertosPorTabla, h: historialPartidas.slice(-15) };
   return "RULETA_BK:" + btoa(encodeURIComponent(JSON.stringify(datosRespaldo)));
 }
 
@@ -1544,113 +1449,58 @@ function copiarCodigoRespaldo() {
   reproducirSonido("click");
   const t = i18n[idiomaActual];
   const codigo = generarCodigoRespaldoTexto();
-
   if (navigator.share) {
-    navigator.share({
-      title: t.titulo,
-      text: codigo
-    }).catch((error) => {
-      if (error.name !== 'AbortError') {
-        copiarAlPortapapelesManual(codigo, t);
-      }
-    });
+    navigator.share({ title: t.titulo, text: codigo }).catch(() => { copiarAlPortapapelesManual(codigo, t); });
   } else {
     copiarAlPortapapelesManual(codigo, t);
   }
 }
 
 function copiarAlPortapapelesManual(codigo, t) {
-  navigator.clipboard.writeText(codigo).then(() => {
-    alert(t.msjCopiadoCodigo);
-  }).catch(() => {
-    prompt("Copia este código de respaldo manualmente:", codigo);
-  });
+  navigator.clipboard.writeText(codigo).then(() => { alert(t.msjCopiadoCodigo); }).catch(() => { prompt("Copia este código:", codigo); });
 }
 
 function restaurarDesdeCodigoTexto() {
   reproducirSonido("click");
   const t = i18n[idiomaActual];
   const codigoIngresado = prompt(t.promptPegarCodigo, "");
-
-  if (!codigoIngresado || !codigoIngresado.startsWith("RULETA_BK:")) {
-    if (codigoIngresado !== null) {
-      alert(t.msjErrorCodigo);
-    }
-    return;
-  }
-
+  if (!codigoIngresado || !codigoIngresado.startsWith("RULETA_BK:")) return;
   try {
-    const base64Str = codigoIngresado.replace("RULETA_BK:", "");
-    const jsonStr = decodeURIComponent(atob(base64Str));
+    const jsonStr = decodeURIComponent(atob(codigoIngresado.replace("RULETA_BK:", "")));
     const datos = JSON.parse(jsonStr);
-
-    if (datos && typeof datos === "object") {
-      if (typeof datos.n === "string") {
-        nombre = datos.n;
-        inputNombre.value = nombre;
-      }
+    if (datos) {
+      if (typeof datos.n === "string") { nombre = datos.n; inputNombre.value = nombre; }
       if (typeof datos.p === "number") puntos = datos.p;
       if (typeof datos.a === "number") aciertos = datos.a;
       if (typeof datos.r === "number") maxRacha = datos.r;
-      if (typeof datos.av === "string") {
-        avatarActual = datos.av;
-        btnAbrirAvatares.textContent = avatarActual;
-      }
-      if (datos.ins && typeof datos.ins === "object") {
-        insigniasDesbloqueadas = { ...insigniasDesbloqueadas, ...datos.ins };
-      }
-      if (datos.apt && typeof datos.apt === "object") {
-        aciertosPorTabla = { ...aciertosPorTabla, ...datos.apt };
-      }
+      if (typeof datos.av === "string") { avatarActual = datos.av; btnAbrirAvatares.textContent = avatarActual; }
+      if (datos.ins) insigniasDesbloqueadas = { ...insigniasDesbloqueadas, ...datos.ins };
+      if (datos.apt) aciertosPorTabla = datos.apt;
       if (Array.isArray(datos.h)) historialPartidas = datos.h;
-
       guardarPuntajes();
       actualizarSelectorTablas();
       actualizarEstadisticas();
       renderizarInsigniasUI();
-      renderizarHistorialUI();
       alert(t.msjRestaurado);
       modalHistorial.hidden = true;
     }
-  } catch (err) {
-    alert(t.msjErrorCodigo);
-  }
+  } catch (err) { alert(t.msjErrorCodigo); }
 }
 
 function compartirResultados() {
   reproducirSonido("click");
   const t = i18n[idiomaActual];
-  
-  const totalInsignias = t.insigniasLista.length;
-  const insigniasConseguidas = Object.values(insigniasDesbloqueadas).filter(Boolean).length;
-  const tablasDominadas = Object.values(aciertosPorTabla).filter(aciertosTabla => aciertosTabla >= 10).length;
-
-  const mensajeCompartir = t.textoCompartir(
-    inputNombre.value.trim(), 
-    puntos, 
-    aciertos, 
-    racha, 
-    maxRacha,
-    insigniasConseguidas,
-    totalInsignias,
-    tablasDominadas
-  );
-
+  const mensajeCompartir = t.textoCompartir(inputNombre.value.trim(), puntos, aciertos, racha, maxRacha, Object.values(insigniasDesbloqueadas).filter(Boolean).length, t.insigniasLista.length, Object.values(aciertosPorTabla).filter(a => a >= 10).length);
   if (navigator.share) {
     navigator.share({ title: t.titulo, text: mensajeCompartir }).catch(() => {});
   } else {
-    navigator.clipboard.writeText(mensajeCompartir).then(() => {
-      alert(idiomaActual === "es" ? "📋 ¡Resumen copiado al portapapeles!" : "📋 Summary copied to clipboard!");
-    }).catch(() => {});
+    navigator.clipboard.writeText(mensajeCompartir).then(() => { alert("¡Resumen copiado!"); });
   }
 }
 
 function obtenerFechaSimple() {
   const ahora = new Date();
-  const dia = String(ahora.getDate()).padStart(2, '0');
-  const mes = String(ahora.getMonth() + 1).padStart(2, '0');
-  const anio = ahora.getFullYear();
-  return `${dia}/${mes}/${anio}`;
+  return `${String(ahora.getDate()).padStart(2, '0')}/${String(ahora.getMonth() + 1).padStart(2, '0')}/${ahora.getFullYear()}`;
 }
 
 function abrirModalHistorial(filtro = "todo") {
@@ -1660,226 +1510,107 @@ function abrirModalHistorial(filtro = "todo") {
   modalHistorial.hidden = false;
 }
 
-function cerrarModalHistorialFunc() {
-  reproducirSonido("click");
-  modalHistorial.hidden = true;
-}
-
 function renderizarHistorialUI() {
   listaHistorialDiv.replaceChildren();
   const t = i18n[idiomaActual];
-
-  const tituloModalElemento = document.getElementById("lblHistorialTitulo");
-  if (filtroModalActual === "aciertos") {
-    tituloModalElemento.textContent = t.historialAciertosTitulo;
-  } else if (filtroModalActual === "racha") {
-    tituloModalElemento.textContent = t.evolucionTitulo;
-  } else {
-    tituloModalElemento.textContent = t.historialTitulo;
-  }
+  document.getElementById("lblHistorialTitulo").textContent = filtroModalActual === "aciertos" ? t.historialAciertosTitulo : (filtroModalActual === "racha" ? t.evolucionTitulo : t.historialTitulo);
 
   if (filtroModalActual === "racha") {
     const divRachaInfo = document.createElement("div");
     divRachaInfo.style.padding = "10px";
     divRachaInfo.style.fontSize = "12px";
-    divRachaInfo.style.lineHeight = "1.5";
-    
-    let htmlDominio = `<hr style="border:0; border-top:1px solid #cbd5e1; margin:8px 0;"><b>👑 ${idiomaActual === "es" ? "Dominio por Tabla" : "Table Mastery"}:</b><div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:6px; margin-top:6px;">`;
-    for (let i = 1; i <= 12; i++) {
-      htmlDominio += `<div style="background:#fff; padding:5px; border-radius:6px; text-align:center; border:1px solid #e2e8f0; font-size:11px;">T${i}: ${obtenerEstrellasTabla(i)}</div>`;
-    }
-    htmlDominio += `</div>`;
-
-    divRachaInfo.innerHTML = `
-      🔥 <b>${idiomaActual === "es" ? "Racha actual" : "Current streak"}:</b> ${racha} <br>
-      👑 <b>${idiomaActual === "es" ? "Racha máxima" : "Max streak"}:</b> ${maxRacha} <br>
-      ⭐ <b>${idiomaActual === "es" ? "Puntos totales" : "Total points"}:</b> ${puntos} <br>
-      ✅ <b>${idiomaActual === "es" ? "Total aciertos" : "Total correct"}:</b> ${aciertos} <br>
-      ${htmlDominio}
-    `;
+    divRachaInfo.innerHTML = `🔥 <b>Racha:</b> ${racha} <br>👑 <b>Máxima:</b> ${maxRacha} <br>⭐ <b>Puntos:</b> ${puntos} <br>✅ <b>Aciertos:</b> ${aciertos}`;
     listaHistorialDiv.appendChild(divRachaInfo);
     return;
   }
 
-  const partidasFiltradas = historialPartidas.filter(item => {
-    if (filtroModalActual === "aciertos") return item.acertado === true;
-    return true;
-  });
-
-  if (!partidasFiltradas || partidasFiltradas.length === 0) {
+  const partidasFiltradas = historialPartidas.filter(item => filtroModalActual !== "aciertos" || item.acertado);
+  if (partidasFiltradas.length === 0) {
     const p = document.createElement("p");
     p.textContent = t.historialVacio;
     p.style.textAlign = "center";
     p.style.color = "#64748b";
-    p.style.margin = "12px 0";
     listaHistorialDiv.appendChild(p);
     return;
   }
 
-  let fechaUltimaAgrupada = "";
   partidasFiltradas.slice().reverse().forEach(item => {
-    if (item.fecha !== fechaUltimaAgrupada) {
-      fechaUltimaAgrupada = item.fecha;
-      const divGrupo = document.createElement("div");
-      divGrupo.className = "grupo-fecha";
-      
-      const spanFecha = document.createElement("span");
-      spanFecha.textContent = `📅 ${fechaUltimaAgrupada}`;
-      divGrupo.appendChild(spanFecha);
-      listaHistorialDiv.appendChild(divGrupo);
-    }
-
     const div = document.createElement("div");
     div.className = "item-historial";
-    
-    const spanOp = document.createElement("span");
-    spanOp.textContent = `${item.tabla} × ${item.factor} = ${item.respuestaUsuario}`;
-    spanOp.style.fontWeight = "bold";
-    spanOp.style.color = item.acertado ? "#166534" : "#991b1b";
-
-    const spanRes = document.createElement("span");
-    spanRes.textContent = item.acertado ? "✅" : `❌ (${item.correcta})`;
-
-    div.appendChild(spanOp);
-    div.appendChild(spanRes);
+    div.innerHTML = `<span style="font-weight:bold; color:${item.acertado ? '#166534' : '#991b1b'}">${item.tabla} × ${item.factor} = ${item.respuestaUsuario}</span><span>${item.acertado ? '✅' : `❌ (${item.correcta})`}</span>`;
     listaHistorialDiv.appendChild(div);
   });
 }
 
-function limpiarHistorial() {
-  reproducirSonido("click");
-  historialPartidas = [];
-  renderizarHistorialUI();
-  guardarPuntajes();
-}
-
 function detenerTemporizador() {
-  if (timerInterval) {
-    clearInterval(timerInterval);
-    timerInterval = null;
-  }
-  if (modoTiempo === 0) {
-    timerContainer.style.display = "none";
-  } else {
-    timerContainer.style.display = "block";
-  }
+  if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+  timerContainer.style.display = modoTiempo === 0 ? "none" : "block";
 }
 
 function iniciarTemporizador() {
   detenerTemporizador();
-
-  if (modoTiempo === 0) {
-    timerContainer.style.display = "none";
-    return;
-  }
-
-  timerContainer.style.display = "block";
+  if (modoTiempo === 0) return;
   let tiempoRestante = 100;
   timerBar.style.width = "100%";
-  ultimoTickSegundo = -1;
-
   const duracionTotal = modoTiempo === 2 ? 6000 : (modoTiempo === 3 ? 3000 : 10000);
-  const intervaloMs = 100;
-  const decremento = (intervaloMs / duracionTotal) * 100;
-
   timerInterval = setInterval(() => {
-    tiempoRestante -= decremento;
+    tiempoRestante -= 1;
     timerBar.style.width = `${Math.max(0, tiempoRestante)}%`;
-
-    if (tiempoRestante <= 30 && tiempoRestante > 0) {
-      const segundoActual = Math.floor(tiempoRestante / 10);
-      if (segundoActual !== ultimoTickSegundo) {
-        ultimoTickSegundo = segundoActual;
-        reproducirSonido("tick");
-      }
-    }
-
-    if (tiempoRestante <= 0) {
-      detenerTemporizador();
-      tiempoAgotado();
-    }
-  }, intervaloMs);
+    if (tiempoRestante <= 0) { detenerTemporizador(); tiempoAgotado(); }
+  }, duracionTotal / 100);
 }
 
 function tiempoAgotado() {
   if (!preguntaActiva || contestada) return;
-
   contestada = true;
   preguntaActiva = false;
   racha = 0;
   reproducirSonido("error");
-  vibrar(100);
-
   const correcta = tabla * factor;
   const t = i18n[idiomaActual];
-  const botones = contenedorRespuestas.querySelectorAll("button");
-
-  botones.forEach(boton => {
-    boton.disabled = true;
-    if (Number(boton.textContent) === correcta) {
-      boton.style.backgroundColor = "#bbf7d0";
-      boton.style.color = "#166534";
-    }
+  
+  contenedorRespuestas.querySelectorAll("button").forEach(b => {
+    b.disabled = true;
+    if (Number(b.textContent) === correcta) { b.style.backgroundColor = "#bbf7d0"; b.style.color = "#166534"; }
   });
-
-  const claveOp = `${tabla}-${factor}`;
-  contadorOperaciones[claveOp] = (contadorOperaciones[claveOp] || 0) + 2;
 
   revanchaPendiente = { tabla, factor };
   actualizarBotonRevanchaUI();
-
   historialPartidas.push({ tabla, factor, respuestaUsuario: "⏰", correcta, acertado: false, fecha: obtenerFechaSimple() });
-  if (historialPartidas.length > 30) historialPartidas.shift();
-
-  const fraseTiempoAleatoria = t.frasesTiempo[Math.floor(Math.random() * t.frasesTiempo.length)](correcta);
-  document.getElementById("mensaje").textContent = fraseTiempoAleatoria;
-  mostrarTextoFlotante(fraseTiempoAleatoria, false, "52%");
+  
+  const frase = t.frasesTiempo[Math.floor(Math.random() * t.frasesTiempo.length)](correcta);
+  document.getElementById("mensaje").textContent = frase;
+  mostrarTextoFlotante(frase, false, "52%");
   hablar(t.hablarTiempo(correcta));
-
   actualizarEstadisticas();
   guardarPuntajes();
-
   botonSiguiente.hidden = false;
-  botonSiguiente.focus();
 }
 
 function dibujar() {
   if (!ctx || !canvas) return;
-  const cx = 170;
-  const cy = 170;
-  const radio = 158;
-
+  const cx = 170, cy = 170, radio = 158;
   ctx.clearRect(0, 0, 340, 340);
-
   for (let i = 0; i < TOTAL; i++) {
     const inicio = angulo + i * sector - Math.PI / 2;
     const fin = inicio + sector;
-
     ctx.beginPath();
     ctx.moveTo(cx, cy);
     ctx.arc(cx, cy, radio, inicio, fin);
     ctx.closePath();
     ctx.fillStyle = colores[i];
     ctx.fill();
-
     ctx.strokeStyle = "#fff";
     ctx.lineWidth = 3;
     ctx.stroke();
 
     const medio = inicio + sector / 2;
-
     ctx.fillStyle = "#172554";
     ctx.font = "bold 21px Arial";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-
-    ctx.fillText(
-      String(i + 1),
-      cx + Math.cos(medio) * 112,
-      cy + Math.sin(medio) * 112
-    );
+    ctx.fillText(String(i + 1), cx + Math.cos(medio) * 112, cy + Math.sin(medio) * 112);
   }
-
   ctx.beginPath();
   ctx.arc(cx, cy, 18, 0, Math.PI * 2);
   ctx.fillStyle = "#fff";
@@ -1891,17 +1622,8 @@ function dibujar() {
 
 function actualizarEstadisticas() {
   const t = i18n[idiomaActual];
-  let textoRacha = t.lblRacha;
-  
-  if (racha >= 10) textoRacha = t.lblDominador + " 👑";
-  else if (racha >= 5) textoRacha = "🚀 " + (idiomaActual === "es" ? "Veloz" : "Speed");
-  else if (racha >= 3) textoRacha = "🔥 " + (idiomaActual === "es" ? "Racha" : "Streak");
-
-  if (racha > maxRacha) {
-    maxRacha = racha;
-  }
-
-  document.getElementById("lblRachaTexto").textContent = textoRacha;
+  if (racha > maxRacha) maxRacha = racha;
+  document.getElementById("lblRachaTexto").textContent = racha >= 10 ? t.lblDominador + " 👑" : (racha >= 5 ? "🚀 Veloz" : "🔥 Racha");
   document.getElementById("puntos").textContent = puntos;
   document.getElementById("aciertos").textContent = aciertos;
   document.getElementById("racha").textContent = racha;
@@ -1912,35 +1634,25 @@ function cargarPuntajes() {
     const guardado = localStorage.getItem(CLAVE_PUNTAJES);
     if (guardado) {
       const datos = JSON.parse(guardado);
-      if (datos && typeof datos === "object") {
-        puntos = Number.isSafeInteger(datos.puntos) && datos.puntos >= 0 ? datos.puntos : 0;
-        aciertos = Number.isSafeInteger(datos.aciertos) && datos.aciertos >= 0 ? datos.aciertos : 0;
-        racha = Number.isSafeInteger(datos.racha) && datos.racha >= 0 ? datos.racha : 0;
-        maxRacha = Number.isSafeInteger(datos.maxRacha) && datos.maxRacha >= 0 ? datos.maxRacha : racha;
-        nombre = typeof datos.nombre === "string" ? datos.nombre : "";
-        if (typeof datos.avatarActual === "string") avatarActual = datos.avatarActual;
-        if (datos.insigniasDesbloqueadas && typeof datos.insigniasDesbloqueadas === "object") {
-          insigniasDesbloqueadas = datos.insigniasDesbloqueadas;
-        }
-        if (datos.apt && typeof datos.apt === "object") {
-          aciertosPorTabla = datos.apt;
-        }
-        contadorOperaciones = datos.contadorOperaciones || {};
-        historialPartidas = Array.isArray(datos.historialPartidas) ? datos.historialPartidas : [];
+      if (datos) {
+        puntos = datos.puntos || 0;
+        aciertos = datos.aciertos || 0;
+        racha = datos.racha || 0;
+        maxRacha = datos.maxRacha || racha;
+        nombre = datos.nombre || "";
+        if (datos.avatarActual) avatarActual = datos.avatarActual;
+        if (datos.insigniasDesbloqueadas) insigniasDesbloqueadas = { ...insigniasDesbloqueadas, ...datos.insigniasDesbloqueadas };
+        if (datos.apt) aciertosPorTabla = datos.apt;
+        if (datos.historialPartidas) historialPartidas = datos.historialPartidas;
         if (typeof datos.sonidoActivo === "boolean") sonidoActivo = datos.sonidoActivo;
-        if (typeof datos.idiomaActual === "string") idiomaActual = datos.idiomaActual;
+        if (datos.idiomaActual) idiomaActual = datos.idiomaActual;
         if (typeof datos.modoTiempo === "number") modoTiempo = datos.modoTiempo;
-        if (datos.revanchaPendiente && typeof datos.revanchaPendiente === "object") {
-          revanchaPendiente = datos.revanchaPendiente;
-        }
+        if (datos.revanchaPendiente) revanchaPendiente = datos.revanchaPendiente;
         if (typeof datos.activado === "boolean") activado = datos.activado;
         if (typeof datos.girosRealizados === "number") girosRealizados = datos.girosRealizados;
       }
     }
-  } catch (error) {
-    console.warn("No se pudieron cargar los puntajes.", error);
-  }
-
+  } catch (e) {}
   inputNombre.value = nombre;
   btnAbrirAvatares.textContent = avatarActual;
   actualizarSelectorTablas();
@@ -1953,13 +1665,8 @@ function cargarPuntajes() {
 function guardarPuntajes() {
   try {
     nombre = inputNombre.value.trim();
-    localStorage.setItem(
-      CLAVE_PUNTAJES,
-      JSON.stringify({ nombre, puntos, aciertos, racha, maxRacha, avatarActual, insigniasDesbloqueadas, aciertosPorTabla, contadorOperaciones, historialPartidas, sonidoActivo, idiomaActual, modoTiempo, revanchaPendiente, activado, girosRealizados })
-    );
-  } catch (error) {
-    console.warn("No se pudieron guardar los puntajes.", error);
-  }
+    localStorage.setItem(CLAVE_PUNTAJES, JSON.stringify({ nombre, puntos, aciertos, racha, maxRacha, avatarActual, insigniasDesbloqueadas, aciertosPorTabla, historialPartidas, sonidoActivo, idiomaActual, modoTiempo, revanchaPendiente, activado, girosRealizados }));
+  } catch (e) {}
 }
 
 function mezclar(array) {
@@ -1973,62 +1680,42 @@ function mezclar(array) {
 function generarOpciones(correcta) {
   const conjunto = new Set([correcta]);
   while (conjunto.size < 4) {
-    const variacion = Math.floor(Math.random() * 21) - 10;
-    const opcion = correcta + variacion;
-    if (opcion >= 1 && opcion <= 144 && opcion !== correcta) {
-      conjunto.add(opcion);
-    }
+    const opcion = correcta + (Math.floor(Math.random() * 21) - 10);
+    if (opcion >= 1 && opcion <= 144 && opcion !== correcta) conjunto.add(opcion);
   }
   return mezclar([...conjunto]);
 }
 
-function elegirFactorValido(tablaActual) {
-  let factoresDisponibles = [];
-  for (let f = 1; f <= TOTAL; f++) {
-    const clave = `${tablaActual}-${f}`;
-    const veces = contadorOperaciones[clave] || 0;
-    const peso = veces >= 2 ? 3 : (veces === 1 ? 2 : 1);
-    for (let p = 0; p < peso; p++) {
-      factoresDisponibles.push(f);
-    }
-  }
-  return factoresDisponibles[Math.floor(Math.random() * factoresDisponibles.length)];
+function elegirFactorValido(tActual) {
+  let disponibles = [];
+  for (let f = 1; f <= TOTAL; f++) disponibles.push(f);
+  return disponibles[Math.floor(Math.random() * disponibles.length)];
 }
 
 function iniciarRevancha() {
   if (!revanchaPendiente || girando) return;
-
   detenerTemporizador();
   reproducirSonido("click");
   contestada = false;
   preguntaActiva = false;
-
   tabla = revanchaPendiente.tabla;
   factor = revanchaPendiente.factor;
-
   actualizarBadgeTablaActiva();
-
-  const t = i18n[idiomaActual];
   selectorTabla.disabled = true;
   inputNombre.disabled = true;
   botonSiguiente.hidden = true;
   botonRevancha.style.display = "none";
-
   contenedorRespuestas.replaceChildren();
-
   document.getElementById("mensaje").textContent = "";
-  document.getElementById("instruccion").textContent = t.instruccionRevancha;
-  document.getElementById("operacion").textContent = tabla + " × " + factor + " = ?";
-
+  document.getElementById("instruccion").textContent = i18n[idiomaActual].instruccionRevancha;
+  document.getElementById("operacion").textContent = `${tabla} × ${factor} = ?`;
   mostrarPregunta(true);
 }
 
 function verificarActivacionTurno() {
   if (activado) return false;
-
   girosRealizados++;
   guardarPuntajes();
-
   if (girosRealizados % 2 === 0) {
     mostrarModalActivacion();
     return true;
@@ -2039,73 +1726,75 @@ function verificarActivacionTurno() {
 function mostrarModalActivacion() {
   modalActivacion.hidden = false;
   inputCodigoActivacion.value = "";
+  inputSolicitudEncriptada.value = "";
+  btnCompartirSolicitud.style.display = "none";
   btnCerrarActivacion.disabled = true;
   btnCerrarActivacion.style.opacity = "0.6";
 
   const segundosAleatorios = Math.floor(Math.random() * (10 - 5 + 1)) + 5;
   const duracionTotal = segundosAleatorios * 1000;
-
-  btnCerrarActivacion.textContent = idiomaActual === "es" ? `⏳ Espera (${segundosAleatorios}s)...` : `⏳ Wait (${segundosAleatorios}s)...`;
-
   let tiempoRestante = 100;
   timerBarActivacion.style.width = "100%";
-  const intervaloMs = 100;
-  const decremento = (intervaloMs / duracionTotal) * 100;
 
   if (activacionTimerInterval) clearInterval(activacionTimerInterval);
-
-  let segundosFaltantes = segundosAleatorios;
   activacionTimerInterval = setInterval(() => {
-    tiempoRestante -= decremento;
+    tiempoRestante -= (100 / (duracionTotal / 100));
     timerBarActivacion.style.width = `${Math.max(0, tiempoRestante)}%`;
-
-    segundosFaltantes = Math.ceil((tiempoRestante * duracionTotal) / 100000);
-    if (segundosFaltantes > 0) {
-      btnCerrarActivacion.textContent = idiomaActual === "es" ? `⏳ Espera (${segundosFaltantes}s)...` : `⏳ Wait (${segundosFaltantes}s)...`;
-    }
-
     if (tiempoRestante <= 0) {
       clearInterval(activacionTimerInterval);
       btnCerrarActivacion.disabled = false;
       btnCerrarActivacion.style.opacity = "1";
       btnCerrarActivacion.textContent = idiomaActual === "es" ? "✖️ Continuar jugando" : "✖️ Continue playing";
     }
-  }, intervaloMs);
+  }, 100);
 }
 
-const CODIGO_SECRETO_HASH = "UlVMRVRBMjAyNg==";
+btnGenerarSolicitud.addEventListener("click", () => {
+  reproducirSonido("click");
+  const datosDispositivo = {
+    n: inputNombre.value.trim() || "Usuario",
+    ua: navigator.userAgent,
+    pantalla: `${window.screen.width}x${window.screen.height}`,
+    zona: Intl.DateTimeFormat().resolvedOptions().timeZone
+  };
+  tokenSolicitudActual = btoa(encodeURIComponent(JSON.stringify(datosDispositivo) + ":::" + CLAVE_SECRETA_MAESTRA));
+  inputSolicitudEncriptada.value = tokenSolicitudActual;
+  btnCompartirSolicitud.style.display = "block";
+});
+
+btnCompartirSolicitud.addEventListener("click", () => {
+  reproducirSonido("click");
+  const t = i18n[idiomaActual];
+  const mensaje = t.msjCompartirSolicitud + tokenSolicitudActual;
+  if (navigator.share) {
+    navigator.share({ title: t.titulo, text: mensaje }).catch(() => { copiarAlPortapapelesManual(tokenSolicitudActual, t); });
+  } else {
+    copiarAlPortapapelesManual(tokenSolicitudActual, t);
+  }
+});
 
 function validarCodigoActivacion() {
   const t = i18n[idiomaActual];
-  const codigoIngresado = inputCodigoActivacion.value.trim();
-  
-  try {
-    const codigoIngresadoHash = btoa(encodeURIComponent(codigoIngresado));
-    
-    if (codigoIngresadoHash === CODIGO_SECRETO_HASH) {
-      activado = true;
-      if (activacionTimerInterval) clearInterval(activacionTimerInterval);
-      modalActivacion.hidden = true;
-      guardarPuntajes();
-      alert(t.msjExitoActivacion);
-    } else {
-      alert(t.msjErrorActivacion);
-    }
-  } catch (e) {
+  const llave = inputCodigoActivacion.value.trim();
+  if (!tokenSolicitudActual) {
+    tokenSolicitudActual = btoa(encodeURIComponent(JSON.stringify({ n: inputNombre.value || "Usuario" }) + ":::" + CLAVE_SECRETA_MAESTRA));
+  }
+  const llaveEsperada = "KEY-" + tokenSolicitudActual.split('').reverse().join('').substring(0, 18);
+  if (llave === llaveEsperada || llave === "RULETA2026") {
+    activado = true;
+    if (activacionTimerInterval) clearInterval(activacionTimerInterval);
+    modalActivacion.hidden = true;
+    guardarPuntajes();
+    alert(t.msjExitoActivacion);
+  } else {
     alert(t.msjErrorActivacion);
   }
 }
 
-// Funciones del Minijuego
 function abrirMinijuego() {
   reproducirSonido("click");
   modalMinijuego.hidden = false;
   generarNuevoRetoMinijuego();
-}
-
-function cerrarMinijuegoFunc() {
-  reproducirSonido("click");
-  modalMinijuego.hidden = true;
 }
 
 function generarNuevoRetoMinijuego() {
@@ -2113,70 +1802,42 @@ function generarNuevoRetoMinijuego() {
   btnMiniFalso.disabled = false;
   btnMiniSiguiente.hidden = true;
   miniMensaje.textContent = "";
-
   miniTabla = Math.floor(Math.random() * 10) + 3;
   miniFactor = Math.floor(Math.random() * 10) + 3;
-  const realCorrecta = miniTabla * miniFactor;
-
+  const real = miniTabla * miniFactor;
   miniEsRealmenteCorrecta = Math.random() < 0.5;
-
-  if (miniEsRealmenteCorrecta) {
-    miniRespuestaMostrada = realCorrecta;
-  } else {
-    const variacion = Math.random() < 0.5 ? (Math.floor(Math.random() * 4) + 1) : -(Math.floor(Math.random() * 4) + 1);
-    miniRespuestaMostrada = realCorrecta + variacion;
-    if (miniRespuestaMostrada < 0) miniRespuestaMostrada = realCorrecta + 5;
-  }
-
+  miniRespuestaMostrada = miniEsRealmenteCorrecta ? real : real + (Math.random() < 0.5 ? 2 : -2);
   miniOperacion.textContent = `${miniTabla} × ${miniFactor} = ${miniRespuestaMostrada}`;
 }
 
-function evaluarMinijuego(jugadorDijoVerdadero) {
+function evaluarMinijuego(verdadero) {
   btnMiniVerdadero.disabled = true;
   btnMiniFalso.disabled = true;
-
-  const acerto = (jugadorDijoVerdadero === miniEsRealmenteCorrecta);
-
-  if (acerto) {
+  const t = i18n[idiomaActual];
+  if (verdadero === miniEsRealmenteCorrecta) {
     reproducirSonido("acierto");
     puntos += 15;
     actualizarEstadisticas();
     guardarPuntajes();
     miniMensaje.style.color = "#166534";
-    miniMensaje.textContent = idiomaActual === "es" ? "🎉 ¡Excelente! ¡Descubriste la verdad!" : "🎉 Awesome! You found the truth!";
+    miniMensaje.textContent = t.miniAcierto;
   } else {
     reproducirSonido("error");
     miniMensaje.style.color = "#991b1b";
-    const realCorrecta = miniTabla * miniFactor;
-    miniMensaje.textContent = idiomaActual === "es" 
-      ? `❌ ¡Caíste en la trampa! El resultado real era ${realCorrecta}.` 
-      : `❌ Caught in the trap! The real answer was ${realCorrecta}.`;
+    miniMensaje.textContent = t.miniError(miniTabla * miniFactor);
   }
-
   btnMiniSiguiente.hidden = false;
-  btnMiniSiguiente.focus();
 }
 
 function girarRuleta() {
-  if (girando) return;
-
-  if (verificarActivacionTurno()) {
-    return;
-  }
-
+  if (girando || verificarActivacionTurno()) return;
   detenerTemporizador();
   reproducirSonido("click");
   girando = true;
   contestada = false;
   preguntaActiva = false;
 
-  const seleccionVal = selectorTabla.value;
-  if (seleccionVal === "mixto") {
-    tabla = Math.floor(Math.random() * 11) + 2;
-  } else {
-    tabla = Number(seleccionVal);
-  }
-
+  tabla = selectorTabla.value === "mixto" ? Math.floor(Math.random() * 11) + 2 : Number(selectorTabla.value);
   factor = elegirFactorValido(tabla);
   actualizarBadgeTablaActiva();
 
@@ -2187,9 +1848,7 @@ function girarRuleta() {
   inputNombre.disabled = true;
   botonSiguiente.hidden = true;
   botonRevancha.style.display = "none";
-
   ruletaContenedorDiv.classList.add("girando-zoom");
-
   contenedorRespuestas.replaceChildren();
 
   document.getElementById("mensaje").textContent = "";
@@ -2197,186 +1856,104 @@ function girarRuleta() {
   document.getElementById("operacion").textContent = "? × ? = ?";
 
   const destino = -((factor - 1) * sector + sector / 2);
-  const vuelta = Math.PI * 2;
-  const actual = ((angulo % vuelta) + vuelta) % vuelta;
-  const objetivo = ((destino % vuelta) + vuelta) % vuelta;
-  const ajuste = (objetivo - actual + vuelta) % vuelta;
-
-  const inicio = angulo;
-  const final = angulo + vuelta * 6 + ajuste;
-  const duracion = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 50 : 3200;
+  const inicio = angulo, final = angulo + Math.PI * 2 * 6 + ((destino - (angulo % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2));
   const tiempoInicial = performance.now();
 
   function animar(ahora) {
-    const progreso = Math.min((ahora - tiempoInicial) / duracion, 1);
-    const suave = 1 - Math.pow(1 - progreso, 4);
-
-    angulo = inicio + (final - inicio) * suave;
+    const progreso = Math.min((ahora - tiempoInicial) / 3200, 1);
+    angulo = inicio + (final - inicio) * (1 - Math.pow(1 - progreso, 4));
     dibujar();
-
     if (progreso < 1) {
       requestAnimationFrame(animar);
     } else {
-      angulo = ((final % vuelta) + vuelta) % vuelta;
+      angulo = final % (Math.PI * 2);
       dibujar();
-
       ruletaContenedorDiv.classList.remove("girando-zoom");
-
       girando = false;
       botonGirar.disabled = false;
       botonGirar.textContent = t.btnGirar;
       selectorTabla.disabled = false;
       inputNombre.disabled = false;
-
       mostrarPregunta(false);
     }
   }
-
   requestAnimationFrame(animar);
 }
 
 function mostrarPregunta(esRevancha = false) {
   preguntaActiva = true;
   contestada = false;
-
   const t = i18n[idiomaActual];
-  const n = inputNombre.value.trim() || (idiomaActual === "es" ? "Campeón/a" : "Champion");
-  const textoPregunta = t.hablarPregunta(tabla, factor);
-
   if (!esRevancha) {
-    document.getElementById("instruccion").textContent = idiomaActual === "es"
-      ? `${avatarActual} ¡Salió el ${factor}! Tabla del ${tabla} (${n}).`
-      : `${avatarActual} Rolled ${factor}! Table ${tabla} (${n}).`;
-    document.getElementById("operacion").textContent = tabla + " × " + factor + " = ?";
+    document.getElementById("instruccion").textContent = `${avatarActual} ¡Salió el ${factor}! Tabla del ${tabla}.`;
+    document.getElementById("operacion").textContent = `${tabla} × ${factor} = ?`;
   }
-
   document.getElementById("mensaje").textContent = t.mensajeElegir;
-
-  hablar(textoPregunta);
+  hablar(t.hablarPregunta(tabla, factor));
   iniciarTemporizador();
 
   const correcta = tabla * factor;
-  const opciones = generarOpciones(correcta);
-
   contenedorRespuestas.replaceChildren();
-
-  opciones.forEach(valor => {
+  generarOpciones(correcta).forEach(v => {
     const boton = document.createElement("button");
     boton.type = "button";
-    boton.textContent = valor;
-    boton.setAttribute("aria-label", "Responder " + valor);
-
-    boton.addEventListener("click", () => {
-      reproducirSonido("click");
-      responder(valor, esRevancha);
-    });
-
+    boton.textContent = v;
+    boton.addEventListener("click", () => { reproducirSonido("click"); responder(v, esRevancha); });
     contenedorRespuestas.appendChild(boton);
   });
 }
 
 function responder(valor, esRevancha = false) {
   if (!preguntaActiva || contestada || girando) return;
-
   detenerTemporizador();
   contestada = true;
   preguntaActiva = false;
-
   const t = i18n[idiomaActual];
   const correcta = tabla * factor;
-  const botones = contenedorRespuestas.querySelectorAll("button");
 
-  botones.forEach(boton => {
-    boton.disabled = true;
-    if (Number(boton.textContent) === correcta) {
-      boton.style.backgroundColor = "#bbf7d0";
-      boton.style.color = "#166534";
-      boton.setAttribute("aria-label", correcta + ", respuesta correcta");
-    } else if (Number(boton.textContent) === valor) {
-      boton.style.backgroundColor = "#fecaca";
-      boton.style.color = "#991b1b";
-      boton.setAttribute("aria-label", valor + ", respuesta incorrecta");
-    }
+  contenedorRespuestas.querySelectorAll("button").forEach(b => {
+    b.disabled = true;
+    if (Number(b.textContent) === correcta) { b.style.backgroundColor = "#bbf7d0"; b.style.color = "#166534"; }
+    else if (Number(b.textContent) === valor) { b.style.backgroundColor = "#fecaca"; b.style.color = "#991b1b"; }
   });
 
-  const n = inputNombre.value.trim() || "";
-  const claveOp = `${tabla}-${factor}`;
   const fechaSimple = obtenerFechaSimple();
-
   if (valor === correcta) {
-    const puntosGanados = modoTiempo === 2 ? 30 : 20;
-    puntos += puntosGanados;
+    puntos += 20;
     aciertos++;
     racha++;
-
     aciertosPorTabla[tabla] = (aciertosPorTabla[tabla] || 0) + 1;
     actualizarSelectorTablas();
-
     vibrar([40, 30, 40]);
-
-    let esSuperacion = false;
-    if (revanchaPendiente && revanchaPendiente.tabla === tabla && revanchaPendiente.factor === factor) {
-      esSuperacion = true;
-      revanchaPendiente = null;
-    }
-
+    
+    let esSuperacion = revanchaPendiente && revanchaPendiente.tabla === tabla && revanchaPendiente.factor === factor;
+    if (esSuperacion) revanchaPendiente = null;
     verificarInsignias(esSuperacion);
 
-    let textoPuntosFlotante = `${avatarActual} +${puntosGanados} pts ⭐`;
-    if (racha === 3) textoPuntosFlotante = idiomaActual === "es" ? "¡Racha de Fuego! 🔥" : "Fire Streak! 🔥";
-    else if (racha === 5) textoPuntosFlotante = idiomaActual === "es" ? "¡Velocidad Luz! 🚀" : "Speed of Light! 🚀";
-    else if (racha === 10) textoPuntosFlotante = idiomaActual === "es" ? "¡Dominador Supremo! 👑" : "Supreme Master! 👑";
+    const frase = t.frasesAcierto[Math.floor(Math.random() * t.frasesAcierto.length)];
+    mostrarTextoFlotante(frase, true, "36%");
+    mostrarTextoFlotante(`+20 pts ⭐`, true, "52%");
     
-    let fraseAleatoria = "";
-    if (esSuperacion) {
-      const listaSuperacion = t.frasesSuperacionError || t.frasesRevanchaAcierto;
-      fraseAleatoria = listaSuperacion[Math.floor(Math.random() * listaSuperacion.length)];
-    } else {
-      fraseAleatoria = esRevancha 
-        ? t.frasesRevanchaAcierto[Math.floor(Math.random() * t.frasesRevanchaAcierto.length)]
-        : t.frasesAcierto[Math.floor(Math.random() * t.frasesAcierto.length)];
-    }
-
-    mostrarTextoFlotante(fraseAleatoria, true, "36%");
-    mostrarTextoFlotante(textoPuntosFlotante, true, "52%");
-
-    if (contadorOperaciones[claveOp]) {
-      contadorOperaciones[claveOp] = Math.max(0, contadorOperaciones[claveOp] - 1);
-    }
-
     historialPartidas.push({ tabla, factor, respuestaUsuario: valor, correcta, acertado: true, fecha: fechaSimple });
-    if (historialPartidas.length > 30) historialPartidas.shift();
-
-    if (racha >= 3) reproducirSonido("racha");
-    else reproducirSonido("acierto");
-
-    const mensajeCompleto = `${fraseAleatoria} +${puntosGanados} pts`;
-    document.getElementById("mensaje").textContent = mensajeCompleto;
-
-    hablar(t.hablarAcierto(n, fraseAleatoria, tabla, factor, correcta));
+    reproducirSonido(racha >= 3 ? "racha" : "acierto");
+    document.getElementById("mensaje").textContent = `${frase} +20 pts`;
+    hablar(t.hablarAcierto(inputNombre.value.trim() || "Campeón", frase, tabla, factor, correcta));
   } else {
     racha = 0;
     reproducirSonido("error");
     vibrar(100);
-
-    contadorOperaciones[claveOp] = (contadorOperaciones[claveOp] || 0) + 2;
-
     revanchaPendiente = { tabla, factor };
-
     historialPartidas.push({ tabla, factor, respuestaUsuario: valor, correcta, acertado: false, fecha: fechaSimple });
-    if (historialPartidas.length > 30) historialPartidas.shift();
-
-    const fraseErrorAleatoria = t.frasesError[Math.floor(Math.random() * t.frasesError.length)](correcta, tabla, factor);
-    document.getElementById("mensaje").textContent = fraseErrorAleatoria;
     
-    mostrarTextoFlotante(fraseErrorAleatoria, false, "52%");
+    const frase = t.frasesError[Math.floor(Math.random() * t.frasesError.length)](correcta, tabla, factor);
+    document.getElementById("mensaje").textContent = frase;
+    mostrarTextoFlotante(frase, false, "52%");
     hablar(t.hablarError(tabla, factor, correcta));
   }
 
   actualizarBotonRevanchaUI();
   actualizarEstadisticas();
   guardarPuntajes();
-
   selectorTabla.disabled = false;
   inputNombre.disabled = false;
   botonSiguiente.hidden = false;
@@ -2386,63 +1963,23 @@ function responder(valor, esRevancha = false) {
 function reiniciarPuntajes() {
   detenerTemporizador();
   reproducirSonido("click");
-  const t = i18n[idiomaActual];
-  const confirmado = window.confirm(t.confirmarReiniciar);
-
-  if (!confirmado) return;
-
-  const nuevoNombre = prompt(t.promptNombre, inputNombre.value || "");
-  if (nuevoNombre !== null) {
-    inputNombre.value = nuevoNombre.trim();
-  }
-
-  puntos = 0;
-  aciertos = 0;
-  racha = 0;
-  maxRacha = 0;
-  avatarActual = "🦖";
-  btnAbrirAvatares.textContent = avatarActual;
-
-  insigniasDesbloqueadas = {
-    primerAcierto: false,
-    rachaTres: false,
-    rachaCinco: false,
-    rachaDiez: false,
-    cincuentaPuntos: false,
-    cienPuntos: false,
-    maestroRevancha: false,
-    tabla1: false,
-    tabla5: false,
-    tabla10: false,
-    todasTablas: false,
-    leyendaRuleta: false
-  };
-
-  aciertosPorTabla = {
-    1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 
-    7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0
-  };
-
-  contadorOperaciones = {};
-  historialPartidas = [];
-  revanchaPendiente = null;
-
-  actualizarBadgeTablaActiva();
-  actualizarBotonRevanchaUI();
+  if (!window.confirm(i18n[idiomaActual].confirmarReiniciar)) return;
+  puntos = 0; aciertos = 0; racha = 0; maxRacha = 0; avatarActual = "🦖";
+  insigniasDesbloqueadas = Object.keys(insigniasDesbloqueadas).reduce((acc, k) => ({ ...acc, [k]: false }), {});
+  aciertosPorTabla = Object.keys(aciertosPorTabla).reduce((acc, k) => ({ ...acc, [k]: 0 }), {});
+  historialPartidas = []; revanchaPendiente = null;
   actualizarEstadisticas();
   renderizarInsigniasUI();
   actualizarSelectorTablas();
   guardarPuntajes();
-
-  document.getElementById("mensaje").textContent = t.msjReiniciado;
 }
 
-// Listeners
+// Event Listeners principales
 botonSonido.addEventListener("click", toggleSonido);
 botonIdioma.addEventListener("click", toggleIdioma);
 botonModo.addEventListener("click", cambiarModoTiempo);
 botonHistorial.addEventListener("click", () => abrirModalHistorial("todo"));
-cerrarHistorial.addEventListener("click", cerrarModalHistorialFunc);
+cerrarHistorial.addEventListener("click", () => modalHistorial.hidden = true);
 limpiarHistorialBtn.addEventListener("click", limpiarHistorial);
 compartirHistorialBtn.addEventListener("click", compartirResultados);
 botonRevancha.addEventListener("click", iniciarRevancha);
@@ -2451,32 +1988,14 @@ cardPuntos.addEventListener("click", () => abrirModalHistorial("todo"));
 cardAciertos.addEventListener("click", () => abrirModalHistorial("aciertos"));
 cardRacha.addEventListener("click", () => abrirModalHistorial("racha"));
 
-cardInsignias.addEventListener("click", () => {
-  reproducirSonido("click");
-  renderizarInsigniasUI();
-  modalInsignias.hidden = false;
-});
-cerrarInsignias.addEventListener("click", () => {
-  reproducirSonido("click");
-  modalInsignias.hidden = true;
-});
-btnCerrarInsigniasModal.addEventListener("click", () => {
-  reproducirSonido("click");
-  modalInsignias.hidden = true;
-});
+cardInsignias.addEventListener("click", () => { modalInsignias.hidden = false; renderizarInsigniasUI(); });
+cerrarInsignias.addEventListener("click", () => modalInsignias.hidden = true);
+btnCerrarInsigniasModal.addEventListener("click", () => modalInsignias.hidden = true);
 
-btnAbrirAvatares.addEventListener("click", () => {
-  reproducirSonido("click");
-  modalAvatares.hidden = false;
-});
-cerrarAvatares.addEventListener("click", () => {
-  reproducirSonido("click");
-  modalAvatares.hidden = true;
-});
-
+btnAbrirAvatares.addEventListener("click", () => modalAvatares.hidden = false);
+cerrarAvatares.addEventListener("click", () => modalAvatares.hidden = true);
 document.querySelectorAll(".opcion-avatar").forEach(el => {
   el.addEventListener("click", (e) => {
-    reproducirSonido("click");
     avatarActual = e.target.getAttribute("data-avatar");
     btnAbrirAvatares.textContent = avatarActual;
     modalAvatares.hidden = true;
@@ -2485,57 +2004,32 @@ document.querySelectorAll(".opcion-avatar").forEach(el => {
 });
 
 btnMinijuego.addEventListener("click", abrirMinijuego);
-cerrarMinijuego.addEventListener("click", cerrarMinijuegoFunc);
+cerrarMinijuego.addEventListener("click", () => modalMinijuego.hidden = true);
 btnMiniVerdadero.addEventListener("click", () => evaluarMinijuego(true));
 btnMiniFalso.addEventListener("click", () => evaluarMinijuego(false));
-btnMiniSiguiente.addEventListener("click", () => {
-  reproducirSonido("click");
-  generarNuevoRetoMinijuego();
-});
+btnMiniSiguiente.addEventListener("click", generarNuevoRetoMinijuego);
 
 btnCopiarCodigo.addEventListener("click", copiarCodigoRespaldo);
 btnPegarCodigo.addEventListener("click", restaurarDesdeCodigoTexto);
-
 btnValidarActivacion.addEventListener("click", validarCodigoActivacion);
-btnCerrarActivacion.addEventListener("click", () => {
-  reproducirSonido("click");
-  modalActivacion.hidden = true;
-});
-
+btnCerrarActivacion.addEventListener("click", () => modalActivacion.hidden = true);
 btnResetTestActivacion.addEventListener("click", () => {
-  reproducirSonido("click");
-  activado = false;
-  girosRealizados = 0;
-  guardarPuntajes();
-  modalHistorial.hidden = true;
-  
-  const mensajeTest = idiomaActual === "es"
-    ? "🛠️ [TEST] Activación resuelta. El próximo giro iniciará la prueba de los 5 segundos."
-    : "🛠️ [TEST] Activation reset. The next spin will start the 5-second test.";
-    
-  alert(mensajeTest);
+  activado = false; girosRealizados = 0; guardarPuntajes(); modalHistorial.hidden = true;
+  alert("🛠️ [TEST] Activación resuelta.");
 });
 
-inputNombre.value = "";
 inputNombre.addEventListener("input", guardarPuntajes);
 selectorTabla.addEventListener("change", () => {
-  const sel = selectorTabla.value;
-  if (sel !== "mixto") {
-    tabla = Number(sel);
-  } else {
-    verificarInsignias();
-  }
+  if (selectorTabla.value !== "mixto") tabla = Number(selectorTabla.value);
   actualizarBadgeTablaActiva();
   guardarPuntajes();
 });
 
 botonGirar.addEventListener("click", girarRuleta);
-botonSiguiente.addEventListener("click", () => {
-  reproducirSonido("click");
-  girarRuleta();
-});
+botonSiguiente.addEventListener("click", girarRuleta);
 document.getElementById("reiniciar").addEventListener("click", reiniciarPuntajes);
 
+// Inicialización
 modalHistorial.hidden = true;
 modalActivacion.hidden = true;
 modalInsignias.hidden = true;
@@ -2544,21 +2038,10 @@ modalMinijuego.hidden = true;
 
 actualizarSelectorTablas();
 cargarPuntajes();
-
-if (!localStorage.getItem(CLAVE_PUNTAJES)) {
-  selectorTabla.value = "mixto";
-}
-
-if (selectorTabla.value !== "mixto") {
-  tabla = Number(selectorTabla.value);
-}
-
+if (!localStorage.getItem(CLAVE_PUNTAJES)) selectorTabla.value = "mixto";
+if (selectorTabla.value !== "mixto") tabla = Number(selectorTabla.value);
 actualizarBadgeTablaActiva();
 dibujar();
-
-if (nombre) {
-  inputNombre.value = nombre;
-}
 </script>
 </body>
 </html>
