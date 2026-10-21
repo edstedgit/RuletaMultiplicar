@@ -454,17 +454,6 @@
       background: #f8fafc;
     }
 
-    .grupo-fecha {
-      font-weight: bold;
-      color: #1d4ed8;
-      background: #dbeafe;
-      padding: 4px 8px;
-      margin-top: 6px;
-      margin-bottom: 4px;
-      border-radius: 6px;
-      font-size: 10px;
-    }
-
     .item-historial {
       padding: 6px 8px;
       border-bottom: 1px solid #e2e8f0;
@@ -527,17 +516,18 @@
     .grid-avatares {
       display: flex;
       justify-content: center;
-      gap: 12px;
-      margin: 10px 0;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 8px 0;
     }
 
     .opcion-avatar {
-      font-size: 32px;
+      font-size: 28px;
       background: #f1f5f9;
       border: 2px solid #cbd5e1;
       border-radius: 50%;
-      width: 50px;
-      height: 50px;
+      width: 44px;
+      height: 44px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -584,6 +574,16 @@
       100% { transform: translateY(100dvh) rotate(720deg); opacity: 0; }
     }
 
+    @keyframes pulsoUrgente {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.04); background: #ffe4e6; }
+      100% { transform: scale(1); }
+    }
+
+    .frenesi-alerta {
+      animation: pulsoUrgente 0.4s infinite ease-in-out;
+    }
+
     @media (hover: hover) {
       .respuestas button:not(:disabled):hover {
         background: #bfdbfe;
@@ -601,7 +601,7 @@
   <div class="header-fila-superior">
     <div class="grupo-controles">
       <button id="toggleIdioma" class="btn-control" type="button" aria-label="Cambiar idioma">🇪🇸</button>
-      <button id="toggleModo" class="btn-control" type="button" aria-label="Modo de tiempo">⏱️</button>
+      <button id="toggleModo" class="btn-control" type="button" aria-label="Modo de tiempo">🚫</button>
     </div>
     
     <div class="titulo-contenedor">
@@ -624,9 +624,14 @@
       <label for="tablaElegida" id="lblTabla">Tab:</label>
       <select id="tablaElegida"></select>
     </div>
-    <button id="btnMinijuego" class="btn-minijuego-compacto" type="button" title="Minijuego: ¿Correcto o Trampa?">
-      🕵️‍♂️
-    </button>
+    <div style="display:flex; gap:2px;">
+      <button id="btnMinijuego" class="btn-minijuego-compacto" type="button" title="Minijuego: ¿Correcto o Trampa?">
+        🕵️‍♂️
+      </button>
+      <button id="btnModoDesafio" class="btn-minijuego-compacto" type="button" title="Desafío Relámpago (60s)" style="background:#ec4899; border-color:#fbcfe8;">
+        ⚡
+      </button>
+    </div>
     <div class="badge-tabla-actual" aria-label="Tabla actual del turno">
       <span class="badge-label" id="lblBadgeTabla">Tabla</span>
       <span class="badge-value" id="valBadgeTabla">3</span>
@@ -676,13 +681,13 @@
       <span id="lblAciertos">✅ Aciertos</span>
       <strong id="aciertos">0</strong>
     </div>
-    <div id="cardRacha" role="button" tabindex="0" aria-label="Ver resumen de racha y evolución">
+    <div id="cardRacha" role="button" tabindex="0" aria-label="Ver resumen de racha y categoría">
       <span id="lblRacha"><span id="lblRachaTexto">🔥 Racha</span></span>
       <strong id="racha">0</strong>
     </div>
     <div id="cardInsignias" role="button" tabindex="0" aria-label="Ver logros e insignias">
       <span id="lblInsignias">🏆 Logros</span>
-      <strong id="contadorInsignias">0/12</strong>
+      <strong id="contadorInsignias">0/15</strong>
     </div>
   </div>
 
@@ -696,7 +701,7 @@
   <div id="modalInsignias" class="modal-historial" hidden>
     <div class="modal-contenido">
       <div class="modal-header">
-        <span id="lblInsigniasTitulo">🏆 Tus Medallas y Logros (12)</span>
+        <span id="lblInsigniasTitulo">🏆 Tus Medallas y Logros (15)</span>
         <button id="cerrarInsignias" type="button" style="background:#e2e8f0; border-radius:50%; width:28px; height:28px; font-size:12px; font-weight:bold;">✕</button>
       </div>
       <div id="gridInsignias" class="grid-insignias"></div>
@@ -704,20 +709,19 @@
     </div>
   </div>
 
-  <!-- Modal Selector de Avatar -->
+  <!-- Modal Selector de Avatar y Tienda -->
   <div id="modalAvatares" class="modal-historial" hidden>
     <div class="modal-contenido">
       <div class="modal-header">
         <span id="lblAvatarTitulo">👤 Elige tu Personaje</span>
         <button id="cerrarAvatares" type="button" style="background:#e2e8f0; border-radius:50%; width:28px; height:28px; font-size:12px; font-weight:bold;">✕</button>
       </div>
-      <p id="lblAvatarSub" style="font-size: 12px; color: #475569; text-align: center; margin: 6px 0;">¡Selecciona con quién quieres jugar hoy!</p>
-      <div class="grid-avatares">
-        <div class="opcion-avatar" data-avatar="🦖">🦖</div>
-        <div class="opcion-avatar" data-avatar="🚀">🚀</div>
-        <div class="opcion-avatar" data-avatar="🦉">🦉</div>
-        <div class="opcion-avatar" data-avatar="🤖">🤖</div>
-      </div>
+      <p id="lblAvatarSub" style="font-size: 12px; color: #475569; text-align: center; margin: 2px 0;">¡Selecciona con quién quieres jugar hoy!</p>
+      <div class="grid-avatares"></div>
+      
+      <hr style="border:0; border-top:1px solid #e2e8f0; margin: 8px 0;">
+      <p id="lblTiendaTitulo" style="font-size: 12px; font-weight: bold; color: #1e3a8a; text-align: center; margin: 2px 0;">🛒 Tienda de Avatares</p>
+      <div id="gridTiendaAvatares" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; max-height: 120px; overflow-y: auto; padding: 2px;"></div>
     </div>
   </div>
 
@@ -754,6 +758,38 @@
     </div>
   </div>
 
+  <!-- Modal de Desafío Relámpago (60s) Super Emocionante -->
+  <div id="modalDesafio" class="modal-historial" hidden>
+    <div class="modal-contenido" style="text-align: center;" id="modalDesafioContenido">
+      <div class="modal-header">
+        <span id="lblDesafioTitulo">⚡ ¡DESAFÍO RELÁMPAGO 60s! ⚡</span>
+        <button id="cerrarDesafio" type="button" style="background:#e2e8f0; border-radius:50%; width:28px; height:28px; font-size:12px; font-weight:bold;">✕</button>
+      </div>
+
+      <div id="desafioPanelEstado" style="display:flex; justify-content:space-between; align-items:center; background:#fdf2f8; padding:6px 10px; border-radius:8px; border:1.5px solid #fbcfe8; margin-bottom:6px;">
+        <span id="lblDesafioTiempo" style="font-size:13px; font-weight:extrabold; color:#db2777;">⏱️ 60s</span>
+        <span id="lblDesafioFrenesi" style="font-size:11px; font-weight:bold; color:#7c3aed;">🔥 Racha: 0</span>
+        <span id="lblDesafioScore" style="font-size:13px; font-weight:extrabold; color:#be185d;">⭐ 0</span>
+      </div>
+
+      <div class="timer-container" style="margin-bottom:8px; height:7px;">
+        <div class="timer-bar" id="timerBarDesafio" style="width:100%; background: linear-gradient(90deg, #ec4899, #be185d);"></div>
+      </div>
+
+      <div id="desafioOperacion" style="font-size: 34px; font-weight: 900; margin: 12px 0; color: #1e3a8a; letter-spacing: 1px;">
+        ? × ? = ?
+      </div>
+
+      <div id="desafioRespuestas" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px;"></div>
+      
+      <div id="desafioMensaje" style="font-size: 13px; font-weight: bold; min-height: 22px; margin: 4px 0;"></div>
+      
+      <button id="btnIniciarDesafio" class="principal btn-modal-accion" type="button" style="background: #ec4899; margin-top:4px; font-size: 15px; padding: 12px;">
+        🚀 ¡COMENZAR FRENESÍ!
+      </button>
+    </div>
+  </div>
+
   <div id="modalHistorial" class="modal-historial" hidden>
     <div class="modal-contenido">
       <div class="modal-header">
@@ -772,7 +808,7 @@
     </div>
   </div>
 
-  <!-- Modal de Activación con Solicitud Encriptada y Compartir -->
+  <!-- Modal de Activación -->
   <div id="modalActivacion" class="modal-historial" hidden>
     <div class="modal-contenido" style="text-align: center;">
       <div class="modal-header">
@@ -799,10 +835,6 @@
     </div>
   </div>
 </main>
-
-<audio id="audioFuerzaSilencio" preload="auto" loop style="display:none;">
-  <source src="data:audio/mp3;base64,//uQxAAAAAAAAAAAAAAAAAAAAAAASW5mbwAAAA8AAAAEAAABhQCCg4SFjY+Sk5SVlpeZmpsbHh8gISIjJCUmJygpKissLS4vMDEyMzQ1Njc4Ojs8PT5AQUJDREVGR0hJSYqKyw==" type="audio/mp3">
-</audio>
 
 <script>
 "use strict";
@@ -851,6 +883,19 @@ const btnMiniSiguiente = document.getElementById("btnMiniSiguiente");
 const miniOperacion = document.getElementById("miniOperacion");
 const miniMensaje = document.getElementById("miniMensaje");
 
+const modalDesafio = document.getElementById("modalDesafio");
+const modalDesafioContenido = document.getElementById("modalDesafioContenido");
+const btnModoDesafio = document.getElementById("btnModoDesafio");
+const cerrarDesafio = document.getElementById("cerrarDesafio");
+const btnIniciarDesafio = document.getElementById("btnIniciarDesafio");
+const desafioOperacion = document.getElementById("desafioOperacion");
+const desafioRespuestas = document.getElementById("desafioRespuestas");
+const desafioMensaje = document.getElementById("desafioMensaje");
+const timerBarDesafio = document.getElementById("timerBarDesafio");
+const lblDesafioTiempo = document.getElementById("lblDesafioTiempo");
+const lblDesafioScore = document.getElementById("lblDesafioScore");
+const lblDesafioFrenesi = document.getElementById("lblDesafioFrenesi");
+
 const btnCopiarCodigo = document.getElementById("btnCopiarCodigo");
 const btnPegarCodigo = document.getElementById("btnPegarCodigo");
 const btnResetTestActivacion = document.getElementById("btnResetTestActivacion");
@@ -873,9 +918,16 @@ let girosRealizados = 0;
 let activacionTimerInterval = null;
 
 let avatarActual = "🦖";
+let avataresDesbloqueados = ["🦖", "🚀", "🦉", "🤖"];
+let catalogoTienda = [
+  { avatar: "🦁", costo: 100 },
+  { avatar: "🧙‍♂️", costo: 250 },
+  { avatar: "🦄", costo: 400 },
+  { avatar: "🐉", costo: 600 }
+];
+
 let insigniasDesbloqueadas = {
   primerAcierto: false,
-  rachaTres: false,
   rachaCinco: false,
   rachaDiez: false,
   cincuentaPuntos: false,
@@ -885,13 +937,26 @@ let insigniasDesbloqueadas = {
   tabla5: false,
   tabla10: false,
   todasTablas: false,
-  leyendaRuleta: false
+  velocista: false,
+  leyendaRuleta: false,
+  relampagoBronce: false,
+  relampagoPlata: false,
+  relampagoOro: false
 };
 
 let aciertosPorTabla = {
   1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 
   7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0
 };
+
+let conteoCombinacionesExactas = {};
+let recordDesafioRelampago = 0;
+let desafioActivo = false;
+let desafioTimer = null;
+let desafioScoreActual = 0;
+let desafioRachaActual = 0;
+let desafioTablaActual = 2;
+let desafioFactorActual = 2;
 
 let miniTabla = 2;
 let miniFactor = 2;
@@ -911,19 +976,23 @@ const i18n = {
     instruccionInicial: "Elige una tabla y gira para comenzar.",
     instruccionGirando: "¡La ruleta está girando!",
     instruccionRevancha: "🧠 ¡Momento de revancha espaciada! ¿Cuánto era esto?",
+    instruccionGiro: (avatar, f, t) => `${avatar} ¡Salió el ${f}! Tabla del ${t}.`,
     mensajeElegir: "Elige la respuesta correcta.",
     btnSiguiente: "Siguiente pregunta →",
     lblPuntos: "⭐ Puntos",
     lblAciertos: "✅ Aciertos",
     lblRacha: "🔥 Racha",
     lblInsignias: "🏆 Logros",
-    lblDominador: "👑 Dominador",
+    lblRachaBase: "🔥 Racha",
+    catVeloz: "Veloz 🚀",
+    catDominador: "Dominador 👑",
+    catNormal: "Activa",
     btnReiniciar: "🗑️ Reiniciar puntajes y nombre",
     pie: "Tablas del 1 al 12 · ¡Sigue practicando!",
     opcionMixto: "✨ Mixto (Todas)",
-    historialTitulo: "📋 Historial y Dominio de Tablas",
-    historialAciertosTitulo: "✅ Historial de Aciertos",
-    evolucionTitulo: "📈 Evolución y Racha",
+    historialTituloPuntos: "⭐ Desglose de Puntos por Actividad",
+    historialTituloAciertos: "✅ Dominio de Tablas de Multiplicar",
+    historialTituloRacha: "🔥 Resumen de Racha y Récords",
     historialVacio: "Aún no hay registros de juego.",
     btnLimpiarHistorial: "🗑️ Limpiar historial",
     btnCompartirHistorial: "📤 Compartir resumen general",
@@ -931,7 +1000,12 @@ const i18n = {
     btnPegarCodigo: "📥 Restaurar desde código de texto",
     avatarTitulo: "👤 Elige tu Personaje",
     avatarSub: "¡Selecciona con quién quieres jugar hoy!",
-    logrosTitulo: "🏆 Tus Medallas y Logros (12)",
+    tiendaTitulo: "🛒 Tienda de Avatares",
+    comprado: "✅ ¡Adquirido!",
+    btnComprar: "🔓 Comprar",
+    faltaPuntos: "❌ ¡Te faltan puntos ⭐!",
+    msjTiendaExito: "🎉 ¡Nuevo avatar desbloqueado con éxito!",
+    logrosTitulo: "🏆 Tus Medallas y Logros (15)",
     logrosBtn: "¡A seguir coleccionando!",
     msjNuevaInsignia: "🏆 ¡Nueva Insignia Desbloqueada!",
     miniTitulo: "🕵️‍♂️ ¿Correcto o Trampa?",
@@ -941,6 +1015,10 @@ const i18n = {
     btnMiniSiguiente: "Siguiente reto →",
     miniAcierto: "🎉 ¡Excelente! ¡Descubriste la verdad!",
     miniError: (real) => `❌ ¡Caíste en la trampa! El resultado real era ${real}.`,
+    desafioTitulo: "⚡ ¡DESAFÍO RELÁMPAGO 60s! ⚡",
+    desafioBtnComenzar: "🚀 ¡COMENZAR FRENESÍ!",
+    desafioBtnJugarOtra: "⚡ ¡Jugar otra vez!",
+    desafioFin: (score, pts, nuevoRec) => `⏰ ¡TIEMPO! Acertaste ${score} operaciones. ${nuevoRec ? '🏆 ¡NUEVO RÉCORD!' : ''} +${pts} ⭐!`,
     activacionTitulo: "🔒 Activación de Licencia",
     activacionSub: "Genera tu código de solicitud encriptado y compártelo para recibir tu llave única:",
     activacionPlaceholder: "Pega aquí tu llave de activación...",
@@ -949,67 +1027,50 @@ const i18n = {
     msjErrorActivacion: "❌ Llave de activación incorrecta o no válida para este dispositivo.",
     msjCompartirSolicitud: "Mi código de activación para la Ruleta de Multiplicar es: ",
     insigniasLista: [
-      { id: "primerAcierto", icono: "🎯", titulo: "Primer Paso", desc: "¡Consigue tu primer acierto!" },
-      { id: "rachaTres", icono: "🔥", titulo: "Racha de Fuego", desc: "Alcanza racha de 3" },
-      { id: "rachaCinco", icono: "🚀", titulo: "Velocidad Luz", desc: "Alcanza racha de 5" },
-      { id: "rachaDiez", icono: "👑", titulo: "Dominador", desc: "Alcanza racha de 10" },
-      { id: "cincuentaPuntos", icono: "⭐", titulo: "Coleccionista", desc: "Acumula 50 puntos" },
-      { id: "cienPuntos", icono: "💎", titulo: "Super Estrella", desc: "Acumula 100 puntos" },
-      { id: "maestroRevancha", icono: "🧠", titulo: "Revancha Pro", desc: "Supera una revancha de error" },
-      { id: "tabla1", icono: "1️⃣", titulo: "Iniciado del 1", desc: "Acierta en la tabla del 1" },
-      { id: "tabla5", icono: "🖐️", titulo: "Experto del 5", desc: "Acierta en la tabla del 5" },
-      { id: "tabla10", icono: "🔟", titulo: "Maestro del 10", desc: "Acierta en la tabla del 10" },
-      { id: "todasTablas", icono: "🌐", titulo: "Polifacético", desc: "Juega en modo Mixto" },
-      { id: "leyendaRuleta", icono: "🏆", titulo: "Leyenda Total", desc: "Logra 50 aciertos generales" }
+      { id: "primerAcierto", icono: "🎯", titulo: "Primer Paso", desc: "Consigue tu primer acierto." },
+      { id: "rachaCinco", icono: "🚀", titulo: "Velocidad Luz (Nv.1)", desc: "Alcanza racha de 5." },
+      { id: "rachaDiez", icono: "👑", titulo: "Dominador (Nv.2)", desc: "Alcanza racha de 10." },
+      { id: "cincuentaPuntos", icono: "⭐", titulo: "Coleccionista (Nv.1)", desc: "Acumula 50 puntos." },
+      { id: "cienPuntos", icono: "💎", titulo: "Super Estrella (Nv.2)", desc: "Acumula 200 puntos." },
+      { id: "maestroRevancha", icono: "🧠", titulo: "Revancha Pro", desc: "Supera una revancha de error." },
+      { id: "tabla1", icono: "1️⃣", titulo: "Iniciado del 1", desc: "Acierta 5 veces en la tabla 1." },
+      { id: "tabla5", icono: "🖐️", titulo: "Experto del 5", desc: "Acierta 10 veces en la tabla 5." },
+      { id: "tabla10", icono: "🔟", titulo: "Maestro del 10", desc: "Acierta 15 veces en la tabla 10." },
+      { id: "todasTablas", icono: "🌐", titulo: "Polifacético", desc: "Acierta en modo Mixto." },
+      { id: "velocista", icono: "⚡", titulo: "Velocista Relámpago", desc: "Responde rápido seguidas." },
+      { id: "leyendaRuleta", icono: "🏆", titulo: "Leyenda Total", desc: "Logra 100 aciertos generales." },
+      { id: "relampagoBronce", icono: "🥉", titulo: "Relámpago Bronce", desc: "10 aciertos en Desafío 60s." },
+      { id: "relampagoPlata", icono: "🥈", titulo: "Relámpago Plata", desc: "20 aciertos en Desafío 60s." },
+      { id: "relampagoOro", icono: "🥇", titulo: "Relámpago Oro", desc: "30 aciertos en Desafío 60s." }
     ],
     frasesAcierto: [
       "¡Increíble! 🎉", "¡Eres un genio! 🌟", "¡Súper bien! 🚀", 
       "¡Qué crack! 🔥", "¡Lo lograste! 🏆", "¡Imparable como un t-rex! 🦖", 
-      "¡Más listo que un búho con gafas! 🦉", "¡Tómala, matemáticas! 🍕" ,
-      "¡Les ganaste a los números! 🧮", "¡Hasta Einstein te aplaudía! 🧠",
-      "¡Ese cerebro funciona a cohete! 🚀", "¡Pura dinamita mental! 🧨",
-      "¡Tiembla, tabla de multiplicar! 🎸", "¡De seguro desayunaste superhéroes! 🦸",
-      "¡Resolviste eso más rápido que un gato a un rayo láser! 🐱", "¡Eres la pesadilla de las calculadoras! 🤖"
-    ],
-    frasesRevanchaAcierto: [
-      "¡Revancha superada con éxito! 🧠⚡", "¡Eso es memoria de elefante! 🐘", "¡Venciste al error anterior! 🥇"
-    ],
-    frasesSuperacionError: [
-      "¡Venciste tu trampa favorita! 🏆", "¡Esa multiplicación ya no te asusta! 💪", "¡Misión cumplida con el monstruo de los errores! 🦖"
+      "¡Más listo que un búho con gafas! 🦉", "¡Tómala, matemáticas! 🍕"
     ],
     frasesError: [
       (c, t, f) => `❌ ¡Ay no! El número ${c} se escondió debajo de la cama. 🛏️`,
-      (c, t, f) => `❌ ¡Casi! Pero esa respuesta se fue a desayunar pizza sin ti. 🍕`,
-      (c, t, f) => `❌ Ups... Era ${c}. ¡El ratón de los números se comió el resultado! 🐭`,
-      (c, t, f) => `❌ ¡Por un pelo de rana calva! Era ${c}. 🐸`,
-      (c, t, f) => `❌ Era ${c}. ¡Hasta el pulpo se equivocó con tantos tentáculos! 🐙`,
-      (c, t, f) => `❌ ¡Casi le atinas! Era ${c}. ¡A reír y a intentarlo de nuevo! 😂`
-    ],
-    frasesTiempo: [
-      (c) => `⏰ ¡Reloj travieso! Era ${c}. ¡Corre más rápido que el viento! 💨`,
-      (c) => `⏰ ¡Tiempo agotado! Era ${c}. ¡El segundero te ganó por un pelo! 🏃‍♂️`,
-      (c) => `⏰ ¡Tic-tac, se fue! Era ${c}. ¡A la próxima ganamos la carrera! 🏎️`
+      (c, t, f) => `❌ ¡Casi! Pero esa respuesta se fue a desayunar pizza. 🍕`,
+      (c, t, f) => `❌ Ups... Era ${c}. ¡El ratón de los números se lo comió! 🐭`
     ],
     hablarPregunta: (t, f) => `¿Cuánto es ${t} por ${f}?`,
     hablarAcierto: (n, frase, t, f, c) => `¡Muy bien ${n}! ${frase}. ${t} por ${f} es ${c}`,
     hablarError: (t, f, c) => `Casi. ${t} por ${f} es ${c}`,
-    hablarTiempo: (c) => `Se acabo el tiempo. La respuesta correcta era ${c}`,
     confirmarReiniciar: "¿Quieres borrar los puntos, los aciertos, la racha y cambiar el nombre?",
-    promptNombre: "Introduce el nombre del niño/a:",
     promptPegarCodigo: "Pega aquí tu código de texto de respaldo:",
-    msjReiniciado: "Puntajes y historial reiniciados. ¡A jugar de nuevo!",
-    msjRestaurado: "¡Historial y puntajes restaurados con éxito desde el código! 🎉",
-    msjErrorCodigo: "El código ingresado no es válido o está incompleto.",
-    msjCopiadoCodigo: "📤 ¡Código de respaldo enviado o copiado al portapapeles con éxito!",
-    textoCompartir: (n, pts, aci, racha, maxRacha, insigniasConseguidas, totalInsignias, tablasDominadas) => 
-      `🌟 ¡Hola! Les comparto el avance de ${n || 'nuestro campeón/a'} en la Ruleta de Multiplicar:\n\n` +
-      `⭐ Puntos totales: ${pts}\n` +
-      `✅ Aciertos: ${aci}\n` +
+    msjReiniciado: "Puntajes y historial reiniciados.",
+    msjRestaurado: "¡Historial y puntajes restaurados con éxito! 🎉",
+    msjCopiadoCodigo: "📤 ¡Código de respaldo copiado!",
+    textoCompartir: (n, pts, aci, racha, maxRacha, insigniasConseguidas, totalInsignias, recordDes) => 
+      `🌟 ¡Reto matemático de ${n || 'campeón/a'}! 🎡\n` +
+      `----------------------------------\n` +
+      `⭐ Puntos acumulados: ${pts}\n` +
+      `✅ Aciertos totales: ${aci}\n` +
+      `🔥 Mejor racha: ${maxRacha} seguidas\n` +
+      `⚡ Récord Desafío 60s: ${recordDes} aciertos\n` +
       `🏆 Logros desbloqueados: ${insigniasConseguidas}/${totalInsignias}\n` +
-      `👑 Tablas dominadas (⭐⭐⭐): ${tablasDominadas}/12\n` +
-      `🔥 Racha actual: ${racha}\n` +
-      `👑 Racha máxima: ${maxRacha}\n\n` +
-      `🚀 ¡Sigue practicando y dominando las matemáticas con alegría!`
+      `----------------------------------\n` +
+      `💪 ¡A que no me superas en la ruleta! ¿Te atreves? 😎`
   },
   en: {
     titulo: "🎡 Multiplication Wheel",
@@ -1023,19 +1084,23 @@ const i18n = {
     instruccionInicial: "Choose a table and spin to start.",
     instruccionGirando: "The wheel is spinning!",
     instruccionRevancha: "🧠 Spaced rematch time! What was this?",
+    instruccionGiro: (avatar, f, t) => `${avatar} Number ${f} came up! Table of ${t}.`,
     mensajeElegir: "Choose the correct answer.",
     btnSiguiente: "Next question →",
     lblPuntos: "⭐ Points",
     lblAciertos: "✅ Correct",
     lblRacha: "🔥 Streak",
     lblInsignias: "🏆 Badges",
-    lblDominador: "👑 Master",
+    lblRachaBase: "🔥 Streak",
+    catVeloz: "Fast 🚀",
+    catDominador: "Dominator 👑",
+    catNormal: "Active",
     btnReiniciar: "🗑️ Reset scores and name",
     pie: "Tables 1 to 12 · Keep practicing!",
     opcionMixto: "✨ Mixed (All)",
-    historialTitulo: "📋 History & Table Mastery",
-    historialAciertosTitulo: "✅ Correct Answers History",
-    evolucionTitulo: "📈 Streak & Evolution",
+    historialTituloPuntos: "⭐ Points Breakdown by Activity",
+    historialTituloAciertos: "✅ Multiplication Table Mastery",
+    historialTituloRacha: "🔥 Streak Summary & Records",
     historialVacio: "No game records yet.",
     btnLimpiarHistorial: "🗑️ Clear history",
     btnCompartirHistorial: "📤 Share general summary",
@@ -1043,7 +1108,12 @@ const i18n = {
     btnPegarCodigo: "📥 Restore from text code",
     avatarTitulo: "👤 Choose Your Character",
     avatarSub: "Select who you want to play with today!",
-    logrosTitulo: "🏆 Your Badges and Achievements (12)",
+    tiendaTitulo: "🛒 Avatar Shop",
+    comprado: "✅ Unlocked!",
+    btnComprar: "🔓 Unlock",
+    faltaPuntos: "❌ Not enough points ⭐!",
+    msjTiendaExito: "🎉 New avatar successfully unlocked!",
+    logrosTitulo: "🏆 Your Badges and Achievements (15)",
     logrosBtn: "Keep collecting!",
     msjNuevaInsignia: "🏆 New Badge Unlocked!",
     miniTitulo: "🕵️‍♂️ Correct or Trap?",
@@ -1053,6 +1123,10 @@ const i18n = {
     btnMiniSiguiente: "Next challenge →",
     miniAcierto: "🎉 Awesome! You found the truth!",
     miniError: (real) => `❌ Caught in the trap! The real answer was ${real}.`,
+    desafioTitulo: "⚡ 60s LIGHTNING CHALLENGE! ⚡",
+    desafioBtnComenzar: "🚀 START FRENZY!",
+    desafioBtnJugarOtra: "⚡ Play Again!",
+    desafioFin: (score, pts, nuevoRec) => `⏰ TIME'S UP! Got ${score} correct. ${nuevoRec ? '🏆 NEW RECORD!' : ''} +${pts} ⭐!`,
     activacionTitulo: "🔒 License Activation",
     activacionSub: "Generate your encrypted request code and share it to get your unique key:",
     activacionPlaceholder: "Paste your activation key here...",
@@ -1061,67 +1135,49 @@ const i18n = {
     msjErrorActivacion: "❌ Incorrect activation key or invalid for this device.",
     msjCompartirSolicitud: "My activation code for the Multiplication Wheel is: ",
     insigniasLista: [
-      { id: "primerAcierto", icono: "🎯", titulo: "First Step", desc: "Get your first correct answer!" },
-      { id: "rachaTres", icono: "🔥", titulo: "Fire Streak", desc: "Reach a 3-correct streak" },
-      { id: "rachaCinco", icono: "🚀", titulo: "Speed of Light", desc: "Reach a 5-correct streak" },
-      { id: "rachaDiez", icono: "👑", titulo: "Master", desc: "Reach a 10-correct streak" },
-      { id: "cincuentaPuntos", icono: "⭐", titulo: "Collector", desc: "Accumulate 50 points" },
-      { id: "cienPuntos", icono: "💎", titulo: "Super Star", desc: "Accumulate 100 points" },
-      { id: "maestroRevancha", icono: "🧠", titulo: "Rematch Pro", desc: "Conquer an error rematch" },
-      { id: "tabla1", icono: "1️⃣", titulo: "Table 1 Rookie", desc: "Correct in table 1" },
-      { id: "tabla5", icono: "🖐️", titulo: "Table 5 Expert", desc: "Correct in table 5" },
-      { id: "tabla10", icono: "🔟", titulo: "Table 10 Master", desc: "Correct in table 10" },
-      { id: "todasTablas", icono: "🌐", titulo: "All-Rounder", desc: "Play in Mixed mode" },
-      { id: "leyendaRuleta", icono: "🏆", titulo: "Total Legend", desc: "Reach 50 total correct answers" }
+      { id: "primerAcierto", icono: "🎯", titulo: "First Step", desc: "Get your first correct answer." },
+      { id: "rachaCinco", icono: "🚀", titulo: "Speed of Light (Lvl.1)", desc: "Reach a 5 streak." },
+      { id: "rachaDiez", icono: "👑", titulo: "Supreme Master (Lvl.2)", desc: "Reach a 10 streak." },
+      { id: "cincuentaPuntos", icono: "⭐", titulo: "Collector (Lvl.1)", desc: "Accumulate 50 points." },
+      { id: "cienPuntos", icono: "💎", titulo: "Super Star (Lvl.2)", desc: "Accumulate 200 points." },
+      { id: "maestroRevancha", icono: "🧠", titulo: "Rematch Pro", desc: "Conquer an error rematch." },
+      { id: "tabla1", icono: "1️⃣", titulo: "Table 1 Rookie", desc: "Correct 5 times in table 1." },
+      { id: "tabla5", icono: "🖐️", titulo: "Table 5 Expert", desc: "Correct 10 times in table 5." },
+      { id: "tabla10", icono: "🔟", titulo: "Table 10 Master", desc: "Correct 15 times in table 10." },
+      { id: "todasTablas", icono: "🌐", titulo: "All-Rounder", desc: "Correct in Mixed mode." },
+      { id: "velocista", icono: "⚡", titulo: "Lightning Sprinter", desc: "Answer fast in a row." },
+      { id: "leyendaRuleta", icono: "🏆", titulo: "Total Legend", desc: "Reach 100 total correct answers." },
+      { id: "relampagoBronce", icono: "🥉", titulo: "Lightning Bronze", desc: "10 correct in 60s Challenge." },
+      { id: "relampagoPlata", icono: "🥈", titulo: "Lightning Silver", desc: "20 correct in 60s Challenge." },
+      { id: "relampagoOro", icono: "🥇", titulo: "Lightning Gold", desc: "30 correct in 60s Challenge." }
     ],
     frasesAcierto: [
       "Awesome! 🎉", "You're a genius! 🌟", "Great job! 🚀", 
-      "Super star! 🔥", "You did it! 🏆", "Unstoppable like a T-Rex! 🦖", 
-      "Smarter than an owl in glasses! 🦉", "Take that, math! 🍕" ,
-      "You outsmarted the numbers! 🧮", "Even Einstein would high-five you! 🧠",
-      "Rocket science has nothing on you! 🚀", "Pure mental dynamite! 🧨",
-      "Look out, multiplication tables! 🎸", "Did you eat superheroes for breakfast? 🦸‍♂️",
-      "Faster than a cat chasing a laser pointer! 🐱", "You're a calculator's worst nightmare! 🤖"
-    ],
-    frasesRevanchaAcierto: [
-      "Rematch successfully conquered! 🧠⚡", "Elephant memory! 🐘", "You beat your past mistake! 🥇"
-    ],
-    frasesSuperacionError: [
-      "You conquered your tricky problem! 🏆", "That multiplication doesn't scare you anymore! 💪", "Mission accomplished against the error monster! 🦖"
+      "Super star! 🔥", "You did it! 🏆", "Unstoppable like a T-Rex! 🦖"
     ],
     frasesError: [
       (c, t, f) => `❌ Oh no! Number ${c} hid under the bed. 🛏️`,
-      (c, t, f) => `❌ Almost! But that answer went out for pizza without you. 🍕`,
-      (c, t, f) => `❌ Oops... Was ${c}. The math mouse ate the result! 🐭`,
-      (c, t, f) => `❌ By a hair! Was ${c}. 🐸`,
-      (c, t, f) => `❌ Was ${c}. Even the octopus got confused with so many tentacles! 🐙`,
-      (c, t, f) => `❌ Almost had it! Was ${c}. Laugh and try again! 😂`
-    ],
-    frasesTiempo: [
-      (c) => `⏰ Mischievous clock! Was ${c}. Run faster than the wind! 💨`,
-      (c) => `⏰ Time's up! Was ${c}. The second hand beat you by a hair! 🏃‍♂️`,
-      (c) => `⏰ Tick-tock, it's gone! Was ${c}. Next time we win the race! 🏎️`
+      (c, t, f) => `❌ Almost! But that answer went out for pizza. 🍕`,
+      (c, t, f) => `❌ Oops... Was ${c}. The math mouse ate it! 🐭`
     ],
     hablarPregunta: (t, f) => `What is ${t} times ${f}?`,
     hablarAcierto: (n, frase, t, f, c) => `Very good ${n}! ${frase}. ${t} times ${f} is ${c}`,
     hablarError: (t, f, c) => `Almost. ${t} times ${f} is ${c}`,
-    hablarTiempo: (c) => `Time's up. The correct answer was ${c}`,
     confirmarReiniciar: "Do you want to clear scores, correct answers, streak and change name?",
-    promptNombre: "Enter child's name:",
     promptPegarCodigo: "Paste your text backup code here:",
-    msjReiniciado: "Scores reset. Let's play again!",
-    msjRestaurado: "Scores and history successfully restored from code! 🎉",
-    msjErrorCodigo: "The entered code is invalid or incomplete.",
-    msjCopiadoCodigo: "📤 Backup code successfully sent or copied to clipboard!",
-    textoCompartir: (n, pts, aci, racha, maxRacha, insigniasConseguidas, totalInsignias, tablasDominadas) => 
-      `🌟 Hi! Sharing ${n || 'our champion'}'s progress in the Multiplication Wheel:\n\n` +
+    msjReiniciado: "Scores reset.",
+    msjRestaurado: "Scores and history successfully restored! 🎉",
+    msjCopiadoCodigo: "📤 Backup code copied!",
+    textoCompartir: (n, pts, aci, racha, maxRacha, insigniasConseguidas, totalInsignias, recordDes) => 
+      `🌟 Math challenge by ${n || 'champion'}! 🎡\n` +
+      `----------------------------------\n` +
       `⭐ Total points: ${pts}\n` +
       `✅ Correct answers: ${aci}\n` +
-      `🏆 Unlocked badges: ${insigniasConseguidas}/${totalInsignias}\n` +
-      `👑 Mastered tables (⭐⭐⭐): ${tablasDominadas}/12\n` +
-      `🔥 Current streak: ${racha}\n` +
-      `👑 Max streak: ${maxRacha}\n\n` +
-      `🚀 Keep practicing and mastering math with joy!`
+      `🔥 Best streak: ${maxRacha} in a row\n` +
+      `⚡ 60s Challenge Record: ${recordDes} correct\n` +
+      `🏆 Badges unlocked: ${insigniasConseguidas}/${totalInsignias}\n` +
+      `----------------------------------\n` +
+      `💪 I bet you can't beat my score! Do you dare? 😎`
   }
 };
 
@@ -1133,7 +1189,7 @@ const colores = [
 
 const TOTAL = 12;
 const sector = Math.PI * 2 / TOTAL;
-const CLAVE_PUNTAJES = "ruletaMultiplicarPuntajesV41";
+const CLAVE_PUNTAJES = "ruletaMultiplicarPuntajesV47";
 const CLAVE_SECRETA_MAESTRA = "MiRuletaMultiplicarSecreta2026";
 let tokenSolicitudActual = "";
 
@@ -1148,15 +1204,12 @@ let maxRacha = 0;
 let nombre = "";
 let sonidoActivo = true;
 let idiomaActual = "es";
-let modoTiempo = 1;
+let modoTiempo = 0;
 let timerInterval = null;
 let contestada = false;
 let preguntaActiva = false;
-let contadorOperaciones = {};
 let historialPartidas = [];
 let revanchaPendiente = null;
-let ultimoTickSegundo = -1;
-let filtroModalActual = "todo";
 
 function vibrar(patron) {
   if ("vibrate" in navigator) {
@@ -1179,13 +1232,13 @@ function mostrarTextoFlotante(texto, esAcierto = true, topPos = "52%") {
 function dispararConfetiVictoria() {
   const mainContainer = document.querySelector("main");
   if (!mainContainer) return;
-  for (let i = 0; i < 35; i++) {
+  for (let i = 0; i < 40; i++) {
     const confeti = document.createElement("div");
     confeti.className = "confeti-pieza";
     confeti.style.left = `${Math.random() * 100}%`;
     confeti.style.backgroundColor = colores[Math.floor(Math.random() * colores.length)];
-    confeti.style.animationDuration = `${1.2 + Math.random() * 1.5}s`;
-    confeti.style.animationDelay = `${Math.random() * 0.5}s`;
+    confeti.style.animationDuration = `${1.0 + Math.random() * 1.5}s`;
+    confeti.style.animationDelay = `${Math.random() * 0.4}s`;
     mainContainer.appendChild(confeti);
     setTimeout(() => { confeti.remove(); }, 3000);
   }
@@ -1193,8 +1246,8 @@ function dispararConfetiVictoria() {
 
 function obtenerEstrellasTabla(numTabla) {
   const aciertosEnTabla = aciertosPorTabla[numTabla] || 0;
-  if (aciertosEnTabla >= 10) return "⭐⭐⭐";
-  if (aciertosEnTabla >= 6) return "⭐⭐";
+  if (aciertosEnTabla >= 15) return "⭐⭐⭐";
+  if (aciertosEnTabla >= 8) return "⭐⭐";
   if (aciertosEnTabla >= 3) return "⭐";
   return "⚪";
 }
@@ -1231,16 +1284,18 @@ function actualizarBotonRevanchaUI() {
 }
 
 function actualizarBotonModoUI() {
-  if (modoTiempo === 0) modoTiempo = 1;
-  if (modoTiempo === 1) {
+  if (modoTiempo === 0) {
+    botonModo.textContent = "🚫";
+    botonModo.setAttribute("title", idiomaActual === "es" ? "Modo: Sin tiempo" : "Mode: No time limit");
+  } else if (modoTiempo === 1) {
     botonModo.textContent = "⏱️";
-    botonModo.style.opacity = "1";
+    botonModo.setAttribute("title", idiomaActual === "es" ? "Modo: Normal (6s)" : "Mode: Normal (6s)");
   } else if (modoTiempo === 2) {
     botonModo.textContent = "⚡";
-    botonModo.style.opacity = "1";
+    botonModo.setAttribute("title", idiomaActual === "es" ? "Modo: Relámpago (4s)" : "Mode: Lightning (4s)");
   } else if (modoTiempo === 3) {
     botonModo.textContent = "🚀";
-    botonModo.style.opacity = "1";
+    botonModo.setAttribute("title", idiomaActual === "es" ? "Modo: Bala (2s)" : "Mode: Bullet (2s)");
   }
 }
 
@@ -1271,10 +1326,12 @@ function actualizarTextosUI() {
   btnCopiarCodigo.textContent = t.btnCopiarCodigo;
   btnPegarCodigo.textContent = t.btnPegarCodigo;
   btnMinijuego.setAttribute("title", idiomaActual === "es" ? "Minijuego: ¿Correcto o Trampa?" : "Minigame: Correct or Trap?");
+  btnModoDesafio.setAttribute("title", idiomaActual === "es" ? "Desafío Relámpago (60s)" : "Lightning Challenge (60s)");
   btnResetTestActivacion.textContent = idiomaActual === "es" ? "🛠️ [TEST] Resetear Activación" : "🛠️ [TEST] Reset Activation";
 
   document.getElementById("lblAvatarTitulo").textContent = t.avatarTitulo;
   document.getElementById("lblAvatarSub").textContent = t.avatarSub;
+  document.getElementById("lblTiendaTitulo").textContent = t.tiendaTitulo;
   document.getElementById("lblInsigniasTitulo").textContent = t.logrosTitulo;
   document.getElementById("btnCerrarInsigniasModal").textContent = t.logrosBtn;
 
@@ -1283,6 +1340,9 @@ function actualizarTextosUI() {
   btnMiniVerdadero.textContent = t.btnMiniVerdadero;
   btnMiniFalso.textContent = t.btnMiniFalso;
   btnMiniSiguiente.textContent = t.btnMiniSiguiente;
+
+  document.getElementById("lblDesafioTitulo").textContent = t.desafioTitulo;
+  if (!desafioActivo) btnIniciarDesafio.textContent = t.desafioBtnComenzar;
 
   document.getElementById("lblActivacionTitulo").textContent = t.activacionTitulo;
   document.getElementById("lblActivacionSub").textContent = t.activacionSub;
@@ -1296,6 +1356,7 @@ function actualizarTextosUI() {
   actualizarBotonModoUI();
   actualizarEstadisticas();
   renderizarInsigniasUI();
+  renderizarAvataresDisponibles();
 
   botonIdioma.textContent = idiomaActual === "es" ? "🇪🇸" : "🇺🇸";
   btnAbrirAvatares.textContent = avatarActual;
@@ -1346,14 +1407,13 @@ function reproducirSonido(tipo) {
       gainNode.gain.linearRampToValueAtTime(0.01, now + 0.04);
       osc.start(now);
       osc.stop(now + 0.04);
-    } else if (tipo === "tick") {
-      osc.type = "triangle";
-      osc.frequency.setValueAtTime(800, now);
-      osc.frequency.exponentialRampToValueAtTime(400, now + 0.03);
-      gainNode.gain.setValueAtTime(0.08, now);
-      gainNode.gain.linearRampToValueAtTime(0.001, now + 0.03);
+    } else if (tipo === "alerta") {
+      osc.type = "square";
+      osc.frequency.setValueAtTime(750, now);
+      gainNode.gain.setValueAtTime(0.1, now);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
       osc.start(now);
-      osc.stop(now + 0.03);
+      osc.stop(now + 0.08);
     }
   } catch (e) {}
 }
@@ -1404,22 +1464,27 @@ function cambiarModoTiempo() {
 function verificarInsignias(esSuperacion = false) {
   let nuevaDesbloqueada = false;
   if (aciertos >= 1 && !insigniasDesbloqueadas.primerAcierto) { insigniasDesbloqueadas.primerAcierto = true; nuevaDesbloqueada = true; }
-  if (racha >= 3 && !insigniasDesbloqueadas.rachaTres) { insigniasDesbloqueadas.rachaTres = true; nuevaDesbloqueada = true; }
   if (racha >= 5 && !insigniasDesbloqueadas.rachaCinco) { insigniasDesbloqueadas.rachaCinco = true; nuevaDesbloqueada = true; }
   if (racha >= 10 && !insigniasDesbloqueadas.rachaDiez) { insigniasDesbloqueadas.rachaDiez = true; nuevaDesbloqueada = true; }
   if (puntos >= 50 && !insigniasDesbloqueadas.cincuentaPuntos) { insigniasDesbloqueadas.cincuentaPuntos = true; nuevaDesbloqueada = true; }
-  if (puntos >= 100 && !insigniasDesbloqueadas.cienPuntos) { insigniasDesbloqueadas.cienPuntos = true; nuevaDesbloqueada = true; }
+  if (puntos >= 200 && !insigniasDesbloqueadas.cienPuntos) { insigniasDesbloqueadas.cienPuntos = true; nuevaDesbloqueada = true; }
   if (esSuperacion && !insigniasDesbloqueadas.maestroRevancha) { insigniasDesbloqueadas.maestroRevancha = true; nuevaDesbloqueada = true; }
-  if (tabla === 1 && !insigniasDesbloqueadas.tabla1) { insigniasDesbloqueadas.tabla1 = true; nuevaDesbloqueada = true; }
-  if (tabla === 5 && !insigniasDesbloqueadas.tabla5) { insigniasDesbloqueadas.tabla5 = true; nuevaDesbloqueada = true; }
-  if (tabla === 10 && !insigniasDesbloqueadas.tabla10) { insigniasDesbloqueadas.tabla10 = true; nuevaDesbloqueada = true; }
-  if (selectorTabla.value === "mixto" && !insigniasDesbloqueadas.todasTablas) { insigniasDesbloqueadas.todasTablas = true; nuevaDesbloqueada = true; }
-  if (aciertos >= 50 && !insigniasDesbloqueadas.leyendaRuleta) { insigniasDesbloqueadas.leyendaRuleta = true; nuevaDesbloqueada = true; }
+  
+  if ((aciertosPorTabla[1] || 0) >= 5 && !insigniasDesbloqueadas.tabla1) { insigniasDesbloqueadas.tabla1 = true; nuevaDesbloqueada = true; }
+  if ((aciertosPorTabla[5] || 0) >= 10 && !insigniasDesbloqueadas.tabla5) { insigniasDesbloqueadas.tabla5 = true; nuevaDesbloqueada = true; }
+  if ((aciertosPorTabla[10] || 0) >= 15 && !insigniasDesbloqueadas.tabla10) { insigniasDesbloqueadas.tabla10 = true; nuevaDesbloqueada = true; }
+  if (selectorTabla.value === "mixto" && aciertos >= 10 && !insigniasDesbloqueadas.todasTablas) { insigniasDesbloqueadas.todasTablas = true; nuevaDesbloqueada = true; }
+  if (aciertos >= 100 && !insigniasDesbloqueadas.leyendaRuleta) { insigniasDesbloqueadas.leyendaRuleta = true; nuevaDesbloqueada = true; }
+
+  if (recordDesafioRelampago >= 10 && !insigniasDesbloqueadas.relampagoBronce) { insigniasDesbloqueadas.relampagoBronce = true; nuevaDesbloqueada = true; }
+  if (recordDesafioRelampago >= 20 && !insigniasDesbloqueadas.relampagoPlata) { insigniasDesbloqueadas.relampagoPlata = true; nuevaDesbloqueada = true; }
+  if (recordDesafioRelampago >= 30 && !insigniasDesbloqueadas.relampagoOro) { insigniasDesbloqueadas.relampagoOro = true; nuevaDesbloqueada = true; }
 
   if (nuevaDesbloqueada) {
     setTimeout(() => {
       const t = i18n[idiomaActual];
       mostrarTextoFlotante(t.msjNuevaInsignia, true, "66%");
+      reproducirSonido("racha");
     }, 1400);
   }
   renderizarInsigniasUI();
@@ -1440,8 +1505,71 @@ function renderizarInsigniasUI() {
   document.getElementById("contadorInsignias").textContent = `${totalDesbloqueadas}/${t.insigniasLista.length}`;
 }
 
+function renderizarTiendaAvatares() {
+  const gridTienda = document.getElementById("gridTiendaAvatares");
+  if (!gridTienda) return;
+  gridTienda.replaceChildren();
+  const t = i18n[idiomaActual];
+
+  catalogoTienda.forEach(item => {
+    const comprado = avataresDesbloqueados.includes(item.avatar);
+    const div = document.createElement("div");
+    div.style.cssText = "background:#f8fafc; border:1.5px solid #cbd5e1; border-radius:10px; padding:6px; text-align:center; display:flex; flex-direction:column; align-items:center; justify-content:center;";
+    
+    div.innerHTML = `
+      <span style="font-size:22px;">${item.avatar}</span>
+      <span style="font-size:10px; font-weight:bold; color:#1e3a8a; margin:2px 0;">${comprado ? t.comprado : `⭐ ${item.costo}`}</span>
+      <button type="button" class="principal" style="font-size:9px; padding:4px 6px; width:100%; background:${comprado ? '#16a34a' : '#8b5cf6'};" ${comprado ? 'disabled' : ''}>
+        ${comprado ? t.comprado : t.btnComprar}
+      </button>
+    `;
+
+    if (!comprado) {
+      div.querySelector("button").addEventListener("click", () => {
+        if (puntos >= item.costo) {
+          puntos -= item.costo;
+          avataresDesbloqueados.push(item.avatar);
+          avatarActual = item.avatar;
+          btnAbrirAvatares.textContent = avatarActual;
+          actualizarEstadisticas();
+          guardarPuntajes();
+          renderizarTiendaAvatares();
+          renderizarAvataresDisponibles();
+          alert(t.msjTiendaExito);
+          reproducirSonido("acierto");
+        } else {
+          alert(t.faltaPuntos);
+          reproducirSonido("error");
+        }
+      });
+    }
+    gridTienda.appendChild(div);
+  });
+}
+
+function renderizarAvataresDisponibles() {
+  const gridAvatares = document.querySelector(".grid-avatares");
+  if (!gridAvatares) return;
+  gridAvatares.replaceChildren();
+  
+  avataresDesbloqueados.forEach(av => {
+    const el = document.createElement("div");
+    el.className = "opcion-avatar";
+    el.textContent = av;
+    el.setAttribute("data-avatar", av);
+    el.addEventListener("click", () => {
+      avatarActual = av;
+      btnAbrirAvatares.textContent = avatarActual;
+      modalAvatares.hidden = true;
+      guardarPuntajes();
+    });
+    gridAvatares.appendChild(el);
+  });
+  renderizarTiendaAvatares();
+}
+
 function generarCodigoRespaldoTexto() {
-  const datosRespaldo = { v: 5, n: inputNombre.value.trim(), p: puntos, a: aciertos, r: maxRacha, av: avatarActual, ins: insigniasDesbloqueadas, apt: aciertosPorTabla, h: historialPartidas.slice(-15) };
+  const datosRespaldo = { v: 7, n: inputNombre.value.trim(), p: puntos, a: aciertos, r: maxRacha, av: avatarActual, avs: avataresDesbloqueados, ins: insigniasDesbloqueadas, apt: aciertosPorTabla, recDes: recordDesafioRelampago, h: historialPartidas.slice(-15) };
   return "RULETA_BK:" + btoa(encodeURIComponent(JSON.stringify(datosRespaldo)));
 }
 
@@ -1474,156 +1602,35 @@ function restaurarDesdeCodigoTexto() {
       if (typeof datos.a === "number") aciertos = datos.a;
       if (typeof datos.r === "number") maxRacha = datos.r;
       if (typeof datos.av === "string") { avatarActual = datos.av; btnAbrirAvatares.textContent = avatarActual; }
+      if (Array.isArray(datos.avs)) avataresDesbloqueados = datos.avs;
       if (datos.ins) insigniasDesbloqueadas = { ...insigniasDesbloqueadas, ...datos.ins };
       if (datos.apt) aciertosPorTabla = datos.apt;
+      if (typeof datos.recDes === "number") recordDesafioRelampago = datos.recDes;
       if (Array.isArray(datos.h)) historialPartidas = datos.h;
       guardarPuntajes();
       actualizarSelectorTablas();
       actualizarEstadisticas();
       renderizarInsigniasUI();
+      renderizarAvataresDisponibles();
       alert(t.msjRestaurado);
-      modalHistorial.hidden = true;
     }
-  } catch (err) { alert(t.msjErrorCodigo); }
-}
-
-function compartirResultados() {
-  reproducirSonido("click");
-  const t = i18n[idiomaActual];
-  const mensajeCompartir = t.textoCompartir(inputNombre.value.trim(), puntos, aciertos, racha, maxRacha, Object.values(insigniasDesbloqueadas).filter(Boolean).length, t.insigniasLista.length, Object.values(aciertosPorTabla).filter(a => a >= 10).length);
-  if (navigator.share) {
-    navigator.share({ title: t.titulo, text: mensajeCompartir }).catch(() => {});
-  } else {
-    navigator.clipboard.writeText(mensajeCompartir).then(() => { alert("¡Resumen copiado!"); });
+  } catch (e) {
+    alert(t.msjErrorCodigo || "Código inválido");
   }
-}
-
-function obtenerFechaSimple() {
-  const ahora = new Date();
-  return `${String(ahora.getDate()).padStart(2, '0')}/${String(ahora.getMonth() + 1).padStart(2, '0')}/${ahora.getFullYear()}`;
-}
-
-function abrirModalHistorial(filtro = "todo") {
-  reproducirSonido("click");
-  filtroModalActual = filtro;
-  renderizarHistorialUI();
-  modalHistorial.hidden = false;
-}
-
-function renderizarHistorialUI() {
-  listaHistorialDiv.replaceChildren();
-  const t = i18n[idiomaActual];
-  document.getElementById("lblHistorialTitulo").textContent = filtroModalActual === "aciertos" ? t.historialAciertosTitulo : (filtroModalActual === "racha" ? t.evolucionTitulo : t.historialTitulo);
-
-  if (filtroModalActual === "racha") {
-    const divRachaInfo = document.createElement("div");
-    divRachaInfo.style.padding = "10px";
-    divRachaInfo.style.fontSize = "12px";
-    divRachaInfo.innerHTML = `🔥 <b>Racha:</b> ${racha} <br>👑 <b>Máxima:</b> ${maxRacha} <br>⭐ <b>Puntos:</b> ${puntos} <br>✅ <b>Aciertos:</b> ${aciertos}`;
-    listaHistorialDiv.appendChild(divRachaInfo);
-    return;
-  }
-
-  const partidasFiltradas = historialPartidas.filter(item => filtroModalActual !== "aciertos" || item.acertado);
-  if (partidasFiltradas.length === 0) {
-    const p = document.createElement("p");
-    p.textContent = t.historialVacio;
-    p.style.textAlign = "center";
-    p.style.color = "#64748b";
-    listaHistorialDiv.appendChild(p);
-    return;
-  }
-
-  partidasFiltradas.slice().reverse().forEach(item => {
-    const div = document.createElement("div");
-    div.className = "item-historial";
-    div.innerHTML = `<span style="font-weight:bold; color:${item.acertado ? '#166534' : '#991b1b'}">${item.tabla} × ${item.factor} = ${item.respuestaUsuario}</span><span>${item.acertado ? '✅' : `❌ (${item.correcta})`}</span>`;
-    listaHistorialDiv.appendChild(div);
-  });
-}
-
-function detenerTemporizador() {
-  if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
-  timerContainer.style.display = modoTiempo === 0 ? "none" : "block";
-}
-
-function iniciarTemporizador() {
-  detenerTemporizador();
-  if (modoTiempo === 0) return;
-  let tiempoRestante = 100;
-  timerBar.style.width = "100%";
-  const duracionTotal = modoTiempo === 2 ? 6000 : (modoTiempo === 3 ? 3000 : 10000);
-  timerInterval = setInterval(() => {
-    tiempoRestante -= 1;
-    timerBar.style.width = `${Math.max(0, tiempoRestante)}%`;
-    if (tiempoRestante <= 0) { detenerTemporizador(); tiempoAgotado(); }
-  }, duracionTotal / 100);
-}
-
-function tiempoAgotado() {
-  if (!preguntaActiva || contestada) return;
-  contestada = true;
-  preguntaActiva = false;
-  racha = 0;
-  reproducirSonido("error");
-  const correcta = tabla * factor;
-  const t = i18n[idiomaActual];
-  
-  contenedorRespuestas.querySelectorAll("button").forEach(b => {
-    b.disabled = true;
-    if (Number(b.textContent) === correcta) { b.style.backgroundColor = "#bbf7d0"; b.style.color = "#166534"; }
-  });
-
-  revanchaPendiente = { tabla, factor };
-  actualizarBotonRevanchaUI();
-  historialPartidas.push({ tabla, factor, respuestaUsuario: "⏰", correcta, acertado: false, fecha: obtenerFechaSimple() });
-  
-  const frase = t.frasesTiempo[Math.floor(Math.random() * t.frasesTiempo.length)](correcta);
-  document.getElementById("mensaje").textContent = frase;
-  mostrarTextoFlotante(frase, false, "52%");
-  hablar(t.hablarTiempo(correcta));
-  actualizarEstadisticas();
-  guardarPuntajes();
-  botonSiguiente.hidden = false;
-}
-
-function dibujar() {
-  if (!ctx || !canvas) return;
-  const cx = 170, cy = 170, radio = 158;
-  ctx.clearRect(0, 0, 340, 340);
-  for (let i = 0; i < TOTAL; i++) {
-    const inicio = angulo + i * sector - Math.PI / 2;
-    const fin = inicio + sector;
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.arc(cx, cy, radio, inicio, fin);
-    ctx.closePath();
-    ctx.fillStyle = colores[i];
-    ctx.fill();
-    ctx.strokeStyle = "#fff";
-    ctx.lineWidth = 3;
-    ctx.stroke();
-
-    const medio = inicio + sector / 2;
-    ctx.fillStyle = "#172554";
-    ctx.font = "bold 21px Arial";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillText(String(i + 1), cx + Math.cos(medio) * 112, cy + Math.sin(medio) * 112);
-  }
-  ctx.beginPath();
-  ctx.arc(cx, cy, 18, 0, Math.PI * 2);
-  ctx.fillStyle = "#fff";
-  ctx.fill();
-  ctx.strokeStyle = "#172554";
-  ctx.lineWidth = 3;
-  ctx.stroke();
 }
 
 function actualizarEstadisticas() {
   const t = i18n[idiomaActual];
   if (racha > maxRacha) maxRacha = racha;
-  document.getElementById("lblRachaTexto").textContent = racha >= 10 ? t.lblDominador + " 👑" : (racha >= 5 ? "🚀 Veloz" : "🔥 Racha");
+  
+  let categoria = t.catNormal;
+  if (racha >= 10) {
+    categoria = t.catDominador;
+  } else if (racha >= 5) {
+    categoria = t.catVeloz;
+  }
+  
+  document.getElementById("lblRachaTexto").textContent = `${t.lblRachaBase}: ${categoria}`;
   document.getElementById("puntos").textContent = puntos;
   document.getElementById("aciertos").textContent = aciertos;
   document.getElementById("racha").textContent = racha;
@@ -1641,8 +1648,10 @@ function cargarPuntajes() {
         maxRacha = datos.maxRacha || racha;
         nombre = datos.nombre || "";
         if (datos.avatarActual) avatarActual = datos.avatarActual;
+        if (Array.isArray(datos.avataresDesbloqueados)) avataresDesbloqueados = datos.avataresDesbloqueados;
         if (datos.insigniasDesbloqueadas) insigniasDesbloqueadas = { ...insigniasDesbloqueadas, ...datos.insigniasDesbloqueadas };
         if (datos.apt) aciertosPorTabla = datos.apt;
+        if (typeof datos.recDes === "number") recordDesafioRelampago = datos.recDes;
         if (datos.historialPartidas) historialPartidas = datos.historialPartidas;
         if (typeof datos.sonidoActivo === "boolean") sonidoActivo = datos.sonidoActivo;
         if (datos.idiomaActual) idiomaActual = datos.idiomaActual;
@@ -1658,6 +1667,7 @@ function cargarPuntajes() {
   actualizarSelectorTablas();
   actualizarEstadisticas();
   renderizarInsigniasUI();
+  renderizarAvataresDisponibles();
   actualizarBotonSonido();
   actualizarTextosUI();
 }
@@ -1665,7 +1675,7 @@ function cargarPuntajes() {
 function guardarPuntajes() {
   try {
     nombre = inputNombre.value.trim();
-    localStorage.setItem(CLAVE_PUNTAJES, JSON.stringify({ nombre, puntos, aciertos, racha, maxRacha, avatarActual, insigniasDesbloqueadas, aciertosPorTabla, historialPartidas, sonidoActivo, idiomaActual, modoTiempo, revanchaPendiente, activado, girosRealizados }));
+    localStorage.setItem(CLAVE_PUNTAJES, JSON.stringify({ nombre, puntos, aciertos, racha, maxRacha, avatarActual, avataresDesbloqueados, insigniasDesbloqueadas, aciertosPorTabla, recordDesafioRelampago, historialPartidas, sonidoActivo, idiomaActual, modoTiempo, revanchaPendiente, activado, girosRealizados }));
   } catch (e) {}
 }
 
@@ -1688,8 +1698,37 @@ function generarOpciones(correcta) {
 
 function elegirFactorValido(tActual) {
   let disponibles = [];
-  for (let f = 1; f <= TOTAL; f++) disponibles.push(f);
-  return disponibles[Math.floor(Math.random() * disponibles.length)];
+
+  for (let f = 1; f <= TOTAL; f++) {
+    const clave = `${tActual}-${f}`;
+    if (conteoCombinacionesExactas[clave] === undefined) {
+      conteoCombinacionesExactas[clave] = 0;
+    }
+    if (conteoCombinacionesExactas[clave] < 4) {
+      disponibles.push(f);
+    }
+  }
+
+  if (disponibles.length === 0) {
+    const t = i18n[idiomaActual];
+    const mensajeTablaCompletada = idiomaActual === "es" 
+      ? `🌟 ¡Increíble! ¡Completaste toda la Tabla del ${tActual}! 🎉` 
+      : `🌟 Amazing! You completed the whole Table of ${tActual}! 🎉`;
+    
+    mostrarTextoFlotante(mensajeTablaCompletada, true, "44%");
+    reproducirSonido("acierto");
+    dispararConfetiVictoria();
+
+    for (let f = 1; f <= TOTAL; f++) {
+      conteoCombinacionesExactas[`${tActual}-${f}`] = 0;
+      disponibles.push(f);
+    }
+  }
+
+  const factorElegido = disponibles[Math.floor(Math.random() * disponibles.length)];
+  conteoCombinacionesExactas[`${tActual}-${factorElegido}`]++;
+
+  return factorElegido;
 }
 
 function iniciarRevancha() {
@@ -1829,6 +1868,138 @@ function evaluarMinijuego(verdadero) {
   btnMiniSiguiente.hidden = false;
 }
 
+// ---------------------------------------------------------------------------
+// LÓGICA DEL MODO: DESAFÍO RELÁMPAGO (60s) ARCADE & EMOCIÓN
+// ---------------------------------------------------------------------------
+function abrirDesafioRelampago() {
+  reproducirSonido("click");
+  modalDesafio.hidden = false;
+  desafioActivo = false;
+  desafioScoreActual = 0;
+  desafioRachaActual = 0;
+  lblDesafioScore.textContent = `⭐ 0`;
+  lblDesafioFrenesi.textContent = `🔥 Racha: 0`;
+  lblDesafioTiempo.textContent = "⏱️ 60s";
+  timerBarDesafio.style.width = "100%";
+  timerBarDesafio.style.background = "linear-gradient(90deg, #ec4899, #be185d)";
+  modalDesafioContenido.classList.remove("frenesi-alerta");
+  desafioOperacion.textContent = "? × ? = ?";
+  desafioRespuestas.replaceChildren();
+  desafioMensaje.textContent = "";
+  btnIniciarDesafio.style.display = "block";
+  btnIniciarDesafio.textContent = i18n[idiomaActual].desafioBtnComenzar;
+}
+
+function iniciarDesafioRelampago() {
+  reproducirSonido("click");
+  desafioActivo = true;
+  desafioScoreActual = 0;
+  desafioRachaActual = 0;
+  btnIniciarDesafio.style.display = "none";
+  lblDesafioScore.textContent = `⭐ 0`;
+  lblDesafioFrenesi.textContent = `🔥 Racha: 0`;
+
+  const duracionTotal = 60000;
+  const tiempoInicio = performance.now();
+  timerBarDesafio.style.width = "100%";
+
+  if (desafioTimer) clearInterval(desafioTimer);
+  siguientePreguntaDesafio();
+
+  desafioTimer = setInterval(() => {
+    const transcurrido = performance.now() - tiempoInicio;
+    const restanteMs = Math.max(0, duracionTotal - transcurrido);
+    const porcentaje = (restanteMs / duracionTotal) * 100;
+    timerBarDesafio.style.width = `${porcentaje}%`;
+    
+    const segundosRestantes = Math.ceil(restanteMs / 1000);
+    lblDesafioTiempo.textContent = `⏱️ ${segundosRestantes}s`;
+
+    // Efecto de frenesí y pitidos en los últimos 10 segundos
+    if (segundosRestantes <= 10 && segundosRestantes > 0) {
+      modalDesafioContenido.classList.add("frenesi-alerta");
+      timerBarDesafio.style.background = "linear-gradient(90deg, #ef4444, #991b1b)";
+      reproducirSonido("alerta");
+    }
+
+    if (transcurrido >= duracionTotal) {
+      finalizarDesafioRelampago();
+    }
+  }, 100);
+}
+
+function siguientePreguntaDesafio() {
+  if (!desafioActivo) return;
+  desafioTablaActual = Math.floor(Math.random() * 11) + 2;
+  desafioFactorActual = Math.floor(Math.random() * 12) + 1;
+  const correcta = desafioTablaActual * desafioFactorActual;
+
+  desafioOperacion.textContent = `${desafioTablaActual} × ${desafioFactorActual} = ?`;
+  desafioRespuestas.replaceChildren();
+
+  generarOpciones(correcta).forEach(v => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.textContent = v;
+    btn.style.cssText = "min-height: 44px; padding: 8px; color: #1e3a8a; background: #dbeafe; font-size: 19px; font-weight: 800; border: 2px solid #93c5fd;";
+    btn.addEventListener("click", () => {
+      if (!desafioActivo) return;
+      if (v === correcta) {
+        desafioScoreActual++;
+        desafioRachaActual++;
+        reproducirSonido("acierto");
+        
+        let multiplicador = desafioRachaActual >= 5 ? " 🚀x2" : "";
+        lblDesafioScore.textContent = `⭐ ${desafioScoreActual}`;
+        lblDesafioFrenesi.textContent = `🔥 Racha: ${desafioRachaActual}${multiplicador}`;
+        
+        if (desafioRachaActual % 5 === 0) {
+          mostrarTextoFlotante(`¡FRENESÍ x${Math.floor(desafioRachaActual/5)+1}! 🔥`, true, "40%");
+        }
+        siguientePreguntaDesafio();
+      } else {
+        desafioRachaActual = 0;
+        lblDesafioFrenesi.textContent = `🔥 Racha: 0`;
+        reproducirSonido("error");
+        vibrar(90);
+        siguientePreguntaDesafio();
+      }
+    });
+    desafioRespuestas.appendChild(btn);
+  });
+}
+
+function finalizarDesafioRelampago() {
+  desafioActivo = false;
+  if (desafioTimer) clearInterval(desafioTimer);
+  modalDesafioContenido.classList.remove("frenesi-alerta");
+  const t = i18n[idiomaActual];
+
+  let esNuevoRecord = false;
+  if (desafioScoreActual > recordDesafioRelampago) {
+    recordDesafioRelampago = desafioScoreActual;
+    esNuevoRecord = true;
+    dispararConfetiVictoria();
+  }
+
+  verificarInsignias(false);
+
+  const puntosGanados = desafioScoreActual * 5;
+  puntos += puntosGanados;
+  aciertos += desafioScoreActual;
+  actualizarEstadisticas();
+  guardarPuntajes();
+
+  desafioOperacion.textContent = "🏁 ¡TIEMPO!";
+  desafioRespuestas.replaceChildren();
+  desafioMensaje.style.color = esNuevoRecord ? "#b45309" : "#166534";
+  desafioMensaje.textContent = t.desafioFin(desafioScoreActual, puntosGanados, esNuevoRecord);
+
+  btnIniciarDesafio.style.display = "block";
+  btnIniciarDesafio.textContent = t.desafioBtnJugarOtra;
+}
+// ---------------------------------------------------------------------------
+
 function girarRuleta() {
   if (girando || verificarActivacionTurno()) return;
   detenerTemporizador();
@@ -1885,7 +2056,7 @@ function mostrarPregunta(esRevancha = false) {
   contestada = false;
   const t = i18n[idiomaActual];
   if (!esRevancha) {
-    document.getElementById("instruccion").textContent = `${avatarActual} ¡Salió el ${factor}! Tabla del ${tabla}.`;
+    document.getElementById("instruccion").textContent = t.instruccionGiro(avatarActual, factor, tabla);
     document.getElementById("operacion").textContent = `${tabla} × ${factor} = ?`;
   }
   document.getElementById("mensaje").textContent = t.mensajeElegir;
@@ -1917,7 +2088,7 @@ function responder(valor, esRevancha = false) {
     else if (Number(b.textContent) === valor) { b.style.backgroundColor = "#fecaca"; b.style.color = "#991b1b"; }
   });
 
-  const fechaSimple = obtenerFechaSimple();
+  const fechaSimple = new Date().toLocaleDateString();
   if (valor === correcta) {
     puntos += 20;
     aciertos++;
@@ -1934,7 +2105,7 @@ function responder(valor, esRevancha = false) {
     mostrarTextoFlotante(frase, true, "36%");
     mostrarTextoFlotante(`+20 pts ⭐`, true, "52%");
     
-    historialPartidas.push({ tabla, factor, respuestaUsuario: valor, correcta, acertado: true, fecha: fechaSimple });
+    historialPartidas.push({ tabla, factor, respuestaUsuario: valor, correcta, acertado: true, fecha: fechaSimple, tipo: "ruleta" });
     reproducirSonido(racha >= 3 ? "racha" : "acierto");
     document.getElementById("mensaje").textContent = `${frase} +20 pts`;
     hablar(t.hablarAcierto(inputNombre.value.trim() || "Campeón", frase, tabla, factor, correcta));
@@ -1943,7 +2114,7 @@ function responder(valor, esRevancha = false) {
     reproducirSonido("error");
     vibrar(100);
     revanchaPendiente = { tabla, factor };
-    historialPartidas.push({ tabla, factor, respuestaUsuario: valor, correcta, acertado: false, fecha: fechaSimple });
+    historialPartidas.push({ tabla, factor, respuestaUsuario: valor, correcta, acertado: false, fecha: fechaSimple, tipo: "ruleta" });
     
     const frase = t.frasesError[Math.floor(Math.random() * t.frasesError.length)](correcta, tabla, factor);
     document.getElementById("mensaje").textContent = frase;
@@ -1964,14 +2135,205 @@ function reiniciarPuntajes() {
   detenerTemporizador();
   reproducirSonido("click");
   if (!window.confirm(i18n[idiomaActual].confirmarReiniciar)) return;
-  puntos = 0; aciertos = 0; racha = 0; maxRacha = 0; avatarActual = "🦖";
+  puntos = 0; aciertos = 0; racha = 0; maxRacha = 0; avatarActual = "🦖"; recordDesafioRelampago = 0;
   insigniasDesbloqueadas = Object.keys(insigniasDesbloqueadas).reduce((acc, k) => ({ ...acc, [k]: false }), {});
   aciertosPorTabla = Object.keys(aciertosPorTabla).reduce((acc, k) => ({ ...acc, [k]: 0 }), {});
-  historialPartidas = []; revanchaPendiente = null;
+  historialPartidas = []; revanchaPendiente = null; conteoCombinacionesExactas = {};
   actualizarEstadisticas();
   renderizarInsigniasUI();
+  renderizarAvataresDisponibles();
   actualizarSelectorTablas();
   guardarPuntajes();
+}
+
+function iniciarTemporizador() {
+  detenerTemporizador();
+  if (modoTiempo === 0) {
+    timerContainer.style.display = "none";
+    return;
+  }
+  
+  let duracion = 6000;
+  if (modoTiempo === 2) duracion = 4000;
+  if (modoTiempo === 3) duracion = 2000;
+
+  const tiempoInicio = performance.now();
+  timerContainer.style.display = "block";
+  timerBar.style.width = "100%";
+
+  timerInterval = setInterval(() => {
+    const transcurrido = performance.now() - tiempoInicio;
+    const porcentaje = Math.max(0, 100 - (transcurrido / duracion) * 100);
+    timerBar.style.width = `${porcentaje}%`;
+
+    if (transcurrido >= duracion) {
+      detenerTemporizador();
+      if (!contestada && preguntaActiva) {
+        responder(-999, false);
+      }
+    }
+  }, 50);
+}
+
+function detenerTemporizador() {
+  if (timerInterval) clearInterval(timerInterval);
+  timerInterval = null;
+  timerBar.style.width = "100%";
+}
+
+function dibujar() {
+  if (!ctx) return;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  const centro = canvas.width / 2;
+  const radio = centro - 10;
+
+  ctx.save();
+  ctx.translate(centro, centro);
+  ctx.rotate(angulo);
+
+  for (let i = 0; i < TOTAL; i++) {
+    const inicioAngulo = i * sector;
+    const finAngulo = (i + 1) * sector;
+
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.arc(0, 0, radio, inicioAngulo, finAngulo);
+    ctx.closePath();
+    ctx.fillStyle = colores[i % colores.length];
+    ctx.fill();
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = "#ffffff";
+    ctx.stroke();
+
+    ctx.save();
+    ctx.rotate(inicioAngulo + sector / 2);
+    ctx.textAlign = "right";
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "bold 22px sans-serif";
+    ctx.fillText(i + 1, radio - 16, 8);
+    ctx.restore();
+  }
+  ctx.restore();
+
+  ctx.beginPath();
+  ctx.arc(centro, centro, 14, 0, Math.PI * 2);
+  ctx.fillStyle = "#172554";
+  ctx.fill();
+  ctx.lineWidth = 3;
+  ctx.strokeStyle = "#ffffff";
+  ctx.stroke();
+}
+
+function abrirModalHistorial(tipoVista = "todo") {
+  modalHistorial.hidden = false;
+  listaHistorialDiv.replaceChildren();
+  const t = i18n[idiomaActual];
+  
+  const headerTitulo = document.getElementById("lblHistorialTitulo");
+
+  if (tipoVista === "puntos") {
+    headerTitulo.textContent = t.historialTituloPuntos;
+    
+    const divRuleta = document.createElement("div");
+    divRuleta.className = "item-historial";
+    divRuleta.innerHTML = `<span>🎯 <strong>Giros de Ruleta / Práctica</strong></span><span>${aciertos * 20} pts ⭐</span>`;
+    listaHistorialDiv.appendChild(divRuleta);
+
+    const divDesafio = document.createElement("div");
+    divDesafio.className = "item-historial";
+    divDesafio.innerHTML = `<span>⚡ <strong>Desafíos Relámpago (60s)</strong></span><span>Récord: ${recordDesafioRelampago} ops</span>`;
+    listaHistorialDiv.appendChild(divDesafio);
+
+    const divTotal = document.createElement("div");
+    divTotal.className = "item-historial";
+    divTotal.style.background = "#fef3c7";
+    divTotal.innerHTML = `<span>⭐ <strong>Puntaje Acumulado Total</strong></span><span><strong>${puntos} pts ⭐</strong></span>`;
+    listaHistorialDiv.appendChild(divTotal);
+
+  } else if (tipoVista === "aciertos") {
+    headerTitulo.textContent = t.historialTituloAciertos;
+    
+    for (let i = 1; i <= TOTAL; i++) {
+      const cantAciertos = aciertosPorTabla[i] || 0;
+      const divTabla = document.createElement("div");
+      divTabla.className = "item-historial";
+      divTabla.innerHTML = `<span>📊 <strong>${idiomaActual === "es" ? "Tabla del" : "Table of"} ${i}</strong></span><span>${cantAciertos} aciertos (${obtenerEstrellasTabla(i)})</span>`;
+      listaHistorialDiv.appendChild(divTabla);
+    }
+
+  } else if (tipoVista === "racha") {
+    headerTitulo.textContent = t.historialTituloRacha;
+    
+    let categoriaRacha = t.catNormal;
+    if (racha >= 10) categoriaRacha = t.catDominador;
+    else if (racha >= 5) categoriaRacha = t.catVeloz;
+
+    const divRachaActual = document.createElement("div");
+    divRachaActual.className = "item-historial";
+    divRachaActual.innerHTML = `<span>🔥 Racha Actual</span><span><strong>${racha} seguidas</strong></span>`;
+    listaHistorialDiv.appendChild(divRachaActual);
+
+    const divMaxRacha = document.createElement("div");
+    divMaxRacha.className = "item-historial";
+    divMaxRacha.innerHTML = `<span>👑 Mejor Racha Histórica</span><span><strong>${maxRacha} seguidas</strong></span>`;
+    listaHistorialDiv.appendChild(divMaxRacha);
+
+    const divCat = document.createElement("div");
+    divCat.className = "item-historial";
+    divCat.innerHTML = `<span>🎖️ Categoría Actual</span><span><strong>${categoriaRacha}</strong></span>`;
+    listaHistorialDiv.appendChild(divCat);
+
+    const divRecDes = document.createElement("div");
+    divRecDes.className = "item-historial";
+    divRecDes.style.background = "#fdf2f8";
+    divRecDes.innerHTML = `<span>⚡ Récord Desafío Relámpago</span><span><strong>${recordDesafioRelampago} aciertos</strong></span>`;
+    listaHistorialDiv.appendChild(divRecDes);
+
+  } else {
+    headerTitulo.textContent = idiomaActual === "es" ? "📋 Historial General de Partidas" : "📋 General Game History";
+    
+    if (historialPartidas.length === 0) {
+      listaHistorialDiv.textContent = t.historialVacio;
+      return;
+    }
+
+    historialPartidas.slice().reverse().forEach(item => {
+      const div = document.createElement("div");
+      div.className = "item-historial";
+      div.innerHTML = `<span>${item.tabla} × ${item.factor} = ${item.correcta}</span><span>${item.acertado ? '✅' : '❌'} (${item.fecha})</span>`;
+      listaHistorialDiv.appendChild(div);
+    });
+  }
+}
+
+function limpiarHistorial() {
+  reproducirSonido("click");
+  historialPartidas = [];
+  guardarPuntajes();
+  abrirModalHistorial("todo");
+}
+
+function compartirResultados() {
+  reproducirSonido("click");
+  const t = i18n[idiomaActual];
+  let medallasConseguidas = Object.values(insigniasDesbloqueadas).filter(Boolean).length;
+  
+  const texto = t.textoCompartir(
+    inputNombre.value.trim(), 
+    puntos, 
+    aciertos, 
+    racha, 
+    maxRacha, 
+    medallasConseguidas, 
+    t.insigniasLista.length, 
+    recordDesafioRelampago
+  );
+  
+  if (navigator.share) {
+    navigator.share({ title: t.titulo, text: texto }).catch(() => {});
+  } else {
+    navigator.clipboard.writeText(texto).then(() => alert(t.msjCopiadoCodigo));
+  }
 }
 
 // Event Listeners principales
@@ -1984,7 +2346,7 @@ limpiarHistorialBtn.addEventListener("click", limpiarHistorial);
 compartirHistorialBtn.addEventListener("click", compartirResultados);
 botonRevancha.addEventListener("click", iniciarRevancha);
 
-cardPuntos.addEventListener("click", () => abrirModalHistorial("todo"));
+cardPuntos.addEventListener("click", () => abrirModalHistorial("puntos"));
 cardAciertos.addEventListener("click", () => abrirModalHistorial("aciertos"));
 cardRacha.addEventListener("click", () => abrirModalHistorial("racha"));
 
@@ -1992,22 +2354,22 @@ cardInsignias.addEventListener("click", () => { modalInsignias.hidden = false; r
 cerrarInsignias.addEventListener("click", () => modalInsignias.hidden = true);
 btnCerrarInsigniasModal.addEventListener("click", () => modalInsignias.hidden = true);
 
-btnAbrirAvatares.addEventListener("click", () => modalAvatares.hidden = false);
+btnAbrirAvatares.addEventListener("click", () => { modalAvatares.hidden = false; renderizarAvataresDisponibles(); });
 cerrarAvatares.addEventListener("click", () => modalAvatares.hidden = true);
-document.querySelectorAll(".opcion-avatar").forEach(el => {
-  el.addEventListener("click", (e) => {
-    avatarActual = e.target.getAttribute("data-avatar");
-    btnAbrirAvatares.textContent = avatarActual;
-    modalAvatares.hidden = true;
-    guardarPuntajes();
-  });
-});
 
 btnMinijuego.addEventListener("click", abrirMinijuego);
 cerrarMinijuego.addEventListener("click", () => modalMinijuego.hidden = true);
 btnMiniVerdadero.addEventListener("click", () => evaluarMinijuego(true));
 btnMiniFalso.addEventListener("click", () => evaluarMinijuego(false));
 btnMiniSiguiente.addEventListener("click", generarNuevoRetoMinijuego);
+
+btnModoDesafio.addEventListener("click", abrirDesafioRelampago);
+cerrarDesafio.addEventListener("click", () => {
+  if (desafioTimer) clearInterval(desafioTimer);
+  desafioActivo = false;
+  modalDesafio.hidden = true;
+});
+btnIniciarDesafio.addEventListener("click", iniciarDesafioRelampago);
 
 btnCopiarCodigo.addEventListener("click", copiarCodigoRespaldo);
 btnPegarCodigo.addEventListener("click", restaurarDesdeCodigoTexto);
@@ -2035,6 +2397,7 @@ modalActivacion.hidden = true;
 modalInsignias.hidden = true;
 modalAvatares.hidden = true;
 modalMinijuego.hidden = true;
+modalDesafio.hidden = true;
 
 actualizarSelectorTablas();
 cargarPuntajes();
