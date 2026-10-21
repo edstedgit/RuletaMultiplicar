@@ -2080,7 +2080,8 @@ function girarRuleta() {
   document.getElementById("instruccion").textContent = t.instruccionGirando;
   document.getElementById("operacion").textContent = "? × ? = ?";
 
-  const destino = -((factor - 1) * sector + sector / 2);
+  // CORRECCIÓN: Se añade - Math.PI / 2 para alinear el sector exactamente con la flecha superior (12 en punto)
+  const destino = -((factor - 1) * sector + sector / 2) - Math.PI / 2;
   const inicio = angulo, final = angulo + Math.PI * 2 * 6 + ((destino - (angulo % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2));
   const tiempoInicial = performance.now();
 
@@ -2104,7 +2105,6 @@ function girarRuleta() {
   }
   requestAnimationFrame(animar);
 }
-
 function mostrarPregunta(esRevancha = false) {
   preguntaActiva = true;
   contestada = false;
