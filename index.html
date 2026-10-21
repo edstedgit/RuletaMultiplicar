@@ -621,7 +621,7 @@
       <input type="text" id="nombreNino" placeholder="Tu nombre" maxlength="15">
     </div>
     <div class="selector-tabla">
-      <label for="tablaElegida" id="lblTabla">Tab:</label>
+      <label for="tablaElegida" id="lblTabla">Tabla:</label>
       <select id="tablaElegida"></select>
     </div>
     <div style="display:flex; gap:2px;">
@@ -975,7 +975,7 @@ const i18n = {
     titulo: "🎡 Ruleta de Multiplicar",
     lblNombre: "Nom:",
     placeholderNombre: "Tu nombre",
-    lblTabla: "Tab:",
+    lblTabla: "Tabla:",
     lblBadge: "Tabla",
     btnGirar: "🎯 ¡Girar la ruleta!",
     btnGirando: "🎯 Girando...",
@@ -1027,7 +1027,7 @@ const i18n = {
     desafioBtnJugarOtra: "⚡ ¡Jugar otra vez!",
     desafioFin: (score, pts, nuevoRec) => `⏰ ¡TIEMPO! Acertaste ${score} operaciones. ${nuevoRec ? '🏆 ¡NUEVO RÉCORD!' : ''} +${pts} ⭐!`,
     activacionTitulo: "🔒 Activación de Licencia",
-    activacionSub: "Para desbloquear todas las tablas y minijuegos, activa tu licencia por solo $20.000 COP (¡la Tabla del 1 es gratis!). WhatsApp @EdS_P",
+    activacionSub: "Para desbloquear todas las tablas y minijuegos, activa tu licencia por solo $20.000 COP (¡la Tabla 1 y la Tabla 2 son gratis!). WhatsApp @EdS_P",
     activacionPlaceholder: "Pega aquí tu llave de activación...",
     btnValidar: "✨ Validar Llave",
     msjExitoActivacion: "✨ ¡Llave de activación aceptada con éxito!",
@@ -1135,7 +1135,7 @@ const i18n = {
     desafioBtnJugarOtra: "⚡ Play Again!",
     desafioFin: (score, pts, nuevoRec) => `⏰ TIME'S UP! Got ${score} correct. ${nuevoRec ? '🏆 NEW RECORD!' : ''} +${pts} ⭐!`,
     activacionTitulo: "🔒 License Activation",
-    activacionSub: "To unlock all tables and minigames, activate your lifetime license for only $20,000 COP (Table 1 is free to practice!). WhatsApp @EdS_P",
+    activacionSub: "To unlock all tables and minigames, activate your lifetime license for only $20,000 COP (Table 1 and Table 2 are free to practice!). WhatsApp @EdS_P",
     activacionPlaceholder: "Paste your activation key here...",
     btnValidar: "✨ Validate Key",
     msjExitoActivacion: "✨ Activation key successfully accepted!",
@@ -1271,16 +1271,24 @@ function obtenerEstrellasTabla(numTabla) {
 function actualizarSelectorTablas() {
   const valorActual = selectorTabla.value || "mixto";
   selectorTabla.replaceChildren();
+  
   const optMixto = document.createElement("option");
   optMixto.value = "mixto";
   optMixto.textContent = i18n[idiomaActual].opcionMixto;
   selectorTabla.appendChild(optMixto);
+  
   for (let i = 1; i <= TOTAL; i++) {
     const opt = document.createElement("option");
     opt.value = i;
-    opt.textContent = (idiomaActual === "es" ? `Tabla ${i}` : `Table ${i}`) + ` (${obtenerEstrellasTabla(i)})`;
+    
+    const etiquetaTabla = idiomaActual === "es" ? `Tabla ${i}` : `Table ${i}`;
+    // Añadimos el distintivo gratis solo para la tabla 1 y la tabla 2
+    const sufijoGratis = (i === 1 || i === 2) ? (idiomaActual === "es" ? " 🆓 (Gratis)" : " 🆓 (Free)") : "";
+    
+    opt.textContent = `${etiquetaTabla}${sufijoGratis} (${obtenerEstrellasTabla(i)})`;
     selectorTabla.appendChild(opt);
   }
+  
   selectorTabla.value = valorActual;
 }
 
@@ -1768,8 +1776,10 @@ function iniciarRevancha() {
 }
 
 function verificarActivacionTurno() {
-  // Si ya está activado O si el usuario está practicando la Tabla 1, no pedimos activación
-  if (activado || Number(selectorTabla.value) === 1) return false;
+  const tablaSeleccionada = Number(selectorTabla.value);
+  
+  // Si ya está activado O si el usuario está practicando la Tabla 1 o la Tabla 2, no pedimos activación
+  if (activado || tablaSeleccionada === 1 || tablaSeleccionada === 2) return false;
   
   girosRealizados++;
   guardarPuntajes();
