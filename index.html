@@ -2003,6 +2003,19 @@ function finalizarDesafioRelampago() {
 // ---------------------------------------------------------------------------
 
 function girarRuleta() {
+  // Validación: Si no ha escrito el nombre, pedírselo antes de girar
+  const nombreIngresado = inputNombre.value.trim();
+  if (!nombreIngresado) {
+    const mensajeAlerta = idiomaActual === "es" 
+      ? "👋 ¡Hola! Por favor escribe el nombre del campeón/a antes de girar la ruleta." 
+      : "👋 Hello! Please type the champion's name before spinning the wheel.";
+    
+    alert(mensajeAlerta);
+    inputNombre.focus();
+    reproducirSonido("error");
+    return;
+  }
+
   if (girando || verificarActivacionTurno()) return;
   detenerTemporizador();
   reproducirSonido("click");
