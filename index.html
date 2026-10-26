@@ -660,6 +660,10 @@
   </button>
 
   <section class="pregunta" aria-label="Pregunta de multiplicación">
+	<div id="panelModoRepaso" style="display: none; justify-content: space-between; align-items: center; background: #fef3c7; padding: 4px 8px; border-radius: 6px; margin-bottom: 4px; border: 1.5px solid #fcd34d;">
+      <span id="txtModoRepasoInfo" style="font-size: 11px; font-weight: bold; color: #92400e;">🧠 Repasando errores (0 pendientes)</span>
+      <button id="btnSalirRepaso" type="button" style="background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; border-radius: 4px; font-size: 10px; padding: 3px 8px; cursor: pointer; font-weight: bold;">✖️</button>
+    </div>
     <p id="instruccion">Elige una tabla y gira para comenzar.</p>
     <div id="operacion" aria-label="Operación">? × ? = ?</div>
 
@@ -1068,16 +1072,17 @@ const i18n = {
     msjReiniciado: "Puntajes y historial reiniciados.",
     msjRestaurado: "¡Historial y puntajes restaurados con éxito! 🎉",
     msjCopiadoCodigo: "📤 ¡Código de respaldo copiado!",
-    textoCompartir: (n, pts, aci, racha, maxRacha, insigniasConseguidas, totalInsignias, recordDes) => 
-      `🌟 ¡Reto matemático de ${n || 'campeón/a'}! 🎡\n` +
+    textoCompartir: (n, pts, aci, racha, maxRacha, insigniasConseguidas, totalInsignias, recordDes, tablasDominadas) => 
+      `🌟 ¡Reporte de Progreso de ${n || 'campeón/a'} en la Ruleta! 🎡\n` +
       `----------------------------------\n` +
       `⭐ Puntos acumulados: ${pts}\n` +
       `✅ Aciertos totales: ${aci}\n` +
       `🔥 Mejor racha: ${maxRacha} seguidas\n` +
+      `👑 Tablas dominadas (⭐⭐⭐): ${tablasDominadas}/12\n` +
       `⚡ Récord Desafío 60s: ${recordDes} aciertos\n` +
       `🏆 Logros desbloqueados: ${insigniasConseguidas}/${totalInsignias}\n` +
       `----------------------------------\n` +
-      `💪 ¡A que no me superas en la ruleta! ¿Te atreves? 😎`
+      `💪 ¡Cada vez más experto en las matemáticas! ¿Te atreves a superarnos? 😎`
   },
   en: {
     titulo: "🎡 Multiplication Wheel",
@@ -1175,16 +1180,17 @@ const i18n = {
     msjReiniciado: "Scores reset.",
     msjRestaurado: "Scores and history successfully restored! 🎉",
     msjCopiadoCodigo: "📤 Backup code copied!",
-    textoCompartir: (n, pts, aci, racha, maxRacha, insigniasConseguidas, totalInsignias, recordDes) => 
-      `🌟 Math challenge by ${n || 'champion'}! 🎡\n` +
+    textoCompartir: (n, pts, aci, racha, maxRacha, insigniasConseguidas, totalInsignias, recordDes, tablasDominadas) => 
+      `🌟 ${n || 'Champion'}'s Progress Report on the Wheel! 🎡\n` +
       `----------------------------------\n` +
       `⭐ Total points: ${pts}\n` +
       `✅ Correct answers: ${aci}\n` +
       `🔥 Best streak: ${maxRacha} in a row\n` +
+      `👑 Tables mastered (⭐⭐⭐): ${tablasDominadas}/12\n` +
       `⚡ 60s Challenge Record: ${recordDes} correct\n` +
       `🏆 Badges unlocked: ${insigniasConseguidas}/${totalInsignias}\n` +
       `----------------------------------\n` +
-      `💪 I bet you can't beat my score! Do you dare? 😎`
+      `💪 Getting better at math every day! Can you beat this score? 😎`
   }
 };
 
@@ -1217,6 +1223,8 @@ let contestada = false;
 let preguntaActiva = false;
 let historialPartidas = [];
 let revanchaPendiente = null;
+let modoRepasoErrores = false;
+let listaErroresPendientes = [];
 
 
 if (inputNombreModal) {
@@ -1593,7 +1601,19 @@ function renderizarAvataresDisponibles() {
 }
 
 function generarCodigoRespaldoTexto() {
-  const datosRespaldo = { v: 7, n: inputNombre.value.trim(), p: puntos, a: aciertos, r: maxRacha, av: avatarActual, avs: avataresDesbloqueados, ins: insigniasDesbloqueadas, apt: aciertosPorTabla, recDes: recordDesafioRelampago, h: historialPartidas.slice(-15) };
+  const datosRespaldo = { 
+    v: 7, 
+    n: inputNombre.value.trim(), 
+    p: puntos, 
+    a: aciertos, 
+    r: maxRacha, 
+    av: avatarActual, 
+    avs: avataresDesbloqueados, 
+    ins: insigniasDesbloqueadas, 
+    apt: aciertosPorTabla, 
+    recDes: recordDesafioRelampago, 
+    h: historialPartidas.slice(-50) // Ampliado de -15 a -50 para conservar el diagnóstico real y la compensación
+  };
   return "RULETA_BK:" + btoa(encodeURIComponent(JSON.stringify(datosRespaldo)));
 }
 
@@ -1798,7 +1818,7 @@ function mostrarModalActivacion() {
   btnCerrarActivacion.disabled = true;
   btnCerrarActivacion.style.opacity = "0.6";
 
-  const segundosAleatorios = Math.floor(Math.random() * (10 - 5 + 1)) + 5;
+  const segundosAleatorios = Math.floor(Math.random() * 5) + 1;
   const duracionTotal = segundosAleatorios * 1000;
   let tiempoRestante = 100;
   timerBarActivacion.style.width = "100%";
@@ -2029,6 +2049,7 @@ function finalizarDesafioRelampago() {
 // ---------------------------------------------------------------------------
 
 function girarRuleta() {
+  if (modoRepasoErrores) return; // Si estamos repasando errores, bloqueamos el giro normal
   // Validación: Si no ha escrito el nombre, pedírselo y abrir la ventana de avatares
   const nombreIngresado = inputNombre.value.trim();
   if (!nombreIngresado) {
@@ -2278,6 +2299,187 @@ function dibujar() {
   ctx.stroke();
 }
 
+
+// ===========================================================================
+// NUEVAS FUNCIONES: ESTADÍSTICAS DE DEBILIDADES Y MODO REPASO DE ERRORES
+// ===========================================================================
+
+function iniciarModoRepasoErrores() {
+  reproducirSonido("click");
+  const t = i18n[idiomaActual];
+  
+  // Filtramos del historial general los errores únicos que no se hayan acertado aún
+  // O simplemente tomamos todos los ítems con acertado === false
+  const unicos = {};
+  historialPartidas.forEach(item => {
+    if (!item.acertado) {
+      unicos[`${item.tabla}-${item.factor}`] = { tabla: item.tabla, factor: item.factor, correcta: item.correcta };
+    }
+  });
+  
+  listaErroresPendientes = Object.values(unicos);
+  
+  if (listaErroresPendientes.length === 0) {
+    const msgVacio = idiomaActual === "es" ? "🎉 ¡Excelente! No tienes errores pendientes por repasar en el historial." : "🎉 Awesome! You have no pending errors to review in history.";
+    alert(msgVacio);
+    return;
+  }
+
+  modoRepasoErrores = true;
+  modalHistorial.hidden = true;
+  
+  // Ocultar ruleta y adaptar UI para repaso
+  document.getElementById("panelModoRepaso").style.display = "flex";
+  selectorTabla.disabled = true;
+  botonGirar.style.display = "none";
+  botonRevancha.style.display = "none";
+  document.getElementById("txtBtnSalir").textContent = idiomaActual === "es" ? "Salir a Ruleta" : "Exit to Wheel";
+  botonRevancha.style.display = "none";
+  
+  // NUEVO: Ocultamos el contenedor visual de la ruleta
+  if (ruletaContenedorDiv) {
+    ruletaContenedorDiv.style.display = "none";
+  }
+  // Si tienes un wrapper general de la ruleta también puedes ocultarlo, ej:
+  const ruletaWrapper = document.querySelector(".ruleta-wrapper");
+  if (ruletaWrapper) {
+    ruletaWrapper.style.display = "none";
+  }
+  
+  cargarSiguientePreguntaRepaso();
+}
+
+function salirModoRepaso() {
+  reproducirSonido("click");
+  modoRepasoErrores = false;
+  listaErroresPendientes = [];
+  document.getElementById("panelModoRepaso").style.display = "none";
+  selectorTabla.disabled = false;
+  botonGirar.style.display = "block";
+  if (ruletaContenedorDiv) {
+    ruletaContenedorDiv.style.display = "block";
+  }
+  const ruletaWrapper = document.querySelector(".ruleta-wrapper");
+  if (ruletaWrapper) {
+    ruletaWrapper.style.display = "flex";
+  }  
+  document.getElementById("instruccion").textContent = i18n[idiomaActual].instruccionInicial;
+  document.getElementById("operacion").textContent = "? × ? = ?";
+  contenedorRespuestas.replaceChildren();
+  document.getElementById("mensaje").textContent = "";
+  detenerTemporizador();
+}
+
+function cargarSiguientePreguntaRepaso() {
+  if (!modoRepasoErrores) return;
+  
+  if (listaErroresPendientes.length === 0) {
+    reproducirSonido("acierto");
+    dispararConfetiVictoria();
+    const msgFin = idiomaActual === "es" ? "🌟 ¡Increíble! ¡Has repasado y superado todos tus errores pendientes! 🎉" : "🌟 Amazing! You've reviewed and conquered all your pending errors! 🎉";
+    alert(msgFin);
+    salirModoRepaso();
+    return;
+  }
+
+  // Tomamos el primer error de la lista
+  const actual = listaErroresPendientes[0];
+  tabla = actual.tabla;
+  factor = actual.factor;
+  
+  actualizarBadgeTablaActiva();
+  
+  const pendientesTexto = idiomaActual === "es" ? `🧠 Repasando errores (${listaErroresPendientes.length} pendientes)` : `🧠 Reviewing errors (${listaErroresPendientes.length} pending)`;
+  document.getElementById("txtModoRepasoInfo").textContent = pendientesTexto;
+  
+  preguntaActiva = true;
+  contestada = false;
+  
+  const t = i18n[idiomaActual];
+  document.getElementById("instruccion").textContent = idiomaActual === "es" ? `🔄 Repaso de error: Tabla del ${tabla}` : `🔄 Error review: Table of ${tabla}`;
+  document.getElementById("operacion").textContent = `${tabla} × ${factor} = ?`;
+  document.getElementById("mensaje").textContent = t.mensajeElegir;
+  hablar(t.hablarPregunta(tabla, factor));
+  iniciarTemporizador();
+
+  const correcta = tabla * factor;
+  contenedorRespuestas.replaceChildren();
+  
+  generarOpciones(correcta).forEach(v => {
+    const boton = document.createElement("button");
+    boton.type = "button";
+    boton.textContent = v;
+    boton.addEventListener("click", () => {
+      reproducirSonido("click");
+      responderEnModoRepaso(v, correcta);
+    });
+    contenedorRespuestas.appendChild(boton);
+  });
+}
+
+function responderEnModoRepaso(valor, correcta) {
+  if (!preguntaActiva || contestada) return;
+  detenerTemporizador();
+  contestada = true;
+  preguntaActiva = false;
+  const t = i18n[idiomaActual];
+
+  contenedorRespuestas.querySelectorAll("button").forEach(b => {
+    b.disabled = true;
+    if (Number(b.textContent) === correcta) { b.style.backgroundColor = "#bbf7d0"; b.style.color = "#166534"; }
+    else if (Number(b.textContent) === valor) { b.style.backgroundColor = "#fecaca"; b.style.color = "#991b1b"; }
+  });
+
+  const fechaSimple = new Date().toLocaleDateString();
+
+  if (valor === correcta) {
+    puntos += 10;
+    aciertos++;
+    racha++;
+    aciertosPorTabla[tabla] = (aciertosPorTabla[tabla] || 0) + 1;
+    
+    // Si acertó, removemos este error de la lista pendiente
+    listaErroresPendientes.shift();
+    
+    // Registramos en el historial que ya fue superado
+    historialPartidas.push({ tabla, factor, respuestaUsuario: valor, correcta, acertado: true, fecha: fechaSimple, tipo: "repaso" });
+    
+    const frase = t.frasesAcierto[Math.floor(Math.random() * t.frasesAcierto.length)];
+    mostrarTextoFlotante(`¡Superado! +10 pts ⭐`, true, "36%");
+    reproducirSonido("acierto");
+    document.getElementById("mensaje").textContent = `${frase} ¡Error corregido!`;
+    hablar(t.hablarAcierto(inputNombre.value.trim() || "Campeón", frase, tabla, factor, correcta));
+  } else {
+    racha = 0;
+    reproducirSonido("error");
+    vibrar(100);
+    // Si vuelve a fallar, lo mandamos al final de la lista para insistir luego
+    const fallada = listaErroresPendientes.shift();
+    listaErroresPendientes.push(fallada);
+    
+    historialPartidas.push({ tabla, factor, respuestaUsuario: valor, correcta, acertado: false, fecha: fechaSimple, tipo: "repaso" });
+    
+    const frase = t.frasesError[Math.floor(Math.random() * t.frasesError.length)](correcta, tabla, factor);
+    document.getElementById("mensaje").textContent = frase;
+    mostrarTextoFlotante(`¡A seguir practicando!`, false, "52%");
+    hablar(t.hablarError(tabla, factor, correcta));
+  }
+
+  actualizarEstadisticas();
+  guardarPuntajes();
+  botonSiguiente.hidden = false;
+  
+  // Modificamos el comportamiento del botón siguiente para que cargue el próximo error
+  botonSiguiente.onclick = () => {
+    botonSiguiente.hidden = true;
+    cargarSiguientePreguntaRepaso();
+  };
+  botonSiguiente.focus();
+}
+
+// Vinculamos el botón de salida del repaso
+document.getElementById("btnSalirRepaso").addEventListener("click", salirModoRepaso);
+
 function abrirModalHistorial(tipoVista = "todo") {
   modalHistorial.hidden = false;
   listaHistorialDiv.replaceChildren();
@@ -2307,12 +2509,89 @@ function abrirModalHistorial(tipoVista = "todo") {
   } else if (tipoVista === "aciertos") {
     headerTitulo.textContent = t.historialTituloAciertos;
     
+    // Análisis inteligente con compensación (Errores históricos - Aciertos totales)
+    let tablaMasDificil = 1;
+    let maxBalanceNegativo = -999;
+    
+    for (let i = 1; i <= TOTAL; i++) {
+      const fallos = historialPartidas.filter(item => item.tabla === i && !item.acertado).length;
+      const aciertosTablaHistorial = historialPartidas.filter(item => item.tabla === i && item.acertado).length;
+      const balanceDebilidad = fallos - aciertosTablaHistorial;
+      
+      if (balanceDebilidad > maxBalanceNegativo && balanceDebilidad > 0) {
+        maxBalanceNegativo = balanceDebilidad;
+        tablaMasDificil = i;
+      }
+    }
+
+    if (maxBalanceNegativo > 0) {
+      const divAlertaDebilidad = document.createElement("div");
+      divAlertaDebilidad.className = "item-historial";
+      divAlertaDebilidad.style.background = "#fef2f2";
+      divAlertaDebilidad.style.borderColor = "#f87171";
+      divAlertaDebilidad.innerHTML = `<span>⚠️ <strong>${idiomaActual === "es" ? "Tabla a reforzar:" : "Table to practice:"}</strong></span><span style="color:#b91c1c; font-weight:bold;">Tabla del ${tablaMasDificil}</span>`;
+      listaHistorialDiv.appendChild(divAlertaDebilidad);
+    }
+
+    // Botón directo para iniciar el modo repaso desde el historial
+    const textoBtnRepaso = idiomaActual === "es" ? "🧠 Repasar mis errores pendientes" : "🧠 Review pending errors";
+    const divBtnRepaso = document.createElement("div");
+    divBtnRepaso.style.margin = "8px 0";
+    divBtnRepaso.innerHTML = `<button type="button" class="principal btn-modal-accion" style="background:#f59e0b; font-size:12px; padding:8px;">${textoBtnRepaso}</button>`;
+    divBtnRepaso.querySelector("button").addEventListener("click", () => {
+      modalHistorial.hidden = true;
+      iniciarModoRepasoErrores();
+    });
+    listaHistorialDiv.appendChild(divBtnRepaso);
+
+    // NUEVO: Cabecera con títulos de columnas (Tabla, Aciertos, Estado)
+    const divCabeceraTabla = document.createElement("div");
+    divCabeceraTabla.style.cssText = "display: grid; grid-template-columns: 1fr 1fr 1.2fr; gap: 4px; padding: 6px 8px; font-weight: bold; font-size: 11px; color: #1e3a8a; background: #e2e8f0; border-radius: 6px; margin-top: 8px; text-align: center;";
+    divCabeceraTabla.innerHTML = `
+      <span style="text-align: left;">${idiomaActual === "es" ? "Tabla" : "Table"}</span>
+      <span>${idiomaActual === "es" ? "Aciertos" : "Correct"}</span>
+      <span style="text-align: right;">${idiomaActual === "es" ? "Estado" : "Status"}</span>
+    `;
+    listaHistorialDiv.appendChild(divCabeceraTabla);
+
+    // Bucle unificado del 1 al 12 con formato de columnas
     for (let i = 1; i <= TOTAL; i++) {
       const cantAciertos = aciertosPorTabla[i] || 0;
-      const divTabla = document.createElement("div");
-      divTabla.className = "item-historial";
-      divTabla.innerHTML = `<span>📊 <strong>${idiomaActual === "es" ? "Tabla del" : "Table of"} ${i}</strong></span><span>${cantAciertos} aciertos (${obtenerEstrellasTabla(i)})</span>`;
-      listaHistorialDiv.appendChild(divTabla);
+      const estrellas = obtenerEstrellasTabla(i);
+      
+      // Diagnóstico de partidas recientes para esta tabla
+      const jugadasTabla = historialPartidas.filter(item => item.tabla === i).slice(-20);
+      let estadoTexto = idiomaActual === "es" ? "Sin datos" : "No data";
+      let emojiEstado = "⚪";
+      let colorFondo = "#f8fafc";
+      
+      if (jugadasTabla.length >= 3) {
+        const aciertosRecientes = jugadasTabla.filter(item => item.acertado).length;
+        const porcentaje = (aciertosRecientes / jugadasTabla.length) * 100;
+        
+        if (porcentaje >= 85) {
+          emojiEstado = "👑";
+          estadoTexto = idiomaActual === "es" ? "Dominada" : "Mastered";
+          colorFondo = "#dcfce7"; // Verde claro
+        } else if (porcentaje >= 60) {
+          emojiEstado = "⚠️";
+          estadoTexto = idiomaActual === "es" ? "En proceso" : "Practicing";
+          colorFondo = "#fef9c3"; // Amarillo claro
+        } else {
+          emojiEstado = "❌";
+          estadoTexto = idiomaActual === "es" ? "Repasar" : "Review";
+          colorFondo = "#fee2e2"; // Rojo claro
+        }
+      }
+
+      const divFila = document.createElement("div");
+      divFila.style.cssText = `display: grid; grid-template-columns: 1fr 1fr 1.2fr; gap: 4px; padding: 6px 8px; align-items: center; font-size: 12px; background: ${colorFondo}; border-bottom: 1px solid #cbd5e1; border-radius: 4px; margin-top: 3px;`;
+      divFila.innerHTML = `
+        <span style="font-weight: bold; text-align: left;">Tabla ${i}</span>
+        <span style="text-align: center;">${cantAciertos} ${estrellas}</span>
+        <span style="text-align: right; font-weight: bold; font-size: 11px;">${emojiEstado} ${estadoTexto}</span>
+      `;
+      listaHistorialDiv.appendChild(divFila);
     }
 
   } else if (tipoVista === "racha") {
@@ -2372,6 +2651,22 @@ function compartirResultados() {
   const t = i18n[idiomaActual];
   let medallasConseguidas = Object.values(insigniasDesbloqueadas).filter(Boolean).length;
   
+  // NUEVO: Cálculo alineado con el Diagnóstico de Dominio Real
+  let tablasDominadasCount = 0;
+  for (let i = 1; i <= TOTAL; i++) {
+    const jugadasTabla = historialPartidas.filter(item => item.tabla === i).slice(-20);
+    
+    if (jugadasTabla.length >= 3) {
+      const aciertosRecientes = jugadasTabla.filter(item => item.acertado).length;
+      if ((aciertosRecientes / jugadasTabla.length) * 100 >= 85) {
+        tablasDominadasCount++;
+      }
+    } else if ((aciertosPorTabla[i] || 0) >= 15) {
+      // Respaldo por si tiene muchos aciertos históricos acumulados
+      tablasDominadasCount++;
+    }
+  }
+  
   const texto = t.textoCompartir(
     inputNombre.value.trim(), 
     puntos, 
@@ -2380,7 +2675,8 @@ function compartirResultados() {
     maxRacha, 
     medallasConseguidas, 
     t.insigniasLista.length, 
-    recordDesafioRelampago
+    recordDesafioRelampago,
+    tablasDominadasCount // Número exacto de tablas dominadas según el diagnóstico real
   );
   
   if (navigator.share) {
