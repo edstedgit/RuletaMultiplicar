@@ -1625,22 +1625,84 @@ function renderizarTiendaAvatares() {
           guardarPuntajes();
           renderizarTiendaAvatares();
           renderizarAvataresDisponibles();
-          alert(t.msjTiendaExito);
+
+          // 🚀 ACCIÓN SEGÚN EL COSTO DEL AVATAR
           if (item.costo >= 1000) {
-            reproducirSonido("explosion"); // 💥 ¡Para los avatares caros de élite/legendarios!
+            // 💥 COMBO ÉPICO PARA AVATARES DE ÉLITE
+            reproducirSonido("explosion");
+            vibrar([100, 50, 100, 50, 200]);
+            mostrarTextoFlotante(`¡BOOM! ¡${item.avatar} DESBLOQUEADO!`, true, "50%");
+
+            // Tomamos los mensajes dinámicos según el idioma activo (es / en)
+            const mensajesExplosion = t.mensajesExplosion || [
+              "💥 ¡BOOM! ¡GRAN MAESTRO!", "🚀 ¡IMPARABLE!", "⭐ ¡NIVEL DIOS!", "🔥 ¡ÉPICO!"
+            ];
+
+            const contenedorExplosion = document.createElement("div");
+            contenedorExplosion.style.cssText = "position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); z-index:99999; pointer-events:none; width:100%; text-align:center;";
+            document.body.appendChild(contenedorExplosion);
+
+            mensajesExplosion.forEach((textoMsg, index) => {
+              setTimeout(() => {
+                const span = document.createElement("div");
+                span.textContent = textoMsg;
+                
+                const offsetX = (Math.random() - 0.5) * 300;
+                const offsetY = (Math.random() - 0.5) * 200;
+                
+                span.style.cssText = `
+                  position: absolute;
+                  left: 50%;
+                  top: 50%;
+                  transform: translate(calc(-50% + ${offsetX}px), calc(-50% + ${offsetY}px)) scale(0.5);
+                  background: linear-gradient(135deg, #f59e0b, #ef4444);
+                  color: white;
+                  padding: 8px 14px;
+                  border-radius: 20px;
+                  font-weight: 900;
+                  font-size: ${Math.floor(Math.random() * 8) + 14}px;
+                  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+                  white-space: nowrap;
+                  opacity: 1;
+                  transition: all 0.8s ease-out;
+                `;
+                
+                contenedorExplosion.appendChild(span);
+
+                setTimeout(() => {
+                  span.style.transform = `translate(calc(-50% + ${offsetX * 1.5}px), calc(-50% + ${offsetY * 1.8}px - 60px)) scale(1.2)`;
+                  span.style.opacity = "0";
+                }, 50);
+
+                setTimeout(() => {
+                  span.remove();
+                }, 900);
+
+              }, index * 40);
+            });
+
+            setTimeout(() => {
+              contenedorExplosion.remove();
+            }, mensajesExplosion.length * 40 + 1000);
+
           } else {
-            reproducirSonido("acierto");   // ✨ Para los avatares normales
+            // ✨ COMPRA NORMAL DE AVATARES ECONÓMICOS
+            reproducirSonido("acierto");
+            vibrar(50);
+            alert(t.msjTiendaExito);
           }
+
         } else {
+          // ❌ FALTA DE PUNTOS
           alert(t.faltaPuntos);
           reproducirSonido("error");
+          vibrar([50, 50, 50]);
         }
       });
     }
     gridTienda.appendChild(div);
   });
 }
-
 function renderizarAvataresDisponibles() {
 
 const inputNombreModal = document.getElementById("inputNombreModal");
