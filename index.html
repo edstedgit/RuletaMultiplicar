@@ -731,7 +731,7 @@
       
       <hr style="border:0; border-top:1px solid #e2e8f0; margin: 8px 0;">
       <p id="lblTiendaTitulo" style="font-size: 12px; font-weight: bold; color: #1e3a8a; text-align: center; margin: 2px 0;">🛒 Tienda de Avatares</p>
-      <div id="gridTiendaAvatares" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; max-height: 260px; overflow-y: auto; padding: 2px;"></div>
+      <div id="gridTiendaAvatares" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; max-height: 360px; overflow-y: auto; padding: 2px;"></div>
     </div>
   </div>
 
@@ -1435,6 +1435,40 @@ function reproducirSonido(tipo) {
     const ctxAudio = obtenerAudioContext();
     if (!ctxAudio) return;
     const now = ctxAudio.currentTime;
+
+    if (tipo === "explosion") {
+      // 🌟 Efecto de explosión épica para avatares de élite/legendarios
+      const bufferSize = ctxAudio.sampleRate * 0.4; // Duración: 0.4 segundos
+      const buffer = ctxAudio.createBuffer(1, bufferSize, ctxAudio.sampleRate);
+      const data = buffer.getChannelData(0);
+      
+      // Creamos ruido blanco aleatorio (efecto estática)
+      for (let i = 0; i < bufferSize; i++) {
+        data[i] = Math.random() * 2 - 1;
+      }
+
+      const noise = ctxAudio.createBufferSource();
+      noise.buffer = buffer;
+
+      // Filtro de bajas frecuencias para darle cuerpo de "boom" profundo
+      const filter = ctxAudio.createBiquadFilter();
+      filter.type = "lowpass";
+      filter.frequency.setValueAtTime(600, now);
+      filter.frequency.exponentialRampToValueAtTime(40, now + 0.4);
+
+      const gainNode = ctxAudio.createGain();
+      gainNode.gain.setValueAtTime(0.4, now);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+
+      noise.connect(filter);
+      filter.connect(gainNode);
+      gainNode.connect(ctxAudio.destination);
+
+      noise.start(now);
+      noise.stop(now + 0.4);
+      return; // Salimos aquí para que no ejecute los osciladores de abajo
+    }
+
     const osc = ctxAudio.createOscillator();
     const gainNode = ctxAudio.createGain();
     osc.connect(gainNode);
@@ -1474,7 +1508,6 @@ function reproducirSonido(tipo) {
     }
   } catch (e) {}
 }
-
 function hablar(texto) {
   if (!sonidoActivo) return;
   if ('speechSynthesis' in window) {
@@ -1593,7 +1626,11 @@ function renderizarTiendaAvatares() {
           renderizarTiendaAvatares();
           renderizarAvataresDisponibles();
           alert(t.msjTiendaExito);
-          reproducirSonido("acierto");
+          if (item.costo >= 1000) {
+            reproducirSonido("explosion"); // 💥 ¡Para los avatares caros de élite/legendarios!
+          } else {
+            reproducirSonido("acierto");   // ✨ Para los avatares normales
+          }
         } else {
           alert(t.faltaPuntos);
           reproducirSonido("error");
