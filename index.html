@@ -731,7 +731,7 @@
       
       <hr style="border:0; border-top:1px solid #e2e8f0; margin: 8px 0;">
       <p id="lblTiendaTitulo" style="font-size: 12px; font-weight: bold; color: #1e3a8a; text-align: center; margin: 2px 0;">🛒 Tienda de Avatares</p>
-      <div id="gridTiendaAvatares" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; max-height: 120px; overflow-y: auto; padding: 2px;"></div>
+      <div id="gridTiendaAvatares" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; max-height: 260px; overflow-y: auto; padding: 2px;"></div>
     </div>
   </div>
 
@@ -931,12 +931,34 @@ let activacionTimerInterval = null;
 let avatarActual = "🦖";
 let avataresDesbloqueados = ["🦖", "🚀", "🦉", "🤖"];
 let catalogoTienda = [
+  // Nivel Inicial (Recompensas rápidas)
+  { avatar: "🐱", costo: 20 },
+  { avatar: "🐶", costo: 40 },
+  { avatar: "🦊", costo: 70 },
+  
+  // Nivel Base
   { avatar: "🦁", costo: 100 },
+  
+  // Nivel Intermedio
+  { avatar: "🐼", costo: 175 },
   { avatar: "🧙‍♂️", costo: 250 },
+  { avatar: "🤖", costo: 320 },
+  
+  // Nivel Avanzado
   { avatar: "🦄", costo: 400 },
-  { avatar: "🐉", costo: 600 }
-];
+  { avatar: "🚀", costo: 500 },
+  { avatar: "🐉", costo: 600 },
+  
+  // Nivel Legendario
+  { avatar: "👑", costo: 800 },
+  { avatar: "⚡", costo: 1000 },
 
+  // 🔥 Nivel Ultra-Exclusivo / Gran Maestro (¡Para los verdaderos reyes de las matemáticas!)
+  { avatar: "💎", costo: 2000 }, // Diamante Matemático
+  { avatar: "🌟", costo: 3000 }, // Estrella Supernova
+  { avatar: "🔥", costo: 4000 }, // Fénix Legendario
+  { avatar: "🌌", costo: 5000 }  // Dios de la Galaxia
+];
 let insigniasDesbloqueadas = {
   primerAcierto: false,
   rachaCinco: false,
@@ -1333,6 +1355,8 @@ function actualizarBotonModoUI() {
 
 function actualizarTextosUI() {
   const t = i18n[idiomaActual];
+    
+
   document.getElementById("txtTitulo").textContent = t.titulo;
   document.getElementById("lblNombre").textContent = t.lblNombre;
   inputNombre.placeholder = t.placeholderNombre;
@@ -1382,6 +1406,7 @@ function actualizarTextosUI() {
   btnValidarActivacion.textContent = t.btnValidar;
   btnGenerarSolicitud.textContent = idiomaActual === "es" ? "🔑 Generar mi código de solicitud" : "🔑 Generate my request code";
   btnCompartirSolicitud.textContent = idiomaActual === "es" ? "📤 Compartir código con..." : "📤 Share code with...";
+
 
   actualizarBadgeTablaActiva();
   actualizarBotonRevanchaUI();
@@ -1580,6 +1605,12 @@ function renderizarTiendaAvatares() {
 }
 
 function renderizarAvataresDisponibles() {
+
+const inputNombreModal = document.getElementById("inputNombreModal");
+  if (inputNombreModal && typeof inputNombre !== 'undefined' && inputNombre) {
+    inputNombreModal.value = inputNombre.value;
+  }
+  
   const gridAvatares = document.querySelector(".grid-avatares");
   if (!gridAvatares) return;
   gridAvatares.replaceChildren();
