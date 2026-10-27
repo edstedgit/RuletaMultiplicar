@@ -628,6 +628,9 @@
       <button id="btnMinijuego" class="btn-minijuego-compacto" type="button" title="Minijuego: ¿Correcto o Trampa?">
         🕵️‍♂️
       </button>
+	  <button id="btnLluvia" class="btn-minijuego-compacto" type="button" title="Minijuego: Lluvia de Estrellas" style="background:#0284c7; border-color:#bae6fd;">
+         ⭐
+	  </button>
       <button id="btnModoDesafio" class="btn-minijuego-compacto" type="button" title="Desafío Relámpago (60s)" style="background:#ec4899; border-color:#fbcfe8;">
         ⚡
       </button>
@@ -767,6 +770,35 @@
       </button>
     </div>
   </div>
+
+	<!-- Modal de Minijuego: Lluvia de Estrellas -->
+	<div id="modalLluvia" class="modal-historial" hidden>
+	  <div class="modal-contenido" style="text-align: center; position: relative; overflow: hidden; height: 380px;">
+		<div class="modal-header">
+		  <span id="lblLluviaTitulo">⭐ Lluvia de Estrellas</span>
+		  <button id="cerrarLluvia" type="button" style="background:#e2e8f0; border-radius:50%; width:28px; height:28px; font-size:12px; font-weight:bold;">✕</button>
+		</div>
+		
+		<div style="display:flex; justify-content:space-between; align-items:center; background:#e0f2fe; padding:4px 8px; border-radius:6px; margin-bottom:4px; border:1.5px solid #bae6fd;">
+		  <span id="lblLluviaVidas" style="font-size:12px; font-weight:bold; color:#0369a1;">❤️❤️❤️ Vidas: 3</span>
+		  <span id="lblLluviaPuntos" style="font-size:12px; font-weight:bold; color:#0369a1;">⭐ Puntos: 0</span>
+		</div>
+
+		<!-- Operación a resolver -->
+		<div id="lluviaOperacion" style="font-size: 24px; font-weight: 800; margin: 8px 0; color: #1e3a8a;">
+		  ? × ? = ?
+		</div>
+
+		<!-- Área de caída de opciones (Estrellas flotantes) -->
+		<div id="lluviaAreaJuego" style="position: relative; width: 100%; height: 180px; background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 10px; overflow: hidden; margin-bottom: 6px;">
+		  <!-- Las estrellas se inyectarán aquí dinámicamente con JS -->
+		</div>
+
+		<button id="btnIniciarLluvia" class="principal btn-modal-accion" type="button" style="background: #0284c7; padding: 10px;">
+		  🚀 ¡Comenzar Lluvia!
+		</button>
+	  </div>
+	</div>
 
   <!-- Modal de Desafío Relámpago (60s) Super Emocionante -->
   <div id="modalDesafio" class="modal-historial" hidden>
@@ -924,6 +956,24 @@ const btnGenerarSolicitud = document.getElementById("btnGenerarSolicitud");
 const inputSolicitudEncriptada = document.getElementById("inputSolicitudEncriptada");
 const btnCompartirSolicitud = document.getElementById("btnCompartirSolicitud");
 
+const modalLluvia = document.getElementById("modalLluvia");
+const btnLluvia = document.getElementById("btnLluvia");
+const cerrarLluvia = document.getElementById("cerrarLluvia");
+const btnIniciarLluvia = document.getElementById("btnIniciarLluvia");
+const lluviaAreaJuego = document.getElementById("lluviaAreaJuego");
+const lluviaOperacion = document.getElementById("lluviaOperacion");
+const lblLluviaVidas = document.getElementById("lblLluviaVidas");
+const lblLluviaPuntos = document.getElementById("lblLluviaPuntos");
+
+
+let lluviaActiva = false;
+let lluviaVidas = 3;
+let lluviaScore = 0;
+let lluviaIntervalo = null;
+let estrellasActuales = [];
+
+
+
 let activado = false;
 let girosRealizados = 0;
 let activacionTimerInterval = null;
@@ -1003,6 +1053,10 @@ const i18n = {
     placeholderNombre: "Tu nombre",
     lblTabla: "Tabla:",
     lblBadge: "Tabla",
+	lluviaTitulo: "⭐ Lluvia de Estrellas",
+	lluviaBtnComenzar: "🚀 ¡Comenzar Lluvia!",
+	lluviaFin: (puntosFin) => `⏰ ¡Juego Terminado! Conseguiste ${puntosFin} puntos ⭐.`,
+	vidasTexto: (v) => `${'❤️'.repeat(v)}${'🤍'.repeat(3 - v)} Vidas: ${v}`,
     btnGirar: "🎯 ¡Girar la ruleta!",
     btnGirando: "🎯 Girando...",
     btnRevanchaTexto: (t, f) => `⚡ ¡Revancha pendiente! (${t} × ${f})`,
@@ -1160,6 +1214,10 @@ const i18n = {
     placeholderNombre: "Your name",
     lblTabla: "Table:",
     lblBadge: "Table",
+	lluviaTitulo: "⭐ Star Rain",
+	lluviaBtnComenzar: "🚀 START STAR RAIN!",
+	lluviaFin: (puntosFin) => `⏰ Game Over! You scored ${puntosFin} points ⭐.`,
+	vidasTexto: (v) => `${'❤️'.repeat(v)}${'🤍'.repeat(3 - v)} Lives: ${v}`,
     btnGirar: "🎯 Spin the wheel!",
     btnGirando: "🎯 Spinning...",
     btnRevanchaTexto: (t, f) => `⚡ Pending rematch! (${t} × ${f})`,
@@ -2914,6 +2972,134 @@ function compartirResultados() {
   } else {
     navigator.clipboard.writeText(texto).then(() => alert(t.msjCopiadoCodigo));
   }
+}
+
+btnLluvia.addEventListener("click", () => {
+  reproducirSonido("click");
+  modalLluvia.hidden = false;
+  reiniciarLluviaUI();
+});
+
+cerrarLluvia.addEventListener("click", () => {
+  detenerLluviaLoop();
+  modalLluvia.hidden = true;
+});
+
+btnIniciarLluvia.addEventListener("click", iniciarLluviaEstrellas);
+
+function reiniciarLluviaUI() {
+  lluviaActiva = false;
+  lluviaVidas = 3;
+  lluviaScore = 0;
+  lblLluviaVidas.textContent = `❤️❤️❤️ Vidas: 3`;
+  lblLluviaPuntos.textContent = `⭐ Puntos: 0`;
+  lluviaOperacion.textContent = "? × ? = ?";
+  lluviaAreaJuego.replaceChildren();
+  btnIniciarLluvia.style.display = "block";
+  btnIniciarLluvia.textContent = i18n[idiomaActual].lluviaBtnComenzar;
+}
+
+function iniciarLluviaEstrellas() {
+  reproducirSonido("click");
+  reiniciarLluviaUI();
+  lluviaActiva = true;
+  btnIniciarLluvia.style.display = "none";
+  siguienteRondaLluvia();
+}
+
+function siguienteRondaLluvia() {
+  if (!lluviaActiva || lluviaVidas <= 0) return;
+
+  lluviaAreaJuego.replaceChildren();
+  const tablaR = Math.floor(Math.random() * 10) + 2;
+  const factorR = Math.floor(Math.random() * 10) + 2;
+  const correcta = tablaR * factorR;
+
+  lluviaOperacion.textContent = `${tablaR} × ${factorR} = ?`;
+
+  const opciones = generarOpciones(correcta); // Usa tu función existente de opciones
+
+  // Creamos elementos visuales para cada opción que "caen"
+  opciones.forEach((val, index) => {
+    const estrella = document.createElement("button");
+    estrella.type = "button";
+    estrella.textContent = `⭐ ${val}`;
+    estrella.style.cssText = `
+      position: absolute;
+      top: -40px;
+      left: ${15 + index * 20}%;
+      background: #fef3c7;
+      border: 2px solid #f59e0b;
+      color: #78350f;
+      padding: 6px 10px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+      transition: top 3.5s linear;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    `;
+
+    lluviaAreaJuego.appendChild(estrella);
+
+    // Animación de caída hacia abajo
+    setTimeout(() => {
+      if (!lluviaActiva) return;
+      estrella.style.top = "140px";
+    }, 50);
+
+    estrella.addEventListener("click", () => {
+      if (!lluviaActiva) return;
+      if (val === correcta) {
+        // ¡Acierto!
+        reproducirSonido("acierto");
+        lluviaScore += 10;
+        lblLluviaPuntos.textContent = `⭐ Puntos: ${lluviaScore}`;
+        mostrarTextoFlotante("+10 ⭐", true, "45%");
+        siguienteRondaLluvia();
+      } else {
+        // Error
+        reproducirSonido("error");
+        vibrar(80);
+        perderVidaLluvia();
+      }
+    });
+
+    // Si la estrella llega abajo sin ser tocada
+    setTimeout(() => {
+      if (estrella.parentNode && val === correcta && lluviaActiva) {
+        perderVidaLluvia();
+      }
+    }, 3600);
+  });
+}
+
+function perderVidaLluvia() {
+  lluviaVidas--;
+  lblLluviaVidas.textContent = `Vidas: ${lluviaVidas}`;
+  if (lluviaVidas <= 0) {
+    finalizarLluviaEstrellas();
+  } else {
+    siguienteRondaLluvia();
+  }
+}
+
+function detenerLluviaLoop() {
+  lluviaActiva = false;
+}
+
+function finalizarLluviaEstrellas() {
+  lluviaActiva = false;
+  lluviaAreaJuego.replaceChildren();
+  lluviaOperacion.textContent = "🏁 ¡TIEMPO / FIN!";
+  
+  puntos += lluviaScore;
+  actualizarEstadisticas();
+  guardarPuntajes();
+  dispararConfetiVictoria();
+
+  btnIniciarLluvia.style.display = "block";
+  btnIniciarLluvia.textContent = idiomaActual === "es" ? "⚡ ¡Jugar otra vez!" : "⚡ Play Again!";
 }
 
 // Event Listeners principales
