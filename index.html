@@ -1610,8 +1610,12 @@ function hablar(texto) {
   if ('speechSynthesis' in window) {
     try {
       window.speechSynthesis.cancel();
+      
+      // Limpiamos los emojis para evitar que el lector los pronuncie
+      const textoLimpio = texto ? texto.replace(/\p{Extended_Pictographic}/gu, '').trim() : "";
+
       setTimeout(() => {
-        const utterance = new SpeechSynthesisUtterance(texto);
+        const utterance = new SpeechSynthesisUtterance(textoLimpio);
         utterance.lang = idiomaActual === "es" ? 'es-ES' : 'en-US';
         utterance.rate = 1.0;
         utterance.volume = 1.0;
@@ -1621,7 +1625,6 @@ function hablar(texto) {
     } catch (e) {}
   }
 }
-
 function actualizarBotonSonido() {
   botonSonido.textContent = sonidoActivo ? "🔊" : "🔇";
 }
