@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -149,7 +150,7 @@
     }
 
     .selector-tabla select {
-      max-width: 85px;
+      max-width: 125px;
     }
 
     .btn-minijuego-compacto {
@@ -293,6 +294,33 @@
       box-shadow: 0 2px 6px rgba(245, 158, 11, 0.3);
     }
 
+	@keyframes reboteFlotante {
+	  0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+	  70% { transform: translate(-50%, -50%) scale(1.08); opacity: 1; }
+	  100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+	}
+
+	.ventana-reto-activa {
+	  animation: reboteFlotante 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+	}
+	
+	@keyframes pulsoAlerta {
+	  0% { box-shadow: inset 0 0 0 0 rgba(220, 38, 38, 0.7); }
+	  70% { box-shadow: inset 0 0 0 6px rgba(220, 38, 38, 0); }
+	  100% { box-shadow: inset 0 0 0 0 rgba(220, 38, 38, 0); }
+	}
+
+	.rey-en-jaque {
+	  animation: pulsoAlerta 1.2s infinite;
+	}
+
+	/* Efecto hover suave al pasar el mouse por las casillas válidas */
+	.casilla-valida:hover {
+	  filter: brightness(1.1);
+	  transform: scale(0.96);
+	  transition: transform 0.1s ease;
+	}
+	
     @keyframes pulsoRevancha {
       0% { transform: scale(1); }
       50% { transform: scale(1.02); background: #d97706; }
@@ -617,7 +645,7 @@
 
   <div class="config-container">
     <div class="selector-tabla">
-      <label for="nombreNino" id="lblNombre">Nom:</label>
+      <label for="nombreNino" id="lblNombre">Nombre:</label>
       <input type="text" id="nombreNino" placeholder="Tu nombre" maxlength="15">
     </div>
     <div class="selector-tabla">
@@ -625,15 +653,6 @@
       <select id="tablaElegida"></select>
     </div>
     <div style="display:flex; gap:2px;">
-      <button id="btnMinijuego" class="btn-minijuego-compacto" type="button" title="Minijuego: ¿Correcto o Trampa?">
-        🕵️‍♂️
-      </button>
-	  <button id="btnLluvia" class="btn-minijuego-compacto" type="button" title="Minijuego: Lluvia de Estrellas" style="background:#0284c7; border-color:#bae6fd;">
-         ⭐
-	  </button>
-      <button id="btnModoDesafio" class="btn-minijuego-compacto" type="button" title="Desafío Relámpago (60s)" style="background:#ec4899; border-color:#fbcfe8;">
-        ⚡
-      </button>
     </div>
     <div class="badge-tabla-actual" aria-label="Tabla actual del turno">
       <span class="badge-label" id="lblBadgeTabla">Tabla</span>
@@ -645,14 +664,42 @@
     <div class="timer-bar" id="timerBar"></div>
   </div>
 
-  <div class="ruleta-wrapper">
-    <div class="ruleta-contenedor" id="ruletaContenedorDiv">
-      <div class="flecha" aria-hidden="true">▼</div>
-      <canvas id="ruleta" width="340" height="340" role="img" aria-label="Ruleta con los números del 1 al 12">
-        Ruleta de los números del 1 al 12.
-      </canvas>
-    </div>
-  </div>
+	<!-- Contenedor general de la ruleta con compensación para que quede perfectamente centrada -->
+	<div style="display: flex; align-items: center; justify-content: space-between; width: 100%; margin: 2px 0; padding: 0 10px;">
+
+	  <!-- Espaciador invisible izquierdo (Igual al ancho de los botones de la derecha para equilibrar el centro exacto) -->
+	  <div style="width: 25px; visibility: hidden;"></div>
+
+	  <!-- Ruleta (Ahora sí, centrada matemáticamente en el medio) -->
+	  <div class="ruleta-wrapper" style="margin: 0; flex: 1; display: flex; align-items: center; justify-content: center;">
+		<div class="ruleta-contenedor" id="ruletaContenedorDiv">
+		  <div class="flecha" aria-hidden="true">▼</div>
+		  <canvas id="ruleta" width="340" height="340" role="img" aria-label="Ruleta con los números del 1 al 12">
+			Ruleta de los números del 1 al 12.
+		  </canvas>
+		</div>
+	  </div>
+
+	  <!-- Columna de Botones de Minijuegos (Derecha, de arriba hacia abajo) -->
+	  <div style="display: flex; flex-direction: column; gap: 5px; z-index: 10; flex-shrink: 0;">
+		<button id="btnMinijuego" class="btn-minijuego-compacto" type="button" title="Minijuego: ¿Correcto o Trampa?">
+		  🕵️‍♂️
+		</button>
+		<button id="btnLluvia" class="btn-minijuego-compacto" type="button" title="Minijuego: Lluvia de Estrellas" style="background:#0284c7; border-color:#bae6fd;">
+		  ⭐
+		</button>
+		<button id="btnModoDesafio" class="btn-minijuego-compacto" type="button" title="Desafío Relámpago (60s)" style="background:#ec4899; border-color:#fbcfe8;">
+		  ⚡
+		</button>
+		<button id="btnTableroMagico" class="btn-minijuego-compacto" type="button" title="Minijuego: Ajedrez Táctico" style="background:#8b5cf6; border-color:#c4b5fd; color:white;">
+		  ♟️
+		</button>
+		<button id="btnLaberinto" class="btn-minijuego-compacto" type="button" title="Minijuego: Laberinto Numérico" style="background:#10b981; border-color:#a7f3d0; color:white;">
+		  🗺️
+		</button>
+	  </div>
+
+	</div>
 
   <button id="btnRevancha" class="btn-revancha" type="button">
     ⚡ ¡Revancha pendiente! (Repasar error)
@@ -665,7 +712,9 @@
   <section class="pregunta" aria-label="Pregunta de multiplicación">
 	<div id="panelModoRepaso" style="display: none; justify-content: space-between; align-items: center; background: #fef3c7; padding: 4px 8px; border-radius: 6px; margin-bottom: 4px; border: 1.5px solid #fcd34d;">
       <span id="txtModoRepasoInfo" style="font-size: 11px; font-weight: bold; color: #92400e;">🧠 Repasando errores (0 pendientes)</span>
-      <button id="btnSalirRepaso" type="button" style="background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; border-radius: 4px; font-size: 10px; padding: 3px 8px; cursor: pointer; font-weight: bold;">✖️</button>
+      <button id="btnSalirRepaso" type="button" style="background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; border-radius: 4px; font-size: 10px; padding: 3px 8px; cursor: pointer; font-weight: bold;">
+	    <span id="txtBtnSalir">✖️ Salir</span>
+	  </button>	
     </div>
     <p id="instruccion">Elige una tabla y gira para comenzar.</p>
     <div id="operacion" aria-label="Operación">? × ? = ?</div>
@@ -832,6 +881,117 @@
     </div>
   </div>
 
+	<!-- Modal de Minijuego: Laberinto Numérico -->
+	<div id="modalLaberinto" class="modal-historial" hidden>
+	  <div class="modal-contenido" style="text-align: center; position: relative; overflow: hidden; max-width: 360px;">
+		<div class="modal-header">
+		  <span id="lblLaberintoTitulo">🗺️ Laberinto Numérico</span>
+		  <button id="cerrarLaberinto" type="button" style="background:#e2e8f0; border-radius:50%; width:28px; height:28px; font-size:12px; font-weight:bold;">✕</button>
+		</div>
+		
+		<div style="background:#ecfdf5; padding:6px 8px; border-radius:6px; margin-bottom:6px; border:1.5px solid #a7f3d0;">
+		  <span id="lblLaberintoRegla" style="font-size: 11px; font-weight: bold; color: #047857;">Regla: Sigue los múltiplos de 4</span>
+		</div>
+
+		<!-- Cuadrícula del Laberinto (Matriz 3x3 o 4x4) -->
+		<div id="laberintoGrid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 10px 0; padding: 4px;">
+		  <!-- Se inyectará dinámicamente con JS -->
+		</div>
+
+		<div id="laberintoMensaje" style="font-size: 12px; font-weight: bold; min-height: 20px; margin: 4px 0; color: #1e3a8a;"></div>
+
+		<button id="btnReiniciarLaberinto" class="principal btn-modal-accion" type="button" style="background: #10b981; padding: 10px;">
+		  🔄 Nuevo Laberinto
+		</button>
+	  </div>
+	</div>
+
+	<!-- Modal de Minijuego: Ajedrez Táctico 8x8 (Modular / Bot o 2P) -->
+	<div id="modalTableroMagico" class="modal-historial" hidden>
+	  <div class="modal-contenido" style="text-align: center; position: relative; overflow: hidden; max-width: 400px; padding: 14px;">
+		
+		<!-- Cabecera con título, selector de temas y botón de cierre -->
+		<div class="modal-header" style="margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center;">
+		  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+			<span id="lblTableroTitulo" style="font-size: 13px; font-weight: bold;">♟️ Ajedrez Matemágico (8x8)</span>
+			<select id="selectColorTemaTablero" style="font-size: 10px; padding: 3px 6px; border-radius: 6px; border: 1px solid #cbd5e1; background: #f8fafc; font-weight: bold; color: #475569; cursor: pointer;">
+			  <option value="esmeralda">🌿 Bosque Esmeralda</option>			  
+			  <option value="madera">🪵 Madera Clásica</option>
+			  <option value="oceano">🌊 Océano Azul</option>
+			  <option value="lila">🔮 Lila Mágico</option>
+			</select>
+		  </div>
+		  <button id="cerrarTableroMagico" type="button" style="background:#e2e8f0; border-radius:50%; width:28px; height:28px; font-size:12px; font-weight:bold; border:none; cursor:pointer;">✕</button>
+		</div>
+		
+		<!-- Selectores de Modo y Temática -->
+		<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; gap: 4px;">
+		  <select id="selectModoJuego" style="font-size: 11px; padding: 4px; border-radius: 6px; border: 1px solid #cbd5e1; background: #f8fafc; font-weight: bold; flex: 1;">
+			<option value="bot">🤖 vs. Bot Matemático</option>
+			<option value="pvp">👥 2 Jugadores (PvP)</option>
+		  </select>
+		  
+		  <!-- 🌟 Nuevo Selector de Variante (Clásico vs Superpoderes) -->
+		  <select id="selectVarianteAjedrez" style="font-size: 10px; padding: 4px; border-radius: 6px; border: 1px solid #cbd5e1; background: #f8fafc; font-weight: bold; flex: 1; min-width: 90px;">
+			<option value="clasico">♟️ Clásico</option>
+			<option value="superpoderes">⚡ Superpoderes</option>
+		  </select>
+		  
+		  <select id="selectTematica" style="font-size: 11px; padding: 4px; border-radius: 6px; border: 1px solid #cbd5e1; background: #f8fafc; font-weight: bold; flex: 1;">
+			<option value="ajedrez">♟️ Ajedrez / Chess</option>
+			<option value="dinosaurios">🦖 Dinosaurios / Dinos</option>
+		  </select>
+		</div>
+
+		<!-- Indicador de Turno Actual -->
+		<div id="lblTurnoJugador" style="background:#f3e8ff; padding:5px; border-radius:6px; margin-bottom:6px; border:1.5px solid #d8b4fe; font-size: 11px; font-weight: bold; color: #6b21a8;">
+		  Turno: ♙ Blancas (Elige pieza y destino)
+		</div>
+
+		<!-- 🗺️ TABLERO TÁCTICO 8x8 INTERACTIVO CON COORDENADAS -->
+		<div style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 6px; margin-bottom: 8px; display: inline-block; position: relative;">
+		  
+		  <!-- Contenedor general con filas y columnas numéricas/alfabéticas -->
+		  <div style="display: grid; grid-template-columns: 16px 1fr; grid-template-rows: 1fr 16px; gap: 2px; align-items: center; justify-items: center;">
+			
+			<!-- Números de filas a la izquierda (8 al 1) -->
+			<div style="display: flex; flex-direction: column; justify-content: space-around; height: calc(8 * 36px + 7 * 2px); font-size: 10px; font-weight: bold; color: #64748b; padding-right: 2px;">
+			  <span>8</span><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span>
+			</div>
+
+			<!-- Tablero 8x8 central -->
+			<div id="tableroVisual8x8" style="display: grid; grid-template-columns: repeat(8, 36px); grid-template-rows: repeat(8, 36px); gap: 2px;">
+			  <!-- Generado dinámicamente por JS -->
+			</div>
+
+			<!-- Espacio vacío esquina inferior izquierda -->
+			<div></div>
+
+			<!-- Letras de columnas abajo (A a H) -->
+			<div style="display: grid; grid-template-columns: repeat(8, 36px); width: calc(8 * 36px + 7 * 2px); font-size: 10px; font-weight: bold; color: #64748b; text-align: center;">
+			  <span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span><span>G</span><span>H</span>
+			</div>
+
+		  </div>
+
+		  <!-- 🪟 VENTANA FLOTANTE DE RETO MATEMÁTICO (Superpuesta en el centro exacto) -->
+		  <div id="tableroRetoBox" class="ventana-reto-activa" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: linear-gradient(135deg, #ffffff 0%, #f3e8ff 100%); border: 3px solid #9333ea; border-radius: 16px; padding: 16px; box-shadow: 0 15px 35px rgba(126, 34, 206, 0.4); z-index: 50; width: 85%; max-width: 290px; text-align: center;">
+			<div id="lblTableroOperacion" style="font-size: 22px; font-weight: 900; color: #6b21a8; margin-bottom: 12px; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">1 × 1 = ?</div>
+			<div id="tableroOpcionesGrid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;">
+			  <!-- Se llena con JS -->
+			</div>
+		  </div>
+
+		</div>
+
+		<div id="tableroMensaje" style="font-size: 11px; font-weight: bold; min-height: 20px; margin: 2px 0; color: #4c1d95;"></div>
+
+		<button id="btnReiniciarTablero" class="principal btn-modal-accion" type="button" style="background: #8b5cf6; padding: 6px; font-size: 12px; margin-top: 2px; width: 100%;">
+		  🔄 Reiniciar Partida
+		</button>
+	  </div>
+	</div>
+
   <div id="modalHistorial" class="modal-historial" hidden>
     <div class="modal-contenido">
       <div class="modal-header">
@@ -966,6 +1126,20 @@ const lblLluviaVidas = document.getElementById("lblLluviaVidas");
 const lblLluviaPuntos = document.getElementById("lblLluviaPuntos");
 
 
+const modalLaberinto = document.getElementById("modalLaberinto");
+const btnLaberinto = document.getElementById("btnLaberinto");
+const cerrarLaberinto = document.getElementById("cerrarLaberinto");
+const btnReiniciarLaberinto = document.getElementById("btnReiniciarLaberinto");
+const laberintoGrid = document.getElementById("laberintoGrid");
+const lblLaberintoRegla = document.getElementById("lblLaberintoRegla");
+const laberintoMensaje = document.getElementById("laberintoMensaje");
+
+let laberintoTablaActual = 4;
+let secuenciaCorrecta = [];
+let pasoActualIndex = 0;
+let laberintoCasillas = [];
+
+
 let lluviaActiva = false;
 let lluviaVidas = 3;
 let lluviaScore = 0;
@@ -1049,7 +1223,7 @@ let miniEsRealmenteCorrecta = true;
 const i18n = {
   es: {
     titulo: "🎡 Ruleta de Multiplicar",
-    lblNombre: "Nom:",
+    lblNombre: "Nombre:",
     placeholderNombre: "Tu nombre",
     lblTabla: "Tabla:",
     lblBadge: "Tabla",
@@ -1511,7 +1685,6 @@ function actualizarBotonModoUI() {
 function actualizarTextosUI() {
   const t = i18n[idiomaActual];
     
-
   document.getElementById("txtTitulo").textContent = t.titulo;
   document.getElementById("lblNombre").textContent = t.lblNombre;
   inputNombre.placeholder = t.placeholderNombre;
@@ -1536,9 +1709,30 @@ function actualizarTextosUI() {
   compartirHistorialBtn.textContent = t.btnCompartirHistorial;
   btnCopiarCodigo.textContent = t.btnCopiarCodigo;
   btnPegarCodigo.textContent = t.btnPegarCodigo;
-  btnMinijuego.setAttribute("title", idiomaActual === "es" ? "Minijuego: ¿Correcto o Trampa?" : "Minigame: Correct or Trap?");
-  btnModoDesafio.setAttribute("title", idiomaActual === "es" ? "Desafío Relámpago (60s)" : "Lightning Challenge (60s)");
-  btnResetTestActivacion.textContent = idiomaActual === "es" ? "🛠️ [TEST] Resetear Activación" : "🛠️ [TEST] Reset Activation";
+
+  // 🌐 Traducción completa de los 5 tooltips (títulos flotantes) de los botones laterales
+  if (btnMinijuego) {
+    btnMinijuego.setAttribute("title", idiomaActual === "es" ? "Minijuego: ¿Correcto o Trampa?" : "Minigame: Correct or Trap?");
+  }
+  const btnLluvia = document.getElementById("btnLluvia");
+  if (btnLluvia) {
+    btnLluvia.setAttribute("title", idiomaActual === "es" ? "Minijuego: Lluvia de Estrellas" : "Minigame: Star Rain");
+  }
+  if (btnModoDesafio) {
+    btnModoDesafio.setAttribute("title", idiomaActual === "es" ? "Desafío Relámpago (60s)" : "Lightning Challenge (60s)");
+  }
+  const btnTableroMagico = document.getElementById("btnTableroMagico");
+  if (btnTableroMagico) {
+    btnTableroMagico.setAttribute("title", idiomaActual === "es" ? "Minijuego: Ajedrez Táctico" : "Minigame: Tactical Chess");
+  }
+  const btnLaberinto = document.getElementById("btnLaberinto");
+  if (btnLaberinto) {
+    btnLaberinto.setAttribute("title", idiomaActual === "es" ? "Minijuego: Laberinto Numérico" : "Minigame: Number Maze");
+  }
+
+  if (btnResetTestActivacion) {
+    btnResetTestActivacion.textContent = idiomaActual === "es" ? "🛠️ [TEST] Resetear Activación" : "🛠️ [TEST] Reset Activation";
+  }
 
   document.getElementById("lblAvatarTitulo").textContent = t.avatarTitulo;
   document.getElementById("lblAvatarSub").textContent = t.avatarSub;
@@ -1553,15 +1747,35 @@ function actualizarTextosUI() {
   btnMiniSiguiente.textContent = t.btnMiniSiguiente;
 
   document.getElementById("lblDesafioTitulo").textContent = t.desafioTitulo;
-  if (!desafioActivo) btnIniciarDesafio.textContent = t.desafioBtnComenzar;
+  if (!desafioActivo && typeof btnIniciarDesafio !== 'undefined' && btnIniciarDesafio) {
+    btnIniciarDesafio.textContent = t.desafioBtnComenzar;
+  }
 
-  document.getElementById("lblActivacionTitulo").textContent = t.activacionTitulo;
-  document.getElementById("lblActivacionSub").textContent = t.activacionSub;
-  inputCodigoActivacion.placeholder = t.activacionPlaceholder;
-  btnValidarActivacion.textContent = t.btnValidar;
-  btnGenerarSolicitud.textContent = idiomaActual === "es" ? "🔑 Generar mi código de solicitud" : "🔑 Generate my request code";
-  btnCompartirSolicitud.textContent = idiomaActual === "es" ? "📤 Compartir código con..." : "📤 Share code with...";
+  // Textos del Laberinto Numérico
+  const lblLaberintoTitulo = document.getElementById("lblLaberintoTitulo");
+  if (lblLaberintoTitulo) {
+    lblLaberintoTitulo.textContent = idiomaActual === "es" ? "🗺️ Laberinto Numérico" : "🗺️ Number Maze";
+  }
+  const btnReiniciarLaberinto = document.getElementById("btnReiniciarLaberinto");
+  if (btnReiniciarLaberinto) {
+    btnReiniciarLaberinto.textContent = idiomaActual === "es" ? "🔄 Nuevo Laberinto" : "🔄 New Maze";
+  }
+  const lblLaberintoRegla = document.getElementById("lblLaberintoRegla");
+  if (lblLaberintoRegla && typeof laberintoTablaActual !== 'undefined') {
+    lblLaberintoRegla.textContent = idiomaActual === "es" 
+      ? `🎯 Regla: Toca los múltiplos de la Tabla del ${laberintoTablaActual} en orden (1 al 6)` 
+      : `🎯 Rule: Tap multiples of Table ${laberintoTablaActual} in order (1 to 6)`;
+  }
 
+  // Textos de Lluvia de Estrellas
+  const lblLluviaTitulo = document.getElementById("lblLluviaTitulo");
+  if (lblLluviaTitulo) {
+    lblLluviaTitulo.textContent = t.lluviaTitulo;
+  }
+  const btnIniciarLluvia = document.getElementById("btnIniciarLluvia");
+  if (btnIniciarLluvia) {
+    btnIniciarLluvia.textContent = t.lluviaBtnComenzar;
+  }
 
   actualizarBadgeTablaActiva();
   actualizarBotonRevanchaUI();
@@ -1573,7 +1787,6 @@ function actualizarTextosUI() {
   botonIdioma.textContent = idiomaActual === "es" ? "🇪🇸" : "🇺🇸";
   btnAbrirAvatares.textContent = avatarActual;
 }
-
 let audioCtx = null;
 function obtenerAudioContext() {
   if (!audioCtx) {
@@ -1714,6 +1927,12 @@ function verificarInsignias(esSuperacion = false) {
   if (aciertos >= 1 && !insigniasDesbloqueadas.primerAcierto) { insigniasDesbloqueadas.primerAcierto = true; nuevaDesbloqueada = true; }
   if (racha >= 5 && !insigniasDesbloqueadas.rachaCinco) { insigniasDesbloqueadas.rachaCinco = true; nuevaDesbloqueada = true; }
   if (racha >= 10 && !insigniasDesbloqueadas.rachaDiez) { insigniasDesbloqueadas.rachaDiez = true; nuevaDesbloqueada = true; }
+  
+  if (racha >= 7 && modoTiempo > 0 && !insigniasDesbloqueadas.velocista) { 
+    insigniasDesbloqueadas.velocista = true; 
+    nuevaDesbloqueada = true; 
+  }
+  
   if (puntos >= 50 && !insigniasDesbloqueadas.cincuentaPuntos) { insigniasDesbloqueadas.cincuentaPuntos = true; nuevaDesbloqueada = true; }
   if (puntos >= 200 && !insigniasDesbloqueadas.cienPuntos) { insigniasDesbloqueadas.cienPuntos = true; nuevaDesbloqueada = true; }
   if (esSuperacion && !insigniasDesbloqueadas.maestroRevancha) { insigniasDesbloqueadas.maestroRevancha = true; nuevaDesbloqueada = true; }
@@ -3171,6 +3390,1408 @@ if (!localStorage.getItem(CLAVE_PUNTAJES)) selectorTabla.value = "mixto";
 if (selectorTabla.value !== "mixto") tabla = Number(selectorTabla.value);
 actualizarBadgeTablaActiva();
 dibujar();
+
+// ---------------------------------------------------------------------------
+// LÓGICA DEL MINIJUEGO: LABERINTO NUMÉRICO (SOPORTE MULTILINGÜE COMPLETO)
+// ---------------------------------------------------------------------------
+function abrirLaberintoNumerico() {
+  reproducirSonido("click");
+  modalLaberinto.hidden = false;
+  iniciarNuevoLaberinto();
+}
+
+function iniciarNuevoLaberinto() {
+  reproducirSonido("click");
+  laberintoMensaje.textContent = "";
+  pasoActualIndex = 0;
+  
+  // Elegimos una tabla al azar entre 2 y 9 para el laberinto
+  laberintoTablaActual = Math.floor(Math.random() * 8) + 2;
+  
+  const esEspanol = idiomaActual === "es";
+  
+  // Título y reglas traducidas dinámicamente
+  document.getElementById("lblLaberintoTitulo").textContent = esEspanol ? "🗺️ Laberinto Numérico" : "🗺️ Number Maze";
+  btnReiniciarLaberinto.textContent = esEspanol ? "🔄 Nuevo Laberinto" : "🔄 New Maze";
+
+  lblLaberintoRegla.textContent = esEspanol 
+    ? `🎯 Regla: Toca los múltiplos de la Tabla del ${laberintoTablaActual} en orden (1 al 6)` 
+    : `🎯 Rule: Tap multiples of Table ${laberintoTablaActual} in order (1 to 6)`;
+
+  // Generamos la secuencia correcta (ej: 4, 8, 12, 16, 20, 24)
+  secuenciaCorrecta = [];
+  for (let i = 1; i <= 6; i++) {
+    secuenciaCorrecta.push(laberintoTablaActual * i);
+  }
+
+  // Creamos un conjunto de números distractores (otros valores cercanos)
+  let numerosTablero = [...secuenciaCorrecta];
+  while (numerosTablero.length < 9) {
+    const distractor = Math.floor(Math.random() * 90) + 2;
+    if (!numerosTablero.includes(distractor)) {
+      numerosTablero.push(distractor);
+    }
+  }
+
+  // Mezclamos aleatoriamente las 9 casillas para la cuadrícula 3x3
+  mezclar(numerosTablero);
+  laberintoCasillas = numerosTablero;
+
+  renderizarLaberintoGrid();
+}
+
+function renderizarLaberintoGrid() {
+  laberintoGrid.replaceChildren();
+  
+  laberintoCasillas.forEach((num) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.textContent = num;
+    btn.style.cssText = `
+      height: 55px;
+      font-size: 18px;
+      font-weight: 800;
+      background: #f1f5f9;
+      color: #1e3a8a;
+      border: 2px solid #cbd5e1;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    `;
+
+    btn.addEventListener("click", () => {
+      manejarClickCasillaLaberinto(num, btn);
+    });
+
+    laberintoGrid.appendChild(btn);
+  });
+}
+
+function manejarClickCasillaLaberinto(numeroElegido, elementoBtn) {
+  const numeroEsperado = secuenciaCorrecta[pasoActualIndex];
+  const esEspanol = idiomaActual === "es";
+
+  if (numeroElegido === numeroEsperado) {
+    // ¡Acierto en la secuencia!
+    reproducirSonido("acierto");
+    elementoBtn.style.background = "#bbf7d0";
+    elementoBtn.style.borderColor = "#16a34a";
+    elementoBtn.style.color = "#166534";
+    elementoBtn.style.transform = "scale(0.95)";
+    elementoBtn.disabled = true;
+
+    pasoActualIndex++;
+
+    if (pasoActualIndex === secuenciaCorrecta.length) {
+      // ¡Laberinto completado con éxito!
+      reproducirSonido("acierto");
+      dispararConfetiVictoria();
+      puntos += 30;
+      actualizarEstadisticas();
+      guardarPuntajes();
+
+      const msgExito = esEspanol ? "🎉 ¡Excelente! ¡Completaste el laberinto! +30 pts ⭐" : "🎉 Awesome! You completed the maze! +30 pts ⭐";
+      laberintoMensaje.style.color = "#166534";
+      laberintoMensaje.textContent = msgExito;
+      mostrarTextoFlotante("+30 pts ⭐", true, "45%");
+    }
+  } else {
+    // Error / Casilla incorrecta
+    reproducirSonido("error");
+    vibrar(70);
+    elementoBtn.style.background = "#fecaca";
+    elementoBtn.style.borderColor = "#dc2626";
+    elementoBtn.style.color = "#991b1b";
+    
+    setTimeout(() => {
+      if (!elementoBtn.disabled) {
+        elementoBtn.style.background = "#f1f5f9";
+        elementoBtn.style.borderColor = "#cbd5e1";
+        elementoBtn.style.color = "#1e3a8a";
+      }
+    }, 400);
+
+    const msgError = esEspanol ? `❌ ¡Ese no es! Busca el número ${numeroEsperado}` : `❌ Not that one! Look for number ${numeroEsperado}`;
+    laberintoMensaje.style.color = "#991b1b";
+    laberintoMensaje.textContent = msgError;
+  }
+}
+
+// Event Listeners del Laberinto
+btnLaberinto.addEventListener("click", abrirLaberintoNumerico);
+cerrarLaberinto.addEventListener("click", () => modalLaberinto.hidden = true);
+btnReiniciarLaberinto.addEventListener("click", iniciarNuevoLaberinto);
+
+// ---------------------------------------------------------------------------
+// LÓGICA DE AJEDREZ TÁCTICO 8x8 CON MULTIPLICADORES (TABLAS 1-12)
+// ---------------------------------------------------------------------------
+const TEMATICAS_TABLERO = {
+  ajedrez: {
+    id: "ajedrez",
+    textos: {
+      es: { 
+        titulo: "♟️ Ajedrez Matemágico", 
+        chistesError: ["¡Uy! Hasta el peón se rio de ese cálculo 😅", "¡Casi! El caballo sacó mal la pata 🐴", "¡Error! El rey niega con la cabeza 👑❌"],
+        exitoMovimiento: "¡Jugada exitosa! Pieza posicionada 🧠✨"
+      },
+      en: { 
+        titulo: "♟️ Math Chess", 
+        chistesError: ["Oops! Even the pawn laughed at that math 😅", "Almost! The knight tripped on a number 🐴", "Error! The king shakes his head 👑❌"],
+        exitoMovimiento: "Successful move! Piece positioned 🧠✨"
+      }
+    },
+    // Iconos corregidos: Blancas (claras/contorno) y Negras (rellenas/oscuras)
+    iconosBlancos: { peon: "♙", caballo: "♘", alfil: "♗", torre: "♖", dama: "♕", rey: "♔" },
+    iconosNegros:  { peon: "♟", caballo: "♞", alfil: "♝", torre: "♜", dama: "♛", rey: "♚" }
+  },
+  dinosaurios: {
+    id: "dinosaurios",
+    textos: {
+      es: { 
+        titulo: "🦖 Expedición Jurásica", 
+        chistesError: ["¡Cuidado! Un dinosaurio te comió la respuesta 🦖🍽️", "¡Ups! Te tropezaste con una roca jurásica 🪨", "¡Brrr! Ese cálculo dio mucho frío 🥶"],
+        exitoMovimiento: "¡Rugido táctico! ¡Movimiento válido! 🦕🎉"
+      },
+      en: { 
+        titulo: "🦖 Dino Expedition", 
+        chistesError: ["Watch out! A dino ate your answer 🦖🍽️", "Oops! You tripped on a prehistoric rock 🪨", "Brrr! That calculation was freezing 🥶"],
+        exitoMovimiento: "Tactical roar! Valid move! 🦕🎉"
+      }
+    },
+    iconosBlancos: { peon: "🥚", caballo: "🦖", alfil: "🌿", torre: "🌋", dama: "🐲", rey: "👑" },
+    iconosNegros:  { peon: "🐣", caballo: "🦕", alfil: "🍃", torre: "☄️", dama: "🐊", rey: "🌟" }
+  }
+};
+
+
+const textosCentroMinijuegos = {
+  es: {
+    titulo: "🎮 Centro de Minijuegos",
+    subtitulo: "¡Elige tu desafío matemático favorito y demuestra tu poder táctico! 🚀",
+    ajedrezTitulo: "Ajedrez Matemágico (8x8)",
+    ajedrezDesc: "Tablas 1-12, Bot o 2P, Enroque, Jaque y más.",
+    laberintoTitulo: "Laberinto Numérico",
+    laberintoDesc: "Navega resolviendo operaciones correctas.",
+    desafioTitulo: "Desafío Relámpago (60s)",
+    desafioDesc: "Velocidad y cálculo contra el reloj.",
+    lluviaTitulo: "Lluvia de Estrellas",
+    lluviaDesc: "Atrapa los resultados correctos al vuelo.",
+    trampaTitulo: "¿Correcto o Trampa?",
+    trampaDesc: "Descubre al impostor matemático."
+  },
+  en: {
+    titulo: "🎮 Game Hub",
+    subtitulo: "Choose your favorite math challenge and show your tactical power! 🚀",
+    ajedrezTitulo: "Math Chess (8x8)",
+    ajedrezDesc: "Times tables 1-12, Bot or 2P, Castling, Check & more.",
+    laberintoTitulo: "Number Labyrinth",
+    laberintoDesc: "Navigate by solving correct math operations.",
+    desafioTitulo: "Lightning Challenge (60s)",
+    desafioDesc: "Speed and calculation against the clock.",
+    lluviaTitulo: "Star Rain",
+    lluviaDesc: "Catch the correct results on the fly.",
+    trampaTitulo: "Correct or Trap?",
+    trampaDesc: "Spot the math impostor."
+  }
+};
+
+
+function actualizarIdiomaCentroMinijuegos() {
+  const t = textosCentroMinijuegos[idiomaActual] || textosCentroMinijuegos.es;
+
+  // Actualizar cabecera y subtítulo
+  const tituloModal = document.getElementById("lblHubTitulo");
+  const subtituloModal = document.getElementById("lblHubSubtitulo");
+  if (tituloModal) tituloModal.textContent = t.titulo;
+  if (subtituloModal) subtituloModal.textContent = t.subtitulo;
+
+  // Actualizar Ajedrez
+  const ajedrezT = document.getElementById("lblAjedrezTitulo");
+  const ajedrezD = document.getElementById("lblAjedrezDesc");
+  if (ajedrezT) ajedrezT.textContent = t.ajedrezTitulo;
+  if (ajedrezD) ajedrezD.textContent = t.ajedrezDesc;
+
+  // Actualizar Laberinto
+  const laberintoT = document.getElementById("lblLaberintoTitulo");
+  const laberintoD = document.getElementById("lblLaberintoDesc");
+  if (laberintoT) laberintoT.textContent = t.laberintoTitulo;
+  if (laberintoD) laberintoD.textContent = t.laberintoDesc;
+
+  // Actualizar Desafío Relámpago
+  const desafioT = document.getElementById("lblDesafioTitulo");
+  const desafioD = document.getElementById("lblDesafioDesc");
+  if (desafioT) desafioT.textContent = t.desafioTitulo;
+  if (desafioD) desafioD.textContent = t.desafioDesc;
+
+  // Actualizar Lluvia
+  const lluviaT = document.getElementById("lblLluviaTitulo");
+  const lluviaD = document.getElementById("lblLluviaDesc");
+  if (lluviaT) lluviaT.textContent = t.lluviaTitulo;
+  if (lluviaD) lluviaD.textContent = t.lluviaDesc;
+
+  // Actualizar Correcto o Trampa
+  const trampaT = document.getElementById("lblTrampaTitulo");
+  const trampaD = document.getElementById("lblTrampaDesc");
+  if (trampaT) trampaT.textContent = t.trampaTitulo;
+  if (trampaD) trampaD.textContent = t.trampaDesc;
+}
+
+
+let tematicaActivaKey = "ajedrez";
+let modoJuegoActual = "bot"; // "bot" o "pvp"
+let turnoActual = "blancas"; // "blancas" o "negras"
+let tablero8x8 = [];
+let seleccionOrigen = null; // {fila, col}
+let movimientoPendiente = null; // {origenF, origenC, destinoF, destinoC, num1, num2, respuesta}
+let ultimoMovimiento = null; // Guardará { origenF, origenC, destinoF, destinoC }
+let varianteAjedrezActual = 'clasico'; // 'clasico' o 'superpoderes'
+let rachaAciertosMatematicos = 0;    // Contador de aciertos consecutivos
+let poderMagicoActivo = null;        // 'teletransporte', 'escudo', etc.
+let poderSeleccionado = null; // 'escudo', 'teletransporte', 'doble_turno'
+let piezaConEscudo = null;   // Referencia a la casilla de la pieza protegida
+
+
+const modalTableroMagico = document.getElementById("modalTableroMagico");
+const btnTableroMagico = document.getElementById("btnTableroMagico");
+const cerrarTableroMagico = document.getElementById("cerrarTableroMagico");
+const btnReiniciarTablero = document.getElementById("btnReiniciarTablero");
+const selectTematica = document.getElementById("selectTematica");
+const selectModoJuego = document.getElementById("selectModoJuego");
+const tableroVisual8x8 = document.getElementById("tableroVisual8x8");
+const tableroRetoBox = document.getElementById("tableroRetoBox");
+const tableroOpcionesGrid = document.getElementById("tableroOpcionesGrid");
+const lblTableroOperacion = document.getElementById("lblTableroOperacion");
+const tableroMensaje = document.getElementById("tableroMensaje");
+const lblTurnoJugador = document.getElementById("lblTurnoJugador");
+
+const PALETAS_TABLERO = {
+  esmeralda: { claro: '#ecfdf5', oscuro: '#6ee7b7'},
+  madera: { claro: '#f0d9b5', oscuro: '#b58863' },
+  oceano: { claro: '#e0f2fe', oscuro: '#7dd3fc' },
+  lila: { claro: '#f3e8ff', oscuro: '#ddd6fe'  }
+};
+let colorTemaTableroActual = 'esmeralda';
+
+let historialMovimientos = []; // Guarda el historial para el En Passant y control de casillas
+let estadoJuegoAjedrez = {
+  reyBlancoMovido: false,
+  torreBlancaIzqMovida: false,
+  torreBlancaDerMovida: false,
+  reyNegroMovido: false,
+  torreNegraIzqMovida: false,
+  torreNegraDerMovida: false
+};
+
+function abrirTableroMagico() {
+  reproducirSonido("click");
+  modalTableroMagico.hidden = false;
+  reiniciarPartidaTablero();
+}
+
+function reiniciarPartidaTablero() {
+  reproducirSonido("click");
+  turnoActual = "blancas";
+  seleccionOrigen = null;
+  movimientoPendiente = null;
+  ultimoMovimiento = null;
+  tableroRetoBox.style.display = "none";
+  tableroMensaje.textContent = "";
+
+  inicializarMatrizTablero();
+  renderizarTablero8x8();
+  actualizarUITurno();
+}
+
+function inicializarMatrizTablero() {
+  // Matriz 8x8 (Filas 0 a 7, Col 0 a 7)
+  tablero8x8 = Array(8).fill(null).map(() => Array(8).fill(null));
+
+  // --- PIEZAS NEGRAS (Arriba: Fila 0 y Fila 1) ---
+  const ordenPiezasMayores = ['torre', 'caballo', 'alfil', 'dama', 'rey', 'alfil', 'caballo', 'torre'];
+  for (let c = 0; c < 8; c++) {
+    tablero8x8[0][c] = { tipo: ordenPiezasMayores[c], color: 'negras' }; // Fila 0: Piezas mayores negras
+    tablero8x8[1][c] = { tipo: 'peon', color: 'negras' };               // Fila 1: Peones negros
+  }
+
+  // --- PIEZAS BLANCAS (Abajo: Fila 6 y Fila 7) ---
+  for (let c = 0; c < 8; c++) {
+    tablero8x8[6][c] = { tipo: 'peon', color: 'blancas' };               // Fila 6: Peones blancos
+    tablero8x8[7][c] = { tipo: ordenPiezasMayores[c], color: 'blancas' }; // Fila 7: Piezas mayores blancas
+  }
+}
+
+function actualizarUITurno() {
+  const tema = TEMATICAS_TABLERO[tematicaActivaKey];
+  document.getElementById("lblTableroTitulo").textContent = tema.textos[idiomaActual].titulo;
+  
+  if (idiomaActual === "es") {
+    lblTurnoJugador.textContent = turnoActual === "blancas" 
+      ? "Turno: ♙ Blancas (Selecciona tu pieza y muévela)" 
+      : (modoJuegoActual === "bot" ? "Turno: 🤖 Bot Matemático pensando..." : "Turno: ♟️ Negras (Selecciona pieza y muévela)");
+  } else {
+    lblTurnoJugador.textContent = turnoActual === "blancas" 
+      ? "Turno: ♙ White (Select your piece and move)" 
+      : (modoJuegoActual === "bot" ? "Turno: 🤖 Math Bot thinking..." : "Turno: ♟️ Black (Select piece and move)");
+  }
+}
+
+function renderizarTablero8x8() {
+  const tema = TEMATICAS_TABLERO[tematicaActivaKey];
+  tableroVisual8x8.replaceChildren();
+
+  const paleta = PALETAS_TABLERO[colorTemaTableroActual] || PALETAS_TABLERO.esmeralda;
+  const jaqueBlancas = elReyEstaEnJaque('blancas');
+  const jaqueNegras = elReyEstaEnJaque('negras');
+
+  let casillasValidas = [];
+  if (seleccionOrigen) {
+    const piezaSel = tablero8x8[seleccionOrigen.f][seleccionOrigen.c];
+    for (let f = 0; f < 8; f++) {
+      for (let c = 0; c < 8; c++) {
+        if (esMovimientoLegalValido(piezaSel, seleccionOrigen.f, seleccionOrigen.c, f, c)) {
+          casillasValidas.push(`${f},${c}`);
+        }
+      }
+    }
+  }
+
+  for (let f = 0; f < 8; f++) {
+    for (let c = 0; c < 8; c++) {
+      const casillaDiv = document.createElement("div");
+      const pieza = tablero8x8[f][c];
+      const esSeleccionada = seleccionOrigen && seleccionOrigen.f === f && seleccionOrigen.c === c;
+      const esValida = casillasValidas.includes(`${f},${c}`);
+
+      const esUltimoMovimiento = typeof ultimoMovimiento !== 'undefined' && ultimoMovimiento && 
+        ((ultimoMovimiento.origenF === f && ultimoMovimiento.origenC === c) || 
+         (ultimoMovimiento.destinoF === f && ultimoMovimiento.destinoC === c));
+
+      const esReyEnJaque = pieza && pieza.tipo === 'rey' && 
+        ((pieza.color === 'blancas' && jaqueBlancas) || (pieza.color === 'negras' && jaqueNegras));
+
+      let bgColor = (f + c) % 2 === 0 ? paleta.claro : paleta.oscuro;
+      let borderStyle = '1px solid rgba(168, 85, 247, 0.2)';
+      let boxShadow = 'inset 0 2px 4px rgba(0,0,0,0.03)';
+      let indicadorPunto = '';
+      let textShadow = pieza ? '0 2px 4px rgba(0,0,0,0.15)' : 'none';
+
+      if (esReyEnJaque) {
+        bgColor = '#fee2e2';
+        borderStyle = '2px solid #ef4444';
+        boxShadow = '0 0 10px rgba(239, 68, 68, 0.6)';
+      } else if (esSeleccionada) {
+        bgColor = '#c084fc';
+        borderStyle = '2px solid #7c3aed';
+        boxShadow = '0 0 12px rgba(124, 58, 237, 0.5)';
+      } else if (esValida) {
+        if (pieza) {
+          bgColor = '#fca5a5';
+          borderStyle = '2px solid #dc2626';
+          boxShadow = '0 0 8px rgba(220, 38, 38, 0.4)';
+        } else {
+          bgColor = '#bbf7d0';
+          borderStyle = '2px solid #16a34a';
+          boxShadow = '0 0 6px rgba(22, 163, 74, 0.3)';
+          indicadorPunto = '<div style="width: 10px; height: 10px; background: #16a34a; border-radius: 50%; box-shadow: 0 0 6px #16a34a; position: absolute;"></div>';
+        }
+      } else if (esUltimoMovimiento) {
+        borderStyle = '2px solid #eab308';
+        boxShadow = 'inset 0 0 10px rgba(234, 179, 8, 0.5), 0 0 6px rgba(234, 179, 8, 0.4)';
+      }
+
+      // 🛡️ Comprobar si la pieza tiene escudo activo para resaltarla con brillo cian
+      const tieneEscudo = piezaConEscudo && piezaConEscudo.f === f && piezaConEscudo.c === c;
+      if (tieneEscudo) {
+        borderStyle = '3px solid #38bdf8';
+        boxShadow = '0 0 14px rgba(56, 189, 248, 0.8)';
+      }
+
+      casillaDiv.style.cssText = `
+        background: ${bgColor};
+        border: ${borderStyle};
+        border-radius: 6px;
+        box-shadow: ${boxShadow};
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        cursor: pointer;
+        position: relative;
+        user-select: none;
+        text-shadow: ${textShadow};
+        transition: transform 0.1s ease;
+      `;
+
+      if (pieza) {
+        casillaDiv.textContent = pieza.color === 'blancas' ? tema.iconosBlancos[pieza.tipo] : tema.iconosNegros[pieza.tipo];
+      } else if (indicadorPunto) {
+        casillaDiv.innerHTML = indicadorPunto;
+      }
+
+      casillaDiv.addEventListener("click", () => manejarClicCasilla(f, c));
+      tableroVisual8x8.appendChild(casillaDiv);
+    }
+  }
+
+  if (jaqueBlancas && turnoActual === 'blancas') {
+    tableroMensaje.style.color = "#dc2626";
+    tableroMensaje.textContent = idiomaActual === "es" ? "⚠️ ¡Jaque al Rey Blanco! Debes defenderlo." : "⚠️ Check on White King! Protect him.";
+  } else if (jaqueNegras && turnoActual === 'negras') {
+    tableroMensaje.style.color = "#dc2626";
+    tableroMensaje.textContent = idiomaActual === "es" ? "⚠️ ¡Jaque al Rey Negro!" : "⚠️ Check on Black King!";
+  }
+}
+function manejarClicCasilla(f, c) {
+  // Si es turno del bot en modo solitario, bloqueamos clics manuales
+  if (modoJuegoActual === "bot" && turnoActual === "negras") return;
+  if (tableroRetoBox.style.display === "block") return; // Bloquear si hay un reto pendiente
+
+  const piezaEnCasilla = tablero8x8[f][c];
+
+  // 🛡️ SUPERPODER: Aplicar escudo a la pieza seleccionada y finalizar el turno
+  if (typeof varianteAjedrezActual !== 'undefined' && varianteAjedrezActual === 'superpoderes' && 
+      typeof poderSeleccionado !== 'undefined' && poderSeleccionado === 'escudo' && 
+      piezaEnCasilla && piezaEnCasilla.color === turnoActual) {
+     
+    piezaConEscudo = { f, c };
+    reproducirSonido("acierto");
+    
+    // Consumir el poder del escudo
+    poderSeleccionado = null; 
+    seleccionOrigen = null;
+
+    if (typeof mostrarTextoFlotante === 'function') {
+      mostrarTextoFlotante("🛡️ ¡Escudo Activado!", true, "40%");
+    }
+
+    tableroMensaje.style.color = "#16a34a";
+    tableroMensaje.textContent = idiomaActual === "es" 
+      ? `🛡️ ¡Escudo aplicado en [${f},${c}]! Turno finalizado.` 
+      : `🛡️ Shield applied at [${f},${c}]! Turn ended.`;
+
+    // 🌟 USAR NUESTRA FUNCIÓN CENTRALIZADA PARA CAMBIAR DE TURNO Y LANZAR AL BOT
+    finalizarTurnoYCambiar();
+    return; 
+  }
+
+  if (!seleccionOrigen) {
+    // Paso 1: Seleccionar pieza propia
+    if (piezaEnCasilla && piezaEnCasilla.color === turnoActual) {
+      seleccionOrigen = { f, c };
+      reproducirSonido("click");
+      renderizarTablero8x8();
+    }
+  } else {
+    // Paso 2: Seleccionar casilla de destino
+    const origenF = seleccionOrigen.f;
+    const origenC = seleccionOrigen.c;
+
+    if (origenF === f && origenC === c) {
+      // Deseleccionar si toca la misma casilla
+      seleccionOrigen = null;
+      renderizarTablero8x8();
+      return;
+    }
+
+    // Validar si el movimiento es legal para la pieza
+    const piezaMovida = tablero8x8[origenF][origenC];
+    if (esMovimientoLegalValido(piezaMovida, origenF, origenC, f, c)) {
+      // ¡Movimiento legal! Lanzar el reto matemático de esa casilla
+      prepararRetoMatematicoCasilla(origenF, origenC, f, c);
+    } else {
+      reproducirSonido("error");
+      tableroMensaje.style.color = "#dc2626";
+      tableroMensaje.textContent = idiomaActual === "es" ? "❌ ¡Movimiento ilegal para esa pieza!" : "❌ Illegal move for that piece!";
+      seleccionOrigen = null;
+      renderizarTablero8x8();
+    }
+  }
+}
+
+function esCasillaAtacada(f, c, colorAtacante) {
+  for (let fil = 0; fil < 8; fil++) {
+    for (let col = 0; col < 8; col++) {
+      const pieza = tablero8x8[fil][col];
+      if (pieza && pieza.color === colorAtacante) {
+        // Usamos una versión interna que evalúa la geometría pura de ataque 
+        // para evitar bucles infinitos con el rey.
+        if (esAtaqueGeometricoValido(pieza, fil, col, f, c)) {
+          return true;
+        }
+      }
+    }
+  }
+  return false;
+}
+
+
+function esAtaqueGeometricoValido(pieza, f1, c1, f2, c2) {
+  const destino = tablero8x8[f2][c2];
+  if (destino && destino.color === pieza.color) return false;
+
+  const df = Math.abs(f2 - f1);
+  const dc = Math.abs(c2 - c1);
+
+  // Peón (Ataca estrictamente en diagonal a 1 casilla)
+  if (pieza.tipo === 'peon') {
+    const dir = pieza.color === 'blancas' ? -1 : 1;
+    return dc === 1 && f2 === f1 + dir;
+  }
+
+  // Caballo
+  if (pieza.tipo === 'caballo') {
+    return (df === 2 && dc === 1) || (df === 1 && dc === 2);
+  }
+
+  // Rey (Adyacente)
+  if (pieza.tipo === 'rey') {
+    return df <= 1 && dc <= 1;
+  }
+
+  // Torre, Alfil, Dama (Trayectorias lineales)
+  const esRecto = (f1 === f2 || c1 === c2);
+  const esDiagonal = (df === dc);
+
+  if (pieza.tipo === 'torre' && !esRecto) return false;
+  if (pieza.tipo === 'alfil' && !esDiagonal) return false;
+  if (pieza.tipo === 'dama' && !esRecto && !esDiagonal) return false;
+
+  const pasoF = f1 === f2 ? 0 : (f2 > f1 ? 1 : -1);
+  const pasoC = c1 === c2 ? 0 : (c2 > c1 ? 1 : -1);
+  
+  let casillaActualF = f1 + pasoF;
+  let casillaActualC = c1 + pasoC;
+
+  while (casillaActualF !== f2 || casillaActualC !== c2) {
+    if (tablero8x8[casillaActualF][casillaActualC] !== null) return false;
+    casillaActualF += pasoF;
+    casillaActualC += pasoC;
+  }
+
+  return true;
+}
+
+function finalizarTurnoYCambiar() {
+  // 1. Cambiar el turno al bando contrario
+  turnoActual = turnoActual === "blancas" ? "negras" : "blancas";
+  actualizarUITurno();
+
+  // 🖼️ ¡OBLIGATORIO! Redibujar el tablero inmediatamente para que se vea el movimiento en pantalla
+  renderizarTablero8x8();
+
+  // Comprobaciones de estado del rey actual
+  const enJaque = typeof elReyEstaEnJaque === 'function' && elReyEstaEnJaque(turnoActual);
+  const sinMovimientos = !tieneMovimientosLegales(turnoActual);
+
+  // 🏆 2. VERIFICAR JAQUE MATE O REY AHOGADO (Sin movimientos legales)
+  if (sinMovimientos) {
+    reproducirSonido("error");
+    typeof vibrar === 'function' && vibrar(100);
+
+    if (enJaque) {
+      // 👑 ¡JAQUE MATE!
+      tableroMensaje.style.color = "#dc2626";
+      tableroMensaje.textContent = idiomaActual === "es" 
+        ? `🏆 ¡JAQUE MATE! El Rey ${turnoActual} no tiene escape. ¡Fin de la partida!` 
+        : `🏆 CHECKMATE! The ${turnoActual} King has no escape. Game over!`;
+      
+      if (typeof mostrarTextoFlotante === 'function') {
+        mostrarTextoFlotante("🏆 ¡JAQUE MATE!", true, "40%");
+      }
+      
+      setTimeout(() => reiniciarPartidaTablero(), 4000);
+      return;
+    } else {
+      // 🤝 ¡TABLAS POR REY AHOGADO!
+      tableroMensaje.style.color = "#b45309";
+      tableroMensaje.textContent = idiomaActual === "es" 
+        ? "🤝 ¡Tablas por Rey Ahogado! Nadie puede mover. Empate." 
+        : "🤝 Stalemate! No legal moves. Draw game.";
+      
+      setTimeout(() => reiniciarPartidaTablero(), 4000);
+      return;
+    }
+  }
+
+  // ⚠️ 3. ALERTA DE JAQUE (Si el rey está amenazado pero aún tiene movimientos legales posibles)
+  if (enJaque) {
+    reproducirSonido("error");
+    
+    const textoJaque = idiomaActual === "es" 
+      ? `⚠️ ¡JAQUE! ¡El Rey ${turnoActual} está amenazado!` 
+      : `⚠️ CHECK! The ${turnoActual} King is under attack!`;
+
+    if (typeof mostrarTextoFlotante === 'function') {
+      mostrarTextoFlotante(textoJaque, true, "40%");
+    }
+    
+    tableroMensaje.style.color = "#dc2626";
+    tableroMensaje.textContent = textoJaque;
+    return; // Evita que el bot mueva inmediatamente si hay una alerta de jaque que atender
+  }
+
+  // 🤖 4. Si le toca al bot, disparamos su turno con normalidad
+  if (turnoActual === "negras" && modoJuegoActual === "bot") {
+    setTimeout(() => ejecutarTurnoBot(), 1200);
+  }
+}
+
+function esMovimientoLegalValido(pieza, f1, c1, f2, c2) {
+  const destino = tablero8x8[f2][c2];
+  if (destino && destino.color === pieza.color) return false; // No comer piezas propias
+
+  // 🛡️ REGLA CLÁSICA: Ninguna pieza puede dejar a su propio Rey en Jaque (Simulación segura)
+  const piezaDestinoOriginal = tablero8x8[f2][c2];
+  tablero8x8[f2][c2] = pieza;
+  tablero8x8[f1][c1] = null;
+
+  const colorRival = pieza.color === 'blancas' ? 'negras' : 'blancas';
+  
+  // Encontramos dónde quedó nuestro rey tras simular el movimiento
+  let reyF = -1, reyC = -1;
+  for (let fil = 0; fil < 8; fil++) {
+    for (let col = 0; col < 8; col++) {
+      const p = tablero8x8[fil][col];
+      if (p && p.tipo === 'rey' && p.color === pieza.color) {
+        reyF = fil;
+        reyC = col;
+        break;
+      }
+    }
+    if (reyF !== -1) break;
+  }
+
+  // Comprobamos si la casilla de nuestro rey está amenazada de forma segura
+  const propioReyEnJaque = (reyF !== -1 && esCasillaAtacada(reyF, reyC, colorRival));
+
+  // Revertimos la simulación inmediatamente
+  tablero8x8[f1][c1] = pieza;
+  tablero8x8[f2][c2] = piezaDestinoOriginal;
+
+  if (propioReyEnJaque) {
+    return false; // ¡Ilegal! Dejarías o expondrías a tu rey en jaque.
+  }
+
+  // 👑 REGLA CLÁSICA: El Rey no puede moverse a una casilla atacada por el rival
+  if (pieza.tipo === 'rey') {
+    // Simulamos temporalmente si la casilla de destino está amenazada
+    if (esCasillaAtacada(f2, c2, colorRival)) {
+      return false; // ¡Movimiento ilegal! El rey no puede ir a jaque.
+    }
+  }
+
+  
+  // 🚀 SUPERPODER: Si el teletransporte está activo, se permite mover a cualquier casilla vacía
+  if (typeof poderSeleccionado !== 'undefined' && poderSeleccionado === 'teletransporte' && pieza.color === turnoActual) {
+    if (destino === null) {
+      return true; // ¡Teletransporte válido a cualquier casilla vacía!
+    }
+  }
+
+  const df = Math.abs(f2 - f1);
+  const dc = Math.abs(c2 - c1);
+
+  // 1. REGLA DEL PEÓN (Incluyendo avance doble y En Passant)
+  if (pieza.tipo === 'peon') {
+    const dir = pieza.color === 'blancas' ? -1 : 1;
+    const filaInicioOriginal = pieza.color === 'blancas' ? 6 : 1;
+
+    // Avanzar 1 casilla de frente
+    if (c1 === c2 && f2 === f1 + dir && !destino) return true;
+
+    // Salto doble en el primer movimiento
+    if (c1 === c2 && f1 === filaInicioOriginal && f2 === f1 + (dir * 2) && !destino) {
+      if (!tablero8x8[f1 + dir][c1]) return true;
+    }
+
+    // Captura diagonal tradicional
+    if (dc === 1 && f2 === f1 + dir && destino) return true;
+
+    // REGLA DE EN PASSANT (Peón al paso)
+    if (dc === 1 && f2 === f1 + dir && !destino) {
+      const ultimoMov = historialMovimientos[historialMovimientos.length - 1];
+      if (ultimoMov && ultimoMov.pieza.tipo === 'peon' && ultimoMov.pieza.color !== pieza.color) {
+        if (Math.abs(ultimoMov.f2 - ultimoMov.f1) === 2 && ultimoMov.f2 === f1 && ultimoMov.c2 === c2) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+
+  // 2. REGLA DEL CABALLO
+  if (pieza.tipo === 'caballo') {
+    return (df === 2 && dc === 1) || (df === 1 && dc === 2);
+  }
+
+  // 3. REGLA DEL REY (Incluyendo Enroque)
+  if (pieza.tipo === 'rey') {
+    if (df <= 1 && dc <= 1) return true;
+
+    if (df === 0 && dc === 2) {
+      const esBlanco = pieza.color === 'blancas';
+      const filaRey = esBlanco ? 7 : 0;
+      if (f1 !== filaRey || f1 !== f2) return false;
+
+      if (c2 === 6) {
+        const torre = tablero8x8[filaRey][7];
+        const movido = esBlanco ? estadoJuegoAjedrez.reyBlancoMovido || estadoJuegoAjedrez.torreBlancaDerMovida : estadoJuegoAjedrez.reyNegroMovido || estadoJuegoAjedrez.torreNegraDerMovida;
+        if (!movido && torre && torre.tipo === 'torre' && !tablero8x8[filaRey][5] && !tablero8x8[filaRey][6]) return true;
+      } else if (c2 === 2) {
+        const torre = tablero8x8[filaRey][0];
+        const movido = esBlanco ? estadoJuegoAjedrez.reyBlancoMovido || estadoJuegoAjedrez.torreBlancaIzqMovida : estadoJuegoAjedrez.reyNegroMovido || estadoJuegoAjedrez.torreNegraIzqMovida;
+        if (!movido && torre && torre.tipo === 'torre' && !tablero8x8[filaRey][1] && !tablero8x8[filaRey][2] && !tablero8x8[filaRey][3]) return true;
+      }
+    }
+    return false;
+  }
+
+  // 4. REGLAS DE TRAYECTORIA (Torre, Alfil, Dama)
+  const esRecto = (f1 === f2 || c1 === c2);
+  const esDiagonal = (df === dc);
+
+  if (pieza.tipo === 'torre' && !esRecto) return false;
+  if (pieza.tipo === 'alfil' && !esDiagonal) return false;
+  if (pieza.tipo === 'dama' && !esRecto && !esDiagonal) return false;
+
+  const pasoF = f1 === f2 ? 0 : (f2 > f1 ? 1 : -1);
+  const pasoC = c1 === c2 ? 0 : (c2 > c1 ? 1 : -1);
+  
+  let casillaActualF = f1 + pasoF;
+  let casillaActualC = c1 + pasoC;
+
+  while (casillaActualF !== f2 || casillaActualC !== c2) {
+    if (tablero8x8[casillaActualF][casillaActualC] !== null) return false;
+    casillaActualF += pasoF;
+    casillaActualC += pasoC;
+  }
+
+  return true;
+}
+
+function prepararRetoMatematicoCasilla(origenF, origenC, destinoF, destinoC) {
+  // 1. Limpiar cualquier estado previo para evitar conflictos
+  seleccionOrigen = null;
+  tableroRetoBox.style.display = "none";
+  tableroRetoBox.innerHTML = "";
+  renderizarTablero8x8();
+
+  let num1, num2, descReto = "";
+  const piezaMovida = tablero8x8[origenF] && tablero8x8[origenF][origenC];
+  const piezaDestino = tablero8x8[destinoF] && tablero8x8[destinoF][destinoC];
+
+  // Si por alguna razón la pieza de origen es nula, evitamos errores
+  if (!piezaMovida) {
+    return; 
+  }
+
+  // 🌟 MEJORA: Piezas mayores y especiales exigen las tablas avanzadas del 9 al 12
+  const esPiezaAvanzada = ['caballo', 'alfil', 'torre', 'dama', 'rey'].includes(piezaMovida.tipo);
+
+  if (piezaDestino && piezaDestino.tipo === 'rey') {
+    num1 = 12; // ¡Jaque al Rey = Tabla del 12!
+    num2 = Math.floor(Math.random() * 11) + 2;
+    descReto = idiomaActual === "es" ? "👑 ¡JAQUE MATE AL REY! Tabla del 12:" : "👑 KING CHECKMATE! Table 12:";
+  } else if (esPiezaAvanzada) {
+    num1 = Math.floor(Math.random() * 4) + 9; // 9, 10, 11 o 12
+    num2 = Math.floor(Math.random() * 11) + 2; // de 2 a 12
+    const nombrePieza = piezaMovida.tipo.toUpperCase();
+    descReto = idiomaActual === "es" ? `⚔️ Ataque con ${nombrePieza}! Tabla del ${num1}:` : `⚔️ Attack with ${nombrePieza}! Table ${num1}:`;
+  } else {
+    num1 = Math.floor(Math.random() * 8) + 1; // 1 al 8
+    num2 = Math.floor(Math.random() * 10) + 1; // 1 al 10
+    descReto = idiomaActual === "es" ? `👣 Avance de Peón:` : `👣 Pawn Advance:`;
+  }
+
+  const respuestaCorrecta = num1 * num2;
+  
+  // Guardar el movimiento pendiente de forma estricta
+  movimientoPendiente = { origenF, origenC, destinoF, destinoC, respuesta: respuestaCorrecta };
+
+  // 🌟 RECONSTRUIR EL HTML INTERNO DEL CUADRO FLOTANTE PARA ASEGURAR QUE NUNCA QUEDE VACÍO
+  tableroRetoBox.innerHTML = `
+    <div style="background: white; padding: 16px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); text-align: center; max-width: 320px; margin: auto;">
+      <div id="lblTableroOperacion" style="font-size: 20px; font-weight: bold; margin-bottom: 12px; color: #1f2937;">
+        <span style="font-size:11px; display:block; color:#7c3aed; margin-bottom:2px;">${descReto}</span> ${num1} × ${num2} = ?
+      </div>
+      <div id="tableroOpcionesGrid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;"></div>
+    </div>
+  `;
+
+  let opciones = [respuestaCorrecta];
+  while (opciones.length < 4) {
+    let vari = (Math.floor(Math.random() * 4) + 1) * (Math.random() < 0.5 ? 1 : -1);
+    let dist = respuestaCorrecta + vari;
+    if (dist > 0 && !opciones.includes(dist) && dist <= 144) opciones.push(dist);
+  }
+  mezclar(opciones);
+
+  const gridOpciones = document.getElementById("tableroOpcionesGrid");
+  if (gridOpciones) {
+    gridOpciones.replaceChildren();
+    opciones.forEach(op => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.textContent = op;
+      btn.style.cssText = "padding: 12px; font-size: 18px; font-weight: 900; background: #f3e8ff; color: #6b21a8; border: 2px solid #c084fc; border-radius: 10px; cursor: pointer; transition: transform 0.1s;";
+      btn.addEventListener("click", () => evaluarRespuestaMovimiento(op, respuestaCorrecta));
+      gridOpciones.appendChild(btn);
+    });
+  }
+
+  // Muestra la ventana flotante sobre el centro del tablero
+  tableroRetoBox.style.display = "block";
+}
+function evaluarRespuestaMovimiento(opElegida, respuestaCorrecta) {
+  const tema = TEMATICAS_TABLERO[tematicaActivaKey];
+  const t = tema.textos[idiomaActual];
+
+  if (opElegida === respuestaCorrecta) {
+    reproducirSonido("acierto");
+    tableroRetoBox.style.display = "none";
+    tableroRetoBox.innerHTML = "";
+
+    const { origenF, origenC, destinoF, destinoC } = movimientoPendiente;
+    const piezaMovida = tablero8x8[origenF][origenC];
+    const piezaCapturada = tablero8x8[destinoF][destinoC];
+
+    // 🌟 VALIDACIÓN PREVIA DE VICTORIA (Jaque Mate al Rey)
+    const esJaqueMateFinal = piezaCapturada && piezaCapturada.tipo === 'rey';
+
+    if (poderSeleccionado === 'teletransporte') {
+      poderSeleccionado = null;
+    }
+
+    // 🛡️ ACTUALIZAR EL ESCUDO: Si moviste la pieza protegida, el escudo viaja con ella a la nueva casilla
+    if (typeof piezaConEscudo !== 'undefined' && piezaConEscudo && piezaConEscudo.f === origenF && piezaConEscudo.c === origenC) {
+      piezaConEscudo = { f: destinoF, c: destinoC };
+      
+      if (typeof mostrarTextoFlotante === 'function') {
+        mostrarTextoFlotante("🛡️ ¡Escudo movido con la pieza!", true, "40%");
+      }
+    }
+
+    // 1. En Passant
+    if (piezaMovida.tipo === 'peon' && origenC !== destinoC && !piezaCapturada) {
+      tablero8x8[origenF][destinoC] = null;
+    }
+
+    // 2. Enroque
+    if (piezaMovida.tipo === 'rey' && Math.abs(destinoC - origenC) === 2) {
+      const filaRey = origenF;
+      if (destinoC === 6) {
+        tablero8x8[filaRey][5] = tablero8x8[filaRey][7];
+        tablero8x8[filaRey][7] = null;
+      } else if (destinoC === 2) {
+        tablero8x8[filaRey][3] = tablero8x8[filaRey][0];
+        tablero8x8[filaRey][0] = null;
+      }
+    }
+
+    if (piezaMovida.tipo === 'rey') {
+      if (piezaMovida.color === 'blancas') estadoJuegoAjedrez.reyBlancoMovido = true;
+      else estadoJuegoAjedrez.reyNegroMovido = true;
+    }
+    if (piezaMovida.tipo === 'torre') {
+      if (piezaMovida.color === 'blancas') {
+        if (origenC === 0) estadoJuegoAjedrez.torreBlancaIzqMovida = true;
+        if (origenC === 7) estadoJuegoAjedrez.torreBlancaDerMovida = true;
+      } else {
+        if (origenC === 0) estadoJuegoAjedrez.torreNegraIzqMovida = true;
+        if (origenC === 7) estadoJuegoAjedrez.torreNegraDerMovida = true;
+      }
+    }
+
+    // 🌟 MOVER LA PIEZA OFICIALMENTE EN EL TABLERO PRIMERO
+    tablero8x8[destinoF][destinoC] = piezaMovida;
+    tablero8x8[origenF][origenC] = null;
+
+    if (piezaMovida.tipo === 'peon' && (destinoF === 0 || destinoF === 7)) {
+      piezaMovida.tipo = 'dama';
+      reproducirSonido("acierto");
+      mostrarTextoFlotante("👑 ¡Coronación!", true, "40%");
+    }
+
+    historialMovimientos.push({ pieza: piezaMovida, f1: origenF, c1: origenC, f2: destinoF, c2: destinoC });
+    ultimoMovimiento = { origenF, origenC, destinoF, destinoC };
+
+    // Si es jaque mate, disparamos la victoria de inmediato
+    if (esJaqueMateFinal) {
+      reproducirSonido("acierto");
+      dispararConfetiVictoria();
+      puntos += 50;
+      actualizarEstadisticas();
+      guardarPuntajes();
+      tableroMensaje.style.color = "#15803d";
+      tableroMensaje.textContent = idiomaActual === "es" ? "🏆 ¡VICTORIA! ¡Capturaste al Rey! +50 pts ⭐" : "🏆 VICTORY! You captured the King! +50 pts ⭐";
+      mostrarTextoFlotante("+50 pts ⭐", true, "40%");
+      renderizarTablero8x8();
+      setTimeout(() => reiniciarPartidaTablero(), 3500);
+      return;
+    }
+
+// ⚔️ RETROALIMENTACIÓN DIFERENCIADA: NOTACIÓN VS CAPTURA
+    if (piezaCapturada) {
+      reproducirSonido("acierto");
+	  
+      
+      // Mensaje festivo y dinámico solo para capturas
+      const frasesCaptura = idiomaActual === "es"
+        ? [`⚔️ ¡Excelente! Capturaste el ${piezaCapturada.tipo}`, `💥 ¡Zas! Fuera ${piezaCapturada.tipo}`, `🔥 ¡Gran captura de ${piezaCapturada.tipo}!` ]
+        : [`⚔️ Great capture! Took the ${piezaCapturada.tipo}`, `💥 Captured the ${piezaCapturada.tipo}`, `🔥 Great ${piezaCapturada.tipo} capture!`];
+
+      const capturaAleatoria = frasesCaptura[Math.floor(Math.random() * frasesCaptura.length)];
+
+      if (typeof mostrarTextoFlotante === 'function') {
+        mostrarTextoFlotante(capturaAleatoria, true, "40%");
+      }
+      
+      tableroMensaje.style.color = "#d97706"; 
+      tableroMensaje.textContent = capturaAleatoria;
+    } else {
+      // Movimiento normal limpio: Mostramos la notación de ajedrez formal
+      const notacionJugada = obtenerNotacionAjerez(piezaMovida, origenF, origenC, destinoF, destinoC, false);
+      
+      if (typeof mostrarTextoFlotante === 'function') {
+        mostrarTextoFlotante(notacionJugada, true, "40%"); // Muestra algo como "Nf3" o "e4" de forma elegante
+      }
+      tableroMensaje.style.color = "#15803d";
+      tableroMensaje.textContent = idiomaActual === "es" 
+        ? `♟️ Jugada registrada: ${notacionJugada}` 
+        : `♟️ Move recorded: ${notacionJugada}`;
+    }	
+
+    // 🌟 CONTROL DE LA RACHA AHORA QUE EL MOVIMIENTO YA SE COMPLETÓ
+    let ganoSuperpoder = false;
+    if (!esJaqueMateFinal && typeof varianteAjedrezActual !== 'undefined' && varianteAjedrezActual === 'superpoderes') {
+      if (poderSeleccionado !== null) {
+        rachaAciertosMatematicos = 0; 
+      } else {
+        typeof rachaAciertosMatematicos !== 'undefined' ? rachaAciertosMatematicos++ : (rachaAciertosMatematicos = 1);
+        
+        if (rachaAciertosMatematicos >= 3) {
+          ganoSuperpoder = true;
+          otorgarSuperpoderAleatorio();
+          rachaAciertosMatematicos = 0; 
+        } else {
+          tableroMensaje.style.color = "#16a34a";
+          tableroMensaje.textContent = `🔥 ¡Buen acierto! Racha: ${rachaAciertosMatematicos}/3 para superpoder.`;
+        }
+      }
+    }
+
+    renderizarTablero8x8();
+
+    // Si ganó el superpoder, detenemos el turno aquí para que elija su poder y el bot espere
+    if (ganoSuperpoder) {
+      return;
+    }
+
+    if (varianteAjedrezActual !== 'superpoderes' || rachaAciertosMatematicos !== 0) {
+      tableroMensaje.style.color = "#15803d";
+      tableroMensaje.textContent = t.exitoMovimiento;
+    }
+
+    // 💥 Control de Doble Turno o cambio de turno normal
+    if (turnoActual === "blancas") {
+      if (poderSeleccionado === 'doble_turno') {
+        poderSeleccionado = null; 
+        tableroMensaje.style.color = "#b45309";
+        tableroMensaje.textContent = idiomaActual === "es" ? "💥 ¡Doble Turno! Juegas otra vez." : "💥 Double Turn! Play again.";
+        if (typeof mostrarTextoFlotante === 'function') mostrarTextoFlotante("💥 ¡Doble Turno!", true, "40%");
+        renderizarTablero8x8();
+        return; 
+      }
+
+      // 🌟 CAMBIO DE TURNO CENTRALIZADO (Incluye validación de ahogo)
+      finalizarTurnoYCambiar();
+    } else {
+      finalizarTurnoYCambiar();
+    }
+  } else {
+    reproducirSonido("error");
+    typeof vibrar === 'function' && vibrar(70);
+    tableroRetoBox.style.display = "none";
+    tableroRetoBox.innerHTML = "";
+    
+    if (typeof varianteAjedrezActual !== 'undefined' && varianteAjedrezActual === 'superpoderes') {
+      rachaAciertosMatematicos = 0;
+    }
+
+    tableroMensaje.style.color = "#dc2626";
+    const chistes = t.chistesError;
+    tableroMensaje.textContent = chistes[Math.floor(Math.random() * chistes.length)];
+    
+    seleccionOrigen = null;
+    movimientoPendiente = null;
+    actualizarUITurno();
+    renderizarTablero8x8();
+  }
+}
+
+function elReyEstaEnJaque(colorRey) {
+  // 1. Encontrar la posición actual del Rey del color indicado
+  let reyF = -1, reyC = -1;
+  for (let f = 0; f < 8; f++) {
+    for (let c = 0; c < 8; c++) {
+      const pieza = tablero8x8[f][c];
+      if (pieza && pieza.tipo === 'rey' && pieza.color === colorRey) {
+        reyF = f;
+        reyC = c;
+        break;
+      }
+    }
+    if (reyF !== -1) break;
+  }
+
+  if (reyF === -1) return false; // Por seguridad si no se encuentra el rey
+
+  // 2. Revisar si alguna pieza del color CONTRARIO puede atacar la casilla del Rey
+  const colorEnemigo = colorRey === 'blancas' ? 'negras' : 'blancas';
+  for (let f = 0; f < 8; f++) {
+    for (let c = 0; c < 8; c++) {
+      const piezaEnemiga = tablero8x8[f][c];
+      if (piezaEnemiga && piezaEnemiga.color === colorEnemigo) {
+        // Usamos nuestra función de validación para ver si la pieza enemiga llega al rey
+        if (esMovimientoLegalValido(piezaEnemiga, f, c, reyF, reyC)) {
+          return true; // ¡El rey está en Jaque!
+        }
+      }
+    }
+  }
+  return false;
+}
+
+
+function tieneMovimientosLegales(colorJugador) {
+  for (let f = 0; f < 8; f++) {
+    for (let c = 0; c < 8; c++) {
+      const pieza = tablero8x8[f][c];
+      if (pieza && pieza.color === colorJugador) {
+        // Probar si esta pieza puede moverse a cualquier casilla del tablero
+        for (let df = -7; df <= 7; df++) {
+          for (let dc = -7; dc <= 7; dc++) {
+            if (df === 0 && dc === 0) continue;
+            const destinoF = f + df;
+            const destinoC = c + dc;
+            if (destinoF >= 0 && destinoF < 8 && destinoC >= 0 && destinoC < 8) {
+              if (esMovimientoLegalValido(pieza, f, c, destinoF, destinoC)) {
+                return true; // Encontró al menos un movimiento legal, la partida sigue
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  return false; // No hay ningún movimiento legal en todo el tablero para este color
+}
+
+
+function ejecutarTurnoBot() {
+  if (turnoActual !== "negras" || modoJuegoActual !== "bot") return;
+
+  const valoresPiezas = { 'rey': 1000, 'dama': 90, 'torre': 50, 'alfil': 30, 'caballo': 30, 'peon': 10 };
+  let movimientosPosibles = [];
+
+  // 1. Recopilar TODOS los movimientos legales posibles de las piezas negras
+  for (let f = 0; f < 8; f++) {
+    for (let c = 0; c < 8; c++) {
+      const pieza = tablero8x8[f][c];
+      if (pieza && pieza.color === "negras") {
+        for (let df = -7; df <= 7; df++) {
+          for (let dc = -7; dc <= 7; dc++) {
+            if (df === 0 && dc === 0) continue;
+            const destinoF = f + df;
+            const destinoC = c + dc;
+
+            if (destinoF >= 0 && destinoF < 8 && destinoC >= 0 && destinoC < 8) {
+              if (esMovimientoLegalValido(pieza, f, c, destinoF, destinoC)) {
+                
+                let puntajePrioridad = 0;
+                const piezaDestino = tablero8x8[destinoF][destinoC];
+                const valorPiezaPropia = valoresPiezas[pieza.tipo] || 10;
+
+                // 🛡️ CONTROL DE SEGURIDAD: ¿La casilla de destino está atacada por las blancas?
+                const casillaPeligrosa = typeof esCasillaAtacada === 'function' && esCasillaAtacada(destinoF, destinoC, 'blancas');
+
+                if (piezaDestino) {
+                  const valorPiezaEnemiga = valoresPiezas[piezaDestino.tipo] || 10;
+                  
+                  // Priorizar captura de Rey (Victoria inmediata)
+                  if (piezaDestino.tipo === 'rey') {
+                    puntajePrioridad += 50000;
+                  } else {
+                    // Ganancia neta estimada del intercambio
+                    const gananciaMaterial = valorPiezaEnemiga - (casillaPeligrosa ? valorPiezaPropia : 0);
+                    puntajePrioridad += gananciaMaterial * 10;
+                  }
+                }
+
+                // ❌ PENALIZACIÓN SEVERA POR REGALAR PIEZAS (Pieza colgada)
+                if (casillaPeligrosa && !piezaDestino) {
+                  puntajePrioridad -= valorPiezaPropia * 5; 
+                } else if (casillaPeligrosa && piezaDestino) {
+                  const valorEnemigo = valoresPiezas[piezaDestino.tipo] || 10;
+                  if (valorPiezaPropia > valorEnemigo) {
+                    puntajePrioridad -= 200; 
+                  }
+                }
+
+                // Bonificación menor por avanzar hacia adelante (actividad)
+                puntajePrioridad += destinoF;
+
+                movimientosPosibles.push({
+                  origenF: f,
+                  origenC: c,
+                  destinoF,
+                  destinoC,
+                  pieza,
+                  piezaDestino,
+                  puntaje: puntajePrioridad
+                });
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Si el bot no tiene movimientos, cede el turno
+  if (movimientosPosibles.length === 0) {
+    finalizarTurnoYCambiar();
+    tableroMensaje.style.color = "#4c1d95";
+    tableroMensaje.textContent = idiomaActual === "es" ? "🤖 El Bot no tiene movimientos. ¡Tu turno!" : "🤖 Bot has no moves. Your turn!";
+    return;
+  }
+
+  // 2. Ordenar de mayor a menor prioridad
+  movimientosPosibles.sort((a, b) => b.puntaje - a.puntaje);
+
+  // Elegir entre las mejores opciones para mantener variedad
+  const mejoresOpciones = movimientosPosibles.filter(m => m.puntaje >= movimientosPosibles[0].puntaje - 15);
+  const seleccion = mejoresOpciones[Math.floor(Math.random() * mejoresOpciones.length)];
+
+  const { origenF, origenC, destinoF, destinoC, pieza, piezaDestino } = seleccion;
+
+//console.log("🔍 [DEBUG ESCUDO] Destino bot:", destinoF, destinoC);
+//console.log("🛡️ [DEBUG ESCUDO] Pieza con escudo activa:", piezaConEscudo);
+// 🛡️ IMPACTO DEL ESCUDO: El bot intentó atacar la casilla protegida
+  if (typeof piezaConEscudo !== 'undefined' && piezaConEscudo && piezaConEscudo.f === destinoF && piezaConEscudo.c === destinoC) {
+    
+    // El escudo absorbe el golpe, se destruye y el bot se queda en su lugar sin capturar
+    piezaConEscudo = null; 
+    reproducirSonido("error");
+    
+    // Textos adaptados para el mensaje flotante según el idioma actual
+    const textoFlotanteEscudo = idiomaActual === "es" 
+      ? "🛡️ ¡Escudo Bloqueó el Ataque!" 
+      : "🛡️ Shield Blocked Attack!";
+
+    if (typeof mostrarTextoFlotante === 'function') {
+      mostrarTextoFlotante(textoFlotanteEscudo, true, "40%");
+    }
+    
+    tableroMensaje.style.color = "#16a34a";
+    tableroMensaje.textContent = idiomaActual === "es" 
+      ? "🛡️ ¡El Bot intentó capturar tu pieza, pero el Escudo absorbió el golpe y se rompió! Tu pieza sigue a salvo." 
+      : "🛡️ The Bot attacked your piece, but the Shield absorbed the blow and broke! Your piece is safe.";
+    
+    finalizarTurnoYCambiar(); 
+    return;
+  }
+  // 3. Verificar si capturó el Rey blanco
+  if (piezaDestino && piezaDestino.tipo === 'rey') {
+    reproducirSonido("error");
+    tableroMensaje.style.color = "#dc2626";
+    tableroMensaje.textContent = idiomaActual === "es" ? "🤖 ¡El Bot matemático te hizo Jaque Mate! Inténtalo de nuevo." : "🤖 Math Bot checkmated you! Try again.";
+    renderizarTablero8x8();
+    setTimeout(() => reiniciarPartidaTablero(), 3500);
+    return;
+  }
+
+  // 4. Ejecutar movimiento en la matriz
+  tablero8x8[destinoF][destinoC] = pieza;
+  tablero8x8[origenF][origenC] = null;
+
+  ultimoMovimiento = { origenF, origenC, destinoF, destinoC };
+  historialMovimientos.push({ pieza, f1: origenF, c1: origenC, f2: destinoF, c2: destinoC });
+
+  // 5. Regresar el turno a las blancas usando nuestra función centralizada
+  finalizarTurnoYCambiar();
+
+  // 🌟 RESTAURACIÓN DE MENSAJES Y NOTIFICACIONES VISUALES COMPLETAS DEL BOT
+  tableroMensaje.style.color = "#4c1d95";
+  if (piezaDestino) {
+    if (typeof mostrarTextoFlotante === 'function') {
+      mostrarTextoFlotante("🤖 ¡El Bot capturó!", true, "40%");
+    }
+    tableroMensaje.textContent = idiomaActual === "es" 
+      ? `🤖 ¡El Bot capturó tu ${piezaDestino.tipo}! Tu turno.` 
+      : `🤖 The Bot captured your ${piezaDestino.tipo}! Your turn.`;
+  } else {
+    tableroMensaje.textContent = idiomaActual === "es" 
+      ? `🤖 El Bot negro ha movido. ¡Tu turno!` 
+      : `🤖 Black Bot has moved. Your turn!`;
+  }
+}
+function obtenerNotacionAjerez(pieza, origenF, origenC, destinoF, destinoC, esCaptura) {
+  const columnas = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+  const filas = ['8', '7', '6', '5', '4', '3', '2', '1']; // Nota: en tu matriz 0 es fila 8 o 1 según tu diseño, ajusta si es necesario
+
+  const letraPieza = pieza.tipo === 'peon' ? '' : pieza.tipo.charAt(0).toUpperCase() === 'C' ? 'N' : pieza.tipo.charAt(0).toUpperCase();
+  const casillaDestino = columnas[destinoC] + filas[destinoF];
+  const casillaOrigenColumna = columnas[origenC];
+
+  // Enroque
+  if (pieza.tipo === 'rey' && Math.abs(destinoC - origenC) === 2) {
+    return destinoC > origenC ? "O-O" : "O-O-O";
+  }
+
+  // Captura de peón (ej: exd5)
+  if (pieza.tipo === 'peon' && esCaptura) {
+    return `${casillaOrigenColumna}x${casillaDestino}`;
+  }
+
+  // Captura normal (ej: Nxd4 o Bxe5)
+  if (esCaptura) {
+    return `${letraPieza}x${casillaDestino}`;
+  }
+
+  // Movimiento normal (ej: Nf3 o e4)
+  return `${letraPieza}${casillaDestino}`;
+}
+
+
+function otorgarSuperpoderAleatorio() {
+  // 🛑 VALIDACIÓN CLAVE: Si ya hay un superpoder seleccionado o pendiente, no abrimos el diálogo otra vez
+  if (poderSeleccionado !== null) {
+    tableroMensaje.style.color = "#16a34a";
+    tableroMensaje.textContent = idiomaActual === "es" ? "🔥 ¡Buen acierto! (Ya tienes un superpoder activo)." : "🔥 Good hit! (You already have an active power).";
+    return; // Evita que se dispare el diálogo en bucle
+  }
+
+  // 1. Reproducir sonido de triunfo y mostrar el mensaje flotante
+  reproducirSonido("acierto");
+  if (typeof mostrarTextoFlotante === 'function') {
+    mostrarTextoFlotante("⚡ ¡Racha de 3! Elige tu Superpoder", true, "40%");
+  }
+
+  // 2. Actualizar el mensaje inferior fijo
+  tableroMensaje.style.color = "#7c3aed";
+  tableroMensaje.textContent = idiomaActual === "es" 
+    ? "🌟 ¡Racha matemática completada! Elige un superpoder:" 
+    : "🌟 Math streak completed! Choose a superpower:";
+
+  // 3. Mostrar la caja de selección utilizando el contenedor visual de retos
+  if (typeof tableroRetoBox !== 'undefined') {
+    tableroRetoBox.innerHTML = `
+      <div style="background: white; padding: 16px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); text-align: center; max-width: 300px; margin: auto;">
+        <h3 style="color: #7c3aed; margin-bottom: 12px; font-size: 16px;">⚡ ¡Elige tu Superpoder!</h3>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <button onclick="seleccionarSuperpoder('escudo')" style="background: #e0f2fe; color: #0369a1; border: 2px solid #38bdf8; padding: 8px; border-radius: 8px; font-weight: bold; cursor: pointer;">
+            🛡️ Escudo Protector
+          </button>
+          <button onclick="seleccionarSuperpoder('teletransporte')" style="background: #f3e8ff; color: #6b21a8; border: 2px solid #c084fc; padding: 8px; border-radius: 8px; font-weight: bold; cursor: pointer;">
+            🚀 Teletransporte
+          </button>
+          <button onclick="seleccionarSuperpoder('doble_turno')" style="background: #fef3c7; color: #b45309; border: 2px solid #f59e0b; padding: 8px; border-radius: 8px; font-weight: bold; cursor: pointer;">
+            💥 Doble Turno
+          </button>
+        </div>
+      </div>
+    `;
+    tableroRetoBox.style.display = "block";
+  }
+}
+
+
+function seleccionarSuperpoder(tipoPoder) {
+  poderSeleccionado = tipoPoder;
+  reproducirSonido("acierto");
+  
+  // Ocultar la caja de selección y vaciarla por completo
+  tableroRetoBox.style.display = "none"; 
+  tableroRetoBox.innerHTML = "";
+
+  // 🛑 REINICIO OBLIGATORIO DE LA RACHA A CERO
+  rachaAciertosMatematicos = 0; 
+
+  let mensajeTexto = "";
+  let mensajeFlotante = "";
+
+  if (poderSeleccionado === 'escudo') {
+    mensajeTexto = idiomaActual === "es" 
+      ? "🛡️ ¡Escudo Protector activo! Toca la pieza propia que deseas proteger." 
+      : "🛡️ Shield active! Tap your own piece to protect it.";
+    mensajeFlotante = "🛡️ ¡Escudo Activado!";
+  } else if (poderSeleccionado === 'teletransporte') {
+    mensajeTexto = idiomaActual === "es" 
+      ? "🚀 ¡Teletransporte activo! Toca tu pieza y luego una casilla vacía." 
+      : "🚀 Teleport active! Tap your piece and then an empty square.";
+    mensajeFlotante = "🚀 ¡Teletransporte!";
+  } else {
+    mensajeTexto = idiomaActual === "es" 
+      ? "💥 ¡Doble Turno activo! Tu próxima jugada repetirá turno." 
+      : "💥 Double Turn active! Your next move will repeat.";
+    mensajeFlotante = "💥 ¡Doble Turno!";
+  }
+
+  if (typeof mostrarTextoFlotante === 'function') {
+    mostrarTextoFlotante(mensajeFlotante, true, "40%");
+  }
+
+  tableroMensaje.style.color = "#16a34a";
+  tableroMensaje.textContent = mensajeTexto;
+  
+  seleccionOrigen = null;
+  renderizarTablero8x8();
+}
+
+// Event Listeners
+btnTableroMagico.addEventListener("click", abrirTableroMagico);
+cerrarTableroMagico.addEventListener("click", () => modalTableroMagico.hidden = true);
+btnReiniciarTablero.addEventListener("click", reiniciarPartidaTablero);
+selectTematica.addEventListener("change", (e) => {
+  tematicaActivaKey = e.target.value;
+  renderizarTablero8x8();
+});
+selectModoJuego.addEventListener("change", (e) => {
+  modoJuegoActual = e.target.value;
+  reiniciarPartidaTablero();
+});
+
+const selectColorTemaTablero = document.getElementById("selectColorTemaTablero");
+if (selectColorTemaTablero) {
+  selectColorTemaTablero.addEventListener("change", (e) => {
+    colorTemaTableroActual = e.target.value;
+    reproducirSonido("click");
+    renderizarTablero8x8();
+  });
+}
+
+const selectVarianteAjedrez = document.getElementById("selectVarianteAjedrez");
+if (selectVarianteAjedrez) {
+  selectVarianteAjedrez.addEventListener("change", (e) => {
+    varianteAjedrezActual = e.target.value;
+    rachaAciertosMatematicos = 0;
+    poderSeleccionado = null;
+    piezaConEscudo = null;
+    reproducirSonido("click");
+    
+    // Mensaje visual al cambiar de modo
+    tableroMensaje.style.color = "#7c3aed";
+    tableroMensaje.textContent = varianteAjedrezActual === 'superpoderes' 
+      ? "⚡ ¡Modo Superpoderes activado! Haz 3 aciertos seguidos para ganar superpoderes."
+      : "♟️ Modo Clásico activado. ¡A jugar ajedrez tradicional!";
+      
+    renderizarTablero8x8();
+  });
+}
+
+
 </script>
 </body>
 </html>
