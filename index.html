@@ -115,33 +115,47 @@
       justify-content: space-between;
       align-items: center;
       width: 100%;
-      margin-bottom: 1px;
+      margin-bottom: 3px;
       z-index: 5;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      padding: 3px 6px;
+      border-radius: 16px;
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
     }
 
     .grupo-controles {
       display: flex;
+      align-items: center;
       gap: 5px;
     }
 
     .btn-control {
-      background: #eff6ff;
-      border: 2px solid #bfdbfe;
+      background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+      border: 1.5px solid #cbd5e1;
       border-radius: 50%;
-      width: 27px;
-      height: 27px;
+      width: 29px;
+      height: 29px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 12px;
+      font-size: 13px;
       cursor: pointer;
       padding: 0;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
       color: #1e3a8a;
+      transition: transform 0.12s ease, background-color 0.12s ease, border-color 0.12s ease;
+    }
+
+    .btn-control:hover {
+      background: #e2e8f0;
+      border-color: #94a3b8;
     }
 
     .btn-control:active {
-      transform: scale(0.92);
+      transform: scale(0.90);
     }
 
     .titulo-contenedor {
@@ -149,78 +163,100 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 4px;
+      gap: 5px;
     }
 
     h1 {
       margin: 0;
-      font-size: clamp(14px, 3.5vw, 17px);
+      font-size: clamp(14px, 3.6vw, 17px);
+      font-weight: 900;
+      color: #0f172a;
+      letter-spacing: -0.2px;
       line-height: 1.1;
     }
 
     .avatar-actual-header {
-      font-size: 17px;
+      font-size: 19px;
       cursor: pointer;
-      transition: transform 0.2s;
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: inline-block;
+    }
+    .avatar-actual-header:hover {
+      transform: scale(1.15) rotate(5deg);
     }
     .avatar-actual-header:active {
-      transform: scale(1.2);
+      transform: scale(1.25) rotate(-5deg);
     }
 
     .config-container {
       display: flex;
       justify-content: space-between;
-      gap: 3px;
-      margin: 1px 0;
+      gap: 4px;
+      margin: 2px 0 3px;
       align-items: center;
-      background: #f8fafc;
-      padding: 3px 6px;
-      border-radius: 8px;
-      border: 1px solid #e2e8f0;
+      background: #ffffff;
+      padding: 4px 8px;
+      border-radius: 12px;
+      border: 1.5px solid #e2e8f0;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
     }
 
     .selector-tabla {
       display: flex;
       align-items: center;
-      gap: 2px;
-      font-size: 10px;
-      font-weight: bold;
+      gap: 3px;
+      font-size: 10.5px;
+      font-weight: 800;
+      color: #475569;
     }
 
     .selector-tabla select,
     .selector-tabla input {
-      padding: 2px 4px;
-      border: 2px solid #bfdbfe;
-      border-radius: 6px;
-      background: #eff6ff;
-      color: #1e3a8a;
-      font-size: 10px;
-      font-weight: bold;
+      padding: 3px 6px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 7px;
+      background: #f8fafc;
+      color: #0f172a;
+      font-size: 10.5px;
+      font-weight: 800;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .selector-tabla select:focus,
+    .selector-tabla input:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
     }
 
     .selector-tabla input {
-      width: 60px;
+      width: 68px;
       text-align: center;
     }
 
     .selector-tabla select {
       max-width: 125px;
+      cursor: pointer;
     }
 
     .btn-minijuego-compacto {
-      background: #8b5cf6;
-      border: 2px solid #ddd6fe;
-      border-radius: 6px;
-      width: 25px;
-      height: 23px;
+      background: linear-gradient(180deg, #8b5cf6 0%, #7c3aed 100%);
+      border: 1.5px solid #c4b5fd;
+      border-radius: 8px;
+      width: 27px;
+      height: 25px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 12px;
+      font-size: 13px;
       cursor: pointer;
       padding: 0;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-      transition: transform 0.15s;
+      box-shadow: 0 2px 4px rgba(124, 58, 237, 0.25);
+      transition: transform 0.12s ease, filter 0.12s ease;
+    }
+    .btn-minijuego-compacto:hover {
+      filter: brightness(1.1);
+      transform: scale(1.05);
     }
     .btn-minijuego-compacto:active {
       transform: scale(0.92);
@@ -231,23 +267,25 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: #2563eb;
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
       color: #fff;
-      border-radius: 6px;
-      padding: 1px 4px;
-      min-width: 35px;
+      border-radius: 8px;
+      padding: 2px 6px;
+      min-width: 38px;
+      box-shadow: 0 2px 5px rgba(37, 99, 235, 0.28);
     }
 
     .badge-label {
-      font-size: 7px;
+      font-size: 7.5px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      opacity: 0.9;
+      letter-spacing: 0.6px;
+      opacity: 0.92;
+      font-weight: 800;
     }
 
     .badge-value {
-      font-size: 11px;
-      font-weight: bold;
+      font-size: 12px;
+      font-weight: 900;
       line-height: 1;
     }
 
@@ -300,52 +338,72 @@
 
     .flecha {
       position: absolute;
-      top: -6px;
+      top: -8px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 51;
-      font-size: 16px;
+      font-size: 18px;
       line-height: 1;
-      color: #172554;
+      color: #dc2626;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
       pointer-events: none;
+      animation: flechaPulso 1.8s infinite ease-in-out;
+    }
+
+    @keyframes flechaPulso {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-2px); }
     }
 
     button {
       border: 0;
-      border-radius: 9px;
+      border-radius: 10px;
       padding: 8px 12px;
       font-size: 15px;
-      font-weight: bold;
+      font-weight: 800;
       cursor: pointer;
       touch-action: manipulation;
-      transition: transform .12s ease, background-color .12s ease;
+      transition: transform .12s cubic-bezier(0.4, 0, 0.2, 1), box-shadow .12s cubic-bezier(0.4, 0, 0.2, 1), background-color .12s ease;
     }
 
     button:disabled {
-      opacity: .6;
+      opacity: .55;
       cursor: default;
+      filter: grayscale(0.2);
     }
 
     .principal {
       width: 100%;
       color: #fff;
-      background: #2563eb;
-      padding: 9px;
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      box-shadow: 0 4px 0 #1e40af, 0 6px 14px rgba(37, 99, 235, 0.28);
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 15.5px;
+      font-weight: 900;
+      letter-spacing: 0.3px;
+    }
+
+    .principal:not(:disabled):hover {
+      filter: brightness(1.05);
     }
 
     .principal:not(:disabled):active {
-      transform: scale(.98);
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 #1e40af, 0 3px 6px rgba(37, 99, 235, 0.2);
     }
 
     .btn-revancha {
-      background: #f59e0b;
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
       color: #fff;
-      margin-bottom: 2px;
+      margin-bottom: 3px;
       font-size: 13px;
+      font-weight: 900;
       padding: 8px 12px;
+      border-radius: 10px;
       display: none;
       animation: pulsoRevancha 1.5s infinite;
-      box-shadow: 0 2px 6px rgba(245, 158, 11, 0.3);
+      box-shadow: 0 3px 0 #b45309, 0 4px 10px rgba(245, 158, 11, 0.3);
     }
 
 	@keyframes reboteFlotante {
@@ -368,7 +426,6 @@
 	  animation: pulsoAlerta 1.2s infinite;
 	}
 
-	/* Efecto hover suave al pasar el mouse por las casillas válidas */
 	.casilla-valida:hover {
 	  filter: brightness(1.1);
 	  transform: scale(0.96);
@@ -377,95 +434,666 @@
 	
     @keyframes pulsoRevancha {
       0% { transform: scale(1); }
-      50% { transform: scale(1.02); background: #d97706; }
+      50% { transform: scale(1.02); filter: brightness(1.1); }
       100% { transform: scale(1); }
     }
 
     .pregunta {
-      margin-top: 1px;
+      margin-top: 2px;
       padding: 8px 12px;
-      background: #f1f5f9;
-      border-radius: 14px;
-      border: 1.5px solid #cbd5e1;
+      background: #ffffff;
+      border-radius: 16px;
+      border: 1.5px solid #e2e8f0;
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
     }
 
     #instruccion {
       margin: 0;
       font-size: 11px;
-      font-weight: 500;
+      font-weight: 700;
+      color: #64748b;
     }
 
     #operacion {
-      font-size: clamp(24px, 6.5vw, 32px);
-      font-weight: 800;
-      margin: 2px 0;
+      font-size: clamp(26px, 7vw, 34px);
+      font-weight: 900;
+      margin: 3px 0;
       color: #1e3a8a;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.8px;
+      background: #f8fafc;
+      padding: 3px 12px;
+      border-radius: 10px;
+      border: 1px solid #e2e8f0;
+      display: inline-block;
     }
 
     .respuestas {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 8px;
-      margin: 5px 0 3px;
+      margin: 6px 0 4px;
     }
 
     .respuestas button {
-      min-height: 48px;
-      padding: 10px;
-      color: #1e3a8a;
-      background: #dbeafe;
-      font-size: 19px;
-      font-weight: 800;
+      min-height: 52px;
+      padding: 8px 10px;
+      color: #1e40af;
+      background: linear-gradient(180deg, #eff6ff 0%, #dbeafe 100%);
+      font-size: 21px;
+      font-weight: 900;
       border: 2px solid #93c5fd;
-      box-shadow: 0 2px 5px rgba(30, 58, 138, 0.1);
+      border-radius: 12px;
+      box-shadow: 0 3px 0 #60a5fa, 0 4px 8px rgba(37, 99, 235, 0.12);
+      transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.1s ease;
+    }
+
+    .respuestas button:not(:disabled):hover {
+      background: linear-gradient(180deg, #dbeafe 0%, #bfdbfe 100%);
+    }
+
+    .respuestas button:not(:disabled):active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 #60a5fa, 0 2px 4px rgba(37, 99, 235, 0.1);
     }
 
     #mensaje {
-      min-height: 16px;
-      margin: 0;
-      font-size: 12px;
-      font-weight: bold;
-      line-height: 1.1;
+      min-height: 18px;
+      margin: 2px 0 0;
+      font-size: 12.5px;
+      font-weight: 800;
+      line-height: 1.2;
     }
 
     #siguiente {
-      margin-top: 3px;
+      margin-top: 4px;
       padding: 9px;
-      font-size: 14px;
+      font-size: 14.5px;
     }
 
     .estadisticas {
       display: flex;
       justify-content: space-around;
       gap: 6px;
-      margin-top: 3px;
+      margin-top: 4px;
     }
 
     .estadisticas div {
       flex: 1;
-      padding: 7px 4px;
-      background: #fef3c7;
-      border: 1.5px solid #fcd34d;
-      border-radius: 10px;
+      padding: 6px 4px;
+      border-radius: 12px;
       font-size: 11px;
-      font-weight: 600;
+      font-weight: 800;
       cursor: pointer;
       text-align: center;
-      transition: transform 0.1s ease, background-color 0.1s ease;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      transition: transform 0.12s ease, filter 0.12s ease;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.04);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
 
     .estadisticas div:active {
-      transform: scale(0.95);
-      background: #fde68a;
+      transform: scale(0.94);
     }
+
+    #cardPuntos {
+      background: linear-gradient(180deg, #fffbeb 0%, #fef3c7 100%);
+      border: 1.5px solid #fde68a;
+      color: #92400e;
+    }
+    #cardPuntos strong { color: #b45309; }
+
+    #cardAciertos {
+      background: linear-gradient(180deg, #f0fdf4 0%, #dcfce7 100%);
+      border: 1.5px solid #bbf7d0;
+      color: #166534;
+    }
+    #cardAciertos strong { color: #15803d; }
+
+    #cardRacha {
+      background: linear-gradient(180deg, #fff1f2 0%, #ffe4e6 100%);
+      border: 1.5px solid #fecdd3;
+      color: #9f1239;
+    }
+    #cardRacha strong { color: #e11d48; }
+
+    #cardInsignias {
+      background: linear-gradient(180deg, #f5f3ff 0%, #ede9fe 100%);
+      border: 1.5px solid #ddd6fe;
+      color: #5b21b6;
+    }
+    #cardInsignias strong { color: #7c3aed; }
 
     .estadisticas strong {
       display: block;
       margin-top: 2px;
       font-size: 16px;
-      color: #78350f;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    /* =========================================================================
+       TEMAS VISUALES PULIDOS PARA MINIJUEGOS: DETECTIVE, RELÁMPAGO Y LABERINTO
+       ========================================================================= */
+    /* 🕵️‍♂️ Detective: Dossier & High-Tech Inspection */
+    .modal-detective-card {
+      border: 2px solid #94a3b8;
+      box-shadow: 0 16px 36px rgba(15, 23, 42, 0.28);
+      position: relative;
+    }
+
+    .detective-badge-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #0369a1;
+      background: #e0f2fe;
+      padding: 3px 10px;
+      border-radius: 12px;
+      border: 1px solid #bae6fd;
+      margin-bottom: 4px;
+    }
+
+    .detective-display-box {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      border: 2px solid #38bdf8;
+      border-radius: 14px;
+      padding: 14px 10px;
+      margin: 10px 0;
+      box-shadow: 0 6px 20px rgba(56, 189, 248, 0.2), inset 0 1px 2px rgba(255,255,255,0.15);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .detective-display-box::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+    }
+
+    .detective-op-texto {
+      font-size: clamp(28px, 7.5vw, 36px);
+      font-weight: 900;
+      color: #f8fafc;
+      letter-spacing: 1.5px;
+      text-shadow: 0 0 12px rgba(56, 189, 248, 0.5);
+    }
+
+    .btn-veredicto-verdad {
+      background: linear-gradient(180deg, #22c55e 0%, #16a34a 100%) !important;
+      border: 2px solid #86efac !important;
+      border-radius: 12px !important;
+      color: #ffffff !important;
+      font-size: 15px !important;
+      font-weight: 900 !important;
+      padding: 13px 8px !important;
+      box-shadow: 0 4px 0 #15803d, 0 6px 14px rgba(22, 163, 74, 0.25) !important;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .btn-veredicto-verdad:not(:disabled):hover {
+      filter: brightness(1.06);
+    }
+    .btn-veredicto-verdad:not(:disabled):active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 #15803d, 0 3px 6px rgba(22, 163, 74, 0.2) !important;
+    }
+
+    .btn-veredicto-trampa {
+      background: linear-gradient(180deg, #ef4444 0%, #dc2626 100%) !important;
+      border: 2px solid #fca5a5 !important;
+      border-radius: 12px !important;
+      color: #ffffff !important;
+      font-size: 15px !important;
+      font-weight: 900 !important;
+      padding: 13px 8px !important;
+      box-shadow: 0 4px 0 #b91c1c, 0 6px 14px rgba(220, 38, 38, 0.25) !important;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .btn-veredicto-trampa:not(:disabled):hover {
+      filter: brightness(1.06);
+    }
+    .btn-veredicto-trampa:not(:disabled):active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 #b91c1c, 0 3px 6px rgba(220, 38, 38, 0.2) !important;
+    }
+
+    /* ⚡ Desafío Relámpago: Arcade Frenzy */
+    .modal-desafio-card {
+      border: 2px solid #f472b6;
+      box-shadow: 0 16px 36px rgba(236, 72, 153, 0.22);
+    }
+
+    .desafio-hud-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+      padding: 6px 12px;
+      border-radius: 12px;
+      border: 1.5px solid #fbcfe8;
+      margin-bottom: 6px;
+    }
+
+    .desafio-hud-pill {
+      font-size: 12px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .desafio-op-box {
+      background: #f8fafc;
+      border: 2px solid #fbcfe8;
+      border-radius: 14px;
+      padding: 10px 8px;
+      margin: 8px 0;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.03);
+    }
+
+    .desafio-op-texto {
+      font-size: clamp(30px, 8vw, 38px);
+      font-weight: 900;
+      color: #831843;
+      letter-spacing: 1.5px;
+      text-shadow: 0 1px 4px rgba(219, 39, 119, 0.2);
+    }
+
+    .btn-desafio-opcion {
+      min-height: 52px;
+      padding: 8px 10px;
+      color: #831843;
+      background: linear-gradient(180deg, #ffffff 0%, #fdf2f8 100%);
+      font-size: 22px;
+      font-weight: 900;
+      border: 2px solid #f472b6;
+      border-radius: 12px;
+      box-shadow: 0 3px 0 #db2777, 0 4px 8px rgba(219, 39, 119, 0.15);
+      cursor: pointer;
+      transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.1s ease;
+    }
+    .btn-desafio-opcion:not(:disabled):hover {
+      filter: brightness(1.04);
+      background: #fce7f3;
+    }
+    .btn-desafio-opcion:not(:disabled):active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 #db2777, 0 2px 4px rgba(219, 39, 119, 0.12);
+    }
+
+    .btn-iniciar-desafio {
+      background: linear-gradient(135deg, #ec4899 0%, #be185d 100%) !important;
+      box-shadow: 0 4px 0 #9d174d, 0 6px 14px rgba(236, 72, 153, 0.35) !important;
+      border-radius: 12px !important;
+      font-size: 15.5px !important;
+      font-weight: 900 !important;
+      padding: 12px 14px !important;
+      color: #ffffff !important;
+      letter-spacing: 0.5px;
+    }
+    .btn-iniciar-desafio:not(:disabled):active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 #9d174d !important;
+    }
+
+    /* 🗺️ Laberinto Numérico: Adventure & Quest */
+    .modal-laberinto-card {
+      border: 2px solid #34d399;
+      box-shadow: 0 16px 36px rgba(16, 185, 129, 0.22);
+    }
+
+    .laberinto-regla-box {
+      background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+      padding: 7px 10px;
+      border-radius: 12px;
+      border: 1.5px solid #6ee7b7;
+      margin-bottom: 6px;
+      box-shadow: 0 2px 5px rgba(16, 185, 129, 0.08);
+    }
+
+    .laberinto-progreso-pasos {
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+      margin: 4px 0 6px;
+    }
+
+    .laberinto-paso-dot {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #e2e8f0;
+      border: 1.5px solid #cbd5e1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 900;
+      color: #64748b;
+      transition: all 0.2s ease;
+    }
+
+    .laberinto-paso-dot.completado {
+      background: linear-gradient(135deg, #10b981, #059669);
+      border-color: #047857;
+      color: #ffffff;
+      box-shadow: 0 2px 5px rgba(16, 185, 129, 0.35);
+      transform: scale(1.08);
+    }
+
+    .laberinto-paso-dot.activo {
+      background: #fef08a;
+      border-color: #f59e0b;
+      color: #92400e;
+      animation: pulsoPaso 1.2s infinite;
+    }
+
+    @keyframes pulsoPaso {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.15); box-shadow: 0 0 8px rgba(245, 158, 11, 0.5); }
+    }
+
+    .celda-laberinto {
+      height: 58px;
+      font-size: 21px;
+      font-weight: 900;
+      border-radius: 12px;
+      background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+      border: 2px solid #cbd5e1;
+      color: #1e3a8a;
+      box-shadow: 0 3px 0 #94a3b8, 0 4px 8px rgba(0,0,0,0.06);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.15s ease, border-color 0.15s ease;
+      touch-action: manipulation;
+    }
+
+    .celda-laberinto:not(:disabled):hover {
+      filter: brightness(1.04);
+      border-color: #94a3b8;
+    }
+
+    .celda-laberinto:not(:disabled):active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 #94a3b8;
+    }
+
+    .celda-laberinto.correcta {
+      background: linear-gradient(135deg, #bbf7d0, #86efac) !important;
+      border-color: #16a34a !important;
+      color: #14532d !important;
+      box-shadow: 0 2px 0 #15803d !important;
+      transform: scale(0.96) !important;
+    }
+
+    .celda-laberinto.error {
+      background: #fee2e2 !important;
+      border-color: #dc2626 !important;
+      color: #991b1b !important;
+      animation: sacudidaError 0.3s ease-in-out;
+    }
+
+    @keyframes sacudidaError {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-4px); }
+      75% { transform: translateX(4px); }
+    }
+
+    .btn-reiniciar-laberinto {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+      box-shadow: 0 4px 0 #047857, 0 6px 14px rgba(16, 185, 129, 0.3) !important;
+      border-radius: 12px !important;
+      font-size: 15px !important;
+      font-weight: 900 !important;
+      padding: 11px 14px !important;
+      color: #ffffff !important;
+    }
+    .btn-reiniciar-laberinto:not(:disabled):active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 #047857 !important;
+    }
+
+    /* =========================================================================
+       ♟️ AJEDREZ MATEMÁGICO 8x8: GRAN MAESTRO & TOURNAMENT ROYALE
+       ========================================================================= */
+    .modal-ajedrez-card {
+      border: 2px solid #8b5cf6;
+      box-shadow: 0 16px 40px rgba(139, 92, 246, 0.28);
+      max-width: 410px;
+      padding: 12px 14px;
+    }
+
+    .ajedrez-bar-selectores {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 5px;
+      margin-bottom: 6px;
+    }
+
+    .ajedrez-select-control {
+      font-size: 10.5px;
+      padding: 4px 6px;
+      border-radius: 8px;
+      border: 1.5px solid #cbd5e1;
+      background: #f8fafc;
+      font-weight: 800;
+      color: #334155;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      width: 100%;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .ajedrez-select-control:focus {
+      outline: none;
+      border-color: #8b5cf6;
+      box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
+    }
+
+    .ajedrez-hud-turno {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+      padding: 6px 10px;
+      border-radius: 10px;
+      margin-bottom: 6px;
+      border: 1.5px solid #ddd6fe;
+      font-size: 11.5px;
+      font-weight: 800;
+      color: #5b21b6;
+      box-shadow: 0 2px 4px rgba(124, 58, 237, 0.06);
+    }
+
+    .ajedrez-hud-racha-badge {
+      font-size: 10px;
+      font-weight: 900;
+      background: #ffffff;
+      padding: 2px 8px;
+      border-radius: 12px;
+      border: 1px solid #c4b5fd;
+      color: #7c3aed;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    /* Marco del tablero con borde torneo y coordenadas precisas */
+    .ajedrez-marco-torneo {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      border: 3px solid #334155;
+      border-radius: 14px;
+      padding: 8px 6px 4px 4px;
+      margin: 0 auto 6px;
+      display: inline-block;
+      position: relative;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.35), inset 0 1px 2px rgba(255,255,255,0.15);
+    }
+
+    .ajedrez-grid-coordenadas {
+      display: grid;
+      grid-template-columns: 16px 1fr;
+      grid-template-rows: 1fr 16px;
+      gap: 2px;
+      align-items: center;
+      justify-items: center;
+    }
+
+    .ajedrez-etiquetas-filas {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      height: calc(8 * 36px + 7 * 2px);
+      font-size: 10.5px;
+      font-weight: 900;
+      color: #94a3b8;
+      padding-right: 2px;
+      user-select: none;
+    }
+
+    .ajedrez-etiquetas-columnas {
+      display: grid;
+      grid-template-columns: repeat(8, 36px);
+      width: calc(8 * 36px + 7 * 2px);
+      font-size: 10.5px;
+      font-weight: 900;
+      color: #94a3b8;
+      text-align: center;
+      user-select: none;
+      padding-top: 2px;
+    }
+
+    #tableroVisual8x8 {
+      display: grid;
+      grid-template-columns: repeat(8, 36px);
+      grid-template-rows: repeat(8, 36px);
+      gap: 2px;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    }
+
+    .casilla-ajedrez {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 23px;
+      cursor: pointer;
+      position: relative;
+      user-select: none;
+      -webkit-user-select: none;
+      border-radius: 4px;
+      transition: transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.12s ease;
+      touch-action: manipulation;
+    }
+
+    .casilla-ajedrez:active {
+      transform: scale(0.92);
+    }
+
+    /* Punto indicador de movimiento legal sobre casilla vacía */
+    .punto-movimiento-valido {
+      width: 11px;
+      height: 11px;
+      background: #16a34a;
+      border-radius: 50%;
+      box-shadow: 0 0 8px rgba(22, 163, 74, 0.8), inset 0 1px 2px rgba(255,255,255,0.6);
+      pointer-events: none;
+      animation: pulsoPunto 1.4s infinite ease-in-out;
+    }
+
+    @keyframes pulsoPunto {
+      0%, 100% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(1.25); opacity: 1; }
+    }
+
+    /* Ventana flotante de reto matemático */
+    .ajedrez-reto-dialog {
+      background: rgba(255, 255, 255, 0.98);
+      border: 2.5px solid #8b5cf6;
+      border-radius: 18px;
+      padding: 14px 16px;
+      box-shadow: 0 12px 35px rgba(124, 58, 237, 0.35);
+      text-align: center;
+      max-width: 310px;
+      margin: auto;
+    }
+
+    .ajedrez-reto-kicker {
+      font-size: 10.5px;
+      font-weight: 900;
+      color: #6b21a8;
+      background: #f3e8ff;
+      padding: 3px 10px;
+      border-radius: 12px;
+      display: inline-block;
+      margin-bottom: 6px;
+      border: 1px solid #d8b4fe;
+    }
+
+    .btn-ajedrez-opcion {
+      padding: 11px 8px;
+      font-size: 19px;
+      font-weight: 900;
+      background: linear-gradient(180deg, #faf5ff 0%, #f3e8ff 100%);
+      color: #6b21a8;
+      border: 2px solid #c084fc;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 3px 0 #9333ea, 0 4px 8px rgba(147, 51, 234, 0.15);
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+    }
+
+    .btn-ajedrez-opcion:not(:disabled):hover {
+      background: #ede9fe;
+    }
+
+    .btn-ajedrez-opcion:not(:disabled):active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 #9333ea;
+    }
+
+    /* Tarjeta de selección de superpoderes */
+    .card-superpoder-opcion {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 2px solid transparent;
+      cursor: pointer;
+      text-align: left;
+      font-weight: 800;
+      transition: transform 0.12s ease, filter 0.12s ease;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
+
+    .card-superpoder-opcion:hover {
+      filter: brightness(1.05);
+      transform: scale(1.02);
+    }
+    .card-superpoder-opcion:active {
+      transform: scale(0.97);
     }
 
     .pie {
@@ -1227,34 +1855,43 @@
     </div>
   </div>
 
-  <!-- Modal del Minijuego -->
+  <!-- Modal del Minijuego: Detective (¿Correcto o Trampa?) -->
   <div id="modalMinijuego" class="modal-historial" hidden>
-    <div class="modal-contenido" style="text-align: center;">
+    <div class="modal-contenido modal-detective-card" style="text-align: center; max-width: 370px;">
       <div class="modal-header">
         <span id="lblMiniTitulo">🕵️‍♂️ ¿Correcto o Trampa?</span>
-        <button id="cerrarMinijuego" type="button" style="background:#e2e8f0; border-radius:50%; width:28px; height:28px; font-size:12px; font-weight:bold;">✕</button>
+        <button id="cerrarMinijuego" type="button" style="background:#e2e8f0; border-radius:50%; width:28px; height:28px; font-size:12px; font-weight:bold; border:none; cursor:pointer;">✕</button>
+      </div>
+
+      <div class="detective-badge-kicker">
+        <span>🔍</span> <span id="lblMiniDossierKicker">Inspección de Cálculo</span>
       </div>
       
-      <p id="lblMiniInstruccion" style="font-size: 12px; color: #475569; margin: 6px 0;">
+      <p id="lblMiniInstruccion" style="font-size: 11.5px; color: #475569; margin: 2px 0 6px; font-weight: 600;">
         Observa la operación. ¿El resultado es verdadero o falso?
       </p>
 
-      <div id="miniOperacion" style="font-size: 28px; font-weight: bold; margin: 16px 0; color: #1e3a8a;">
-        7 × 8 = 56
+      <div class="detective-display-box">
+        <div style="font-size: 10px; font-weight: 800; color: #38bdf8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; opacity: 0.9;">
+          🔬 Expediente Matemático
+        </div>
+        <div id="miniOperacion" class="detective-op-texto">
+          7 × 8 = 56
+        </div>
       </div>
 
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px;">
-        <button id="btnMiniVerdadero" class="principal" type="button" style="background: #16a34a; font-size: 14px; padding:12px;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px;">
+        <button id="btnMiniVerdadero" class="btn-veredicto-verdad" type="button">
           ✅ ¡Correcto!
         </button>
-        <button id="btnMiniFalso" class="principal" type="button" style="background: #dc2626; font-size: 14px; padding:12px;">
+        <button id="btnMiniFalso" class="btn-veredicto-trampa" type="button">
           ❌ ¡Es Trampa!
         </button>
       </div>
 
-      <div id="miniMensaje" style="font-size: 13px; font-weight: bold; min-height: 24px; margin: 6px 0;"></div>
+      <div id="miniMensaje" style="font-size: 13px; font-weight: 800; min-height: 24px; margin: 4px 0; padding: 4px; border-radius: 8px;"></div>
       
-      <button id="btnMiniSiguiente" class="principal btn-modal-accion" type="button" style="background: #2563eb;" hidden>
+      <button id="btnMiniSiguiente" class="principal btn-modal-accion" type="button" style="background: linear-gradient(135deg, #0284c7, #0369a1); font-weight: 900;" hidden>
         Siguiente reto →
       </button>
     </div>
@@ -1262,7 +1899,7 @@
 
 	<!-- Modal de Minijuego: Lluvia de Estrellas -->
 	<div id="modalLluvia" class="modal-historial" hidden>
-	  <div class="modal-contenido" style="text-align: center; position: relative; overflow: hidden; max-width: 390px; width: 100%; min-height: 460px; max-height: 94dvh; display: flex; flex-direction: column;">
+	  <div class="modal-contenido" style="text-align: center; position: relative; overflow: hidden; max-width: 440px; width: 95%; height: 86vh; max-height: 92dvh; min-height: 560px; display: flex; flex-direction: column;">
 		<div class="modal-header">
 		  <span id="lblLluviaTitulo">⭐ Lluvia de Estrellas</span>
 		  <button id="cerrarLluvia" type="button" style="background:#e2e8f0; border-radius:50%; width:28px; height:28px; font-size:12px; font-weight:bold; border:none; cursor:pointer;">✕</button>
@@ -1289,13 +1926,27 @@
 		</div>
 
 		<!-- Operación a resolver -->
-		<div id="lluviaOperacion" style="font-size: 26px; font-weight: 900; margin: 4px 0 6px; color: #1e3a8a; min-height: 34px; display: flex; align-items: center; justify-content: center;">
+		<div id="lluviaOperacion" style="font-size: 28px; font-weight: 900; margin: 4px 0 6px; color: #1e3a8a; min-height: 36px; display: flex; align-items: center; justify-content: center;">
 		  ? × ? = ?
 		</div>
 
 		<!-- Área de juego (Estrellas flotantes / voladoras y lienzo de corte ninja) -->
-		<div id="lluviaAreaJuego" style="position: relative; width: 100%; flex: 1; min-height: 230px; background: linear-gradient(180deg, #f0f9ff 0%, #e0f2fe 100%); border: 2px dashed #38bdf8; border-radius: 12px; overflow: hidden; margin-bottom: 6px; touch-action: none; -webkit-user-select: none; user-select: none;">
+		<div id="lluviaAreaJuego" style="position: relative; width: 100%; flex: 1; min-height: 330px; background: linear-gradient(180deg, #f0f9ff 0%, #e0f2fe 100%); border: 2px dashed #38bdf8; border-radius: 14px; overflow: hidden; margin-bottom: 6px; touch-action: none; -webkit-user-select: none; user-select: none;">
 		  <canvas id="ninjaSlashCanvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10;"></canvas>
+
+		  <!-- Ventana de Tiempo para Calcular / Preparación Mental -->
+		  <div id="lluviaPrepOverlay" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 15; flex-direction: column; align-items: center; justify-content: center; pointer-events: none; background: rgba(15, 23, 42, 0.45); backdrop-filter: blur(1.5px);">
+			<div style="background: rgba(255, 255, 255, 0.96); border: 2.5px solid #f59e0b; border-radius: 18px; padding: 14px 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); text-align: center; max-width: 88%;">
+			  <div id="lluviaPrepIcono" style="font-size: 34px; line-height: 1; margin-bottom: 4px;">🧠</div>
+			  <div id="lluviaPrepTitulo" style="font-size: 13px; font-weight: 900; color: #1e3a8a; margin-bottom: 2px;">¡Calcula en tu mente!</div>
+			  <div id="lluviaPrepOp" style="font-size: 26px; font-weight: 900; color: #d97706; margin: 4px 0;">? × ? = ?</div>
+			  <div id="lluviaPrepCuenta" style="font-size: 11.5px; font-weight: 800; color: #475569; background: #fef3c7; padding: 4px 12px; border-radius: 12px; display: inline-block;">¡Estrellas listas en 2...</div>
+			  <div style="margin-top: 8px; height: 6px; width: 100%; background: #e2e8f0; border-radius: 6px; overflow: hidden;">
+				<div id="lluviaPrepBarra" style="height: 100%; width: 100%; background: linear-gradient(90deg, #f59e0b, #ef4444); border-radius: 6px;"></div>
+			  </div>
+			</div>
+		  </div>
+
 		  <!-- Las estrellas se inyectarán aquí dinámicamente con JS -->
 		</div>
 
@@ -1307,31 +1958,33 @@
 
   <!-- Modal de Desafío Relámpago (60s) Super Emocionante -->
   <div id="modalDesafio" class="modal-historial" hidden>
-    <div class="modal-contenido" style="text-align: center;" id="modalDesafioContenido">
+    <div class="modal-contenido modal-desafio-card" style="text-align: center; max-width: 380px;" id="modalDesafioContenido">
       <div class="modal-header">
-        <span id="lblDesafioTitulo">⚡ ¡DESAFÍO RELÁMPAGO 60s! ⚡</span>
-        <button id="cerrarDesafio" type="button" style="background:#e2e8f0; border-radius:50%; width:28px; height:28px; font-size:12px; font-weight:bold;">✕</button>
+        <span id="lblDesafioTitulo" style="color: #db2777; font-weight: 900; letter-spacing: 0.5px;">⚡ ¡DESAFÍO RELÁMPAGO 60s! ⚡</span>
+        <button id="cerrarDesafio" type="button" style="background:#e2e8f0; border-radius:50%; width:28px; height:28px; font-size:12px; font-weight:bold; border:none; cursor:pointer;">✕</button>
       </div>
 
-      <div id="desafioPanelEstado" style="display:flex; justify-content:space-between; align-items:center; background:#fdf2f8; padding:6px 10px; border-radius:8px; border:1.5px solid #fbcfe8; margin-bottom:6px;">
-        <span id="lblDesafioTiempo" style="font-size:13px; font-weight:extrabold; color:#db2777;">⏱️ 60s</span>
-        <span id="lblDesafioFrenesi" style="font-size:11px; font-weight:bold; color:#7c3aed;">🔥 Racha: 0</span>
-        <span id="lblDesafioScore" style="font-size:13px; font-weight:extrabold; color:#be185d;">⭐ 0</span>
+      <div id="desafioPanelEstado" class="desafio-hud-bar">
+        <span id="lblDesafioTiempo" class="desafio-hud-pill" style="color: #db2777;">⏱️ 60s</span>
+        <span id="lblDesafioFrenesi" class="desafio-hud-pill" style="color: #7c3aed;">🔥 Racha: 0</span>
+        <span id="lblDesafioScore" class="desafio-hud-pill" style="color: #be185d;">⭐ 0</span>
       </div>
 
-      <div class="timer-container" style="margin-bottom:8px; height:7px;">
-        <div class="timer-bar" id="timerBarDesafio" style="width:100%; background: linear-gradient(90deg, #ec4899, #be185d);"></div>
+      <div class="timer-container" style="margin-bottom:6px; height:7px; border-radius: 4px; overflow:hidden;">
+        <div class="timer-bar" id="timerBarDesafio" style="width:100%; background: linear-gradient(90deg, #ec4899, #f43f5e, #be185d);"></div>
       </div>
 
-      <div id="desafioOperacion" style="font-size: 34px; font-weight: 900; margin: 12px 0; color: #1e3a8a; letter-spacing: 1px;">
-        ? × ? = ?
+      <div class="desafio-op-box">
+        <div id="desafioOperacion" class="desafio-op-texto">
+          ? × ? = ?
+        </div>
       </div>
 
       <div id="desafioRespuestas" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px;"></div>
       
-      <div id="desafioMensaje" style="font-size: 13px; font-weight: bold; min-height: 22px; margin: 4px 0;"></div>
+      <div id="desafioMensaje" style="font-size: 13px; font-weight: 900; min-height: 22px; margin: 4px 0;"></div>
       
-      <button id="btnIniciarDesafio" class="principal btn-modal-accion" type="button" style="background: #ec4899; margin-top:4px; font-size: 15px; padding: 12px;">
+      <button id="btnIniciarDesafio" class="principal btn-iniciar-desafio btn-modal-accion" type="button">
         🚀 ¡COMENZAR FRENESÍ!
       </button>
     </div>
@@ -1339,24 +1992,27 @@
 
 	<!-- Modal de Minijuego: Laberinto Numérico -->
 	<div id="modalLaberinto" class="modal-historial" hidden>
-	  <div class="modal-contenido" style="text-align: center; position: relative; overflow: hidden; max-width: 360px;">
+	  <div class="modal-contenido modal-laberinto-card" style="text-align: center; position: relative; overflow: hidden; max-width: 360px;">
 		<div class="modal-header">
-		  <span id="lblLaberintoTitulo">🗺️ Laberinto Numérico</span>
-		  <button id="cerrarLaberinto" type="button" style="background:#e2e8f0; border-radius:50%; width:28px; height:28px; font-size:12px; font-weight:bold;">✕</button>
+		  <span id="lblLaberintoTitulo" style="color: #047857; font-weight: 900;">🗺️ Laberinto Numérico</span>
+		  <button id="cerrarLaberinto" type="button" style="background:#e2e8f0; border-radius:50%; width:28px; height:28px; font-size:12px; font-weight:bold; border:none; cursor:pointer;">✕</button>
 		</div>
 		
-		<div style="background:#ecfdf5; padding:6px 8px; border-radius:6px; margin-bottom:6px; border:1.5px solid #a7f3d0;">
-		  <span id="lblLaberintoRegla" style="font-size: 11px; font-weight: bold; color: #047857;">Regla: Sigue los múltiplos de 4</span>
+		<div class="laberinto-regla-box">
+		  <span id="lblLaberintoRegla" style="font-size: 11.5px; font-weight: 800; color: #047857;">Regla: Sigue los múltiplos en orden (1 al 6)</span>
 		</div>
 
-		<!-- Cuadrícula del Laberinto (Matriz 3x3 o 4x4) -->
-		<div id="laberintoGrid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 10px 0; padding: 4px;">
-		  <!-- Se inyectará dinámicamente con JS -->
+		<!-- Indicador Visual de Progreso Paso a Paso (1 al 6) -->
+		<div id="laberintoProgresoPasos" class="laberinto-progreso-pasos"></div>
+
+		<!-- Cuadrícula del Laberinto (Matriz 3x3) -->
+		<div id="laberintoGrid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 8px 0; padding: 2px;">
+		  <!-- Se inyectará dinámicamente con JS con clase .celda-laberinto -->
 		</div>
 
-		<div id="laberintoMensaje" style="font-size: 12px; font-weight: bold; min-height: 20px; margin: 4px 0; color: #1e3a8a;"></div>
+		<div id="laberintoMensaje" style="font-size: 12.5px; font-weight: 800; min-height: 20px; margin: 4px 0; color: #1e3a8a;"></div>
 
-		<button id="btnReiniciarLaberinto" class="principal btn-modal-accion" type="button" style="background: #10b981; padding: 10px;">
+		<button id="btnReiniciarLaberinto" class="principal btn-reiniciar-laberinto btn-modal-accion" type="button">
 		  🔄 Nuevo Laberinto
 		</button>
 	  </div>
@@ -1364,13 +2020,13 @@
 
 	<!-- Modal de Minijuego: Ajedrez Táctico 8x8 (Modular / Bot o 2P) -->
 	<div id="modalTableroMagico" class="modal-historial" hidden>
-	  <div class="modal-contenido" style="text-align: center; position: relative; overflow: hidden; max-width: 400px; padding: 14px;">
+	  <div class="modal-contenido modal-ajedrez-card" style="text-align: center; position: relative; overflow: hidden;">
 		
 		<!-- Cabecera con título, selector de temas y botón de cierre -->
-		<div class="modal-header" style="margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center;">
+		<div class="modal-header" style="margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
 		  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
-			<span id="lblTableroTitulo" style="font-size: 13px; font-weight: bold;">♟️ Ajedrez Matemágico (8x8)</span>
-			<select id="selectColorTemaTablero" style="font-size: 10px; padding: 3px 6px; border-radius: 6px; border: 1px solid #cbd5e1; background: #f8fafc; font-weight: bold; color: #475569; cursor: pointer;">
+			<span id="lblTableroTitulo" style="font-size: 13.5px; font-weight: 900; color: #5b21b6;">♟️ Ajedrez Matemágico (8x8)</span>
+			<select id="selectColorTemaTablero" class="ajedrez-select-control" style="width: auto; padding: 3px 8px; font-size: 10px; border-color: #a78bfa; background: #faf5ff;">
 			  <option value="esmeralda">🌿 Bosque Esmeralda</option>			  
 			  <option value="madera">🪵 Madera Clásica</option>
 			  <option value="oceano">🌊 Océano Azul</option>
@@ -1381,42 +2037,42 @@
 		</div>
 		
 		<!-- Selectores de Modo y Temática -->
-		<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; gap: 4px;">
-		  <select id="selectModoJuego" style="font-size: 11px; padding: 4px; border-radius: 6px; border: 1px solid #cbd5e1; background: #f8fafc; font-weight: bold; flex: 1;">
-			<option value="bot">🤖 vs. Bot Matemático</option>
-			<option value="pvp">👥 2 Jugadores (PvP)</option>
+		<div class="ajedrez-bar-selectores">
+		  <select id="selectModoJuego" class="ajedrez-select-control">
+			<option value="bot">🤖 vs. Bot</option>
+			<option value="pvp">👥 2 Jugadores</option>
 		  </select>
 		  
-		  <!-- 🌟 Nuevo Selector de Variante (Clásico vs Superpoderes) -->
-		  <select id="selectVarianteAjedrez" style="font-size: 10px; padding: 4px; border-radius: 6px; border: 1px solid #cbd5e1; background: #f8fafc; font-weight: bold; flex: 1; min-width: 90px;">
+		  <select id="selectVarianteAjedrez" class="ajedrez-select-control">
 			<option value="clasico">♟️ Clásico</option>
 			<option value="superpoderes">⚡ Superpoderes</option>
 		  </select>
 		  
-		  <select id="selectTematica" style="font-size: 11px; padding: 4px; border-radius: 6px; border: 1px solid #cbd5e1; background: #f8fafc; font-weight: bold; flex: 1;">
-			<option value="ajedrez">♟️ Ajedrez / Chess</option>
-			<option value="dinosaurios">🦖 Dinosaurios / Dinos</option>
+		  <select id="selectTematica" class="ajedrez-select-control">
+			<option value="ajedrez">♟️ Ajedrez</option>
+			<option value="dinosaurios">🦖 Dinos</option>
 		  </select>
 		</div>
 
-		<!-- Indicador de Turno Actual -->
-		<div id="lblTurnoJugador" style="background:#f3e8ff; padding:5px; border-radius:6px; margin-bottom:6px; border:1.5px solid #d8b4fe; font-size: 11px; font-weight: bold; color: #6b21a8;">
-		  Turno: ♙ Blancas (Elige pieza y destino)
+		<!-- Indicador de Turno Actual y Racha -->
+		<div class="ajedrez-hud-turno">
+		  <span id="lblTurnoJugador">Turno: ♙ Blancas (Selecciona tu pieza y muévela)</span>
+		  <span id="ajedrezBadgeRacha" class="ajedrez-hud-racha-badge" style="display: none;">⚡ Racha: 0/3</span>
 		</div>
 
 		<!-- 🗺️ TABLERO TÁCTICO 8x8 INTERACTIVO CON COORDENADAS -->
-		<div style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 6px; margin-bottom: 8px; display: inline-block; position: relative;">
+		<div class="ajedrez-marco-torneo">
 		  
 		  <!-- Contenedor general con filas y columnas numéricas/alfabéticas -->
-		  <div style="display: grid; grid-template-columns: 16px 1fr; grid-template-rows: 1fr 16px; gap: 2px; align-items: center; justify-items: center;">
+		  <div class="ajedrez-grid-coordenadas">
 			
 			<!-- Números de filas a la izquierda (8 al 1) -->
-			<div style="display: flex; flex-direction: column; justify-content: space-around; height: calc(8 * 36px + 7 * 2px); font-size: 10px; font-weight: bold; color: #64748b; padding-right: 2px;">
+			<div class="ajedrez-etiquetas-filas">
 			  <span>8</span><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span>
 			</div>
 
 			<!-- Tablero 8x8 central -->
-			<div id="tableroVisual8x8" style="display: grid; grid-template-columns: repeat(8, 36px); grid-template-rows: repeat(8, 36px); gap: 2px;">
+			<div id="tableroVisual8x8">
 			  <!-- Generado dinámicamente por JS -->
 			</div>
 
@@ -1424,25 +2080,22 @@
 			<div></div>
 
 			<!-- Letras de columnas abajo (A a H) -->
-			<div style="display: grid; grid-template-columns: repeat(8, 36px); width: calc(8 * 36px + 7 * 2px); font-size: 10px; font-weight: bold; color: #64748b; text-align: center;">
+			<div class="ajedrez-etiquetas-columnas">
 			  <span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span><span>G</span><span>H</span>
 			</div>
 
 		  </div>
 
 		  <!-- 🪟 VENTANA FLOTANTE DE RETO MATEMÁTICO (Superpuesta en el centro exacto) -->
-		  <div id="tableroRetoBox" class="ventana-reto-activa" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: linear-gradient(135deg, #ffffff 0%, #f3e8ff 100%); border: 3px solid #9333ea; border-radius: 16px; padding: 16px; box-shadow: 0 15px 35px rgba(126, 34, 206, 0.4); z-index: 50; width: 85%; max-width: 290px; text-align: center;">
-			<div id="lblTableroOperacion" style="font-size: 22px; font-weight: 900; color: #6b21a8; margin-bottom: 12px; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">1 × 1 = ?</div>
-			<div id="tableroOpcionesGrid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;">
-			  <!-- Se llena con JS -->
-			</div>
+		  <div id="tableroRetoBox" class="ventana-reto-activa" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 50; width: 92%; max-width: 320px;">
+			<!-- Se llena con JS -->
 		  </div>
 
 		</div>
 
-		<div id="tableroMensaje" style="font-size: 11px; font-weight: bold; min-height: 20px; margin: 2px 0; color: #4c1d95;"></div>
+		<div id="tableroMensaje" style="font-size: 11.5px; font-weight: 800; min-height: 20px; margin: 3px 0; color: #4c1d95;"></div>
 
-		<button id="btnReiniciarTablero" class="principal btn-modal-accion" type="button" style="background: #8b5cf6; padding: 6px; font-size: 12px; margin-top: 2px; width: 100%;">
+		<button id="btnReiniciarTablero" class="principal btn-modal-accion" type="button" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed); padding: 7px; font-size: 12px; margin-top: 2px; width: 100%; border-radius: 10px; box-shadow: 0 3px 0 #6d28d9;">
 		  🔄 Reiniciar Partida
 		</button>
 	  </div>
@@ -1980,6 +2633,10 @@ const i18n = {
 	lluviaDescNinja: "🥷 Modo Salto Ninja: ¡Rebana o toca las estrellas voladoras al estilo Ninja Fruit!",
 	lluviaCorteNinja: "¡Corte Ninja!",
 	lluviaPerdisteVida: "❌ ¡Estrella correcta perdida!",
+	lluviaPrepTitulo: "🧠 ¡Calcula en tu mente!",
+	lluviaPrepCuenta: (s) => `¡Estrellas listas en ${s}...`,
+	lluviaPrepLanza: "🥷 ¡A rebanar!",
+	lluviaPrepLanzaClasica: "🌧️ ¡Atrapa la correcta!",
 	lluviaFin: (puntosFin) => `⏰ ¡Juego Terminado! Conseguiste ${puntosFin} puntos ⭐.`,
 	vidasTexto: (v) => `${'❤️'.repeat(v)}${'🤍'.repeat(3 - v)} Vidas: ${v}`,
     btnGirar: "🎯 ¡Girar la ruleta!",
@@ -2235,6 +2892,10 @@ const i18n = {
 	lluviaDescNinja: "🥷 Ninja Jump Mode: Slice or tap flying stars Ninja Fruit-style!",
 	lluviaCorteNinja: "Ninja Slash!",
 	lluviaPerdisteVida: "❌ Missed the correct star!",
+	lluviaPrepTitulo: "🧠 Think the answer!",
+	lluviaPrepCuenta: (s) => `Stars launch in ${s}...`,
+	lluviaPrepLanza: "🥷 Slice now!",
+	lluviaPrepLanzaClasica: "🌧️ Catch the star!",
 	lluviaFin: (puntosFin) => `⏰ Game Over! You scored ${puntosFin} points ⭐.`,
 	vidasTexto: (v) => `${'❤️'.repeat(v)}${'🤍'.repeat(3 - v)} Lives: ${v}`,
     btnGirar: "🎯 Spin the wheel!",
@@ -2896,6 +3557,8 @@ function actualizarTextosUI() {
   document.getElementById("btnCerrarInsigniasModal").textContent = t.logrosBtn;
 
   document.getElementById("lblMiniTitulo").textContent = t.miniTitulo;
+  const lblMiniDossierKicker = document.getElementById("lblMiniDossierKicker");
+  if (lblMiniDossierKicker) lblMiniDossierKicker.textContent = idiomaActual === "es" ? "Inspección de Cálculo" : "Math Inspection";
   document.getElementById("lblMiniInstruccion").textContent = t.miniInstruccion;
   btnMiniVerdadero.textContent = t.btnMiniVerdadero;
   btnMiniFalso.textContent = t.btnMiniFalso;
@@ -2956,7 +3619,28 @@ function actualizarTextosUI() {
   actualizarBotonModoUI();
   actualizarEstadisticas();
   renderizarInsigniasUI();
-  renderizarAvataresDisponibles();
+  const btnReiniciarTableroEl = document.getElementById("btnReiniciarTablero");
+  if (btnReiniciarTableroEl) {
+    btnReiniciarTableroEl.textContent = idiomaActual === "es" ? "🔄 Reiniciar Partida" : "🔄 Restart Match";
+  }
+  const selectModoJuegoEl = document.getElementById("selectModoJuego");
+  if (selectModoJuegoEl && selectModoJuegoEl.options.length >= 2) {
+    selectModoJuegoEl.options[0].text = idiomaActual === "es" ? "🤖 vs. Bot" : "🤖 vs. Bot";
+    selectModoJuegoEl.options[1].text = idiomaActual === "es" ? "👥 2 Jugadores" : "👥 2 Players";
+  }
+  const selectVarianteAjedrezEl = document.getElementById("selectVarianteAjedrez");
+  if (selectVarianteAjedrezEl && selectVarianteAjedrezEl.options.length >= 2) {
+    selectVarianteAjedrezEl.options[0].text = idiomaActual === "es" ? "♟️ Clásico" : "♟️ Classic";
+    selectVarianteAjedrezEl.options[1].text = idiomaActual === "es" ? "⚡ Superpoderes" : "⚡ Superpowers";
+  }
+  const selectTematicaEl = document.getElementById("selectTematica");
+  if (selectTematicaEl && selectTematicaEl.options.length >= 2) {
+    selectTematicaEl.options[0].text = idiomaActual === "es" ? "♟️ Ajedrez" : "♟️ Chess";
+    selectTematicaEl.options[1].text = idiomaActual === "es" ? "🦖 Dinos" : "🦖 Dinos";
+  }
+  if (typeof window !== 'undefined' && window.TEMATICAS_TABLERO && typeof actualizarUITurno === 'function') {
+    actualizarUITurno();
+  }
 
   botonIdioma.textContent = idiomaActual === "es" ? "🇪🇸" : "🇺🇸";
   btnAbrirAvatares.textContent = avatarActual;
@@ -4175,7 +4859,7 @@ function siguientePreguntaDesafio() {
     const btn = document.createElement("button");
     btn.type = "button";
     btn.textContent = v;
-    btn.style.cssText = "min-height: 44px; padding: 8px; color: #1e3a8a; background: #dbeafe; font-size: 19px; font-weight: 800; border: 2px solid #93c5fd;";
+    btn.className = "btn-desafio-opcion";
     btn.addEventListener("click", () => {
       if (!desafioActivo) return;
       if (v === correcta) {
@@ -5245,7 +5929,10 @@ function limpiarRondaAnterior() {
     cancelAnimationFrame(lluviaAnimFrameId);
     lluviaAnimFrameId = null;
   }
-  lluviaTimeouts.forEach(id => clearTimeout(id));
+  lluviaTimeouts.forEach(id => {
+    clearTimeout(id);
+    clearInterval(id);
+  });
   lluviaTimeouts = [];
   lluviaEstrellasObjetos = [];
   lluviaMitadesObjetos = [];
@@ -5258,6 +5945,24 @@ function limpiarRondaAnterior() {
   canvasElem.id = "ninjaSlashCanvas";
   canvasElem.style.cssText = "position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:10;";
   lluviaAreaJuego.appendChild(canvasElem);
+
+  // Overlay de preparación para dar tiempo de pensar antes de lanzar
+  const prepDiv = document.createElement("div");
+  prepDiv.id = "lluviaPrepOverlay";
+  prepDiv.style.cssText = "display:none; position:absolute; top:0; left:0; width:100%; height:100%; z-index:15; flex-direction:column; align-items:center; justify-content:center; pointer-events:none; background:rgba(15, 23, 42, 0.45); backdrop-filter:blur(1.5px);";
+  prepDiv.innerHTML = `
+    <div style="background:rgba(255,255,255,0.96); border:2.5px solid #f59e0b; border-radius:18px; padding:14px 20px; box-shadow:0 10px 25px rgba(0,0,0,0.3); text-align:center; max-width:88%;">
+      <div id="lluviaPrepIcono" style="font-size:34px; line-height:1; margin-bottom:4px;">🧠</div>
+      <div id="lluviaPrepTitulo" style="font-size:13px; font-weight:900; color:#1e3a8a; margin-bottom:2px;">¡Calcula en tu mente!</div>
+      <div id="lluviaPrepOp" style="font-size:26px; font-weight:900; color:#d97706; margin:4px 0;">? × ? = ?</div>
+      <div id="lluviaPrepCuenta" style="font-size:11.5px; font-weight:800; color:#475569; background:#fef3c7; padding:4px 12px; border-radius:12px; display:inline-block;">¡Estrellas listas en 2...</div>
+      <div style="margin-top:8px; height:6px; width:100%; background:#e2e8f0; border-radius:6px; overflow:hidden;">
+        <div id="lluviaPrepBarra" style="height:100%; width:100%; background:linear-gradient(90deg, #f59e0b, #ef4444); border-radius:6px;"></div>
+      </div>
+    </div>
+  `;
+  lluviaAreaJuego.appendChild(prepDiv);
+
   inicializarCanvasNinja();
 }
 
@@ -5271,14 +5976,74 @@ function siguienteRondaLluvia() {
   const factorR = Math.floor(Math.random() * 10) + 2;
   lluviaCorrecta = tablaR * factorR;
 
-  lluviaOperacion.textContent = `${tablaR} × ${factorR} = ?`;
+  const textoOperacion = `${tablaR} × ${factorR} = ?`;
+  lluviaOperacion.textContent = textoOperacion;
 
+  // Anunciar por voz si sonido está activo
+  hablar(idiomaActual === "es" ? `¿Cuánto es ${tablaR} por ${factorR}?` : `What is ${tablaR} times ${factorR}?`);
+
+  const t = i18n[idiomaActual];
+  const lluviaPrepOverlay = document.getElementById("lluviaPrepOverlay");
+  const lluviaPrepOp = document.getElementById("lluviaPrepOp");
+  const lluviaPrepTitulo = document.getElementById("lluviaPrepTitulo");
+  const lluviaPrepCuenta = document.getElementById("lluviaPrepCuenta");
+  const lluviaPrepBarra = document.getElementById("lluviaPrepBarra");
+  const lluviaPrepIcono = document.getElementById("lluviaPrepIcono");
+
+  // Segundos razonables para calcular en la mente antes de que aparezcan las estrellas
+  const tiempoEsperaMs = modoLluviaEstilo === "ninja" ? 2200 : 1300;
+  let segRestantes = modoLluviaEstilo === "ninja" ? 2 : 1;
+
+  if (lluviaPrepOverlay) {
+    lluviaPrepOverlay.style.display = "flex";
+    if (lluviaPrepOp) lluviaPrepOp.textContent = textoOperacion;
+    if (lluviaPrepTitulo) lluviaPrepTitulo.textContent = t.lluviaPrepTitulo;
+    if (lluviaPrepCuenta) lluviaPrepCuenta.textContent = t.lluviaPrepCuenta(segRestantes);
+    if (lluviaPrepIcono) lluviaPrepIcono.textContent = modoLluviaEstilo === "ninja" ? "🥷" : "🧠";
+
+    if (lluviaPrepBarra) {
+      lluviaPrepBarra.style.transition = "none";
+      lluviaPrepBarra.style.width = "100%";
+      setTimeout(() => {
+        if (lluviaPrepBarra) {
+          lluviaPrepBarra.style.transition = `width ${tiempoEsperaMs}ms linear`;
+          lluviaPrepBarra.style.width = "0%";
+        }
+      }, 30);
+    }
+
+    const intv = setInterval(() => {
+      segRestantes--;
+      if (lluviaPrepCuenta && segRestantes >= 1) {
+        lluviaPrepCuenta.textContent = t.lluviaPrepCuenta(segRestantes);
+      }
+    }, 1000);
+    lluviaTimeouts.push(intv);
+  }
+
+  const tid = setTimeout(() => {
+    if (!lluviaActiva || lluviaVidas <= 0) return;
+
+    if (lluviaPrepOverlay) {
+      lluviaPrepOverlay.style.display = "none";
+    }
+
+    reproducirSonido("ruletaTick");
+    mostrarTextoFlotante(modoLluviaEstilo === "ninja" ? t.lluviaPrepLanza : t.lluviaPrepLanzaClasica, true, "35%");
+
+    lanzarEstrellasEnArena();
+  }, tiempoEsperaMs);
+
+  lluviaTimeouts.push(tid);
+}
+
+function lanzarEstrellasEnArena() {
   const opciones = generarOpciones(lluviaCorrecta);
-  const W = lluviaAreaJuego.clientWidth || 340;
-  const H = lluviaAreaJuego.clientHeight || 240;
+  const W = lluviaAreaJuego.clientWidth || 360;
+  const H = lluviaAreaJuego.clientHeight || 340;
 
   if (modoLluviaEstilo === "clasica") {
-    // 🌧️ MODO CASCADA CLÁSICA
+    // 🌧️ MODO CASCADA CLÁSICA: Descenso suave y relajado
     const espaciado = Math.floor((W - 80) / Math.max(1, opciones.length - 1));
     opciones.forEach((val, index) => {
       const btn = document.createElement("button");
@@ -5292,7 +6057,7 @@ function siguienteRondaLluvia() {
         val: val,
         x: Math.min(posX, W - 80),
         y: -45,
-        vy: 1.1 + Math.random() * 0.35, // Caída fluida vertical
+        vy: 0.85 + Math.random() * 0.25, // Velocidad serena y accesible
         cortada: false
       };
       
@@ -5307,7 +6072,7 @@ function siguienteRondaLluvia() {
       lluviaEstrellasObjetos.push(starObj);
     });
   } else {
-    // 🥷 MODO SALTO NINJA FRUIT
+    // 🥷 MODO SALTO NINJA FRUIT: Gran arco parabólico con hang time
     const espaciado = Math.floor((W - 90) / Math.max(1, opciones.length - 1));
     opciones.forEach((val, index) => {
       const btn = document.createElement("button");
@@ -5317,7 +6082,11 @@ function siguienteRondaLluvia() {
 
       const posX = 20 + index * espaciado;
       const centro = W / 2;
-      const deriva = ((centro - posX) / W) * 2.2 + (Math.random() * 1.6 - 0.8);
+      const deriva = ((centro - posX) / W) * 1.8 + (Math.random() * 1.4 - 0.7);
+
+      // Con H ~ 340px y g = 0.13:
+      // impulso calibrado para subir hasta el 15-25% superior de la pantalla
+      const impulsoY = -(10.2 + Math.random() * 2.2);
 
       const starObj = {
         elem: btn,
@@ -5325,9 +6094,9 @@ function siguienteRondaLluvia() {
         x: posX,
         y: H + 12,
         vx: deriva,
-        vy: -(9.2 + Math.random() * 2.8), // Lanzamiento parabólico hacia arriba
+        vy: impulsoY,
         rot: 0,
-        vrot: (Math.random() * 4.0 - 2.0),
+        vrot: (Math.random() * 2.6 - 1.3),
         cortada: false
       };
 
@@ -5352,8 +6121,8 @@ function iniciarLluviaLoopAnimacion() {
   const loop = () => {
     if (!lluviaActiva) return;
 
-    const W = lluviaAreaJuego.clientWidth || 340;
-    const H = lluviaAreaJuego.clientHeight || 240;
+    const W = lluviaAreaJuego.clientWidth || 360;
+    const H = lluviaAreaJuego.clientHeight || 340;
     const now = performance.now();
 
     // 1. Dibujar estela de corte katana en canvas
@@ -5411,8 +6180,8 @@ function iniciarLluviaLoopAnimacion() {
           star.elem.remove();
         }
       } else {
-        // Salto Ninja parabólico
-        star.vy += 0.22; // gravedad física
+        // Salto Ninja parabólico con gravedad suave y hang-time
+        star.vy += 0.13; // Gravedad suave para vuelo prolongado y relajado
         star.x += star.vx;
         star.y += star.vy;
         star.rot += star.vrot;
@@ -5428,7 +6197,7 @@ function iniciarLluviaLoopAnimacion() {
 
         star.elem.style.transform = `translate(${star.x}px, ${star.y}px) rotate(${star.rot}deg)`;
 
-        // Si cae al fondo tras su vuelo
+        // Si cae al fondo tras su vuelo completo
         if (star.y > H + 30 && star.vy > 0) {
           star.cortada = true;
           if (star.val === lluviaCorrecta && !lluviaRondaResuelta) {
@@ -5639,7 +6408,32 @@ function iniciarNuevoLaberinto() {
   mezclar(numerosTablero);
   laberintoCasillas = numerosTablero;
 
+  actualizarProgresoLaberintoPasos();
   renderizarLaberintoGrid();
+}
+
+function actualizarProgresoLaberintoPasos() {
+  const container = document.getElementById("laberintoProgresoPasos");
+  if (!container) return;
+  container.replaceChildren();
+
+  secuenciaCorrecta.forEach((val, idx) => {
+    const dot = document.createElement("div");
+    dot.className = "laberinto-paso-dot";
+    if (idx < pasoActualIndex) {
+      dot.classList.add("completado");
+      dot.textContent = "✓";
+      dot.title = `Paso ${idx + 1}: ${val} (✓)`;
+    } else if (idx === pasoActualIndex) {
+      dot.classList.add("activo");
+      dot.textContent = idx + 1;
+      dot.title = `Paso ${idx + 1}: ${val}`;
+    } else {
+      dot.textContent = idx + 1;
+      dot.title = `Paso ${idx + 1}`;
+    }
+    container.appendChild(dot);
+  });
 }
 
 function renderizarLaberintoGrid() {
@@ -5649,17 +6443,7 @@ function renderizarLaberintoGrid() {
     const btn = document.createElement("button");
     btn.type = "button";
     btn.textContent = num;
-    btn.style.cssText = `
-      height: 55px;
-      font-size: 18px;
-      font-weight: 800;
-      background: #f1f5f9;
-      color: #1e3a8a;
-      border: 2px solid #cbd5e1;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: all 0.15s ease;
-    `;
+    btn.className = "celda-laberinto";
 
     btn.addEventListener("click", () => {
       manejarClickCasillaLaberinto(num, btn);
@@ -5676,13 +6460,11 @@ function manejarClickCasillaLaberinto(numeroElegido, elementoBtn) {
   if (numeroElegido === numeroEsperado) {
     // ¡Acierto en la secuencia!
     reproducirSonido("acierto");
-    elementoBtn.style.background = "#bbf7d0";
-    elementoBtn.style.borderColor = "#16a34a";
-    elementoBtn.style.color = "#166534";
-    elementoBtn.style.transform = "scale(0.95)";
+    elementoBtn.classList.add("correcta");
     elementoBtn.disabled = true;
 
     pasoActualIndex++;
+    actualizarProgresoLaberintoPasos();
 
     if (pasoActualIndex === secuenciaCorrecta.length) {
       // ¡Laberinto completado con éxito!
@@ -5698,21 +6480,20 @@ function manejarClickCasillaLaberinto(numeroElegido, elementoBtn) {
       laberintoMensaje.style.color = "#166534";
       laberintoMensaje.textContent = msgExito;
       mostrarTextoFlotante("+30 pts ⭐", true, "45%");
+    } else {
+      const proximo = secuenciaCorrecta[pasoActualIndex];
+      const msgPaso = esEspanol ? `✨ ¡Bien! Ahora busca el ${proximo}` : `✨ Good! Next find ${proximo}`;
+      laberintoMensaje.style.color = "#047857";
+      laberintoMensaje.textContent = msgPaso;
     }
   } else {
     // Error / Casilla incorrecta
     reproducirSonido("error");
     vibrar(70);
-    elementoBtn.style.background = "#fecaca";
-    elementoBtn.style.borderColor = "#dc2626";
-    elementoBtn.style.color = "#991b1b";
+    elementoBtn.classList.add("error");
     
     setTimeout(() => {
-      if (!elementoBtn.disabled) {
-        elementoBtn.style.background = "#f1f5f9";
-        elementoBtn.style.borderColor = "#cbd5e1";
-        elementoBtn.style.color = "#1e3a8a";
-      }
+      elementoBtn.classList.remove("error");
     }, 400);
 
     const msgError = esEspanol ? `❌ ¡Ese no es! Busca el número ${numeroEsperado}` : `❌ Not that one! Look for number ${numeroEsperado}`;
@@ -5729,7 +6510,7 @@ btnReiniciarLaberinto.addEventListener("click", iniciarNuevoLaberinto);
 // ---------------------------------------------------------------------------
 // LÓGICA DE AJEDREZ TÁCTICO 8x8 CON MULTIPLICADORES (TABLAS 1-12)
 // ---------------------------------------------------------------------------
-const TEMATICAS_TABLERO = {
+var TEMATICAS_TABLERO = {
   ajedrez: {
     id: "ajedrez",
     textos: {
@@ -5869,10 +6650,10 @@ const tableroMensaje = document.getElementById("tableroMensaje");
 const lblTurnoJugador = document.getElementById("lblTurnoJugador");
 
 const PALETAS_TABLERO = {
-  esmeralda: { claro: '#ecfdf5', oscuro: '#6ee7b7'},
-  madera: { claro: '#f0d9b5', oscuro: '#b58863' },
-  oceano: { claro: '#e0f2fe', oscuro: '#7dd3fc' },
-  lila: { claro: '#f3e8ff', oscuro: '#ddd6fe'  }
+  esmeralda: { claro: '#f0fdf4', oscuro: '#86efac', borde: '#22c55e' },
+  madera: { claro: '#fef3c7', oscuro: '#b45309', borde: '#92400e' },
+  oceano: { claro: '#f0f9ff', oscuro: '#38bdf8', borde: '#0284c7' },
+  lila: { claro: '#faf5ff', oscuro: '#c084fc', borde: '#7c3aed' }
 };
 let colorTemaTableroActual = 'esmeralda';
 
@@ -5925,17 +6706,37 @@ function inicializarMatrizTablero() {
 }
 
 function actualizarUITurno() {
-  const tema = TEMATICAS_TABLERO[tematicaActivaKey];
-  document.getElementById("lblTableroTitulo").textContent = tema.textos[idiomaActual].titulo;
-  
-  if (idiomaActual === "es") {
-    lblTurnoJugador.textContent = turnoActual === "blancas" 
-      ? "Turno: ♙ Blancas (Selecciona tu pieza y muévela)" 
-      : (modoJuegoActual === "bot" ? "Turno: 🤖 Bot Matemático pensando..." : "Turno: ♟️ Negras (Selecciona pieza y muévela)");
-  } else {
-    lblTurnoJugador.textContent = turnoActual === "blancas" 
-      ? "Turno: ♙ White (Select your piece and move)" 
-      : (modoJuegoActual === "bot" ? "Turno: 🤖 Math Bot thinking..." : "Turno: ♟️ Black (Select piece and move)");
+  const tema = (typeof window !== 'undefined' && window.TEMATICAS_TABLERO && typeof tematicaActivaKey !== 'undefined')
+    ? window.TEMATICAS_TABLERO[tematicaActivaKey]
+    : null;
+  const lblTableroTitulo = document.getElementById("lblTableroTitulo");
+  if (lblTableroTitulo && tema && tema.textos && tema.textos[idiomaActual]) {
+    lblTableroTitulo.textContent = tema.textos[idiomaActual].titulo;
+  }
+
+  const badgeRacha = document.getElementById("ajedrezBadgeRacha");
+  if (badgeRacha) {
+    if (typeof varianteAjedrezActual !== 'undefined' && varianteAjedrezActual === 'superpoderes') {
+      badgeRacha.style.display = 'inline-flex';
+      const streakCount = typeof rachaAciertosMatematicos !== 'undefined' ? rachaAciertosMatematicos : 0;
+      badgeRacha.textContent = idiomaActual === "es" 
+        ? `⚡ Racha: ${streakCount}/3` 
+        : `⚡ Streak: ${streakCount}/3`;
+    } else {
+      badgeRacha.style.display = 'none';
+    }
+  }
+
+  if (lblTurnoJugador) {
+    if (idiomaActual === "es") {
+      lblTurnoJugador.textContent = turnoActual === "blancas" 
+        ? "Turno: ♙ Blancas (Selecciona tu pieza y muévela)" 
+        : (modoJuegoActual === "bot" ? "Turno: 🤖 Bot Matemático pensando..." : "Turno: ♟️ Negras (Mueven negras)");
+    } else {
+      lblTurnoJugador.textContent = turnoActual === "blancas" 
+        ? "Turno: ♙ White (Select your piece and move)" 
+        : (modoJuegoActual === "bot" ? "Turno: 🤖 Math Bot thinking..." : "Turno: ♟️ Black (Black to move)");
+    }
   }
 }
 
@@ -5962,6 +6763,7 @@ function renderizarTablero8x8() {
   for (let f = 0; f < 8; f++) {
     for (let c = 0; c < 8; c++) {
       const casillaDiv = document.createElement("div");
+      casillaDiv.className = "casilla-ajedrez";
       const pieza = tablero8x8[f][c];
       const esSeleccionada = seleccionOrigen && seleccionOrigen.f === f && seleccionOrigen.c === c;
       const esValida = casillasValidas.includes(`${f},${c}`);
@@ -5973,61 +6775,63 @@ function renderizarTablero8x8() {
       const esReyEnJaque = pieza && pieza.tipo === 'rey' && 
         ((pieza.color === 'blancas' && jaqueBlancas) || (pieza.color === 'negras' && jaqueNegras));
 
+      const tieneEscudo = piezaConEscudo && piezaConEscudo.f === f && piezaConEscudo.c === c;
+
       let bgColor = (f + c) % 2 === 0 ? paleta.claro : paleta.oscuro;
-      let borderStyle = '1px solid rgba(168, 85, 247, 0.2)';
-      let boxShadow = 'inset 0 2px 4px rgba(0,0,0,0.03)';
+      let borderStyle = '1px solid ' + (paleta.borde ? paleta.borde + '55' : 'rgba(168, 85, 247, 0.2)');
+      let boxShadow = 'inset 0 1px 2px rgba(255,255,255,0.25)';
       let indicadorPunto = '';
-      let textShadow = pieza ? '0 2px 4px rgba(0,0,0,0.15)' : 'none';
+      let transform = 'none';
+      let zIndex = '1';
 
       if (esReyEnJaque) {
         bgColor = '#fee2e2';
-        borderStyle = '2px solid #ef4444';
-        boxShadow = '0 0 10px rgba(239, 68, 68, 0.6)';
+        borderStyle = '2.5px solid #ef4444';
+        boxShadow = 'inset 0 0 8px rgba(239, 68, 68, 0.7), 0 0 12px rgba(239, 68, 68, 0.8)';
+        zIndex = '4';
       } else if (esSeleccionada) {
-        bgColor = '#c084fc';
-        borderStyle = '2px solid #7c3aed';
-        boxShadow = '0 0 12px rgba(124, 58, 237, 0.5)';
+        bgColor = '#ddd6fe';
+        borderStyle = '2.5px solid #7c3aed';
+        boxShadow = '0 0 14px rgba(124, 58, 237, 0.7), inset 0 0 6px rgba(124, 58, 237, 0.3)';
+        transform = 'scale(1.06)';
+        zIndex = '5';
       } else if (esValida) {
         if (pieza) {
-          bgColor = '#fca5a5';
+          bgColor = '#fecaca';
           borderStyle = '2px solid #dc2626';
-          boxShadow = '0 0 8px rgba(220, 38, 38, 0.4)';
+          boxShadow = '0 0 10px rgba(220, 38, 38, 0.6)';
+          transform = 'scale(1.02)';
+          zIndex = '3';
         } else {
-          bgColor = '#bbf7d0';
-          borderStyle = '2px solid #16a34a';
-          boxShadow = '0 0 6px rgba(22, 163, 74, 0.3)';
-          indicadorPunto = '<div style="width: 10px; height: 10px; background: #16a34a; border-radius: 50%; box-shadow: 0 0 6px #16a34a; position: absolute;"></div>';
+          borderStyle = '1.5px dashed #16a34a';
+          boxShadow = 'inset 0 0 6px rgba(22, 163, 74, 0.25)';
+          indicadorPunto = '<div class="punto-movimiento-valido"></div>';
         }
       } else if (esUltimoMovimiento) {
-        borderStyle = '2px solid #eab308';
-        boxShadow = 'inset 0 0 10px rgba(234, 179, 8, 0.5), 0 0 6px rgba(234, 179, 8, 0.4)';
+        borderStyle = '2px solid #f59e0b';
+        boxShadow = 'inset 0 0 8px rgba(245, 158, 11, 0.4), 0 0 8px rgba(245, 158, 11, 0.3)';
       }
 
-      // 🛡️ Comprobar si la pieza tiene escudo activo para resaltarla con brillo cian
-      const tieneEscudo = piezaConEscudo && piezaConEscudo.f === f && piezaConEscudo.c === c;
       if (tieneEscudo) {
-        borderStyle = '3px solid #38bdf8';
-        boxShadow = '0 0 14px rgba(56, 189, 248, 0.8)';
+        borderStyle = '2.5px solid #0284c7';
+        boxShadow = '0 0 14px rgba(56, 189, 248, 0.9), inset 0 0 8px rgba(56, 189, 248, 0.5)';
+        zIndex = '4';
       }
 
-      casillaDiv.style.cssText = `
-        background: ${bgColor};
-        border: ${borderStyle};
-        border-radius: 6px;
-        box-shadow: ${boxShadow};
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 22px;
-        cursor: pointer;
-        position: relative;
-        user-select: none;
-        text-shadow: ${textShadow};
-        transition: transform 0.1s ease;
-      `;
+      casillaDiv.style.background = bgColor;
+      casillaDiv.style.border = borderStyle;
+      casillaDiv.style.boxShadow = boxShadow;
+      casillaDiv.style.transform = transform;
+      casillaDiv.style.zIndex = zIndex;
 
       if (pieza) {
-        casillaDiv.textContent = pieza.color === 'blancas' ? tema.iconosBlancos[pieza.tipo] : tema.iconosNegros[pieza.tipo];
+        const spanPieza = document.createElement("span");
+        spanPieza.textContent = pieza.color === 'blancas' ? tema.iconosBlancos[pieza.tipo] : tema.iconosNegros[pieza.tipo];
+        spanPieza.style.lineHeight = '1';
+        spanPieza.style.filter = pieza.color === 'blancas' 
+          ? 'drop-shadow(0 2px 2px rgba(0,0,0,0.5))' 
+          : 'drop-shadow(0 2px 3px rgba(0,0,0,0.4))';
+        casillaDiv.appendChild(spanPieza);
       } else if (indicadorPunto) {
         casillaDiv.innerHTML = indicadorPunto;
       }
@@ -6413,11 +7217,12 @@ function prepararRetoMatematicoCasilla(origenF, origenC, destinoF, destinoC) {
   // Guardar el movimiento pendiente de forma estricta
   movimientoPendiente = { origenF, origenC, destinoF, destinoC, respuesta: respuestaCorrecta };
 
-  // 🌟 RECONSTRUIR EL HTML INTERNO DEL CUADRO FLOTANTE PARA ASEGURAR QUE NUNCA QUEDE VACÍO
+  // 🌟 RECONSTRUIR EL HTML INTERNO DEL CUADRO FLOTANTE CON ESTILO DE TORNEO
   tableroRetoBox.innerHTML = `
-    <div style="background: white; padding: 16px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); text-align: center; max-width: 320px; margin: auto;">
-      <div id="lblTableroOperacion" style="font-size: 20px; font-weight: bold; margin-bottom: 12px; color: #1f2937;">
-        <span style="font-size:11px; display:block; color:#7c3aed; margin-bottom:2px;">${descReto}</span> ${num1} × ${num2} = ?
+    <div class="ajedrez-reto-dialog">
+      <div class="ajedrez-reto-kicker">${descReto}</div>
+      <div id="lblTableroOperacion" style="font-size: 24px; font-weight: 900; color: #4c1d95; margin-bottom: 12px; letter-spacing: 0.5px;">
+        ${num1} × ${num2} = ?
       </div>
       <div id="tableroOpcionesGrid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;"></div>
     </div>
@@ -6437,8 +7242,8 @@ function prepararRetoMatematicoCasilla(origenF, origenC, destinoF, destinoC) {
     opciones.forEach(op => {
       const btn = document.createElement("button");
       btn.type = "button";
+      btn.className = "btn-ajedrez-opcion";
       btn.textContent = op;
-      btn.style.cssText = "padding: 12px; font-size: 18px; font-weight: 900; background: #f3e8ff; color: #6b21a8; border: 2px solid #c084fc; border-radius: 10px; cursor: pointer; transition: transform 0.1s;";
       btn.addEventListener("click", () => evaluarRespuestaMovimiento(op, respuestaCorrecta));
       gridOpciones.appendChild(btn);
     });
@@ -6585,6 +7390,7 @@ function evaluarRespuestaMovimiento(opElegida, respuestaCorrecta) {
           tableroMensaje.textContent = `🔥 ¡Buen acierto! Racha: ${rachaAciertosMatematicos}/3 para superpoder.`;
         }
       }
+      actualizarUITurno();
     }
 
     renderizarTablero8x8();
@@ -6885,7 +7691,7 @@ function otorgarSuperpoderAleatorio() {
   // 1. Reproducir sonido de triunfo y mostrar el mensaje flotante
   reproducirSonido("acierto");
   if (typeof mostrarTextoFlotante === 'function') {
-    mostrarTextoFlotante("⚡ ¡Racha de 3! Elige tu Superpoder", true, "40%");
+    mostrarTextoFlotante(idiomaActual === "es" ? "⚡ ¡Racha de 3! Elige tu Superpoder" : "⚡ Streak of 3! Pick Superpower", true, "40%");
   }
 
   // 2. Actualizar el mensaje inferior fijo
@@ -6894,20 +7700,35 @@ function otorgarSuperpoderAleatorio() {
     ? "🌟 ¡Racha matemática completada! Elige un superpoder:" 
     : "🌟 Math streak completed! Choose a superpower:";
 
-  // 3. Mostrar la caja de selección utilizando el contenedor visual de retos
+  // 3. Mostrar la caja de selección utilizando el contenedor visual de retos con diseño de torneo
   if (typeof tableroRetoBox !== 'undefined') {
     tableroRetoBox.innerHTML = `
-      <div style="background: white; padding: 16px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); text-align: center; max-width: 300px; margin: auto;">
-        <h3 style="color: #7c3aed; margin-bottom: 12px; font-size: 16px;">⚡ ¡Elige tu Superpoder!</h3>
+      <div class="ajedrez-reto-dialog" style="max-width: 310px;">
+        <div class="ajedrez-reto-kicker">⚡ ¡RACHA MATEMÁTICA!</div>
+        <h3 style="color: #6b21a8; margin: 4px 0 10px; font-size: 15px; font-weight: 900;">
+          ${idiomaActual === "es" ? "Elige tu Superpoder Táctico" : "Choose Tactical Superpower"}
+        </h3>
         <div style="display: flex; flex-direction: column; gap: 8px;">
-          <button onclick="seleccionarSuperpoder('escudo')" style="background: #e0f2fe; color: #0369a1; border: 2px solid #38bdf8; padding: 8px; border-radius: 8px; font-weight: bold; cursor: pointer;">
-            🛡️ Escudo Protector
+          <button type="button" class="card-superpoder-opcion" onclick="seleccionarSuperpoder('escudo')" style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe); border-color: #38bdf8; color: #0369a1;">
+            <span style="font-size: 24px;">🛡️</span>
+            <div>
+              <div style="font-size: 12px; font-weight: 900;">${idiomaActual === "es" ? "Escudo Protector" : "Protective Shield"}</div>
+              <div style="font-size: 10px; font-weight: 600; opacity: 0.85;">${idiomaActual === "es" ? "Inmune a la próxima captura" : "Immune to next capture"}</div>
+            </div>
           </button>
-          <button onclick="seleccionarSuperpoder('teletransporte')" style="background: #f3e8ff; color: #6b21a8; border: 2px solid #c084fc; padding: 8px; border-radius: 8px; font-weight: bold; cursor: pointer;">
-            🚀 Teletransporte
+          <button type="button" class="card-superpoder-opcion" onclick="seleccionarSuperpoder('teletransporte')" style="background: linear-gradient(135deg, #faf5ff, #f3e8ff); border-color: #c084fc; color: #6b21a8;">
+            <span style="font-size: 24px;">🚀</span>
+            <div>
+              <div style="font-size: 12px; font-weight: 900;">${idiomaActual === "es" ? "Teletransporte" : "Teleportation"}</div>
+              <div style="font-size: 10px; font-weight: 600; opacity: 0.85;">${idiomaActual === "es" ? "Mueve cualquier pieza a casilla vacía" : "Move any piece to any empty square"}</div>
+            </div>
           </button>
-          <button onclick="seleccionarSuperpoder('doble_turno')" style="background: #fef3c7; color: #b45309; border: 2px solid #f59e0b; padding: 8px; border-radius: 8px; font-weight: bold; cursor: pointer;">
-            💥 Doble Turno
+          <button type="button" class="card-superpoder-opcion" onclick="seleccionarSuperpoder('doble_turno')" style="background: linear-gradient(135deg, #fefce8, #fef3c7); border-color: #f59e0b; color: #92400e;">
+            <span style="font-size: 24px;">💥</span>
+            <div>
+              <div style="font-size: 12px; font-weight: 900;">${idiomaActual === "es" ? "Doble Turno" : "Double Turn"}</div>
+              <div style="font-size: 10px; font-weight: 600; opacity: 0.85;">${idiomaActual === "es" ? "Juega 2 movimientos seguidos" : "Play two turns in a row"}</div>
+            </div>
           </button>
         </div>
       </div>
@@ -6927,6 +7748,7 @@ function seleccionarSuperpoder(tipoPoder) {
 
   // 🛑 REINICIO OBLIGATORIO DE LA RACHA A CERO
   rachaAciertosMatematicos = 0; 
+  actualizarUITurno();
 
   let mensajeTexto = "";
   let mensajeFlotante = "";
