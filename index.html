@@ -120,14 +120,14 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
       width: 100%;
       margin-bottom: 3px;
       z-index: 30;
       background: rgba(255, 255, 255, 0.7);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
-      padding: 4px 7px;
+      padding: 4px 6px;
       border-radius: 16px;
       border: 1px solid rgba(226, 232, 240, 0.8);
       box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
@@ -264,7 +264,7 @@
     .grupo-controles {
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
       flex-shrink: 0;
     }
 
@@ -272,8 +272,8 @@
       background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
       border: 1.5px solid #cbd5e1;
       border-radius: 50%;
-      width: 29px;
-      height: 29px;
+      width: 28px;
+      height: 28px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -282,7 +282,7 @@
       padding: 0;
       box-shadow: 0 1px 3px rgba(0,0,0,0.06);
       color: #1e3a8a;
-      transition: transform 0.12s ease, background-color 0.12s ease, border-color 0.12s ease;
+      transition: transform 0.12s ease, background-color 0.12s ease, border-color 0.12s ease, opacity 0.15s ease;
     }
 
     .btn-control:hover {
@@ -301,15 +301,15 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 5px;
+      gap: 4px;
     }
 
     h1 {
       margin: 0;
-      font-size: clamp(13.5px, 3.6vw, 16px);
+      font-size: clamp(12.5px, 3.25vw, 15.5px);
       font-weight: 900;
       color: #0f172a;
-      letter-spacing: -0.2px;
+      letter-spacing: -0.25px;
       line-height: 1.1;
       white-space: nowrap;
       overflow: hidden;
@@ -428,10 +428,16 @@
       box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
     }
 
-    .btn-dock-utilidad.btn-dock-hub {
-      background: linear-gradient(180deg, #eef2ff 0%, #e0e7ff 100%);
-      border-color: #a5b4fc;
+    .btn-hub-discreto {
+      background: #eef2ff;
+      border: 1px solid #c7d2fe;
       color: #3730a3;
+      border-radius: 10px;
+      padding: 9px 10px;
+      font-weight: 800;
+    }
+    .btn-hub-discreto:hover {
+      background: #e0e7ff;
     }
 
     .btn-minijuego-compacto:hover,
@@ -1325,6 +1331,7 @@
       display: flex;
       flex-direction: column;
       max-height: 92dvh;
+      overflow-y: auto;
     }
 
     .modal-header {
@@ -2121,9 +2128,9 @@
       border-color: #475569 !important;
       color: #e2e8f0 !important;
     }
-    body[data-tema="galaxia"] .btn-dock-utilidad.btn-dock-hub {
-      background: linear-gradient(180deg, #312e81 0%, #1e1b4b 100%) !important;
-      border-color: #6366f1 !important;
+    body[data-tema="galaxia"] .btn-hub-discreto {
+      background: #1e1b4b !important;
+      border-color: #4f46e5 !important;
       color: #c7d2fe !important;
     }
     body[data-tema="galaxia"] .modal-contenido {
@@ -2202,9 +2209,9 @@
       border-color: #86efac !important;
       color: #047857 !important;
     }
-    body[data-tema="esmeralda"] .btn-dock-utilidad.btn-dock-hub {
-      background: linear-gradient(180deg, #d1fae5 0%, #a7f3d0 100%) !important;
-      border-color: #34d399 !important;
+    body[data-tema="esmeralda"] .btn-hub-discreto {
+      background: #ecfdf5 !important;
+      border-color: #6ee7b7 !important;
       color: #065f46 !important;
     }
     body[data-tema="esmeralda"] .estadisticas > div {
@@ -2291,9 +2298,9 @@
     body[data-tema="google"] .btn-dock-utilidad:hover {
       background: #f1f3f4 !important;
     }
-    body[data-tema="google"] .btn-dock-utilidad.btn-dock-hub {
-      background: #e8f0fe !important;
-      border-color: #d2e3fc !important;
+    body[data-tema="google"] .btn-hub-discreto {
+      background: #f1f3f4 !important;
+      border-color: #dadce0 !important;
       color: #1967d2 !important;
     }
     body[data-tema="google"] #btnMinijuego {
@@ -2912,8 +2919,9 @@
     </div>
 
     <div class="grupo-controles">
-      <button id="toggleMusica" class="btn-control" type="button" aria-label="Música de fondo" title="Música relajante">🎵</button>
-      <button id="toggleSonido" class="btn-control" type="button" aria-label="Activar o desactivar sonido">🔊</button>
+      <button id="toggleSonido" class="btn-control" type="button" aria-label="Control de sonido y música" title="Sonido: Activado">🔊</button>
+      <button id="verHistorial" class="btn-control" type="button" aria-label="Ver historial" title="Ver historial">📋</button>
+      <button id="btnInstalarPWA" class="btn-control" type="button" aria-label="Instalar App / PWA" title="Instalar en tu dispositivo (Funciona sin internet)">📲</button>
     </div>
 
     <div id="menuSelectorTema" class="menu-selector-tema" role="menu" aria-label="Selector de tema visual" hidden>
@@ -2971,22 +2979,19 @@
   <!-- Escenario central de la ruleta con docks flex izquierdo y derecho simétricos -->
   <div class="ruleta-escenario">
 
-    <!-- Dock Flex Izquierdo: Centro de Minijuegos, Velocidad, Tabla Pitagórica, Historial e Instalación PWA -->
+    <!-- Dock Flex Izquierdo: Velocidad, Tabla Pitagórica y 2 Minijuegos -->
     <div class="dock-lateral-ruleta" aria-label="Herramientas y modos">
-      <button id="btnAbrirHub" class="btn-dock-utilidad btn-dock-hub" type="button" aria-label="Centro de Minijuegos" title="Centro de Minijuegos">
-        🎮
-      </button>
       <button id="toggleModo" class="btn-dock-utilidad" type="button" aria-label="Modo de tiempo" title="Modo de tiempo">
         🚫
       </button>
       <button id="btnAbrirPitagoras" class="btn-dock-utilidad" type="button" aria-label="Tabla Pitagórica" title="Tabla Pitagórica">
         📊
       </button>
-      <button id="verHistorial" class="btn-dock-utilidad" type="button" aria-label="Ver historial" title="Ver historial">
-        📋
+      <button id="btnMinijuego" class="btn-minijuego-compacto" type="button" title="Minijuego: ¿Correcto o Trampa?">
+        🕵️‍♂️
       </button>
-      <button id="btnInstalarPWA" class="btn-dock-utilidad" type="button" aria-label="Instalar App / PWA" title="Instalar en tu dispositivo (Funciona sin internet)">
-        📲
+      <button id="btnLluvia" class="btn-minijuego-compacto" type="button" title="Minijuego: Lluvia de Estrellas" style="background:#0284c7; border-color:#bae6fd;">
+        ⭐
       </button>
     </div>
 
@@ -3002,12 +3007,6 @@
 
     <!-- Dock Flex Derecho: Acceso directo a Minijuegos -->
     <div class="dock-lateral-ruleta" aria-label="Minijuegos">
-      <button id="btnMinijuego" class="btn-minijuego-compacto" type="button" title="Minijuego: ¿Correcto o Trampa?">
-        🕵️‍♂️
-      </button>
-      <button id="btnLluvia" class="btn-minijuego-compacto" type="button" title="Minijuego: Lluvia de Estrellas" style="background:#0284c7; border-color:#bae6fd;">
-        ⭐
-      </button>
       <button id="btnModoDesafio" class="btn-minijuego-compacto" type="button" title="Desafío Relámpago (60s)" style="background:#ec4899; border-color:#fbcfe8;">
         ⚡
       </button>
@@ -3380,6 +3379,7 @@
       <button id="btnHistorialDiploma" class="principal btn-modal-accion" type="button" style="background: linear-gradient(135deg, #f59e0b, #d97706);">🎓 Ver Diploma de Campeón</button>
       <button id="btnCopiarCodigo" class="principal btn-modal-accion" type="button" style="background:#8b5cf6;">📤 Enviar / Copiar código de respaldo</button>
       <button id="btnPegarCodigo" class="principal btn-modal-accion" type="button" style="background:#2563eb;">📥 Restaurar desde código de texto</button>
+      <button id="btnAbrirHub" class="secundario btn-modal-accion btn-hub-discreto" type="button">🎮 Centro de Minijuegos (6 juegos)</button>
       
       <button id="limpiarHistorial" class="secundario btn-modal-accion" type="button" style="color: #991b1b; background: #fee2e2; border-radius: 10px; padding: 10px;">🗑️ Limpiar historial</button>
       <button id="btnResetTestActivacion" class="secundario btn-modal-accion" type="button" style="color: #b45309; background: #fef3c7; border: 1px dashed #f59e0b; border-radius: 10px; padding: 10px;">🛠️ [TEST] Resetear Activación</button>
@@ -3833,7 +3833,6 @@ const lblLluviaVidas = document.getElementById("lblLluviaVidas");
 const lblLluviaPuntos = document.getElementById("lblLluviaPuntos");
 
 const btnCambiarTema = document.getElementById("btnCambiarTema");
-const toggleMusica = document.getElementById("toggleMusica");
 const btnInstalarPWA = document.getElementById("btnInstalarPWA");
 const modalPWAInstall = document.getElementById("modalPWAInstall");
 const cerrarPWAInstall = document.getElementById("cerrarPWAInstall");
@@ -4221,10 +4220,17 @@ const i18n = {
 
     // Tooltips y accesibilidad
     tooltipHub: "Centro de Minijuegos",
+    btnAbrirHubModal: "🎮 Centro de Minijuegos (6 juegos)",
     tooltipPitagoras: "Tabla Pitagórica",
     tooltipDuelo: "Minijuego: Duelo Cara a Cara",
     tooltipHistorial: "Ver historial",
-    tooltipSonido: "Activar o desactivar sonido",
+    tooltipSonido: "Control de sonido y música",
+    audioEstados: [
+      { icono: "🔊", titulo: "Audio: Sonido ON (sin música)", toast: "🔊 Sonido activado" },
+      { icono: "🎶", titulo: "Audio: Sonido + Música de fondo", toast: "🎶 Sonido + Música de fondo" },
+      { icono: "🎵", titulo: "Audio: Solo música de fondo", toast: "🎵 Solo música de fondo" },
+      { icono: "🔇", titulo: "Audio: Todo silenciado", toast: "🔇 Sonido desactivado" }
+    ],
     tooltipAvatar: "Cambiar avatar"
   },
   en: {
@@ -4485,10 +4491,17 @@ const i18n = {
 
     // Tooltips & Accessibility
     tooltipHub: "Minigames Hub",
+    btnAbrirHubModal: "🎮 Minigames Hub (6 games)",
     tooltipPitagoras: "Pythagorean Table",
     tooltipDuelo: "Minigame: Face-to-Face Duel",
     tooltipHistorial: "View history",
-    tooltipSonido: "Toggle sound",
+    tooltipSonido: "Sound & music control",
+    audioEstados: [
+      { icono: "🔊", titulo: "Audio: Sound ON (no music)", toast: "🔊 Sound ON" },
+      { icono: "🎶", titulo: "Audio: Sound + Background Music", toast: "🎶 Sound + Background Music" },
+      { icono: "🎵", titulo: "Audio: Background Music Only", toast: "🎵 Background Music Only" },
+      { icono: "🔇", titulo: "Audio: All Muted", toast: "🔇 Sound OFF" }
+    ],
     tooltipAvatar: "Change avatar"
   }
 };
@@ -4744,6 +4757,7 @@ function actualizarTextosUI() {
   // 3. Tooltips de controles superiores
   const btnAbrirHubEl = document.getElementById("btnAbrirHub");
   if (btnAbrirHubEl) {
+    btnAbrirHubEl.textContent = t.btnAbrirHubModal || (idiomaActual === "es" ? "🎮 Centro de Minijuegos (6 juegos)" : "🎮 Minigames Hub (6 games)");
     btnAbrirHubEl.setAttribute("title", t.tooltipHub || (idiomaActual === "es" ? "Centro de Minijuegos" : "Minigames Hub"));
   }
   const btnAbrirPitagorasEl = document.getElementById("btnAbrirPitagoras");
@@ -4753,8 +4767,8 @@ function actualizarTextosUI() {
   if (botonHistorial) {
     botonHistorial.setAttribute("title", t.tooltipHistorial || (idiomaActual === "es" ? "Ver historial" : "View history"));
   }
-  if (botonSonido) {
-    botonSonido.setAttribute("title", t.tooltipSonido || (idiomaActual === "es" ? "Activar o desactivar sonido" : "Toggle sound"));
+  if (typeof actualizarBotonSonido === "function") {
+    actualizarBotonSonido();
   }
   if (btnAbrirAvatares) {
     btnAbrirAvatares.setAttribute("title", t.tooltipAvatar || (idiomaActual === "es" ? "Cambiar avatar" : "Change avatar"));
@@ -5041,8 +5055,8 @@ function actualizarTextosUI() {
   if (typeof actualizarModalPWATextos === "function") {
     actualizarModalPWATextos();
   }
-  if (typeof actualizarBotonMusicaUI === "function") {
-    actualizarBotonMusicaUI();
+  if (typeof actualizarBotonSonido === "function") {
+    actualizarBotonSonido();
   }
   if (btnCambiarTema && typeof INFO_TEMAS_GLOBAL !== "undefined" && INFO_TEMAS_GLOBAL[temaGlobalActual]) {
     const infoT = INFO_TEMAS_GLOBAL[temaGlobalActual];
@@ -5249,29 +5263,25 @@ function detenerMusicaFondo() {
   }
 }
 
-function actualizarBotonMusicaUI() {
-  if (!toggleMusica) return;
-  toggleMusica.textContent = musicaActiva ? "🎶" : "🎵";
-  toggleMusica.style.opacity = musicaActiva ? "1" : "0.72";
-  toggleMusica.setAttribute(
-    "title",
-    idiomaActual === "es"
-      ? (musicaActiva ? "Música de fondo: Activada" : "Música de fondo: Apagada")
-      : (musicaActiva ? "Background music: On" : "Background music: Off")
-  );
+function obtenerEstadoAudioIndex() {
+  if (sonidoActivo && !musicaActiva) return 0; // 🔊 Sonido ON
+  if (sonidoActivo && musicaActiva) return 1;  // 🎶 Sonido + Música de fondo
+  if (!sonidoActivo && musicaActiva) return 2; // 🎵 Solo música de fondo
+  return 3;                                    // 🔇 Sonido OFF
 }
 
-function toggleMusicaFondo() {
-  musicaActiva = !musicaActiva;
-  obtenerAudioContext();
-  if (musicaActiva) {
-    iniciarMusicaFondo();
-    reproducirSonido("click");
-  } else {
-    detenerMusicaFondo();
+function obtenerMetaEstadoAudio(indice) {
+  const t = i18n[idiomaActual] || i18n.es;
+  if (t && Array.isArray(t.audioEstados) && t.audioEstados[indice]) {
+    return t.audioEstados[indice];
   }
-  actualizarBotonMusicaUI();
-  guardarPuntajes();
+  const fallback = [
+    { icono: "🔊", titulo: "Audio: Sonido ON", toast: "🔊 Sonido activado" },
+    { icono: "🎶", titulo: "Audio: Sonido + Música", toast: "🎶 Sonido + Música" },
+    { icono: "🎵", titulo: "Audio: Solo música", toast: "🎵 Solo música" },
+    { icono: "🔇", titulo: "Audio: Silenciado", toast: "🔇 Sonido desactivado" }
+  ];
+  return fallback[indice] || fallback[0];
 }
 
 function reproducirSonido(tipo, extra = 1) {
@@ -5489,13 +5499,56 @@ function hablar(texto) {
   }
 }
 function actualizarBotonSonido() {
-  botonSonido.textContent = sonidoActivo ? "🔊" : "🔇";
+  if (!botonSonido) return;
+  const idx = obtenerEstadoAudioIndex();
+  const meta = obtenerMetaEstadoAudio(idx);
+  botonSonido.textContent = meta.icono;
+  botonSonido.style.opacity = idx === 3 ? "0.68" : "1";
+  botonSonido.setAttribute("title", meta.titulo);
+  botonSonido.setAttribute("aria-label", meta.titulo);
 }
 
 function toggleSonido() {
-  sonidoActivo = !sonidoActivo;
+  const siguiente = (obtenerEstadoAudioIndex() + 1) % 4;
+  if (siguiente === 0) {
+    sonidoActivo = true;
+    musicaActiva = false;
+  } else if (siguiente === 1) {
+    sonidoActivo = true;
+    musicaActiva = true;
+  } else if (siguiente === 2) {
+    sonidoActivo = false;
+    musicaActiva = true;
+  } else {
+    sonidoActivo = false;
+    musicaActiva = false;
+  }
+
+  try {
+    const ctxAudio = obtenerAudioContext();
+    if (ctxAudio && ctxAudio.state === "suspended") {
+      ctxAudio.resume().catch(() => {});
+    }
+  } catch (e) {}
+
+  if (musicaActiva) {
+    if (!musicaIntervalId) iniciarMusicaFondo();
+  } else {
+    detenerMusicaFondo();
+  }
+
+  if (!sonidoActivo && "speechSynthesis" in window) {
+    try {
+      window.speechSynthesis.cancel();
+    } catch (e) {}
+  }
+
   actualizarBotonSonido();
   if (sonidoActivo) reproducirSonido("click");
+  const meta = obtenerMetaEstadoAudio(siguiente);
+  if (typeof mostrarTextoFlotante === "function") {
+    mostrarTextoFlotante(meta.toast, siguiente !== 3, "14%");
+  }
   guardarPuntajes();
 }
 
@@ -5879,8 +5932,12 @@ function aplicarDatosRespaldo(datos) {
   actualizarEstadisticas();
   renderizarInsigniasUI();
   renderizarAvataresDisponibles();
+  if (musicaActiva) {
+    if (!musicaIntervalId) iniciarMusicaFondo();
+  } else {
+    detenerMusicaFondo();
+  }
   actualizarBotonSonido();
-  actualizarBotonMusicaUI();
   if (modalHistorial && !modalHistorial.hidden) {
     abrirModalHistorial("aciertos");
   }
@@ -6243,7 +6300,6 @@ function cargarPuntajes() {
   inputNombre.value = nombre;
   btnAbrirAvatares.textContent = avatarActual;
   aplicarTemaGlobal(temaGlobalActual);
-  actualizarBotonMusicaUI();
   actualizarSelectorTablas();
   actualizarEstadisticas();
   renderizarInsigniasUI();
@@ -8085,7 +8141,6 @@ if (menuSelectorTema) {
     }
   });
 }
-if (toggleMusica) toggleMusica.addEventListener("click", toggleMusicaFondo);
 botonIdioma.addEventListener("click", toggleIdioma);
 botonModo.addEventListener("click", cambiarModoTiempo);
 botonHistorial.addEventListener("click", () => abrirModalHistorial("todo"));
@@ -9732,6 +9787,7 @@ const cerrarHubMinijuegos = document.getElementById("cerrarHubMinijuegos");
 if (btnAbrirHub) {
   btnAbrirHub.addEventListener("click", () => {
     reproducirSonido("click");
+    if (modalHistorial) modalHistorial.hidden = true;
     if (typeof actualizarIdiomaCentroMinijuegos === 'function') {
       actualizarIdiomaCentroMinijuegos();
     }
