@@ -1511,17 +1511,65 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.12);
     }
 
+    .modal-pitagoras-card {
+      max-width: 400px;
+      width: 100%;
+      padding: 12px;
+      height: min(614px, calc(100dvh - 20px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)));
+      max-height: calc(100dvh - 20px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+      overflow: hidden !important;
+      display: flex;
+      flex-direction: column;
+      overscroll-behavior: contain;
+    }
+    .modal-pitagoras-card .modal-header {
+      flex-shrink: 0;
+      height: 32px;
+      min-height: 32px;
+      margin-bottom: 8px;
+      gap: 6px;
+    }
+    .modal-pitagoras-card .modal-header > span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-width: 0;
+    }
+    .modal-pitagoras-card .modal-header > button {
+      flex-shrink: 0;
+    }
     .grid-pitagoras {
       position: relative;
+      flex: 1 1 0;
+      min-height: 90px;
       display: grid;
-      grid-template-columns: repeat(13, minmax(22px, 1fr));
+      grid-template-columns: repeat(13, minmax(0, 1fr));
+      align-content: start;
       gap: 2px;
+      padding: 6px;
+      box-sizing: border-box;
+      overflow-x: hidden;
+      overflow-y: auto;
+      scrollbar-gutter: stable;
+      scrollbar-width: thin;
+      overscroll-behavior: contain;
       font-size: 10px;
       font-weight: bold;
       text-align: center;
       user-select: none;
+      -webkit-user-select: none;
+      touch-action: none;
+    }
+    .grid-pitagoras::-webkit-scrollbar {
+      width: 5px;
+      height: 0;
+    }
+    .grid-pitagoras::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.55);
+      border-radius: 999px;
     }
     .celda-pitagoras {
+      min-width: 0;
       aspect-ratio: 1;
       display: flex;
       align-items: center;
@@ -1543,18 +1591,18 @@
       position: sticky;
       top: 0;
       left: 0;
-      z-index: 4;
+      z-index: 5;
       cursor: default;
     }
     .celda-pitagoras.cabecera-col {
       position: sticky;
       top: 0;
-      z-index: 3;
+      z-index: 4;
     }
     .celda-pitagoras.cabecera-fila {
       position: sticky;
       left: 0;
-      z-index: 3;
+      z-index: 4;
     }
     .celda-pitagoras.cabecera.eje-activo {
       background: #1d4ed8 !important;
@@ -1585,8 +1633,8 @@
     .celda-pitagoras.resaltada {
       background: #1a73e8 !important;
       color: #fff !important;
-      box-shadow: 0 2px 6px rgba(26, 115, 232, 0.45);
-      transform: scale(1.1);
+      box-shadow: 0 2px 8px rgba(26, 115, 232, 0.48), 0 0 0 2px #fde047;
+      transform: scale(1.12);
       z-index: 3;
       font-weight: 900;
     }
@@ -1597,7 +1645,7 @@
       background: #34a853 !important;
       color: #ffffff !important;
       box-shadow: 0 2px 6px rgba(52, 168, 83, 0.42);
-      transform: scale(1.08);
+      transform: scale(1.06);
       z-index: 2;
       font-weight: 900;
     }
@@ -1631,7 +1679,7 @@
       background: #22c55e !important;
       color: #ffffff !important;
       font-weight: 900;
-      transform: scale(1.06);
+      transform: scale(1.05);
     }
     .celda-pitagoras.reto-error {
       background: #ef4444 !important;
@@ -1641,7 +1689,7 @@
     .celda-pitagoras.serie-pulso {
       background: #fbbc05 !important;
       color: #202124 !important;
-      transform: scale(1.12);
+      transform: scale(1.1);
       z-index: 3;
       font-weight: 900;
       box-shadow: 0 2px 8px rgba(251, 188, 5, 0.5);
@@ -1650,18 +1698,76 @@
       background: #eff6ff;
       border: 1.5px solid #93c5fd;
       border-radius: 12px;
-      padding: 8px 10px;
-      margin-bottom: 8px;
+      padding: 6px 10px;
+      margin-bottom: 6px;
+      height: 62px;
+      min-height: 62px;
+      max-height: 62px;
+      box-sizing: border-box;
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 8px;
+      flex-shrink: 0;
+      overflow: hidden;
     }
     .pitagoras-detalle-texto {
       display: flex;
       flex-direction: column;
+      justify-content: center;
       text-align: left;
       min-width: 0;
+      flex: 1;
+      height: 50px;
+      overflow: hidden;
+      gap: 2px;
+    }
+    #lblPitagorasOperacion {
+      display: block;
+      font-size: clamp(14px, 4vw, 16px) !important;
+      line-height: 19px;
+      height: 19px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    #lblPitagorasAyuda {
+      display: block;
+      font-size: 11px !important;
+      line-height: 14px;
+      height: 14px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .pitagoras-explorador-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      height: 13px;
+      overflow: hidden;
+    }
+    .pitagoras-explorador-label {
+      font-size: 9.5px;
+      font-weight: 800;
+      color: #1e40af;
+      white-space: nowrap;
+      line-height: 1.1;
+    }
+    .pitagoras-explorador-track {
+      flex: 1;
+      height: 5px;
+      background: rgba(148, 163, 184, 0.28);
+      border-radius: 999px;
+      overflow: hidden;
+      min-width: 44px;
+    }
+    .pitagoras-explorador-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #34a853 0%, #fbbc05 55%, #1a73e8 100%);
+      border-radius: 999px;
+      transition: width 0.22s ease;
     }
     .btn-pitagoras-practicar {
       background: #1a73e8;
@@ -1674,6 +1780,7 @@
       cursor: pointer;
       white-space: nowrap;
       flex-shrink: 0;
+      height: 34px;
       min-height: 34px;
       box-shadow: 0 1px 3px rgba(26, 115, 232, 0.3);
       transition: transform 0.1s ease, background-color 0.15s ease;
@@ -1684,8 +1791,9 @@
     .pitagoras-controles-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 6px;
-      margin-top: 8px;
+      gap: 5px;
+      margin-top: 6px;
+      flex-shrink: 0;
     }
     .btn-pitagoras-modo {
       background: #f8fafc;
@@ -1714,7 +1822,61 @@
       font-size: 10.5px;
       color: #64748b;
       text-align: center;
-      line-height: 1.3;
+      line-height: 15px;
+      height: 15px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex-shrink: 0;
+    }
+    @media (max-height: 540px) {
+      .modal-pitagoras-card {
+        padding: 8px 10px;
+        height: min(614px, calc(100dvh - 14px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)));
+        max-height: calc(100dvh - 14px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+      }
+      .modal-pitagoras-card .modal-header {
+        height: 28px;
+        min-height: 28px;
+        margin-bottom: 5px;
+      }
+      .modal-pitagoras-card .pitagoras-detalle-banner {
+        height: 54px;
+        min-height: 54px;
+        max-height: 54px;
+        padding: 4px 8px;
+        margin-bottom: 5px;
+      }
+      .modal-pitagoras-card .pitagoras-detalle-texto {
+        height: 44px;
+      }
+      .modal-pitagoras-card #lblPitagorasOperacion {
+        height: 17px;
+        line-height: 17px;
+        font-size: 14px !important;
+      }
+      .modal-pitagoras-card #lblPitagorasAyuda {
+        height: 13px;
+        line-height: 13px;
+      }
+      .modal-pitagoras-card .pitagoras-explorador-wrap {
+        height: 12px;
+      }
+      .modal-pitagoras-card .pitagoras-controles-grid {
+        gap: 4px;
+        margin-top: 5px;
+      }
+      .modal-pitagoras-card .btn-pitagoras-modo {
+        min-height: 29px;
+        padding: 4px;
+        font-size: 10px;
+      }
+      .modal-pitagoras-card .pitagoras-pie-ayuda {
+        margin-top: 4px;
+        height: 14px;
+        line-height: 14px;
+        font-size: 10px;
+      }
     }
 
     /* Estilos del Diploma de Honor */
@@ -2832,6 +2994,15 @@
       color: #ffffff;
       border-color: #38bdf8;
     }
+    body[data-tema="galaxia"] .pitagoras-explorador-label {
+      color: #7dd3fc;
+    }
+    body[data-tema="esmeralda"] .pitagoras-explorador-label {
+      color: #065f46;
+    }
+    body[data-tema="google"] .pitagoras-explorador-label {
+      color: #1967d2;
+    }
     body[data-tema="esmeralda"] #pitagorasDetalle {
       background: #dcfce7 !important;
       border-color: #86efac !important;
@@ -3413,8 +3584,8 @@
         </div>
 
         <div style="font-size: 10px; color: #475569; display: flex; justify-content: space-between; align-items: center;">
-          <span>Código único encriptado de tu progreso:</span>
-          <span style="font-size: 9px; color: #8b5cf6; font-weight: bold;">(Guardado seguro)</span>
+          <span id="lblCodigoEncriptadoTitulo">Código único de tu progreso:</span>
+          <span id="lblGuardadoSeguro" style="font-size: 9px; color: #8b5cf6; font-weight: bold;">(Guardado seguro)</span>
         </div>
 
         <textarea id="txtCodigoBackupGenerado" readonly rows="3" style="width: 100%; font-family: monospace; font-size: 10px; padding: 6px; border: 1px solid #cbd5e1; border-radius: 8px; background: #f8fafc; color: #1e293b; resize: none; word-break: break-all; cursor: pointer;" title="Haz clic para seleccionar todo"></textarea>
@@ -3435,7 +3606,7 @@
         <textarea id="txtCodigoRestaurarEntrada" placeholder="Pega aquí tu código de respaldo..." rows="3" style="width: 100%; font-family: monospace; font-size: 10px; padding: 6px; border: 1px solid #cbd5e1; border-radius: 8px; background: #fff; color: #1e293b; resize: none; word-break: break-all;"></textarea>
 
         <div style="display: flex; gap: 6px; align-items: center;">
-          <input type="file" id="fileInputRespaldo" accept=".json,text/plain" style="display: none;">
+          <input type="file" id="fileInputRespaldo" accept="application/json,.json,.txt,text/plain" style="display: none;">
           <button id="btnSubirArchivoBackup" type="button" style="flex: 1; padding: 7px; font-size: 11px; font-weight: bold; border-radius: 8px; border: 1.5px dashed #3b82f6; background: #eff6ff; color: #1d4ed8; cursor: pointer;">📂 Subir Archivo .json</button>
           <button id="btnPegarPortapapelesModal" type="button" style="padding: 7px 10px; font-size: 11px; font-weight: bold; border-radius: 8px; border: 1px solid #cbd5e1; background: #f8fafc; color: #334155; cursor: pointer;">📋 Pegar</button>
         </div>
@@ -3447,7 +3618,7 @@
         </div>
 
         <div id="cardErrorRestauracion" style="display: none; background: #fef2f2; border: 1px solid #fca5a5; border-radius: 10px; padding: 8px 10px; font-size: 11px; color: #991b1b;">
-          ⚠️ El texto o archivo no contiene un código de respaldo válido.
+          <span id="lblErrorRestauracion">⚠️ El texto o archivo no contiene un código de respaldo válido.</span>
         </div>
 
         <button id="btnEjecutarRestauracion" class="principal btn-modal-accion" type="button" style="background: #2563eb; margin-top: 4px; padding: 10px; font-size: 12px;" disabled>✅ Restaurar y Cargar mis Datos</button>
@@ -3554,7 +3725,7 @@
 
   <!-- Modal: Tabla Pitagórica Interactiva (1 a 12) -->
   <div id="modalPitagoras" class="modal-historial" hidden>
-    <div class="modal-contenido" style="max-width: 400px; padding: 12px;">
+    <div class="modal-contenido modal-pitagoras-card">
       <div class="modal-header">
         <span id="lblPitagorasTitulo">📊 Tabla Pitagórica Interactiva</span>
         <button id="cerrarPitagoras" type="button" style="background:#e2e8f0; border-radius:50%; width:32px; height:32px; font-size:13px; font-weight:bold; border:none; cursor:pointer;">✕</button>
@@ -3563,14 +3734,20 @@
       <!-- Detalle interactivo de la casilla, área, conmutativa o reto -->
       <div id="pitagorasDetalle" class="pitagoras-detalle-banner">
         <div class="pitagoras-detalle-texto">
-          <span id="lblPitagorasOperacion" style="font-size:16px; font-weight:800; color:#1e3a8a;">Toca una casilla</span>
+          <span id="lblPitagorasOperacion" style="font-size:16px; font-weight:800; color:#1e3a8a;">Toca o desliza</span>
           <span id="lblPitagorasAyuda" style="font-size:11px; font-weight:700; color:#3b82f6;">Tablas del 1 al 12</span>
+          <div class="pitagoras-explorador-wrap">
+            <span id="lblPitagorasExplorador" class="pitagoras-explorador-label">🌱 Explorador · 0/144</span>
+            <div class="pitagoras-explorador-track">
+              <div id="barPitagorasExplorador" class="pitagoras-explorador-fill"></div>
+            </div>
+          </div>
         </div>
         <button id="btnPitagorasPracticar" type="button" class="btn-pitagoras-practicar" hidden>🎡 Practicar</button>
       </div>
 
       <!-- Cuadrícula 13x13 con cabeceras sticky -->
-      <div id="gridPitagoras" class="grid-pitagoras" style="max-height: 50vh; overflow: auto; padding: 2px;"></div>
+      <div id="gridPitagoras" class="grid-pitagoras"></div>
 
       <!-- Selector de modos y filtros educativos -->
       <div class="pitagoras-controles-grid" role="group" aria-label="Modos de la Tabla Pitagórica">
@@ -4128,17 +4305,32 @@ const i18n = {
     msjReiniciado: "Puntajes y historial reiniciados.",
     msjRestaurado: "¡Historial y puntajes restaurados con éxito! 🎉",
     msjCopiadoCodigo: "📤 ¡Código de respaldo copiado!",
-    textoCompartir: (n, pts, aci, racha, maxRacha, insigniasConseguidas, totalInsignias, recordDes, tablasDominadas) => 
-      `🌟 ¡Reporte de Progreso de ${n || 'campeón/a'} en la Ruleta! 🎡\n` +
-      `----------------------------------\n` +
-      `⭐ Puntos acumulados: ${pts}\n` +
-      `✅ Aciertos totales: ${aci}\n` +
-      `🔥 Mejor racha: ${maxRacha} seguidas\n` +
-      `👑 Tablas dominadas (⭐⭐⭐): ${tablasDominadas}/12\n` +
-      `⚡ Récord Desafío 60s: ${recordDes} aciertos\n` +
-      `🏆 Logros desbloqueados: ${insigniasConseguidas}/${totalInsignias}\n` +
-      `----------------------------------\n` +
-      `💪 ¡Cada vez más experto en las matemáticas! ¿Te atreves a superarnos? 😎`,
+    msjResumenCopiado: "📊 ¡Resumen general copiado para compartir!",
+    textoCompartir: (n, pts, aci, racha, maxRacha, insigniasConseguidas, totalInsignias, recordDes, tablasDominadas, detalles = {}) => {
+      const av = detalles.avatar ? `${detalles.avatar} ` : "";
+      const extras = [];
+      if (typeof detalles.precision === "number") {
+        extras.push(`🎯 Precisión reciente: ${detalles.precision}%`);
+      }
+      if (typeof detalles.exploradas === "number" && detalles.exploradas > 0) {
+        extras.push(`📊 Tabla Pitagórica: ${detalles.exploradas}/144 casillas`);
+      }
+      if (detalles.tablaReforzar) {
+        extras.push(`📌 Por reforzar: Tabla del ${detalles.tablaReforzar}`);
+      }
+      const bloqueExtra = extras.length > 0 ? extras.join("\n") + "\n" : "";
+      return `🌟 ¡Reporte de Progreso de ${av}${n || 'campeón/a'} en la Ruleta! 🎡\n` +
+        `----------------------------------\n` +
+        `⭐ Puntos acumulados: ${pts}\n` +
+        `✅ Aciertos totales: ${aci}\n` +
+        `🔥 Mejor racha: ${maxRacha} seguidas\n` +
+        `👑 Tablas dominadas (⭐⭐⭐): ${tablasDominadas}/12\n` +
+        `⚡ Récord Desafío 60s: ${recordDes} aciertos\n` +
+        `🏆 Logros desbloqueados: ${insigniasConseguidas}/${totalInsignias}\n` +
+        bloqueExtra +
+        `----------------------------------\n` +
+        `💪 ¡Cada vez más experto en las matemáticas! ¿Te atreves a superarnos? 😎`;
+    },
 
     // 🎮 Centro de Minijuegos (Hub)
     hubTitulo: "🎮 Centro de Minijuegos",
@@ -4160,18 +4352,18 @@ const i18n = {
 
     // 📊 Tabla Pitagórica
     pitagorasTitulo: "📊 Tabla Pitagórica Interactiva",
-    pitagorasAyuda: "Tablas del 1 al 12 · Toca una casilla o borde",
-    pitagorasToca: "Toca una casilla",
+    pitagorasAyuda: "Tablas del 1 al 12 · Desliza tu dedo o mouse",
+    pitagorasToca: "Desliza o toca una casilla",
     pitagorasBtnNormal: "🔄 Normal",
     pitagorasBtnMitad: "🪞 Mitad",
     pitagorasBtnIguales: "🔍 Iguales",
     pitagorasBtnCalor: "🔥 Difíciles",
     pitagorasBtnTapar: "🙈 Tapar",
     pitagorasBtnReto: "🎯 Reto",
-    pitagorasPie: "💡 Toca un número del borde (1-12) para escuchar su serie",
+    pitagorasPie: "👆 Desliza tu dedo o mouse para explorar con música · Toca un borde (1-12) para oír su serie",
     pitagorasPracticar: (n) => `🎡 Practicar ×${n}`,
     pitagorasCuadradoPerfecto: (p) => `⭐ ¡Cuadrado perfecto! · Área: ${p}`,
-    pitagorasConmutativa: (c, f, p) => `🪞 Espejo: ${c} × ${f} = ${p} · Área: ${p}`,
+    pitagorasConmutativa: (c, f, p) => `🪞 Espejo: ${c}×${f} = ${p} · Área ${p}`,
     pitagorasHablar: (f, c, p) => `${f} por ${c} es ${p}`,
 
     // ⚔️ Duelo Cara a Cara
@@ -4399,17 +4591,32 @@ const i18n = {
     msjReiniciado: "Scores reset.",
     msjRestaurado: "Scores and history successfully restored! 🎉",
     msjCopiadoCodigo: "📤 Backup code copied!",
-    textoCompartir: (n, pts, aci, racha, maxRacha, insigniasConseguidas, totalInsignias, recordDes, tablasDominadas) => 
-      `🌟 ${n || 'Champion'}'s Progress Report on the Wheel! 🎡\n` +
-      `----------------------------------\n` +
-      `⭐ Total points: ${pts}\n` +
-      `✅ Correct answers: ${aci}\n` +
-      `🔥 Best streak: ${maxRacha} in a row\n` +
-      `👑 Tables mastered (⭐⭐⭐): ${tablasDominadas}/12\n` +
-      `⚡ 60s Challenge Record: ${recordDes} correct\n` +
-      `🏆 Badges unlocked: ${insigniasConseguidas}/${totalInsignias}\n` +
-      `----------------------------------\n` +
-      `💪 Getting better at math every day! Can you beat this score? 😎`,
+    msjResumenCopiado: "📊 General summary copied to share!",
+    textoCompartir: (n, pts, aci, racha, maxRacha, insigniasConseguidas, totalInsignias, recordDes, tablasDominadas, detalles = {}) => {
+      const av = detalles.avatar ? `${detalles.avatar} ` : "";
+      const extras = [];
+      if (typeof detalles.precision === "number") {
+        extras.push(`🎯 Recent accuracy: ${detalles.precision}%`);
+      }
+      if (typeof detalles.exploradas === "number" && detalles.exploradas > 0) {
+        extras.push(`📊 Pythagorean Table: ${detalles.exploradas}/144 cells`);
+      }
+      if (detalles.tablaReforzar) {
+        extras.push(`📌 To practice: Table of ${detalles.tablaReforzar}`);
+      }
+      const bloqueExtra = extras.length > 0 ? extras.join("\n") + "\n" : "";
+      return `🌟 ${av}${n || 'Champion'}'s Progress Report on the Wheel! 🎡\n` +
+        `----------------------------------\n` +
+        `⭐ Total points: ${pts}\n` +
+        `✅ Correct answers: ${aci}\n` +
+        `🔥 Best streak: ${maxRacha} in a row\n` +
+        `👑 Tables mastered (⭐⭐⭐): ${tablasDominadas}/12\n` +
+        `⚡ 60s Challenge Record: ${recordDes} correct\n` +
+        `🏆 Badges unlocked: ${insigniasConseguidas}/${totalInsignias}\n` +
+        bloqueExtra +
+        `----------------------------------\n` +
+        `💪 Getting better at math every day! Can you beat this score? 😎`;
+    },
 
     // 🎮 Minigames Hub
     hubTitulo: "🎮 Minigames Hub",
@@ -4431,15 +4638,15 @@ const i18n = {
 
     // 📊 Pythagorean Table
     pitagorasTitulo: "📊 Interactive Pythagorean Table",
-    pitagorasAyuda: "Tables 1 to 12 · Tap a cell or header",
-    pitagorasToca: "Tap any cell",
+    pitagorasAyuda: "Tables 1 to 12 · Slide finger or mouse",
+    pitagorasToca: "Slide or tap any cell",
     pitagorasBtnNormal: "🔄 Normal",
     pitagorasBtnMitad: "🪞 Half",
     pitagorasBtnIguales: "🔍 Matches",
     pitagorasBtnCalor: "🔥 Heatmap",
     pitagorasBtnTapar: "🙈 Hide",
     pitagorasBtnReto: "🎯 Quiz",
-    pitagorasPie: "💡 Tap any border number (1-12) to hear its sequence",
+    pitagorasPie: "👆 Slide your finger or mouse for musical discovery · Tap a border (1-12) for its sequence",
     pitagorasPracticar: (n) => `🎡 Practice ×${n}`,
     pitagorasCuadradoPerfecto: (p) => `⭐ Perfect square! · Area: ${p}`,
     pitagorasConmutativa: (c, f, p) => `🪞 Mirror: ${c} × ${f} = ${p} · Area: ${p}`,
@@ -4547,12 +4754,21 @@ let retoPitagorasActual = null;
 let aciertosRetoPitagoras = 0;
 let pitagorasSerieTimer = null;
 let pitagorasRetoTimer = null;
+let ultimaCeldaDeslizKey = "";
+let toquePitagorasActivo = false;
+let celdaInicioToqueKey = "";
+let huboDeslizEnToque = false;
+let ultimoSonidoDeslizMs = 0;
+let celdasExploradasPitagoras = new Set();
+let hitosExploracionPitagoras = new Set();
 const modalPitagoras = document.getElementById("modalPitagoras");
 const btnAbrirPitagoras = document.getElementById("btnAbrirPitagoras");
 const cerrarPitagoras = document.getElementById("cerrarPitagoras");
 const gridPitagoras = document.getElementById("gridPitagoras");
 const lblPitagorasOperacion = document.getElementById("lblPitagorasOperacion");
 const lblPitagorasAyuda = document.getElementById("lblPitagorasAyuda");
+const lblPitagorasExplorador = document.getElementById("lblPitagorasExplorador");
+const barPitagorasExplorador = document.getElementById("barPitagorasExplorador");
 const btnPitagorasPracticar = document.getElementById("btnPitagorasPracticar");
 const botonesModoPitagoras = document.querySelectorAll("[data-pitagoras-modo]");
 
@@ -4852,7 +5068,7 @@ function actualizarTextosUI() {
     lblPitagorasAyuda.textContent = t.pitagorasAyuda;
   }
   const lblPitagorasOperacion = document.getElementById("lblPitagorasOperacion");
-  if (lblPitagorasOperacion && (lblPitagorasOperacion.textContent === "Toca una casilla" || lblPitagorasOperacion.textContent === "Tap any cell")) {
+  if (lblPitagorasOperacion && modoPitagoras === "normal" && !ultimaSeleccionPitagoras) {
     lblPitagorasOperacion.textContent = t.pitagorasToca;
   }
   const btnPitagorasNormalEl = document.getElementById("btnPitagorasNormal");
@@ -4869,6 +5085,9 @@ function actualizarTextosUI() {
   if (btnPitagorasRetoEl) btnPitagorasRetoEl.textContent = t.pitagorasBtnReto;
   const lblPitagorasPieEl = document.getElementById("lblPitagorasPie");
   if (lblPitagorasPieEl) lblPitagorasPieEl.textContent = t.pitagorasPie;
+  if (typeof actualizarProgresoExploradorPitagoras === "function") {
+    actualizarProgresoExploradorPitagoras();
+  }
   if (typeof actualizarBotonPracticarPitagoras === "function") {
     actualizarBotonPracticarPitagoras();
   }
@@ -4923,12 +5142,21 @@ function actualizarTextosUI() {
   if (btnImprimirDiplomaEl) btnImprimirDiplomaEl.textContent = t.diplomaBtnImprimir;
 
   // 9. Centro de Respaldo y Restauración
+  const esEsBackup = idiomaActual === "es";
   const lblTituloBackupModal = document.getElementById("lblTituloBackupModal");
   if (lblTituloBackupModal) lblTituloBackupModal.textContent = t.backupModalTitulo;
   const tabBtnHacerBackupEl = document.getElementById("tabBtnHacerBackup");
   if (tabBtnHacerBackupEl) tabBtnHacerBackupEl.textContent = t.backupTabHacer;
   const tabBtnRestaurarBackupEl = document.getElementById("tabBtnRestaurarBackup");
   if (tabBtnRestaurarBackupEl) tabBtnRestaurarBackupEl.textContent = t.backupTabRestaurar;
+  const lblCodigoEncriptadoTitulo = document.getElementById("lblCodigoEncriptadoTitulo");
+  if (lblCodigoEncriptadoTitulo) {
+    lblCodigoEncriptadoTitulo.textContent = esEsBackup ? "Código único de tu progreso:" : "Unique progress backup code:";
+  }
+  const lblGuardadoSeguro = document.getElementById("lblGuardadoSeguro");
+  if (lblGuardadoSeguro) {
+    lblGuardadoSeguro.textContent = esEsBackup ? "(Guardado seguro)" : "(Safe backup)";
+  }
   const btnCopiarCodigoModalEl = document.getElementById("btnCopiarCodigoModal");
   if (btnCopiarCodigoModalEl) btnCopiarCodigoModalEl.textContent = t.backupBtnCopiar;
   const btnDescargarJsonModalEl = document.getElementById("btnDescargarJsonModal");
@@ -4943,8 +5171,18 @@ function actualizarTextosUI() {
   if (btnSubirArchivoBackupEl) btnSubirArchivoBackupEl.textContent = t.backupBtnSubir;
   const btnPegarPortapapelesModalEl = document.getElementById("btnPegarPortapapelesModal");
   if (btnPegarPortapapelesModalEl) btnPegarPortapapelesModalEl.textContent = t.backupBtnPegar;
+  const lblErrorRestauracionEl = document.getElementById("lblErrorRestauracion");
+  if (lblErrorRestauracionEl) {
+    lblErrorRestauracionEl.textContent = esEsBackup
+      ? "⚠️ El texto o archivo no contiene un código de respaldo válido."
+      : "⚠️ The text or file does not contain a valid backup code.";
+  }
   const btnEjecutarRestauracionEl = document.getElementById("btnEjecutarRestauracion");
   if (btnEjecutarRestauracionEl) btnEjecutarRestauracionEl.textContent = t.backupBtnEjecutar;
+  if (typeof actualizarVistaHacerBackup === "function" && typeof modalBackupRestaurar !== "undefined" && modalBackupRestaurar && !modalBackupRestaurar.hidden) {
+    actualizarVistaHacerBackup();
+    actualizarVistaPreviaRestauracion();
+  }
 
   // 10. Modales de Avatares, Insignias, Minijuegos clásicos
   if (btnResetTestActivacion) {
@@ -5132,7 +5370,7 @@ function aplicarTemaGlobal(tema) {
       if (selTablero) selTablero.value = "esmeralda";
     }
     if (appInicializada) {
-      if (typeof renderizarTablero8x8 === "function" && modalTableroMagico && !modalTableroMagico.hidden) {
+      if (typeof renderizarTablero8x8 === "function" && Array.isArray(tablero8x8) && tablero8x8.length === 8 && modalTableroMagico && !modalTableroMagico.hidden) {
         renderizarTablero8x8();
       }
     }
@@ -5758,186 +5996,398 @@ const inputNombreModal = document.getElementById("inputNombreModal");
 }
 
 // =========================================================================
-// SISTEMA INTEGRAL DE RESPALDO Y RESTAURACIÓN (VERSION 8 ROBUSTA)
 // =========================================================================
+// SISTEMA INTEGRAL DE RESPALDO Y RESTAURACIÓN (VERSION 9 ROBUSTA)
+// =========================================================================
+
+function escaparHtmlTexto(valor) {
+  return String(valor ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+async function copiarTextoAlPortapapeles(texto) {
+  const contenido = String(texto ?? "");
+  if (!contenido) return false;
+  if (navigator.clipboard && typeof navigator.clipboard.writeText === "function") {
+    try {
+      await navigator.clipboard.writeText(contenido);
+      return true;
+    } catch (e) {}
+  }
+  try {
+    const area = document.createElement("textarea");
+    area.value = contenido;
+    area.setAttribute("readonly", "");
+    area.style.position = "fixed";
+    area.style.top = "-9999px";
+    area.style.left = "-9999px";
+    area.style.opacity = "0";
+    document.body.appendChild(area);
+    area.focus();
+    area.select();
+    if (typeof area.setSelectionRange === "function") {
+      area.setSelectionRange(0, contenido.length);
+    }
+    const ok = typeof document.execCommand === "function" ? document.execCommand("copy") : false;
+    document.body.removeChild(area);
+    return !!ok;
+  } catch (e) {
+    return false;
+  }
+}
+
+async function compartirTextoConRespaldo(titulo, texto, msgCopiado, topPos = "40%") {
+  const esEs = idiomaActual === "es";
+  if (typeof navigator.share === "function") {
+    try {
+      await navigator.share({ title: titulo, text: texto });
+      return true;
+    } catch (err) {
+      if (err && err.name === "AbortError") {
+        return false;
+      }
+    }
+  }
+  const copiado = await copiarTextoAlPortapapeles(texto);
+  if (copiado) {
+    mostrarTextoFlotante(msgCopiado, true, topPos);
+    return true;
+  }
+  mostrarTextoFlotante(
+    esEs ? "⚠️ No se pudo copiar automáticamente" : "⚠️ Could not copy automatically",
+    false,
+    topPos
+  );
+  return false;
+}
+
+function esObjetoRespaldoValido(obj) {
+  if (!obj || typeof obj !== "object" || Array.isArray(obj)) return false;
+  return (
+    obj.app === "RuletaMultiplicar" ||
+    obj.p !== undefined ||
+    obj.puntos !== undefined ||
+    obj.a !== undefined ||
+    obj.aciertos !== undefined ||
+    obj.apt !== undefined ||
+    obj.aciertosPorTabla !== undefined ||
+    obj.ins !== undefined ||
+    obj.insigniasDesbloqueadas !== undefined ||
+    obj.h !== undefined ||
+    obj.historialPartidas !== undefined ||
+    obj.cep !== undefined ||
+    obj.n !== undefined ||
+    obj.nombre !== undefined
+  );
+}
 
 function generarObjetoRespaldo() {
   return {
-    v: 8,
+    v: 9,
     app: "RuletaMultiplicar",
     fecha: new Date().toISOString(),
-    n: (inputNombre.value || nombre || "Campeón").trim(),
+    n: (inputNombre.value || nombre || "").trim(),
     p: Number(puntos) || 0,
     a: Number(aciertos) || 0,
     r: Number(racha) || 0,
     maxRacha: Number(maxRacha) || 0,
-    av: avatarActual || "👦",
-    avs: Array.isArray(avataresDesbloqueados) ? [...avataresDesbloqueados] : ["👦", "👧"],
+    av: avatarActual || "🦖",
+    avs: Array.isArray(avataresDesbloqueados) ? [...avataresDesbloqueados] : ["🦖", "🚀", "🦉", "🤖"],
     ins: { ...insigniasDesbloqueadas },
     apt: { ...aciertosPorTabla },
     cce: { ...conteoCombinacionesExactas },
+    revancha: revanchaPendiente ? { ...revanchaPendiente } : null,
     recDes: Number(recordDesafioRelampago) || 0,
     llv: Number(aciertosLluviaTotal) || 0,
     ajv: Number(victoriasAjedrez) || 0,
     trp: Number(aciertosTrampaTotal) || 0,
     lab: Number(laberintosCompletados) || 0,
     due: Number(duelosGanados) || 0,
-    h: Array.isArray(historialPartidas) ? historialPartidas.slice(-100) : [],
+    cep: Array.from(celdasExploradasPitagoras || []),
+    hep: Array.from(hitosExploracionPitagoras || []),
+    h: Array.isArray(historialPartidas) ? historialPartidas.slice(-150) : [],
     activado: !!activado,
     giros: Number(girosRealizados) || 0,
     idioma: idiomaActual || "es",
     sonido: !!sonidoActivo,
     musica: !!musicaActiva,
     tema: temaGlobalActual || "google",
-    modoTiempo: Number(modoTiempo) || 0
+    temaTablero: colorTemaTableroActual || "google",
+    modoTiempo: Number(modoTiempo) || 0,
+    tablaSel: selectorTabla ? selectorTabla.value : String(tabla)
   };
 }
 
 function generarCodigoRespaldoTexto() {
-  const datosRespaldo = generarObjetoRespaldo();
-  return "RULETA_BK:" + btoa(encodeURIComponent(JSON.stringify(datosRespaldo)));
+  const json = JSON.stringify(generarObjetoRespaldo());
+  try {
+    if (typeof TextEncoder === "function") {
+      const bytes = new TextEncoder().encode(json);
+      let bin = "";
+      for (let i = 0; i < bytes.length; i++) {
+        bin += String.fromCharCode(bytes[i]);
+      }
+      return "RULETA_BK:" + btoa(bin);
+    }
+  } catch (e) {}
+  return "RULETA_BK:" + btoa(encodeURIComponent(json));
+}
+
+function decodificarBase64Respaldo(payloadBase64) {
+  let base64 = String(payloadBase64 || "")
+    .replace(/[\u200B-\u200D\uFEFF\s]+/g, "")
+    .replace(/-/g, "+")
+    .replace(/_/g, "/");
+  if (!base64) return null;
+  while (base64.length % 4 !== 0) {
+    base64 += "=";
+  }
+  const binario = atob(base64);
+
+  // 1. Formato clásico v1-v8: btoa(encodeURIComponent(json)) -> empieza por "%7B"
+  if (binario.startsWith("%7B") || binario.startsWith("%7b")) {
+    const decodificado = decodeURIComponent(binario);
+    const obj = JSON.parse(decodificado);
+    return esObjetoRespaldoValido(obj) ? obj : null;
+  }
+
+  // 2. Formato compacto v9: UTF-8 bytes -> btoa
+  try {
+    if (typeof TextDecoder === "function") {
+      const bytes = new Uint8Array(binario.length);
+      for (let i = 0; i < binario.length; i++) {
+        bytes[i] = binario.charCodeAt(i);
+      }
+      const utf8 = new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+      const obj = JSON.parse(utf8);
+      if (esObjetoRespaldoValido(obj)) return obj;
+    }
+  } catch (e) {}
+
+  // 3. Fallback directo o percent-encoded genérico
+  try {
+    const obj = JSON.parse(binario);
+    if (esObjetoRespaldoValido(obj)) return obj;
+  } catch (e) {}
+
+  try {
+    const obj = JSON.parse(decodeURIComponent(binario));
+    if (esObjetoRespaldoValido(obj)) return obj;
+  } catch (e) {}
+
+  return null;
 }
 
 function desglosarCodigoRespaldo(textoEntrada) {
   if (!textoEntrada || typeof textoEntrada !== "string") return null;
-  let str = textoEntrada.trim();
+  let str = textoEntrada
+    .replace(/[\u200B-\u200D\uFEFF]/g, "")
+    .trim()
+    .replace(/^["'`]+|["'`]+$/g, "")
+    .trim();
   if (!str) return null;
 
-  // Si tiene prefijo RULETA_BK:
-  if (str.startsWith("RULETA_BK:")) {
-    str = str.substring(10).trim();
-  }
-
-  // 1. ¿Es JSON directo?
-  if (str.startsWith("{") && str.endsWith("}")) {
+  // Si el usuario pegó un mensaje de WhatsApp/correo completo, extraer el token RULETA_BK:
+  const matchToken = str.match(/RULETA_BK:\s*([A-Za-z0-9+/=_\-\s]+)/i);
+  if (matchToken && matchToken[1]) {
     try {
-      const obj = JSON.parse(str);
-      if (obj && (obj.p !== undefined || obj.puntos !== undefined || obj.apt || obj.aciertosPorTabla || obj.n || obj.nombre)) {
-        return obj;
-      }
+      const obj = decodificarBase64Respaldo(matchToken[1]);
+      if (obj) return obj;
     } catch (e) {}
   }
 
-  // 2. Intentar decodificar Base64 seguro
-  try {
-    const limpio = str.replace(/\s+/g, "");
-    const binario = atob(limpio);
+  // ¿Es JSON directo (archivo .json o texto JSON)?
+  if (str.startsWith("{") && str.endsWith("}")) {
     try {
-      const decodificado = decodeURIComponent(binario);
-      const obj = JSON.parse(decodificado);
-      if (obj && typeof obj === "object") return obj;
-    } catch {
-      const obj = JSON.parse(binario);
-      if (obj && typeof obj === "object") return obj;
-    }
+      const obj = JSON.parse(str);
+      if (esObjetoRespaldoValido(obj)) return obj;
+    } catch (e) {}
+  }
+
+  // Intentar Base64 directo sin prefijo
+  try {
+    const obj = decodificarBase64Respaldo(str);
+    if (obj) return obj;
   } catch (e) {}
 
   return null;
 }
 
 function aplicarDatosRespaldo(datos) {
-  if (!datos || typeof datos !== "object") return false;
+  if (!esObjetoRespaldoValido(datos)) return false;
 
-  // 1. Nombre
-  const n = datos.n || datos.nombre;
-  if (typeof n === "string" && n.trim()) {
+  // 1. Nombre del jugador
+  const n = datos.n !== undefined ? datos.n : datos.nombre;
+  if (typeof n === "string") {
     nombre = n.trim();
-    inputNombre.value = nombre;
+    if (inputNombre) inputNombre.value = nombre;
+    if (inputNombreModal) inputNombreModal.value = nombre;
   }
 
-  // 2. Puntos, aciertos, rachas
-  if (typeof datos.p === "number") puntos = datos.p;
-  else if (typeof datos.puntos === "number") puntos = datos.puntos;
+  // 2. Puntos, aciertos y rachas
+  const pVal = datos.p !== undefined ? datos.p : datos.puntos;
+  if (pVal !== undefined && !isNaN(Number(pVal))) {
+    puntos = Math.max(0, Number(pVal));
+  }
 
-  if (typeof datos.a === "number") aciertos = datos.a;
-  else if (typeof datos.aciertos === "number") aciertos = datos.aciertos;
+  const aVal = datos.a !== undefined ? datos.a : datos.aciertos;
+  if (aVal !== undefined && !isNaN(Number(aVal))) {
+    aciertos = Math.max(0, Number(aVal));
+  }
 
-  if (typeof datos.maxRacha === "number") maxRacha = datos.maxRacha;
-  else if (typeof datos.r === "number") maxRacha = datos.r;
+  const rVal = datos.r !== undefined ? datos.r : datos.racha;
+  if (rVal !== undefined && !isNaN(Number(rVal))) {
+    racha = Math.max(0, Number(rVal));
+  }
+
+  const maxRVal = datos.maxRacha !== undefined ? datos.maxRacha : rVal;
+  if (maxRVal !== undefined && !isNaN(Number(maxRVal))) {
+    maxRacha = Math.max(racha, Number(maxRVal));
+  }
 
   // 3. Avatar actual y avatares desbloqueados
   const av = datos.av || datos.avatarActual;
-  if (typeof av === "string" && av) {
-    avatarActual = av;
-    btnAbrirAvatares.textContent = avatarActual;
-  }
   const avs = datos.avs || datos.avataresDesbloqueados;
+  const avBase = ["🦖", "🚀", "🦉", "🤖"];
   if (Array.isArray(avs)) {
-    avataresDesbloqueados = Array.from(new Set([...avataresDesbloqueados, ...avs]));
+    avataresDesbloqueados = Array.from(new Set([...avBase, ...avs.filter(x => typeof x === "string" && x)]));
+  } else {
+    avataresDesbloqueados = [...avBase];
+  }
+  if (typeof av === "string" && av.trim()) {
+    avatarActual = av.trim();
+    if (!avataresDesbloqueados.includes(avatarActual)) {
+      avataresDesbloqueados.push(avatarActual);
+    }
+    if (btnAbrirAvatares) btnAbrirAvatares.textContent = avatarActual;
   }
 
-  // 4. Insignias desbloqueadas (fusión de todas las 20 insignias)
+  // 4. Insignias desbloqueadas (restaura estado exacto del respaldo)
   const ins = datos.ins || datos.insigniasDesbloqueadas;
   if (ins && typeof ins === "object") {
-    insigniasDesbloqueadas = { ...insigniasDesbloqueadas, ...ins };
+    const limpias = {};
+    Object.keys(insigniasDesbloqueadas).forEach((k) => {
+      limpias[k] = Boolean(ins[k]);
+    });
+    Object.keys(ins).forEach((k) => {
+      if (Object.prototype.hasOwnProperty.call(limpias, k)) {
+        limpias[k] = Boolean(ins[k]);
+      }
+    });
+    insigniasDesbloqueadas = limpias;
   }
 
-  // 5. Aciertos por tabla (1 a 12)
+  // 5. Historial de partidas (antes de sincronizar tablas)
+  const h = datos.h !== undefined ? datos.h : datos.historialPartidas;
+  if (Array.isArray(h)) {
+    historialPartidas = h.slice(-200);
+  }
+
+  // 6. Aciertos por tabla (1 a 12)
   const apt = datos.apt || datos.aciertosPorTabla;
   if (apt && typeof apt === "object") {
+    const nuevasTablas = {};
     for (let i = 1; i <= TOTAL; i++) {
       const val = Number(apt[i] ?? apt[String(i)] ?? 0);
-      aciertosPorTabla[i] = Math.max(aciertosPorTabla[i] || 0, isNaN(val) ? 0 : val);
+      nuevasTablas[i] = Math.max(0, isNaN(val) ? 0 : val);
     }
+    aciertosPorTabla = nuevasTablas;
   }
 
-  // 6. Conteo combinaciones exactas
+  // 7. Conteo combinaciones exactas y revancha pendiente
   const cce = datos.cce || datos.conteoCombinacionesExactas;
   if (cce && typeof cce === "object") {
-    conteoCombinacionesExactas = { ...conteoCombinacionesExactas, ...cce };
+    conteoCombinacionesExactas = { ...cce };
+  }
+  if (datos.revancha !== undefined || datos.revanchaPendiente !== undefined) {
+    revanchaPendiente = datos.revancha || datos.revanchaPendiente || null;
   }
 
-  // 7. Récords y minijuegos
+  // 8. Récords y minijuegos
   const recDes = datos.recDes ?? datos.recordDesafioRelampago;
-  if (typeof recDes === "number") recordDesafioRelampago = Math.max(recordDesafioRelampago, recDes);
+  if (recDes !== undefined && !isNaN(Number(recDes))) recordDesafioRelampago = Math.max(0, Number(recDes));
 
   const llv = datos.llv ?? datos.aciertosLluviaTotal;
-  if (typeof llv === "number") aciertosLluviaTotal = Math.max(aciertosLluviaTotal, llv);
+  if (llv !== undefined && !isNaN(Number(llv))) aciertosLluviaTotal = Math.max(0, Number(llv));
 
   const ajv = datos.ajv ?? datos.victoriasAjedrez;
-  if (typeof ajv === "number") victoriasAjedrez = Math.max(victoriasAjedrez, ajv);
+  if (ajv !== undefined && !isNaN(Number(ajv))) victoriasAjedrez = Math.max(0, Number(ajv));
 
   const trp = datos.trp ?? datos.aciertosTrampaTotal;
-  if (typeof trp === "number") aciertosTrampaTotal = Math.max(aciertosTrampaTotal, trp);
+  if (trp !== undefined && !isNaN(Number(trp))) aciertosTrampaTotal = Math.max(0, Number(trp));
 
   const lab = datos.lab ?? datos.laberintosCompletados;
-  if (typeof lab === "number") laberintosCompletados = Math.max(laberintosCompletados, lab);
+  if (lab !== undefined && !isNaN(Number(lab))) laberintosCompletados = Math.max(0, Number(lab));
 
   const due = datos.due ?? datos.duelosGanados;
-  if (typeof due === "number") duelosGanados = Math.max(duelosGanados, due);
+  if (due !== undefined && !isNaN(Number(due))) duelosGanados = Math.max(0, Number(due));
 
-  // 8. Historial de partidas
-  const h = datos.h || datos.historialPartidas;
-  if (Array.isArray(h) && h.length > 0) {
-    historialPartidas = h;
+  // 9. Progreso de exploración en Tabla Pitagórica
+  if (Array.isArray(datos.cep)) {
+    celdasExploradasPitagoras = new Set(datos.cep.filter(k => typeof k === "string"));
+  }
+  if (Array.isArray(datos.hep)) {
+    hitosExploracionPitagoras = new Set(datos.hep.map(Number).filter(n => !isNaN(n)));
   }
 
-  // 9. Preferencias si existen
+  // 10. Preferencias, idioma, tema y estado de licencia
+  const idiomaBk = datos.idioma || datos.idiomaActual;
+  if (idiomaBk === "es" || idiomaBk === "en") {
+    idiomaActual = idiomaBk;
+  }
   if (typeof datos.sonido === "boolean") sonidoActivo = datos.sonido;
   if (typeof datos.sonidoActivo === "boolean") sonidoActivo = datos.sonidoActivo;
   if (typeof datos.musica === "boolean") musicaActiva = datos.musica;
   if (typeof datos.musicaActiva === "boolean") musicaActiva = datos.musicaActiva;
-  if (typeof datos.tema === "string") aplicarTemaGlobal(datos.tema);
-  if (typeof datos.temaGlobalActual === "string") aplicarTemaGlobal(datos.temaGlobalActual);
-  if (typeof datos.modoTiempo === "number") modoTiempo = datos.modoTiempo;
-  if (typeof datos.activado === "boolean" && datos.activado) activado = true;
-  if (typeof datos.giros === "number") girosRealizados = Math.max(girosRealizados, datos.giros);
-  if (typeof datos.girosRealizados === "number") girosRealizados = Math.max(girosRealizados, datos.girosRealizados);
 
-  // Sincronización integral y actualización inmediata
+  const temaBk = datos.tema || datos.temaGlobalActual;
+  if (typeof temaBk === "string" && ORDEN_TEMAS_GLOBAL.includes(temaBk)) {
+    aplicarTemaGlobal(temaBk);
+  }
+  if (typeof datos.temaTablero === "string" && datos.temaTablero) {
+    colorTemaTableroActual = datos.temaTablero;
+    const selTab = document.getElementById("selectColorTemaTablero");
+    if (selTab) selTab.value = colorTemaTableroActual;
+  }
+
+  if (typeof datos.modoTiempo === "number") modoTiempo = datos.modoTiempo;
+  if (typeof datos.activado === "boolean") activado = datos.activado;
+  const girosVal = datos.giros ?? datos.girosRealizados;
+  if (girosVal !== undefined && !isNaN(Number(girosVal))) {
+    girosRealizados = Math.max(0, Number(girosVal));
+  }
+
+  // Sincronización integral y actualización inmediata de toda la interfaz
   sincronizarAciertosPorTabla();
   verificarInsignias();
-  guardarPuntajes();
   actualizarSelectorTablas();
+  if (typeof datos.tablaSel === "string" && selectorTabla) {
+    const existeOpt = Array.from(selectorTabla.options || []).some(o => o.value === datos.tablaSel);
+    if (existeOpt) {
+      selectorTabla.value = datos.tablaSel;
+      if (datos.tablaSel !== "mixto") tabla = Number(datos.tablaSel);
+    }
+  }
+  actualizarBadgeTablaActiva();
   actualizarEstadisticas();
   renderizarInsigniasUI();
   renderizarAvataresDisponibles();
+  if (typeof actualizarProgresoExploradorPitagoras === "function") {
+    actualizarProgresoExploradorPitagoras();
+  }
   if (musicaActiva) {
     if (!musicaIntervalId) iniciarMusicaFondo();
   } else {
     detenerMusicaFondo();
   }
   actualizarBotonSonido();
+  actualizarTextosUI();
+  guardarPuntajes();
+
   if (modalHistorial && !modalHistorial.hidden) {
     abrirModalHistorial("aciertos");
   }
@@ -5945,24 +6395,43 @@ function aplicarDatosRespaldo(datos) {
 }
 
 function descargarArchivoRespaldo() {
+  const esEs = idiomaActual === "es";
   try {
     const datos = generarObjetoRespaldo();
     const jsonStr = JSON.stringify(datos, null, 2);
     const blob = new Blob([jsonStr], { type: "application/json;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
-    const nombreLimpio = ((inputNombre.value || nombre || "campeon").trim()).toLowerCase().replace(/[^a-z0-9]/gi, "_");
+    const nombreBase = (inputNombre.value || nombre || "campeon")
+      .trim()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/gi, "_")
+      .replace(/^_+|_+$/g, "") || "campeon";
     const fechaStr = new Date().toISOString().slice(0, 10);
     a.href = url;
-    a.download = `ruleta_respaldo_${nombreLimpio}_${fechaStr}.json`;
+    a.download = `ruleta_respaldo_${nombreBase}_${fechaStr}.json`;
+    a.style.display = "none";
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    setTimeout(() => {
+      try { URL.revokeObjectURL(url); } catch (e) {}
+    }, 1000);
     reproducirSonido("click");
-    mostrarTextoFlotante("💾 ¡Archivo de respaldo descargado!", true, "40%");
+    mostrarTextoFlotante(
+      esEs ? "💾 ¡Archivo de respaldo descargado!" : "💾 Backup file downloaded!",
+      true,
+      "40%"
+    );
   } catch (err) {
     console.error("Error al descargar backup:", err);
+    mostrarTextoFlotante(
+      esEs ? "⚠️ No se pudo descargar el archivo" : "⚠️ Could not download backup file",
+      false,
+      "40%"
+    );
   }
 }
 
@@ -5976,13 +6445,10 @@ function restaurarDesdeCodigoTexto() {
   abrirModalBackupDirecto("restaurar");
 }
 
-function copiarAlPortapapelesManual(codigo, t) {
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(codigo).then(() => {
-      mostrarTextoFlotante(t?.msjCopiadoCodigo || "📋 ¡Código de respaldo copiado!", true, "40%");
-    }).catch(() => {
-      abrirModalBackupDirecto("copia");
-    });
+async function copiarAlPortapapelesManual(codigo, t) {
+  const ok = await copiarTextoAlPortapapeles(codigo);
+  if (ok) {
+    mostrarTextoFlotante(t?.msjCopiadoCodigo || "📋 ¡Código de respaldo copiado!", true, "40%");
   } else {
     abrirModalBackupDirecto("copia");
   }
@@ -6047,18 +6513,32 @@ function cambiarPestanaBackup(pestaña) {
 }
 
 function actualizarVistaHacerBackup() {
-  const t = i18n[idiomaActual];
-  const nom = (inputNombre.value || nombre || "Campeón").trim();
+  const esEs = idiomaActual === "es";
+  const nom = (inputNombre.value || nombre || (esEs ? "Campeón" : "Champion")).trim();
   const tablasCompletas = Object.values(aciertosPorTabla).filter(v => Number(v) >= 15).length;
   const insigniasTotales = Object.values(insigniasDesbloqueadas).filter(Boolean).length;
   
   if (lblResumenJugadorBackup) {
     lblResumenJugadorBackup.textContent = `${avatarActual} ${nom}`;
   }
-  if (lblResumenPuntosBackup) lblResumenPuntosBackup.textContent = `⭐ ${puntos} pts`;
-  if (lblResumenTablasBackup) lblResumenTablasBackup.textContent = `👑 ${tablasCompletas}/12 tablas dominadas`;
-  if (lblResumenInsigniasBackup) lblResumenInsigniasBackup.textContent = `🏆 ${insigniasTotales}/20 insignias`;
-  if (lblResumenRecordBackup) lblResumenRecordBackup.textContent = `⚡ Récord 60s: ${recordDesafioRelampago}`;
+  if (lblResumenPuntosBackup) {
+    lblResumenPuntosBackup.textContent = esEs ? `⭐ ${puntos} pts` : `⭐ ${puntos} pts`;
+  }
+  if (lblResumenTablasBackup) {
+    lblResumenTablasBackup.textContent = esEs
+      ? `👑 ${tablasCompletas}/12 tablas dominadas`
+      : `👑 ${tablasCompletas}/12 tables mastered`;
+  }
+  if (lblResumenInsigniasBackup) {
+    lblResumenInsigniasBackup.textContent = esEs
+      ? `🏆 ${insigniasTotales}/20 insignias`
+      : `🏆 ${insigniasTotales}/20 badges`;
+  }
+  if (lblResumenRecordBackup) {
+    lblResumenRecordBackup.textContent = esEs
+      ? `⚡ Récord 60s: ${recordDesafioRelampago}`
+      : `⚡ 60s Record: ${recordDesafioRelampago}`;
+  }
 
   const codigo = generarCodigoRespaldoTexto();
   if (txtCodigoBackupGenerado) {
@@ -6067,7 +6547,8 @@ function actualizarVistaHacerBackup() {
 }
 
 function actualizarVistaPreviaRestauracion() {
-  const valor = txtCodigoRestaurarEntrada.value.trim();
+  const esEs = idiomaActual === "es";
+  const valor = txtCodigoRestaurarEntrada ? txtCodigoRestaurarEntrada.value.trim() : "";
   cardPreviewRestauracion.style.display = "none";
   cardErrorRestauracion.style.display = "none";
   btnEjecutarRestauracion.disabled = true;
@@ -6078,19 +6559,23 @@ function actualizarVistaPreviaRestauracion() {
   const datos = desglosarCodigoRespaldo(valor);
   if (datos) {
     datosRestaurarPendientes = datos;
-    const nom = datos.n || datos.nombre || "Jugador";
-    const pts = datos.p ?? datos.puntos ?? 0;
-    const av = datos.av || datos.avatarActual || "👦";
+    const nom = (datos.n || datos.nombre || (esEs ? "Jugador" : "Player")).trim();
+    const pts = Number(datos.p ?? datos.puntos ?? 0) || 0;
+    const av = datos.av || datos.avatarActual || "🦖";
     const apt = datos.apt || datos.aciertosPorTabla || {};
     const tablasCompletas = Object.values(apt).filter(v => Number(v) >= 15).length;
     const ins = datos.ins || datos.insigniasDesbloqueadas || {};
     const totalIns = Object.values(ins).filter(Boolean).length;
+    const fechaTxt = typeof datos.fecha === "string" && datos.fecha.length >= 10
+      ? ` · 📅 ${escaparHtmlTexto(datos.fecha.slice(0, 10))}`
+      : "";
 
-    lblPreviewTitulo.textContent = `✅ ¡Copia válida detectada!`;
-    lblPreviewDetalles.innerHTML = `
-      <strong>${av} ${nom}</strong> • ⭐ <strong>${pts} pts</strong><br>
-      👑 <strong>${tablasCompletas}/12</strong> tablas dominadas • 🏆 <strong>${totalIns}</strong> insignias
-    `;
+    lblPreviewTitulo.textContent = esEs
+      ? "✅ ¡Copia válida detectada!"
+      : "✅ Valid backup detected!";
+    lblPreviewDetalles.innerHTML = esEs
+      ? `<strong>${escaparHtmlTexto(av)} ${escaparHtmlTexto(nom)}</strong> • ⭐ <strong>${pts} pts</strong>${fechaTxt}<br>👑 <strong>${tablasCompletas}/12</strong> tablas dominadas • 🏆 <strong>${totalIns}</strong> insignias`
+      : `<strong>${escaparHtmlTexto(av)} ${escaparHtmlTexto(nom)}</strong> • ⭐ <strong>${pts} pts</strong>${fechaTxt}<br>👑 <strong>${tablasCompletas}/12</strong> tables mastered • 🏆 <strong>${totalIns}</strong> badges`;
     cardPreviewRestauracion.style.display = "block";
     btnEjecutarRestauracion.disabled = false;
   } else {
@@ -6100,17 +6585,21 @@ function actualizarVistaPreviaRestauracion() {
 
 function abrirModalBackupDirecto(pestaña = "copia") {
   if (modalHistorial) modalHistorial.hidden = true;
-if (modalBackupRestaurar) modalBackupRestaurar.hidden = true;
+  if (modalBackupRestaurar) modalBackupRestaurar.hidden = true;
   modalBackupRestaurar.hidden = false;
   cambiarPestanaBackup(pestaña);
 
   if (pestaña === "copia") {
-    const codigo = generarCodigoRespaldoTexto();
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(codigo).then(() => {
-        mostrarTextoFlotante("📋 ¡Código de respaldo copiado!", true, "40%");
-      }).catch(() => {});
-    }
+    const codigo = txtCodigoBackupGenerado?.value || generarCodigoRespaldoTexto();
+    copiarTextoAlPortapapeles(codigo).then((ok) => {
+      if (ok) {
+        mostrarTextoFlotante(
+          idiomaActual === "es" ? "📋 ¡Código de respaldo copiado!" : "📋 Backup code copied!",
+          true,
+          "40%"
+        );
+      }
+    });
   }
 }
 
@@ -6118,6 +6607,14 @@ if (modalBackupRestaurar) modalBackupRestaurar.hidden = true;
 if (btnCerrarModalBackup) {
   btnCerrarModalBackup.addEventListener("click", () => {
     modalBackupRestaurar.hidden = true;
+  });
+}
+
+if (modalBackupRestaurar) {
+  modalBackupRestaurar.addEventListener("click", (e) => {
+    if (e.target === modalBackupRestaurar) {
+      modalBackupRestaurar.hidden = true;
+    }
   });
 }
 
@@ -6136,18 +6633,24 @@ if (txtCodigoBackupGenerado) {
 }
 
 if (btnCopiarCodigoModal) {
-  btnCopiarCodigoModal.addEventListener("click", () => {
+  btnCopiarCodigoModal.addEventListener("click", async () => {
     reproducirSonido("click");
+    const esEs = idiomaActual === "es";
     const codigo = txtCodigoBackupGenerado.value;
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(codigo).then(() => {
-        mostrarTextoFlotante("📋 ¡Código copiado al portapapeles!", true, "40%");
-      }).catch(() => {
-        txtCodigoBackupGenerado.select();
-      });
+    const ok = await copiarTextoAlPortapapeles(codigo);
+    if (ok) {
+      mostrarTextoFlotante(
+        esEs ? "📋 ¡Código copiado al portapapeles!" : "📋 Backup code copied to clipboard!",
+        true,
+        "40%"
+      );
     } else {
       txtCodigoBackupGenerado.select();
-      mostrarTextoFlotante("Selecciona y copia el texto", false, "40%");
+      mostrarTextoFlotante(
+        esEs ? "Selecciona y copia el texto" : "Select and copy the text",
+        false,
+        "40%"
+      );
     }
   });
 }
@@ -6161,16 +6664,13 @@ if (btnCompartirCodigoModal) {
     reproducirSonido("click");
     const codigo = txtCodigoBackupGenerado.value;
     const t = i18n[idiomaActual];
-    if (navigator.share) {
-      navigator.share({
-        title: t?.titulo || "Ruleta de Multiplicar",
-        text: codigo
-      }).catch(() => {});
-    } else if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(codigo).then(() => {
-        mostrarTextoFlotante("📋 ¡Código copiado para compartir!", true, "40%");
-      });
-    }
+    const esEs = idiomaActual === "es";
+    compartirTextoConRespaldo(
+      t?.titulo || "Ruleta de Multiplicar",
+      codigo,
+      esEs ? "📋 ¡Código copiado para compartir!" : "📋 Backup code copied to share!",
+      "40%"
+    );
   });
 }
 
@@ -6195,6 +6695,11 @@ if (btnSubirArchivoBackup && fileInputRespaldo) {
         reproducirSonido("click");
       }
     };
+    reader.onerror = () => {
+      cardPreviewRestauracion.style.display = "none";
+      cardErrorRestauracion.style.display = "block";
+      btnEjecutarRestauracion.disabled = true;
+    };
     reader.readAsText(file);
     fileInputRespaldo.value = "";
   });
@@ -6203,32 +6708,54 @@ if (btnSubirArchivoBackup && fileInputRespaldo) {
 if (btnPegarPortapapelesModal) {
   btnPegarPortapapelesModal.addEventListener("click", async () => {
     reproducirSonido("click");
+    const esEs = idiomaActual === "es";
     if (navigator.clipboard && navigator.clipboard.readText) {
       try {
         const texto = await navigator.clipboard.readText();
-        if (texto) {
+        if (texto && texto.trim()) {
           txtCodigoRestaurarEntrada.value = texto.trim();
           actualizarVistaPreviaRestauracion();
-          mostrarTextoFlotante("📋 Pegado desde portapapeles", true, "40%");
+          mostrarTextoFlotante(
+            esEs ? "📋 Pegado desde portapapeles" : "📋 Pasted from clipboard",
+            true,
+            "40%"
+          );
           return;
         }
       } catch (err) {}
     }
     txtCodigoRestaurarEntrada.focus();
-    mostrarTextoFlotante("Mantén pulsado para pegar", false, "40%");
+    mostrarTextoFlotante(
+      esEs ? "Mantén pulsado o usa Ctrl+V para pegar" : "Press & hold or Ctrl+V to paste",
+      false,
+      "40%"
+    );
   });
 }
 
 if (btnEjecutarRestauracion) {
   btnEjecutarRestauracion.addEventListener("click", () => {
     if (!datosRestaurarPendientes) return;
-    reproducirSonido("victoria");
+    const esEs = idiomaActual === "es";
     const exito = aplicarDatosRespaldo(datosRestaurarPendientes);
     if (exito) {
+      reproducirSonido("victoria");
+      if (txtCodigoRestaurarEntrada) txtCodigoRestaurarEntrada.value = "";
+      datosRestaurarPendientes = null;
+      cardPreviewRestauracion.style.display = "none";
+      btnEjecutarRestauracion.disabled = true;
       modalBackupRestaurar.hidden = true;
-      mostrarTextoFlotante("🎉 ¡Datos restaurados con éxito!", true, "40%");
+      mostrarTextoFlotante(
+        esEs ? "🎉 ¡Datos restaurados con éxito!" : "🎉 Data successfully restored!",
+        true,
+        "40%"
+      );
     } else {
-      mostrarTextoFlotante("⚠️ No se pudieron restaurar los datos", false, "40%");
+      mostrarTextoFlotante(
+        esEs ? "⚠️ No se pudieron restaurar los datos" : "⚠️ Could not restore data",
+        false,
+        "40%"
+      );
     }
   });
 }
@@ -6280,17 +6807,30 @@ function cargarPuntajes() {
         else if (typeof datos.lab === "number") laberintosCompletados = datos.lab;
         if (typeof datos.duelosGanados === "number") duelosGanados = datos.duelosGanados;
         else if (typeof datos.due === "number") duelosGanados = datos.due;
+        if (Array.isArray(datos.cep)) {
+          celdasExploradasPitagoras = new Set(datos.cep.filter(k => typeof k === "string"));
+        }
+        if (Array.isArray(datos.hep)) {
+          hitosExploracionPitagoras = new Set(datos.hep.map(Number).filter(n => !isNaN(n)));
+        }
         if (datos.historialPartidas) historialPartidas = datos.historialPartidas;
         else if (datos.h) historialPartidas = datos.h;
         if (typeof datos.sonidoActivo === "boolean") sonidoActivo = datos.sonidoActivo;
         if (typeof datos.musicaActiva === "boolean") musicaActiva = datos.musicaActiva;
         if (typeof datos.temaGlobalActual === "string") temaGlobalActual = datos.temaGlobalActual;
-        if (idiomaActual === "es" || idiomaActual === "en") {}
+        if (typeof datos.colorTemaTableroActual === "string" && datos.colorTemaTableroActual) {
+          colorTemaTableroActual = datos.colorTemaTableroActual;
+          const selTab = document.getElementById("selectColorTemaTablero");
+          if (selTab) selTab.value = colorTemaTableroActual;
+        }
         if (datos.idiomaActual) idiomaActual = datos.idiomaActual;
         if (typeof datos.modoTiempo === "number") modoTiempo = datos.modoTiempo;
         if (datos.revanchaPendiente) revanchaPendiente = datos.revanchaPendiente;
         if (typeof datos.activado === "boolean") activado = datos.activado;
         if (typeof datos.girosRealizados === "number") girosRealizados = datos.girosRealizados;
+        if (typeof datos.tablaSel === "string" && selectorTabla) {
+          selectorTabla.dataset.savedTablaSel = datos.tablaSel;
+        }
       }
     }
     const temaGuardado = localStorage.getItem("ruletaTemaGlobal");
@@ -6298,12 +6838,23 @@ function cargarPuntajes() {
   } catch (e) {}
   sincronizarAciertosPorTabla();
   inputNombre.value = nombre;
+  if (inputNombreModal) inputNombreModal.value = nombre;
   btnAbrirAvatares.textContent = avatarActual;
   aplicarTemaGlobal(temaGlobalActual);
   actualizarSelectorTablas();
+  if (selectorTabla && selectorTabla.dataset?.savedTablaSel) {
+    const savedSel = selectorTabla.dataset.savedTablaSel;
+    delete selectorTabla.dataset.savedTablaSel;
+    if (Array.from(selectorTabla.options || []).some(o => o.value === savedSel)) {
+      selectorTabla.value = savedSel;
+    }
+  }
   actualizarEstadisticas();
   renderizarInsigniasUI();
   renderizarAvataresDisponibles();
+  if (typeof actualizarProgresoExploradorPitagoras === "function") {
+    actualizarProgresoExploradorPitagoras();
+  }
   actualizarBotonSonido();
   actualizarTextosUI();
 }
@@ -6328,15 +6879,19 @@ function guardarPuntajes() {
       aciertosTrampaTotal,
       laberintosCompletados,
       duelosGanados,
+      cep: Array.from(celdasExploradasPitagoras || []),
+      hep: Array.from(hitosExploracionPitagoras || []),
       historialPartidas,
       sonidoActivo,
       musicaActiva,
       temaGlobalActual,
+      colorTemaTableroActual,
       idiomaActual,
       modoTiempo,
       revanchaPendiente,
       activado,
-      girosRealizados
+      girosRealizados,
+      tablaSel: selectorTabla ? selectorTabla.value : String(tabla)
     }));
   } catch (e) {}
 }
@@ -6841,9 +7396,15 @@ function reiniciarPuntajes() {
   reproducirSonido("click");
   if (!window.confirm(i18n[idiomaActual].confirmarReiniciar)) return;
   puntos = 0; aciertos = 0; racha = 0; maxRacha = 0; avatarActual = "🦖"; recordDesafioRelampago = 0;
+  aciertosLluviaTotal = 0; victoriasAjedrez = 0; aciertosTrampaTotal = 0; laberintosCompletados = 0; duelosGanados = 0;
   insigniasDesbloqueadas = Object.keys(insigniasDesbloqueadas).reduce((acc, k) => ({ ...acc, [k]: false }), {});
   aciertosPorTabla = Object.keys(aciertosPorTabla).reduce((acc, k) => ({ ...acc, [k]: 0 }), {});
   historialPartidas = []; revanchaPendiente = null; conteoCombinacionesExactas = {};
+  celdasExploradasPitagoras.clear();
+  hitosExploracionPitagoras.clear();
+  if (typeof actualizarProgresoExploradorPitagoras === "function") {
+    actualizarProgresoExploradorPitagoras();
+  }
   actualizarEstadisticas();
   renderizarInsigniasUI();
   renderizarAvataresDisponibles();
@@ -7340,41 +7901,58 @@ function limpiarHistorial() {
 function compartirResultados() {
   reproducirSonido("click");
   const t = i18n[idiomaActual];
-  let medallasConseguidas = Object.values(insigniasDesbloqueadas).filter(Boolean).length;
-  
-  // NUEVO: Cálculo alineado con el Diagnóstico de Dominio Real
+  const esEs = idiomaActual === "es";
+  sincronizarAciertosPorTabla();
+
+  const medallasConseguidas = Object.values(insigniasDesbloqueadas).filter(Boolean).length;
   let tablasDominadasCount = 0;
+  let tablaMasDebil = null;
+  let maxBalanceNegativo = 0;
+
   for (let i = 1; i <= TOTAL; i++) {
-    const jugadasTabla = historialPartidas.filter(item => item.tabla === i).slice(-20);
-    
-    if (jugadasTabla.length >= 3) {
-      const aciertosRecientes = jugadasTabla.filter(item => item.acertado).length;
-      if ((aciertosRecientes / jugadasTabla.length) * 100 >= 85) {
-        tablasDominadasCount++;
-      }
-    } else if ((aciertosPorTabla[i] || 0) >= 15) {
-      // Respaldo por si tiene muchos aciertos históricos acumulados
+    const cantAciertos = Number(aciertosPorTabla[i] ?? aciertosPorTabla[String(i)] ?? 0);
+    if (cantAciertos >= 15) {
       tablasDominadasCount++;
     }
+    const fallos = historialPartidas.filter(item => item && item.tabla === i && !item.acertado).length;
+    const aciertosTablaHist = historialPartidas.filter(item => item && item.tabla === i && item.acertado).length;
+    const balance = fallos - aciertosTablaHist;
+    if (balance > maxBalanceNegativo) {
+      maxBalanceNegativo = balance;
+      tablaMasDebil = i;
+    }
   }
-  
+
+  let precisionReciente = null;
+  if (Array.isArray(historialPartidas) && historialPartidas.length > 0) {
+    const aciertosHist = historialPartidas.filter(item => item && item.acertado).length;
+    precisionReciente = Math.round((aciertosHist / historialPartidas.length) * 100);
+  }
+
   const texto = t.textoCompartir(
-    inputNombre.value.trim(), 
-    puntos, 
-    aciertos, 
-    racha, 
-    maxRacha, 
-    medallasConseguidas, 
-    t.insigniasLista.length, 
+    (inputNombre.value || nombre || "").trim(),
+    puntos,
+    aciertos,
+    racha,
+    maxRacha,
+    medallasConseguidas,
+    t.insigniasLista.length,
     recordDesafioRelampago,
-    tablasDominadasCount // Número exacto de tablas dominadas según el diagnóstico real
+    tablasDominadasCount,
+    {
+      avatar: avatarActual,
+      precision: precisionReciente,
+      exploradas: celdasExploradasPitagoras ? celdasExploradasPitagoras.size : 0,
+      tablaReforzar: tablaMasDebil
+    }
   );
-  
-  if (navigator.share) {
-    navigator.share({ title: t.titulo, text: texto }).catch(() => {});
-  } else {
-    navigator.clipboard.writeText(texto).then(() => alert(t.msjCopiadoCodigo));
-  }
+
+  compartirTextoConRespaldo(
+    t.titulo,
+    texto,
+    t.msjResumenCopiado || (esEs ? "📊 ¡Resumen general copiado para compartir!" : "📊 General summary copied to share!"),
+    "40%"
+  );
 }
 
 // ===========================================================================
@@ -8180,7 +8758,7 @@ btnValidarActivacion.addEventListener("click", validarCodigoActivacion);
 btnCerrarActivacion.addEventListener("click", () => modalActivacion.hidden = true);
 btnResetTestActivacion.addEventListener("click", () => {
   activado = false; girosRealizados = 0; guardarPuntajes(); modalHistorial.hidden = true;
-  alert("🛠️ [TEST] Activación resuelta.");
+  mostrarTextoFlotante(idiomaActual === "es" ? "🛠️ [TEST] Activación reseteada" : "🛠️ [TEST] Activation reset", true, "40%");
 });
 
 inputNombre.addEventListener("input", guardarPuntajes);
@@ -9996,6 +10574,7 @@ function renderizarTablaPitagoras() {
     colHeader.setAttribute("data-hdr-c", c);
     colHeader.title = esEs ? `Escuchar tabla del ${c}` : `Hear table of ${c}`;
     colHeader.addEventListener("click", () => {
+      if (huboDeslizEnToque) return;
       reproducirSonido("click");
       iniciarConteoSeriePitagoras(c, true);
     });
@@ -10010,6 +10589,7 @@ function renderizarTablaPitagoras() {
     rowHeader.setAttribute("data-hdr-f", f);
     rowHeader.title = esEs ? `Escuchar tabla del ${f}` : `Hear table of ${f}`;
     rowHeader.addEventListener("click", () => {
+      if (huboDeslizEnToque) return;
       reproducirSonido("click");
       iniciarConteoSeriePitagoras(f, false);
     });
@@ -10066,6 +10646,7 @@ function renderizarTablaPitagoras() {
       }
 
       celda.addEventListener("click", () => {
+        if (huboDeslizEnToque) return;
         seleccionarCeldaPitagoras(f, c, prod, celda);
       });
 
@@ -10284,11 +10865,313 @@ if (btnPitagorasPracticar) {
   });
 }
 
+function tocarNotaDeslizPitagoras(f, c, esCuadrado = false) {
+  if (!sonidoActivo) return;
+  const ahora = Date.now();
+  if (ahora - ultimoSonidoDeslizMs < 42) return;
+  ultimoSonidoDeslizMs = ahora;
+
+  try {
+    const ctxAudio = obtenerAudioContext();
+    if (!ctxAudio) return;
+    if (ctxAudio.state === "suspended") {
+      ctxAudio.resume().catch(() => {});
+    }
+    const escala = [
+      261.63, 293.66, 329.63, 392.00, 440.00, 523.25,
+      587.33, 659.25, 783.99, 880.00, 1046.50, 1174.66
+    ];
+    const indice = Math.max(0, (f + c - 2) % escala.length);
+    const freq = escala[indice];
+    const now = ctxAudio.currentTime;
+
+    const osc = ctxAudio.createOscillator();
+    const gain = ctxAudio.createGain();
+    osc.type = esCuadrado ? "sine" : "triangle";
+    osc.frequency.setValueAtTime(freq, now);
+    gain.gain.setValueAtTime(0.085, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + (esCuadrado ? 0.2 : 0.12));
+    osc.connect(gain);
+    gain.connect(ctxAudio.destination);
+    osc.start(now);
+    osc.stop(now + (esCuadrado ? 0.21 : 0.13));
+
+    if (esCuadrado) {
+      const osc2 = ctxAudio.createOscillator();
+      const gain2 = ctxAudio.createGain();
+      osc2.type = "triangle";
+      osc2.frequency.setValueAtTime(freq * 1.5, now + 0.03);
+      gain2.gain.setValueAtTime(0.06, now + 0.03);
+      gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+      osc2.connect(gain2);
+      gain2.connect(ctxAudio.destination);
+      osc2.start(now + 0.03);
+      osc2.stop(now + 0.23);
+    }
+  } catch (e) {}
+}
+
+function obtenerTextoMotivadorPitagoras(f, c, prod) {
+  const esEs = idiomaActual === "es";
+  if (f === c) {
+    return esEs
+      ? `⭐ ¡Cuadrado perfecto! (${f}×${c} = ${prod})`
+      : `⭐ Perfect square! (${f}×${c} = ${prod})`;
+  }
+  if (f === 10 || c === 10) {
+    const otro = f === 10 ? c : f;
+    return esEs
+      ? `🔟 ¡Truco del 10! Añade un 0 → ${prod}`
+      : `🔟 10s trick! Add a 0 → ${prod}`;
+  }
+  if (f === 5 || c === 5) {
+    return esEs
+      ? `🖐️ ¡Truco del 5! Termina en ${prod % 10}`
+      : `🖐️ 5s trick! Ends in ${prod % 10}`;
+  }
+  if ((f === 9 || c === 9) && prod <= 90) {
+    const sumaCifras = Math.floor(prod / 10) + (prod % 10);
+    return esEs
+      ? `🪄 ¡Magia del 9! Cifras suman ${sumaCifras} · ${c}×${f}`
+      : `🪄 9s magic! Digits sum ${sumaCifras} · ${c}×${f}`;
+  }
+  if ((f === 11 || c === 11) && Math.min(f, c) <= 9) {
+    return esEs
+      ? `👯 ¡Gemelos del 11! → ${prod}`
+      : `👯 11s twins! → ${prod}`;
+  }
+  return i18n[idiomaActual].pitagorasConmutativa(c, f, prod);
+}
+
+function actualizarProgresoExploradorPitagoras(f = null, c = null) {
+  let eraNueva = false;
+  if (f !== null && c !== null) {
+    const clave = `${f}-${c}`;
+    eraNueva = !celdasExploradasPitagoras.has(clave);
+    if (eraNueva) {
+      celdasExploradasPitagoras.add(clave);
+    }
+  }
+  const total = celdasExploradasPitagoras.size;
+  const pct = Math.min(100, Math.round((total / 144) * 100));
+  const esEs = idiomaActual === "es";
+
+  let rango = esEs ? "🌱 Explorador" : "🌱 Explorer";
+  if (total >= 144) rango = esEs ? "👑 ¡Maestro 100%!" : "👑 100% Master!";
+  else if (total >= 108) rango = esEs ? "🌟 Genio Numérico" : "🌟 Number Genius";
+  else if (total >= 72) rango = esEs ? "🚀 Piloto Pitagórico" : "🚀 Table Pilot";
+  else if (total >= 36) rango = esEs ? "⚡ Dedo Veloz" : "⚡ Fast Finger";
+  else if (total >= 12) rango = esEs ? "🔭 Cazador" : "🔭 Hunter";
+
+  if (lblPitagorasExplorador) {
+    lblPitagorasExplorador.textContent = `${rango} · ${total}/144`;
+  }
+  if (barPitagorasExplorador) {
+    barPitagorasExplorador.style.width = `${pct}%`;
+  }
+
+  if (eraNueva) {
+    const hitos = [
+      { meta: 36, pts: 5, msgEs: "⚡ ¡Dedo Veloz! 36 casillas descubiertas (+5 ⭐)", msgEn: "⚡ Fast Finger! 36 cells discovered (+5 ⭐)", sfx: "racha" },
+      { meta: 72, pts: 5, msgEs: "🚀 ¡Mitad de la tabla explorada! (+5 ⭐)", msgEn: "🚀 Half the table explored! (+5 ⭐)", sfx: "racha" },
+      { meta: 144, pts: 15, msgEs: "👑 ¡LAS 144 CASILLAS EXPLORADAS! (+15 ⭐)", msgEn: "👑 ALL 144 CELLS EXPLORED! (+15 ⭐)", sfx: "victoria" }
+    ];
+    for (const h of hitos) {
+      if (total === h.meta && !hitosExploracionPitagoras.has(h.meta)) {
+        hitosExploracionPitagoras.add(h.meta);
+        puntos += h.pts;
+        actualizarEstadisticas();
+        guardarPuntajes();
+        reproducirSonido(h.sfx);
+        vibrar(h.meta === 144 ? [25, 45, 35] : [18]);
+        if (typeof mostrarTextoFlotante === "function") {
+          mostrarTextoFlotante(esEs ? h.msgEs : h.msgEn, true, "18%");
+        }
+      }
+    }
+  }
+}
+
+function resaltarEjeRapidoPitagoras(f, c, celdaEl) {
+  gridPitagoras.querySelectorAll(".celda-pitagoras").forEach((el) => {
+    el.classList.remove("resaltada", "eje", "area-rect", "conmutativa", "eje-activo", "serie-pulso");
+    const ef = Number(el.getAttribute("data-f"));
+    const ec = Number(el.getAttribute("data-c"));
+    if (ef >= 1 && ec >= 1 && ef <= f && ec <= c) {
+      el.classList.add("area-rect");
+    }
+  });
+
+  gridPitagoras.querySelectorAll(`.celda-pitagoras[data-f="${f}"], .celda-pitagoras[data-c="${c}"]`).forEach((el) => {
+    el.classList.add("eje");
+  });
+
+  const hdrF = gridPitagoras.querySelector(`.celda-pitagoras[data-hdr-f="${f}"]`);
+  const hdrC = gridPitagoras.querySelector(`.celda-pitagoras[data-hdr-c="${c}"]`);
+  if (hdrF) hdrF.classList.add("eje-activo");
+  if (hdrC) hdrC.classList.add("eje-activo");
+  if (celdaEl) celdaEl.classList.add("resaltada");
+}
+
+function explorarCeldaPitagorasPorDesliz(f, c, celdaEl) {
+  const clave = `${f}-${c}`;
+  if (ultimaCeldaDeslizKey === clave) return;
+  ultimaCeldaDeslizKey = clave;
+  limpiarTemporizadoresPitagoras();
+
+  const prod = f * c;
+  const esEs = idiomaActual === "es";
+
+  actualizarProgresoExploradorPitagoras(f, c);
+  tocarNotaDeslizPitagoras(f, c, f === c);
+
+  if (modoPitagoras === "iguales") {
+    aplicarResaltadoIguales(prod);
+    if (celdaEl) celdaEl.classList.add("resaltada");
+    tablaSugeridaPitagoras = f;
+    actualizarBotonPracticarPitagoras();
+    return;
+  }
+
+  if (modoPitagoras === "tapar") {
+    resaltarEjeRapidoPitagoras(f, c, celdaEl);
+    const yaVista = celdasReveladasTapar.has(clave);
+    lblPitagorasOperacion.textContent = yaVista ? `${f} × ${c} = ${prod}` : `🙈 ${f} × ${c} = ?`;
+    lblPitagorasAyuda.textContent = yaVista
+      ? obtenerTextoMotivadorPitagoras(f, c, prod)
+      : (esEs ? "Toca o suelta para destapar este resultado" : "Tap to reveal this product");
+    tablaSugeridaPitagoras = f;
+    actualizarBotonPracticarPitagoras();
+    return;
+  }
+
+  if (modoPitagoras === "reto") {
+    resaltarEjeRapidoPitagoras(f, c, celdaEl);
+    if (retoPitagorasActual) {
+      lblPitagorasAyuda.textContent = esEs
+        ? `📍 Apuntando: fila ${f} × col ${c} · Toca para responder`
+        : `📍 Aiming: row ${f} × col ${c} · Tap to answer`;
+    }
+    return;
+  }
+
+  ultimaSeleccionPitagoras = { f, c, prod };
+  resaltarAreaYConmutativa(f, c, prod, false);
+
+  if (modoPitagoras === "calor") {
+    const mapa = obtenerMapaCalorPitagoras();
+    const st = mapa[clave] || { ok: 0, err: 0 };
+    lblPitagorasAyuda.textContent = esEs
+      ? `Historial ${f}×${c}: ✅ ${st.ok} aciertos · ❌ ${st.err} fallos`
+      : `History ${f}×${c}: ✅ ${st.ok} hits · ❌ ${st.err} misses`;
+  } else {
+    lblPitagorasAyuda.textContent = obtenerTextoMotivadorPitagoras(f, c, prod);
+  }
+}
+
+function explorarCabeceraPitagorasPorDesliz(num, esColumna) {
+  const clave = esColumna ? `hdr-c-${num}` : `hdr-f-${num}`;
+  if (ultimaCeldaDeslizKey === clave) return;
+  ultimaCeldaDeslizKey = clave;
+  limpiarTemporizadoresPitagoras();
+
+  tocarNotaDeslizPitagoras(num, num, false);
+  gridPitagoras.querySelectorAll(".celda-pitagoras").forEach((el) => {
+    el.classList.remove("resaltada", "eje", "area-rect", "conmutativa", "eje-activo", "serie-pulso");
+  });
+
+  const selectorEje = esColumna ? `[data-c="${num}"]` : `[data-f="${num}"]`;
+  gridPitagoras.querySelectorAll(`.celda-pitagoras${selectorEje}`).forEach((el) => {
+    el.classList.add("eje");
+  });
+  const hdrSelector = esColumna ? `[data-hdr-c="${num}"]` : `[data-hdr-f="${num}"]`;
+  const hdrEl = gridPitagoras.querySelector(`.celda-pitagoras${hdrSelector}`);
+  if (hdrEl) hdrEl.classList.add("eje-activo");
+
+  if (modoPitagoras !== "reto") {
+    const esEs = idiomaActual === "es";
+    lblPitagorasOperacion.textContent = esEs ? `✨ Tabla del ${num}` : `✨ Table of ${num}`;
+    lblPitagorasAyuda.textContent = `${num}, ${num * 2}, ${num * 3}, ${num * 4}, ${num * 5}, ${num * 6}…`;
+    tablaSugeridaPitagoras = num;
+    actualizarBotonPracticarPitagoras();
+  }
+}
+
+function procesarPuntoDeslizPitagoras(clientX, clientY) {
+  if (!gridPitagoras) return null;
+  const el = document.elementFromPoint(clientX, clientY);
+  const celda = el && el.closest ? el.closest(".celda-pitagoras") : null;
+  if (!celda || !gridPitagoras.contains(celda)) return null;
+
+  if (celda.hasAttribute("data-f") && celda.hasAttribute("data-c")) {
+    const f = Number(celda.getAttribute("data-f"));
+    const c = Number(celda.getAttribute("data-c"));
+    explorarCeldaPitagorasPorDesliz(f, c, celda);
+    return `${f}-${c}`;
+  }
+  if (celda.hasAttribute("data-hdr-c")) {
+    const num = Number(celda.getAttribute("data-hdr-c"));
+    explorarCabeceraPitagorasPorDesliz(num, true);
+    return `hdr-c-${num}`;
+  }
+  if (celda.hasAttribute("data-hdr-f")) {
+    const num = Number(celda.getAttribute("data-hdr-f"));
+    explorarCabeceraPitagorasPorDesliz(num, false);
+    return `hdr-f-${num}`;
+  }
+  return null;
+}
+
+if (gridPitagoras) {
+  gridPitagoras.addEventListener("mousemove", (e) => {
+    if (toquePitagorasActivo) return;
+    procesarPuntoDeslizPitagoras(e.clientX, e.clientY);
+  });
+
+  gridPitagoras.addEventListener("mouseleave", () => {
+    ultimaCeldaDeslizKey = "";
+  });
+
+  gridPitagoras.addEventListener("touchstart", (e) => {
+    toquePitagorasActivo = true;
+    huboDeslizEnToque = false;
+    ultimaCeldaDeslizKey = "";
+    const touch = e.touches && e.touches[0];
+    if (touch) {
+      celdaInicioToqueKey = procesarPuntoDeslizPitagoras(touch.clientX, touch.clientY) || "";
+    }
+  }, { passive: true });
+
+  gridPitagoras.addEventListener("touchmove", (e) => {
+    if (!toquePitagorasActivo) return;
+    if (e.cancelable) e.preventDefault();
+    const touch = e.touches && e.touches[0];
+    if (!touch) return;
+    const claveActual = procesarPuntoDeslizPitagoras(touch.clientX, touch.clientY);
+    if (claveActual && celdaInicioToqueKey && claveActual !== celdaInicioToqueKey) {
+      huboDeslizEnToque = true;
+    }
+  }, { passive: false });
+
+  const finalizarToquePitagoras = () => {
+    toquePitagorasActivo = false;
+    ultimaCeldaDeslizKey = "";
+    setTimeout(() => {
+      huboDeslizEnToque = false;
+      celdaInicioToqueKey = "";
+    }, 60);
+  };
+
+  gridPitagoras.addEventListener("touchend", finalizarToquePitagoras, { passive: true });
+  gridPitagoras.addEventListener("touchcancel", finalizarToquePitagoras, { passive: true });
+}
+
 if (btnAbrirPitagoras) {
   btnAbrirPitagoras.addEventListener("click", () => {
     reproducirSonido("click");
     modoPitagoras = "normal";
     ultimaSeleccionPitagoras = null;
+    ultimaCeldaDeslizKey = "";
     tablaSugeridaPitagoras = selectorTabla && selectorTabla.value !== "mixto" ? Number(selectorTabla.value) : null;
     actualizarBotonPracticarPitagoras();
     botonesModoPitagoras.forEach((b) => b.classList.toggle("activo", b.dataset.pitagorasModo === "normal"));
@@ -10377,18 +11260,18 @@ btnImprimirDiploma?.addEventListener("click", () => {
 
 btnCompartirDiploma?.addEventListener("click", () => {
   reproducirSonido("click");
-  const nombreJugador = inputNombre.value.trim() || (idiomaActual === "es" ? "Campeón/a" : "Champion");
-  const textoDiploma = idiomaActual === "es"
+  const esEs = idiomaActual === "es";
+  const nombreJugador = inputNombre.value.trim() || (esEs ? "Campeón/a" : "Champion");
+  const textoDiploma = esEs
     ? `🎓 ¡CERTIFICADO DE HONOR! 🌟\n${nombreJugador} ha superado con éxito las Tablas de Multiplicar en la Ruleta con ${puntos} puntos ⭐ y racha récord de ${maxRacha} 🔥. ¡Todo un genio de las matemáticas! 🏆`
     : `🎓 CERTIFICATE OF HONOR! 🌟\n${nombreJugador} successfully mastered the Multiplication Tables with ${puntos} points ⭐ and record streak of ${maxRacha} 🔥! A true math champion! 🏆`;
 
-  if (navigator.share) {
-    navigator.share({ title: "Diploma de Honor", text: textoDiploma }).catch(() => {});
-  } else {
-    navigator.clipboard.writeText(textoDiploma).then(() => {
-      mostrarTextoFlotante("📋 ¡Texto de diploma copiado!", true, "40%");
-    });
-  }
+  compartirTextoConRespaldo(
+    esEs ? "Diploma de Honor" : "Diploma of Honor",
+    textoDiploma,
+    esEs ? "📋 ¡Texto de diploma copiado!" : "📋 Diploma text copied!",
+    "40%"
+  );
 });
 
 // ===========================================================================
