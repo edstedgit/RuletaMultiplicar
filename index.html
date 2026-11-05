@@ -3055,6 +3055,100 @@
       border-color: #dadce0 !important;
     }
 
+    .activacion-subtitulo {
+      font-size: 11px;
+      color: #475569;
+      margin: 4px 0 6px;
+      line-height: 1.35;
+    }
+    body[data-tema="galaxia"] .activacion-subtitulo {
+      color: #cbd5e1;
+    }
+
+    .licencia-banner-estado {
+      border-radius: 10px;
+      padding: 7px 10px;
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+    .licencia-banner-estado.activa {
+      background: #dcfce7;
+      border: 1.5px solid #86efac;
+      color: #166534;
+    }
+    .licencia-banner-estado.prueba {
+      background: #eff6ff;
+      border: 1.5px solid #bfdbfe;
+      color: #1e40af;
+    }
+    body[data-tema="galaxia"] .licencia-banner-estado.activa {
+      background: #064e3b;
+      border-color: #10b981;
+      color: #d1fae5;
+    }
+    body[data-tema="galaxia"] .licencia-banner-estado.prueba {
+      background: #1e293b;
+      border-color: #38bdf8;
+      color: #e0f2fe;
+    }
+
+    .activacion-input-token {
+      width: 100%;
+      padding: 7px 8px;
+      border: 1.5px dashed #8b5cf6;
+      border-radius: 8px;
+      font-size: 10px;
+      font-family: monospace;
+      margin: 4px 0;
+      text-align: center;
+      background: #f5f3ff;
+      color: #5b21b6;
+      cursor: pointer;
+      box-sizing: border-box;
+    }
+    .activacion-input-llave {
+      width: 100%;
+      padding: 9px 10px;
+      border: 2px solid #bfdbfe;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      text-align: center;
+      background: #ffffff;
+      color: #0f172a;
+      box-sizing: border-box;
+    }
+    body[data-tema="galaxia"] .activacion-input-token {
+      background: #1e1b4b;
+      border-color: #818cf8;
+      color: #e0e7ff;
+    }
+    body[data-tema="galaxia"] .activacion-input-llave {
+      background: #1e293b;
+      border-color: #475569;
+      color: #f8fafc;
+    }
+
+    .activacion-error-banner {
+      background: #fef2f2;
+      border: 1px solid #fca5a5;
+      color: #991b1b;
+      border-radius: 8px;
+      padding: 6px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+    body[data-tema="galaxia"] .activacion-error-banner {
+      background: #450a0a;
+      border-color: #ef4444;
+      color: #fecaca;
+    }
+
     .offline-banner {
       background: linear-gradient(90deg, #f59e0b, #d97706);
       color: #ffffff;
@@ -3551,6 +3645,7 @@
       <button id="btnCopiarCodigo" class="principal btn-modal-accion" type="button" style="background:#8b5cf6;">📤 Enviar / Copiar código de respaldo</button>
       <button id="btnPegarCodigo" class="principal btn-modal-accion" type="button" style="background:#2563eb;">📥 Restaurar desde código de texto</button>
       <button id="btnAbrirHub" class="secundario btn-modal-accion btn-hub-discreto" type="button">🎮 Centro de Minijuegos (6 juegos)</button>
+      <button id="btnAbrirActivacion" class="principal btn-modal-accion" type="button" style="background: linear-gradient(135deg, #0284c7, #0369a1);">🔑 Registrar / Activar Licencia</button>
       
       <button id="limpiarHistorial" class="secundario btn-modal-accion" type="button" style="color: #991b1b; background: #fee2e2; border-radius: 10px; padding: 10px;">🗑️ Limpiar historial</button>
       <button id="btnResetTestActivacion" class="secundario btn-modal-accion" type="button" style="color: #b45309; background: #fef3c7; border: 1px dashed #f59e0b; border-radius: 10px; padding: 10px;">🛠️ [TEST] Resetear Activación</button>
@@ -3631,26 +3726,37 @@
   <div id="modalActivacion" class="modal-historial" hidden>
     <div class="modal-contenido" style="text-align: center;">
       <div class="modal-header">
-        <span id="lblActivacionTitulo">🔒 Activación de Licencia</span>
+        <span id="lblActivacionTitulo">🔑 Registro y Activación</span>
+        <button id="btnCerrarActivacionHeader" type="button" style="background:#e2e8f0; border-radius:50%; width:28px; height:28px; font-size:12px; font-weight:bold; border:none; cursor:pointer;">✕</button>
       </div>
-      <p id="lblActivacionSub" style="font-size: 11px; color: #475569; margin: 4px 0;">Genera tu código de solicitud encriptado y compártelo para recibir tu llave única:</p>
+
+      <div id="bannerEstadoLicencia" class="licencia-banner-estado prueba">
+        🔓 Modo prueba: Tablas 1 y 2 gratis (aviso cada 2 giros en otras tablas).
+      </div>
+
+      <p id="lblActivacionSub" class="activacion-subtitulo">Para desbloquear todas las tablas y minijuegos sin pausas, activa tu licencia por solo $20.000 COP (¡la Tabla 1 y la Tabla 2 son gratis!). WhatsApp @EdS_P</p>
       
-      <div class="timer-container" style="margin: 6px 0;">
+      <div class="timer-container" id="timerContainerActivacion" style="margin: 6px 0;">
         <div class="timer-bar" id="timerBarActivacion" style="width: 100%;"></div>
       </div>
 
       <button id="btnGenerarSolicitud" class="principal btn-modal-accion" type="button" style="background:#8b5cf6; font-size:12px; padding:8px;">🔑 Generar mi código de solicitud</button>
       
-      <input type="text" id="inputSolicitudEncriptada" readonly placeholder="Aparecerá aquí tu código cifrado..." style="width:100%; padding:6px; border:1.5px dashed #8b5cf6; border-radius:8px; font-size:10px; margin:4px 0; text-align:center; background:#f5f3ff; color:#6d28d9;">
+      <input type="text" id="inputSolicitudEncriptada" class="activacion-input-token" readonly placeholder="Aparecerá aquí tu código de solicitud...">
       
-      <button id="btnCompartirSolicitud" class="principal btn-modal-accion" type="button" style="background:#16a34a; font-size:12px; padding:8px; display:none;">📤 Compartir código con...</button>
+      <div id="accionesSolicitudRow" style="display:none; gap:6px; width:100%; margin:2px 0 4px;">
+        <button id="btnCopiarSolicitud" class="principal btn-modal-accion" type="button" style="flex:1; background:#0284c7; font-size:11.5px; padding:8px; margin-top:0;">📋 Copiar código</button>
+        <button id="btnCompartirSolicitud" class="principal btn-modal-accion" type="button" style="flex:1; background:#16a34a; font-size:11.5px; padding:8px; margin-top:0;">📤 Compartir código</button>
+      </div>
 
       <hr style="border:0; border-top:1px solid #e2e8f0; width:100%; margin:8px 0;">
 
-      <input type="text" id="inputCodigoActivacion" placeholder="Pega aquí tu llave de activación..." style="width:100%; padding:9px; border:2px solid #bfdbfe; border-radius:10px; font-size:11px; margin-bottom:6px; text-align:center;">
+      <input type="text" id="inputCodigoActivacion" class="activacion-input-llave" placeholder="Pega aquí tu llave de activación (ej. KEY-...)..." autocomplete="off" autocapitalize="characters" spellcheck="false">
       
-      <button id="btnValidarActivacion" class="principal btn-modal-accion" type="button" style="background:#16a34a; margin-top:2px;">✨ Validar Llave</button>
-      <button id="btnCerrarActivacion" class="secundario btn-modal-accion" type="button" disabled style="opacity:0.6; border-radius:10px; padding:8px;">⏳ Espera (5s)...</button>
+      <div id="lblMensajeActivacionModal" class="activacion-error-banner" hidden></div>
+
+      <button id="btnValidarActivacion" class="principal btn-modal-accion" type="button" style="background:#16a34a; margin-top:2px;">✨ Validar y Activar</button>
+      <button id="btnCerrarActivacion" class="secundario btn-modal-accion" type="button" disabled style="opacity:0.6; border-radius:10px; padding:8px;">⏳ Espera (3s)...</button>
     </div>
   </div>
 
@@ -3985,19 +4091,26 @@ const lblDesafioFrenesi = document.getElementById("lblDesafioFrenesi");
 
 const btnCopiarCodigo = document.getElementById("btnCopiarCodigo");
 const btnPegarCodigo = document.getElementById("btnPegarCodigo");
+const btnAbrirActivacion = document.getElementById("btnAbrirActivacion");
 const btnResetTestActivacion = document.getElementById("btnResetTestActivacion");
 
 const timerContainer = document.getElementById("timerContainer");
 const timerBar = document.getElementById("timerBar");
 
 const modalActivacion = document.getElementById("modalActivacion");
+const btnCerrarActivacionHeader = document.getElementById("btnCerrarActivacionHeader");
+const bannerEstadoLicencia = document.getElementById("bannerEstadoLicencia");
+const timerContainerActivacion = document.getElementById("timerContainerActivacion");
 const timerBarActivacion = document.getElementById("timerBarActivacion");
 const inputCodigoActivacion = document.getElementById("inputCodigoActivacion");
+const lblMensajeActivacionModal = document.getElementById("lblMensajeActivacionModal");
 const btnValidarActivacion = document.getElementById("btnValidarActivacion");
 const btnCerrarActivacion = document.getElementById("btnCerrarActivacion");
 
 const btnGenerarSolicitud = document.getElementById("btnGenerarSolicitud");
 const inputSolicitudEncriptada = document.getElementById("inputSolicitudEncriptada");
+const accionesSolicitudRow = document.getElementById("accionesSolicitudRow");
+const btnCopiarSolicitud = document.getElementById("btnCopiarSolicitud");
 const btnCompartirSolicitud = document.getElementById("btnCompartirSolicitud");
 
 const modalLluvia = document.getElementById("modalLluvia");
@@ -4210,11 +4323,21 @@ const i18n = {
     desafioBtnComenzar: "🚀 ¡COMENZAR FRENESÍ!",
     desafioBtnJugarOtra: "⚡ ¡Jugar otra vez!",
     desafioFin: (score, pts, nuevoRec) => `⏰ ¡TIEMPO! Acertaste ${score} operaciones. ${nuevoRec ? '🏆 ¡NUEVO RÉCORD!' : ''} +${pts} ⭐!`,
-    activacionTitulo: "🔒 Activación de Licencia",
-    activacionSub: "Para desbloquear todas las tablas y minijuegos, activa tu licencia por solo $20.000 COP (¡la Tabla 1 y la Tabla 2 son gratis!). WhatsApp @EdS_P",
-    activacionPlaceholder: "Pega aquí tu llave de activación...",
-    btnValidar: "✨ Validar Llave",
-    msjExitoActivacion: "✨ ¡Llave de activación aceptada con éxito!",
+    activacionTitulo: "🔑 Registro y Activación",
+    activacionSub: "Para desbloquear todas las tablas y minijuegos sin pausas, activa tu licencia por solo $20.000 COP (¡la Tabla 1 y la Tabla 2 son gratis!). WhatsApp @EdS_P",
+    activacionPlaceholder: "Pega aquí tu llave de activación (ej. KEY-...)...",
+    activacionSolicitudPlaceholder: "Aparecerá aquí tu código de solicitud...",
+    btnGenerarSolicitud: "🔑 Generar mi código de solicitud",
+    btnCopiarSolicitud: "📋 Copiar código",
+    btnCompartirSolicitud: "📤 Compartir código",
+    btnValidar: "✨ Validar y Activar",
+    btnAbrirActivacionPendiente: "🔑 Registrar / Activar Licencia",
+    btnAbrirActivacionActiva: "✅ Licencia Activada",
+    activacionEstadoActiva: "✅ ¡Licencia Activa! Todas las tablas y minijuegos están desbloqueados.",
+    activacionEstadoPrueba: "🔓 Modo prueba: Tablas 1 y 2 gratis (aviso cada 2 giros en otras tablas).",
+    msjSolicitudCopiada: "📋 ¡Código de solicitud copiado!",
+    msjClaveVacia: "⚠️ Primero pega o escribe tu llave de activación.",
+    msjExitoActivacion: "✨ ¡Licencia activada con éxito! Ya puedes jugar sin límites.",
     msjErrorActivacion: "❌ Llave de activación incorrecta o no válida para este dispositivo.",
     msjCompartirSolicitud: "Mi código de activación para la Ruleta de Multiplicar es: ",
     insigniasLista: [
@@ -4496,11 +4619,21 @@ const i18n = {
     desafioBtnComenzar: "🚀 START FRENZY!",
     desafioBtnJugarOtra: "⚡ Play Again!",
     desafioFin: (score, pts, nuevoRec) => `⏰ TIME'S UP! Got ${score} correct. ${nuevoRec ? '🏆 NEW RECORD!' : ''} +${pts} ⭐!`,
-    activacionTitulo: "🔒 License Activation",
-    activacionSub: "To unlock all tables and minigames, activate your lifetime license for only $20,000 COP (Table 1 and Table 2 are free to practice!). WhatsApp @EdS_P",
-    activacionPlaceholder: "Paste your activation key here...",
-    btnValidar: "✨ Validate Key",
-    msjExitoActivacion: "✨ Activation key successfully accepted!",
+    activacionTitulo: "🔑 License Registration",
+    activacionSub: "To unlock all tables and minigames without pauses, activate your lifetime license for only $20,000 COP (Table 1 and Table 2 are free!). WhatsApp @EdS_P",
+    activacionPlaceholder: "Paste your activation key here (e.g. KEY-...)...",
+    activacionSolicitudPlaceholder: "Your device request code will appear here...",
+    btnGenerarSolicitud: "🔑 Generate my request code",
+    btnCopiarSolicitud: "📋 Copy code",
+    btnCompartirSolicitud: "📤 Share code",
+    btnValidar: "✨ Validate & Activate",
+    btnAbrirActivacionPendiente: "🔑 Register / Activate License",
+    btnAbrirActivacionActiva: "✅ License Activated",
+    activacionEstadoActiva: "✅ License Active! All tables and minigames are unlocked.",
+    activacionEstadoPrueba: "🔓 Trial mode: Tables 1 & 2 free (reminder every 2 spins on other tables).",
+    msjSolicitudCopiada: "📋 Request code copied!",
+    msjClaveVacia: "⚠️ Please paste or enter your activation key first.",
+    msjExitoActivacion: "✨ License successfully activated! Enjoy unlimited play.",
     msjErrorActivacion: "❌ Incorrect activation key or invalid for this device.",
     msjCompartirSolicitud: "My activation code for the Multiplication Wheel is: ",
     insigniasLista: [
@@ -5184,7 +5317,24 @@ function actualizarTextosUI() {
     actualizarVistaPreviaRestauracion();
   }
 
-  // 10. Modales de Avatares, Insignias, Minijuegos clásicos
+  // 10. Modales de Activación, Avatares, Insignias, Minijuegos clásicos
+  const lblActivacionTituloEl = document.getElementById("lblActivacionTitulo");
+  if (lblActivacionTituloEl) lblActivacionTituloEl.textContent = t.activacionTitulo;
+  const lblActivacionSubEl = document.getElementById("lblActivacionSub");
+  if (lblActivacionSubEl) lblActivacionSubEl.textContent = t.activacionSub;
+  if (btnGenerarSolicitud) btnGenerarSolicitud.textContent = t.btnGenerarSolicitud;
+  if (inputSolicitudEncriptada) inputSolicitudEncriptada.placeholder = t.activacionSolicitudPlaceholder;
+  if (btnCopiarSolicitud) btnCopiarSolicitud.textContent = t.btnCopiarSolicitud;
+  if (btnCompartirSolicitud) btnCompartirSolicitud.textContent = t.btnCompartirSolicitud;
+  if (inputCodigoActivacion) inputCodigoActivacion.placeholder = t.activacionPlaceholder;
+  if (btnValidarActivacion) btnValidarActivacion.textContent = t.btnValidar;
+  if (typeof actualizarEstadoBotonActivacionUI === "function") {
+    actualizarEstadoBotonActivacionUI();
+  }
+  if (typeof actualizarVistaModalActivacion === "function") {
+    actualizarVistaModalActivacion();
+  }
+
   if (btnResetTestActivacion) {
     btnResetTestActivacion.textContent = idiomaActual === "es" ? "🛠️ [TEST] Resetear Activación" : "🛠️ [TEST] Reset Activation";
   }
@@ -6112,6 +6262,7 @@ function generarObjetoRespaldo() {
     h: Array.isArray(historialPartidas) ? historialPartidas.slice(-150) : [],
     activado: !!activado,
     giros: Number(girosRealizados) || 0,
+    tokenSol: tokenSolicitudActual || "",
     idioma: idiomaActual || "es",
     sonido: !!sonidoActivo,
     musica: !!musicaActiva,
@@ -6356,9 +6507,16 @@ function aplicarDatosRespaldo(datos) {
 
   if (typeof datos.modoTiempo === "number") modoTiempo = datos.modoTiempo;
   if (typeof datos.activado === "boolean") activado = datos.activado;
+  if (typeof datos.tokenSol === "string") tokenSolicitudActual = datos.tokenSol;
   const girosVal = datos.giros ?? datos.girosRealizados;
   if (girosVal !== undefined && !isNaN(Number(girosVal))) {
     girosRealizados = Math.max(0, Number(girosVal));
+  }
+  if (typeof actualizarEstadoBotonActivacionUI === "function") {
+    actualizarEstadoBotonActivacionUI();
+  }
+  if (typeof actualizarVistaModalActivacion === "function") {
+    actualizarVistaModalActivacion();
   }
 
   // Sincronización integral y actualización inmediata de toda la interfaz
@@ -6826,11 +6984,12 @@ function cargarPuntajes() {
         if (datos.idiomaActual) idiomaActual = datos.idiomaActual;
         if (typeof datos.modoTiempo === "number") modoTiempo = datos.modoTiempo;
         if (datos.revanchaPendiente) revanchaPendiente = datos.revanchaPendiente;
-        if (typeof datos.activado === "boolean") activado = datos.activado;
-        if (typeof datos.girosRealizados === "number") girosRealizados = datos.girosRealizados;
-        if (typeof datos.tablaSel === "string" && selectorTabla) {
-          selectorTabla.dataset.savedTablaSel = datos.tablaSel;
-        }
+      if (typeof datos.activado === "boolean") activado = datos.activado;
+      if (typeof datos.girosRealizados === "number") girosRealizados = datos.girosRealizados;
+      if (typeof datos.tokenSolicitud === "string") tokenSolicitudActual = datos.tokenSolicitud;
+      if (typeof datos.tablaSel === "string" && selectorTabla) {
+        selectorTabla.dataset.savedTablaSel = datos.tablaSel;
+      }
       }
     }
     const temaGuardado = localStorage.getItem("ruletaTemaGlobal");
@@ -6891,6 +7050,7 @@ function guardarPuntajes() {
       revanchaPendiente,
       activado,
       girosRealizados,
+      tokenSolicitud: tokenSolicitudActual || "",
       tablaSel: selectorTabla ? selectorTabla.value : String(tabla)
     }));
   } catch (e) {}
@@ -6968,6 +7128,68 @@ function iniciarRevancha() {
   mostrarPregunta(true);
 }
 
+function generarTokenSolicitudDispositivo(incluirDetallesDispositivo = true, nombreForzado = null) {
+  const nombreLimpio = (nombreForzado !== null ? nombreForzado : (inputNombre?.value || nombre || "Usuario")).trim() || "Usuario";
+  let payloadObj = { n: nombreLimpio };
+  if (incluirDetallesDispositivo) {
+    let zonaSegura = "UTC";
+    try {
+      zonaSegura = Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
+    } catch (e) {}
+    const ancho = window.screen?.width || window.innerWidth || 360;
+    const alto = window.screen?.height || window.innerHeight || 640;
+    payloadObj = {
+      n: nombreLimpio,
+      ua: navigator.userAgent || "Browser",
+      pantalla: `${ancho}x${alto}`,
+      zona: zonaSegura
+    };
+  }
+  const raw = JSON.stringify(payloadObj) + ":::" + CLAVE_SECRETA_MAESTRA;
+  try {
+    return btoa(encodeURIComponent(raw));
+  } catch (e) {
+    return btoa(unescape(encodeURIComponent(raw)));
+  }
+}
+
+function calcularLlaveDesdeToken(token) {
+  if (!token || typeof token !== "string") return "";
+  return "KEY-" + token.split("").reverse().join("").substring(0, 18);
+}
+
+function actualizarEstadoBotonActivacionUI() {
+  if (!btnAbrirActivacion) return;
+  const t = i18n[idiomaActual];
+  if (activado) {
+    btnAbrirActivacion.textContent = t.btnAbrirActivacionActiva;
+    btnAbrirActivacion.style.background = "linear-gradient(135deg, #16a34a, #15803d)";
+  } else {
+    btnAbrirActivacion.textContent = t.btnAbrirActivacionPendiente;
+    btnAbrirActivacion.style.background = "linear-gradient(135deg, #0284c7, #0369a1)";
+  }
+}
+
+function actualizarVistaModalActivacion() {
+  const t = i18n[idiomaActual];
+  if (bannerEstadoLicencia) {
+    bannerEstadoLicencia.classList.remove("activa", "prueba");
+    if (activado) {
+      bannerEstadoLicencia.classList.add("activa");
+      bannerEstadoLicencia.textContent = t.activacionEstadoActiva;
+    } else {
+      bannerEstadoLicencia.classList.add("prueba");
+      bannerEstadoLicencia.textContent = t.activacionEstadoPrueba;
+    }
+  }
+  if (inputSolicitudEncriptada) {
+    inputSolicitudEncriptada.value = tokenSolicitudActual || "";
+  }
+  if (accionesSolicitudRow) {
+    accionesSolicitudRow.style.display = tokenSolicitudActual ? "flex" : "none";
+  }
+}
+
 function verificarActivacionTurno() {
   const tablaSeleccionada = Number(selectorTabla.value);
   
@@ -6977,77 +7199,218 @@ function verificarActivacionTurno() {
   girosRealizados++;
   guardarPuntajes();
   if (girosRealizados % 2 === 0) {
-    mostrarModalActivacion();
+    mostrarModalActivacion(false);
     return true;
   }
   return false;
 }
 
-function mostrarModalActivacion() {
+function mostrarModalActivacion(esManual = false) {
+  if (!modalActivacion) return;
+  const esEs = idiomaActual === "es";
   modalActivacion.hidden = false;
-  inputCodigoActivacion.value = "";
-  inputSolicitudEncriptada.value = "";
-  btnCompartirSolicitud.style.display = "none";
-  btnCerrarActivacion.disabled = true;
-  btnCerrarActivacion.style.opacity = "0.6";
+  if (inputCodigoActivacion) inputCodigoActivacion.value = "";
+  if (lblMensajeActivacionModal) {
+    lblMensajeActivacionModal.textContent = "";
+    lblMensajeActivacionModal.hidden = true;
+  }
+  actualizarVistaModalActivacion();
 
-  const segundosAleatorios = Math.floor(Math.random() * 5) + 1;
-  const duracionTotal = segundosAleatorios * 1000;
-  let tiempoRestante = 100;
-  timerBarActivacion.style.width = "100%";
+  if (activacionTimerInterval) {
+    clearInterval(activacionTimerInterval);
+    activacionTimerInterval = null;
+  }
 
-  if (activacionTimerInterval) clearInterval(activacionTimerInterval);
-  activacionTimerInterval = setInterval(() => {
-    tiempoRestante -= (100 / (duracionTotal / 100));
-    timerBarActivacion.style.width = `${Math.max(0, tiempoRestante)}%`;
-    if (tiempoRestante <= 0) {
-      clearInterval(activacionTimerInterval);
+  const sinEspera = !!esManual || !!activado;
+  if (sinEspera) {
+    if (timerContainerActivacion) timerContainerActivacion.style.display = "none";
+    if (timerBarActivacion) timerBarActivacion.style.width = "0%";
+    if (btnCerrarActivacion) {
       btnCerrarActivacion.disabled = false;
       btnCerrarActivacion.style.opacity = "1";
-      btnCerrarActivacion.textContent = idiomaActual === "es" ? "✖️ Continuar jugando" : "✖️ Continue playing";
+      btnCerrarActivacion.textContent = esEs ? "✖️ Cerrar" : "✖️ Close";
+    }
+    if (btnCerrarActivacionHeader) {
+      btnCerrarActivacionHeader.disabled = false;
+      btnCerrarActivacionHeader.style.opacity = "1";
+    }
+    return;
+  }
+
+  if (timerContainerActivacion) timerContainerActivacion.style.display = "block";
+  const duracionSegundos = 3;
+  const duracionMs = duracionSegundos * 1000;
+  const inicioMs = Date.now();
+  if (timerBarActivacion) timerBarActivacion.style.width = "100%";
+
+  const actualizarTextoEspera = (segs) => {
+    if (!btnCerrarActivacion) return;
+    btnCerrarActivacion.disabled = true;
+    btnCerrarActivacion.style.opacity = "0.6";
+    btnCerrarActivacion.textContent = esEs ? `⏳ Espera (${segs}s)...` : `⏳ Wait (${segs}s)...`;
+    if (btnCerrarActivacionHeader) {
+      btnCerrarActivacionHeader.disabled = true;
+      btnCerrarActivacionHeader.style.opacity = "0.45";
+    }
+  };
+
+  actualizarTextoEspera(duracionSegundos);
+
+  activacionTimerInterval = setInterval(() => {
+    const transcurrido = Date.now() - inicioMs;
+    const restanteMs = Math.max(0, duracionMs - transcurrido);
+    const porcentaje = (restanteMs / duracionMs) * 100;
+    if (timerBarActivacion) timerBarActivacion.style.width = `${porcentaje}%`;
+
+    if (restanteMs <= 0) {
+      clearInterval(activacionTimerInterval);
+      activacionTimerInterval = null;
+      if (timerContainerActivacion) timerContainerActivacion.style.display = "none";
+      if (btnCerrarActivacion) {
+        btnCerrarActivacion.disabled = false;
+        btnCerrarActivacion.style.opacity = "1";
+        btnCerrarActivacion.textContent = esEs ? "✖️ Continuar jugando" : "✖️ Continue playing";
+      }
+      if (btnCerrarActivacionHeader) {
+        btnCerrarActivacionHeader.disabled = false;
+        btnCerrarActivacionHeader.style.opacity = "1";
+      }
+    } else {
+      const segsRestantes = Math.max(1, Math.ceil(restanteMs / 1000));
+      actualizarTextoEspera(segsRestantes);
     }
   }, 100);
 }
 
-btnGenerarSolicitud.addEventListener("click", () => {
-  reproducirSonido("click");
-  const datosDispositivo = {
-    n: inputNombre.value.trim() || "Usuario",
-    ua: navigator.userAgent,
-    pantalla: `${window.screen.width}x${window.screen.height}`,
-    zona: Intl.DateTimeFormat().resolvedOptions().timeZone
-  };
-  tokenSolicitudActual = btoa(encodeURIComponent(JSON.stringify(datosDispositivo) + ":::" + CLAVE_SECRETA_MAESTRA));
-  inputSolicitudEncriptada.value = tokenSolicitudActual;
-  btnCompartirSolicitud.style.display = "block";
-});
-
-btnCompartirSolicitud.addEventListener("click", () => {
-  reproducirSonido("click");
-  const t = i18n[idiomaActual];
-  const mensaje = t.msjCompartirSolicitud + tokenSolicitudActual;
-  if (navigator.share) {
-    navigator.share({ title: t.titulo, text: mensaje }).catch(() => { copiarAlPortapapelesManual(tokenSolicitudActual, t); });
-  } else {
-    copiarAlPortapapelesManual(tokenSolicitudActual, t);
+function cerrarModalActivacionSiPermitido() {
+  if (!modalActivacion) return;
+  if (btnCerrarActivacion && btnCerrarActivacion.disabled && !activado) return;
+  if (activacionTimerInterval) {
+    clearInterval(activacionTimerInterval);
+    activacionTimerInterval = null;
   }
-});
+  modalActivacion.hidden = true;
+}
+
+if (btnGenerarSolicitud) {
+  btnGenerarSolicitud.addEventListener("click", async () => {
+    reproducirSonido("click");
+    const t = i18n[idiomaActual];
+    tokenSolicitudActual = generarTokenSolicitudDispositivo(true);
+    if (inputSolicitudEncriptada) {
+      inputSolicitudEncriptada.value = tokenSolicitudActual;
+    }
+    if (accionesSolicitudRow) {
+      accionesSolicitudRow.style.display = "flex";
+    }
+    guardarPuntajes();
+    const copiado = await copiarTextoAlPortapapeles(tokenSolicitudActual);
+    if (copiado) {
+      mostrarTextoFlotante(t.msjSolicitudCopiada, true, "22%");
+    }
+  });
+}
+
+if (inputSolicitudEncriptada) {
+  inputSolicitudEncriptada.addEventListener("click", async () => {
+    if (!inputSolicitudEncriptada.value) return;
+    inputSolicitudEncriptada.select();
+    const copiado = await copiarTextoAlPortapapeles(inputSolicitudEncriptada.value);
+    if (copiado) {
+      mostrarTextoFlotante(i18n[idiomaActual].msjSolicitudCopiada, true, "22%");
+    }
+  });
+}
+
+if (btnCopiarSolicitud) {
+  btnCopiarSolicitud.addEventListener("click", async () => {
+    reproducirSonido("click");
+    const t = i18n[idiomaActual];
+    const codigo = tokenSolicitudActual || inputSolicitudEncriptada?.value || "";
+    if (!codigo) return;
+    const ok = await copiarTextoAlPortapapeles(codigo);
+    if (ok) {
+      mostrarTextoFlotante(t.msjSolicitudCopiada, true, "22%");
+    } else if (inputSolicitudEncriptada) {
+      inputSolicitudEncriptada.select();
+    }
+  });
+}
+
+if (btnCompartirSolicitud) {
+  btnCompartirSolicitud.addEventListener("click", () => {
+    reproducirSonido("click");
+    const t = i18n[idiomaActual];
+    const codigo = tokenSolicitudActual || inputSolicitudEncriptada?.value || "";
+    if (!codigo) return;
+    const mensaje = t.msjCompartirSolicitud + codigo;
+    compartirTextoConRespaldo(t.titulo, mensaje, t.msjSolicitudCopiada, "22%");
+  });
+}
 
 function validarCodigoActivacion() {
   const t = i18n[idiomaActual];
-  const llave = inputCodigoActivacion.value.trim();
-  if (!tokenSolicitudActual) {
-    tokenSolicitudActual = btoa(encodeURIComponent(JSON.stringify({ n: inputNombre.value || "Usuario" }) + ":::" + CLAVE_SECRETA_MAESTRA));
+  const entradaCruda = (inputCodigoActivacion?.value || "").replace(/[\u200B-\u200D\uFEFF]/g, "").trim();
+
+  if (!entradaCruda) {
+    if (lblMensajeActivacionModal) {
+      lblMensajeActivacionModal.textContent = t.msjClaveVacia;
+      lblMensajeActivacionModal.hidden = false;
+    }
+    reproducirSonido("error");
+    inputCodigoActivacion?.focus();
+    return false;
   }
-  const llaveEsperada = "KEY-" + tokenSolicitudActual.split('').reverse().join('').substring(0, 18);
-  if (llave === llaveEsperada || llave === "RULETA2026") {
+
+  const candidatos = new Set();
+  const compacta = entradaCruda.replace(/\s+/g, "");
+  if (compacta) candidatos.add(compacta);
+  const matchKey = entradaCruda.match(/KEY-[A-Za-z0-9+/=_-]{8,}/i);
+  if (matchKey && matchKey[0]) candidatos.add(matchKey[0]);
+
+  const llavesValidas = new Set();
+  if (tokenSolicitudActual) {
+    llavesValidas.add(calcularLlaveDesdeToken(tokenSolicitudActual));
+  }
+  llavesValidas.add(calcularLlaveDesdeToken(generarTokenSolicitudDispositivo(true)));
+  llavesValidas.add(calcularLlaveDesdeToken(generarTokenSolicitudDispositivo(true, "Usuario")));
+  llavesValidas.add(calcularLlaveDesdeToken(generarTokenSolicitudDispositivo(false)));
+  llavesValidas.add(calcularLlaveDesdeToken(generarTokenSolicitudDispositivo(false, "Usuario")));
+
+  let esValida = false;
+  for (const cand of candidatos) {
+    if (cand.toUpperCase() === "RULETA2026" || llavesValidas.has(cand)) {
+      esValida = true;
+      break;
+    }
+  }
+
+  if (esValida) {
     activado = true;
-    if (activacionTimerInterval) clearInterval(activacionTimerInterval);
+    if (activacionTimerInterval) {
+      clearInterval(activacionTimerInterval);
+      activacionTimerInterval = null;
+    }
+    if (lblMensajeActivacionModal) {
+      lblMensajeActivacionModal.textContent = "";
+      lblMensajeActivacionModal.hidden = true;
+    }
     modalActivacion.hidden = true;
+    actualizarEstadoBotonActivacionUI();
+    actualizarVistaModalActivacion();
     guardarPuntajes();
-    alert(t.msjExitoActivacion);
+    reproducirSonido("acierto");
+    dispararConfetiVictoria();
+    mostrarTextoFlotante(t.msjExitoActivacion, true, "40%");
+    return true;
   } else {
-    alert(t.msjErrorActivacion);
+    if (lblMensajeActivacionModal) {
+      lblMensajeActivacionModal.textContent = t.msjErrorActivacion;
+      lblMensajeActivacionModal.hidden = false;
+    }
+    reproducirSonido("error");
+    inputCodigoActivacion?.focus();
+    return false;
   }
 }
 
@@ -8754,10 +9117,44 @@ btnIniciarDesafio.addEventListener("click", iniciarDesafioRelampago);
 
 btnCopiarCodigo.addEventListener("click", copiarCodigoRespaldo);
 btnPegarCodigo.addEventListener("click", restaurarDesdeCodigoTexto);
-btnValidarActivacion.addEventListener("click", validarCodigoActivacion);
-btnCerrarActivacion.addEventListener("click", () => modalActivacion.hidden = true);
+if (btnAbrirActivacion) {
+  btnAbrirActivacion.addEventListener("click", () => {
+    reproducirSonido("click");
+    if (modalHistorial) modalHistorial.hidden = true;
+    mostrarModalActivacion(true);
+  });
+}
+if (inputCodigoActivacion) {
+  inputCodigoActivacion.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      validarCodigoActivacion();
+    }
+  });
+}
+if (btnValidarActivacion) {
+  btnValidarActivacion.addEventListener("click", validarCodigoActivacion);
+}
+if (btnCerrarActivacion) {
+  btnCerrarActivacion.addEventListener("click", cerrarModalActivacionSiPermitido);
+}
+if (btnCerrarActivacionHeader) {
+  btnCerrarActivacionHeader.addEventListener("click", cerrarModalActivacionSiPermitido);
+}
+if (modalActivacion) {
+  modalActivacion.addEventListener("click", (e) => {
+    if (e.target === modalActivacion) {
+      cerrarModalActivacionSiPermitido();
+    }
+  });
+}
 btnResetTestActivacion.addEventListener("click", () => {
-  activado = false; girosRealizados = 0; guardarPuntajes(); modalHistorial.hidden = true;
+  activado = false;
+  girosRealizados = 0;
+  actualizarEstadoBotonActivacionUI();
+  actualizarVistaModalActivacion();
+  guardarPuntajes();
+  modalHistorial.hidden = true;
   mostrarTextoFlotante(idiomaActual === "es" ? "🛠️ [TEST] Activación reseteada" : "🛠️ [TEST] Activation reset", true, "40%");
 });
 
