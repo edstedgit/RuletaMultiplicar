@@ -1505,8 +1505,9 @@
     }
 
     .grid-pitagoras {
+      position: relative;
       display: grid;
-      grid-template-columns: repeat(13, 1fr);
+      grid-template-columns: repeat(13, minmax(22px, 1fr));
       gap: 2px;
       font-size: 10px;
       font-weight: bold;
@@ -1518,32 +1519,195 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      border-radius: 4px;
+      border-radius: 5px;
       background: #f1f5f9;
       color: #334155;
       cursor: pointer;
-      transition: all 0.1s ease;
-      font-size: clamp(8px, 2vw, 11px);
+      transition: transform 0.12s ease, background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+      font-size: clamp(8.5px, 2.15vw, 11.5px);
+      font-variant-numeric: tabular-nums;
     }
     .celda-pitagoras.cabecera {
       background: #2563eb;
       color: #fff;
       font-weight: 800;
     }
+    .celda-pitagoras.cabecera-esquina {
+      position: sticky;
+      top: 0;
+      left: 0;
+      z-index: 4;
+      cursor: default;
+    }
+    .celda-pitagoras.cabecera-col {
+      position: sticky;
+      top: 0;
+      z-index: 3;
+    }
+    .celda-pitagoras.cabecera-fila {
+      position: sticky;
+      left: 0;
+      z-index: 3;
+    }
+    .celda-pitagoras.cabecera.eje-activo {
+      background: #1d4ed8 !important;
+      box-shadow: inset 0 -2px 0 #fde047;
+    }
     .celda-pitagoras.cuadrado {
       background: #fef08a;
       color: #854d0e;
       font-weight: 800;
     }
-    .celda-pitagoras.resaltada {
-      background: #60a5fa !important;
-      color: #fff !important;
-      transform: scale(1.08);
-      z-index: 2;
+    .celda-pitagoras.area-rect {
+      background: #dbeafe;
+      color: #1e40af;
     }
     .celda-pitagoras.eje {
       background: #bfdbfe;
       color: #1e3a8a;
+      font-weight: 800;
+    }
+    .celda-pitagoras.conmutativa {
+      background: #fef3c7 !important;
+      color: #b45309 !important;
+      box-shadow: inset 0 0 0 2px #f59e0b;
+      font-weight: 900;
+      transform: scale(1.04);
+      z-index: 2;
+    }
+    .celda-pitagoras.resaltada {
+      background: #1a73e8 !important;
+      color: #fff !important;
+      box-shadow: 0 2px 6px rgba(26, 115, 232, 0.45);
+      transform: scale(1.1);
+      z-index: 3;
+      font-weight: 900;
+    }
+    .celda-pitagoras.mitad-atenuada {
+      opacity: 0.25;
+    }
+    .celda-pitagoras.mismo-producto {
+      background: #34a853 !important;
+      color: #ffffff !important;
+      box-shadow: 0 2px 6px rgba(52, 168, 83, 0.42);
+      transform: scale(1.08);
+      z-index: 2;
+      font-weight: 900;
+    }
+    .celda-pitagoras.calor-verde {
+      background: #dcfce7;
+      color: #15803d;
+      font-weight: 800;
+    }
+    .celda-pitagoras.calor-ambar {
+      background: #fef3c7;
+      color: #b45309;
+      font-weight: 800;
+    }
+    .celda-pitagoras.calor-rojo {
+      background: #fee2e2;
+      color: #b91c1c;
+      font-weight: 900;
+      box-shadow: inset 0 0 0 1.5px #ef4444;
+    }
+    .celda-pitagoras.oculta {
+      background: #e2e8f0;
+      color: #64748b;
+      font-weight: 800;
+    }
+    .celda-pitagoras.revelada {
+      background: #dbeafe;
+      color: #1e40af;
+      font-weight: 900;
+    }
+    .celda-pitagoras.reto-acierto {
+      background: #22c55e !important;
+      color: #ffffff !important;
+      font-weight: 900;
+      transform: scale(1.06);
+    }
+    .celda-pitagoras.reto-error {
+      background: #ef4444 !important;
+      color: #ffffff !important;
+      transform: scale(0.92);
+    }
+    .celda-pitagoras.serie-pulso {
+      background: #fbbc05 !important;
+      color: #202124 !important;
+      transform: scale(1.12);
+      z-index: 3;
+      font-weight: 900;
+      box-shadow: 0 2px 8px rgba(251, 188, 5, 0.5);
+    }
+    .pitagoras-detalle-banner {
+      background: #eff6ff;
+      border: 1.5px solid #93c5fd;
+      border-radius: 12px;
+      padding: 8px 10px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    .pitagoras-detalle-texto {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+      min-width: 0;
+    }
+    .btn-pitagoras-practicar {
+      background: #1a73e8;
+      color: #ffffff;
+      border: none;
+      border-radius: 9px;
+      padding: 6px 10px;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      min-height: 34px;
+      box-shadow: 0 1px 3px rgba(26, 115, 232, 0.3);
+      transition: transform 0.1s ease, background-color 0.15s ease;
+    }
+    .btn-pitagoras-practicar:active {
+      transform: scale(0.96);
+    }
+    .pitagoras-controles-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .btn-pitagoras-modo {
+      background: #f8fafc;
+      color: #334155;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 7px 4px;
+      font-size: 10.5px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-height: 36px;
+      transition: all 0.12s ease;
+    }
+    .btn-pitagoras-modo.activo {
+      background: #2563eb;
+      color: #ffffff;
+      border-color: #1d4ed8;
+      font-weight: 800;
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+    }
+    .pitagoras-pie-ayuda {
+      margin-top: 6px;
+      font-size: 10.5px;
+      color: #64748b;
+      text-align: center;
+      line-height: 1.3;
     }
 
     /* Estilos del Diploma de Honor */
@@ -2555,12 +2719,14 @@
       color: #4285f4 !important;
     }
 
-    /* Tabla Pitagórica, Insignias, Historial y Modales Auxiliares bajo Tema Google */
+    /* Tabla Pitagórica, Insignias, Historial y Modales Auxiliares bajo Tema Google, Galaxia y Esmeralda */
     body[data-tema="google"] #pitagorasDetalle {
       background: #e8f0fe !important;
       border-color: #d2e3fc !important;
     }
-    body[data-tema="google"] #lblPitagorasOperacion,
+    body[data-tema="google"] #lblPitagorasOperacion {
+      color: #174ea6 !important;
+    }
     body[data-tema="google"] #lblPitagorasAyuda {
       color: #1967d2 !important;
     }
@@ -2569,18 +2735,127 @@
       color: #202124;
       border: 1px solid #e8eaed;
     }
-    body[data-tema="google"] .celda-pitagoras.cabecera,
-    body[data-tema="google"] .celda-pitagoras.resaltada {
+    body[data-tema="google"] .celda-pitagoras.cabecera {
       background: #1a73e8 !important;
       color: #ffffff !important;
+      border-color: #1967d2;
     }
-    body[data-tema="google"] .celda-pitagoras.eje {
+    body[data-tema="google"] .celda-pitagoras.cabecera.eje-activo {
+      background: #174ea6 !important;
+      box-shadow: inset 0 -2.5px 0 #fbbc05;
+    }
+    body[data-tema="google"] .celda-pitagoras.area-rect {
       background: #e8f0fe;
       color: #1967d2;
+    }
+    body[data-tema="google"] .celda-pitagoras.eje {
+      background: #d2e3fc;
+      color: #174ea6;
     }
     body[data-tema="google"] .celda-pitagoras.cuadrado {
       background: #fef7e0;
       color: #b06000;
+    }
+    body[data-tema="google"] .celda-pitagoras.conmutativa {
+      background: #fef7e0 !important;
+      color: #b06000 !important;
+      box-shadow: inset 0 0 0 2px #fbbc05;
+    }
+    body[data-tema="google"] .celda-pitagoras.resaltada {
+      background: #1a73e8 !important;
+      color: #ffffff !important;
+    }
+    body[data-tema="google"] .btn-pitagoras-modo {
+      background: #ffffff;
+      color: #3c4043;
+      border: 1px solid #dadce0;
+    }
+    body[data-tema="google"] .btn-pitagoras-modo.activo {
+      background: #e8f0fe;
+      color: #1967d2;
+      border-color: #1a73e8;
+      box-shadow: none;
+    }
+    body[data-tema="google"] .pitagoras-pie-ayuda {
+      color: #5f6368;
+    }
+    body[data-tema="galaxia"] #pitagorasDetalle {
+      background: #1e293b !important;
+      border-color: #334155 !important;
+    }
+    body[data-tema="galaxia"] #lblPitagorasOperacion {
+      color: #f8fafc !important;
+    }
+    body[data-tema="galaxia"] #lblPitagorasAyuda {
+      color: #38bdf8 !important;
+    }
+    body[data-tema="galaxia"] .celda-pitagoras {
+      background: #1e293b;
+      color: #e2e8f0;
+      border: 1px solid #334155;
+    }
+    body[data-tema="galaxia"] .celda-pitagoras.cabecera {
+      background: #0284c7 !important;
+      color: #ffffff !important;
+      border-color: #0369a1;
+    }
+    body[data-tema="galaxia"] .celda-pitagoras.area-rect {
+      background: #172554;
+      color: #93c5fd;
+    }
+    body[data-tema="galaxia"] .celda-pitagoras.eje {
+      background: #1e3a8a;
+      color: #dbeafe;
+    }
+    body[data-tema="galaxia"] .celda-pitagoras.cuadrado {
+      background: #422006;
+      color: #fde047;
+    }
+    body[data-tema="galaxia"] .celda-pitagoras.oculta {
+      background: #0f172a;
+      color: #64748b;
+    }
+    body[data-tema="galaxia"] .btn-pitagoras-modo {
+      background: #1e293b;
+      color: #cbd5e1;
+      border-color: #475569;
+    }
+    body[data-tema="galaxia"] .btn-pitagoras-modo.activo {
+      background: #0284c7;
+      color: #ffffff;
+      border-color: #38bdf8;
+    }
+    body[data-tema="esmeralda"] #pitagorasDetalle {
+      background: #dcfce7 !important;
+      border-color: #86efac !important;
+    }
+    body[data-tema="esmeralda"] #lblPitagorasOperacion {
+      color: #064e3b !important;
+    }
+    body[data-tema="esmeralda"] #lblPitagorasAyuda {
+      color: #047857 !important;
+    }
+    body[data-tema="esmeralda"] .celda-pitagoras.cabecera {
+      background: #059669 !important;
+      color: #ffffff !important;
+    }
+    body[data-tema="esmeralda"] .celda-pitagoras.area-rect {
+      background: #dcfce7;
+      color: #065f46;
+    }
+    body[data-tema="esmeralda"] .celda-pitagoras.eje {
+      background: #bbf7d0;
+      color: #064e3b;
+    }
+    body[data-tema="esmeralda"] .btn-pitagoras-modo {
+      background: #ffffff;
+      color: #064e3b;
+      border-color: #86efac;
+    }
+    body[data-tema="esmeralda"] .btn-pitagoras-modo.activo {
+      background: #059669;
+      color: #ffffff;
+      border-color: #047857;
     }
     body[data-tema="google"] .item-insignia {
       background: #f8f9fa;
@@ -3279,31 +3554,47 @@
 
   <!-- Modal: Tabla Pitagórica Interactiva (1 a 12) -->
   <div id="modalPitagoras" class="modal-historial" hidden>
-    <div class="modal-contenido" style="max-width: 390px; padding: 12px;">
+    <div class="modal-contenido" style="max-width: 400px; padding: 12px;">
       <div class="modal-header">
         <span id="lblPitagorasTitulo">📊 Tabla Pitagórica Interactiva</span>
-        <button id="cerrarPitagoras" type="button" style="background:#e2e8f0; border-radius:50%; width:28px; height:28px; font-size:12px; font-weight:bold; border:none; cursor:pointer;">✕</button>
+        <button id="cerrarPitagoras" type="button" style="background:#e2e8f0; border-radius:50%; width:32px; height:32px; font-size:13px; font-weight:bold; border:none; cursor:pointer;">✕</button>
       </div>
       
-      <!-- Detalle de la casilla seleccionada -->
-      <div id="pitagorasDetalle" style="background:#eff6ff; border:2px solid #93c5fd; border-radius:10px; padding:6px 10px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
-        <span id="lblPitagorasOperacion" style="font-size:17px; font-weight:800; color:#1e3a8a;">Toca una casilla</span>
-        <span id="lblPitagorasAyuda" style="font-size:11px; font-weight:bold; color:#3b82f6;">Tablas del 1 al 12</span>
+      <!-- Detalle interactivo de la casilla, área, conmutativa o reto -->
+      <div id="pitagorasDetalle" class="pitagoras-detalle-banner">
+        <div class="pitagoras-detalle-texto">
+          <span id="lblPitagorasOperacion" style="font-size:16px; font-weight:800; color:#1e3a8a;">Toca una casilla</span>
+          <span id="lblPitagorasAyuda" style="font-size:11px; font-weight:700; color:#3b82f6;">Tablas del 1 al 12</span>
+        </div>
+        <button id="btnPitagorasPracticar" type="button" class="btn-pitagoras-practicar" hidden>🎡 Practicar</button>
       </div>
 
-      <!-- Cuadrícula 13x13 -->
-      <div id="gridPitagoras" class="grid-pitagoras" style="max-height: 52vh; overflow: auto; padding: 2px;"></div>
+      <!-- Cuadrícula 13x13 con cabeceras sticky -->
+      <div id="gridPitagoras" class="grid-pitagoras" style="max-height: 50vh; overflow: auto; padding: 2px;"></div>
 
-      <div style="display:flex; justify-content:space-between; gap:6px; margin-top:8px;">
-        <button id="btnPitagorasPares" type="button" class="principal" style="flex:1; font-size:10px; padding:6px; background:#6366f1;">
-          🔢 Pares
-        </button>
-        <button id="btnPitagorasCuadrados" type="button" class="principal" style="flex:1; font-size:10px; padding:6px; background:#d97706;">
-          ⭐ Cuadrados
-        </button>
-        <button id="btnPitagorasLimpiar" type="button" class="secundario" style="flex:1; font-size:10px; padding:6px; margin:0;">
+      <!-- Selector de modos y filtros educativos -->
+      <div class="pitagoras-controles-grid" role="group" aria-label="Modos de la Tabla Pitagórica">
+        <button id="btnPitagorasNormal" type="button" class="btn-pitagoras-modo activo" data-pitagoras-modo="normal">
           🔄 Normal
         </button>
+        <button id="btnPitagorasMitad" type="button" class="btn-pitagoras-modo" data-pitagoras-modo="mitad">
+          🪞 Mitad
+        </button>
+        <button id="btnPitagorasIguales" type="button" class="btn-pitagoras-modo" data-pitagoras-modo="iguales">
+          🔍 Iguales
+        </button>
+        <button id="btnPitagorasCalor" type="button" class="btn-pitagoras-modo" data-pitagoras-modo="calor">
+          🔥 Difíciles
+        </button>
+        <button id="btnPitagorasTapar" type="button" class="btn-pitagoras-modo" data-pitagoras-modo="tapar">
+          🙈 Tapar
+        </button>
+        <button id="btnPitagorasReto" type="button" class="btn-pitagoras-modo" data-pitagoras-modo="reto">
+          🎯 Reto
+        </button>
+      </div>
+      <div id="lblPitagorasPie" class="pitagoras-pie-ayuda">
+        💡 Toca un número del borde (1-12) para escuchar su serie
       </div>
     </div>
   </div>
@@ -3870,13 +4161,18 @@ const i18n = {
 
     // 📊 Tabla Pitagórica
     pitagorasTitulo: "📊 Tabla Pitagórica Interactiva",
-    pitagorasAyuda: "Tablas del 1 al 12",
+    pitagorasAyuda: "Tablas del 1 al 12 · Toca una casilla o borde",
     pitagorasToca: "Toca una casilla",
-    pitagorasBtnPares: "🔢 Pares",
-    pitagorasBtnCuadrados: "⭐ Cuadrados",
-    pitagorasBtnLimpiar: "🔄 Normal",
-    pitagorasCuadradoPerfecto: "⭐ ¡Cuadrado perfecto!",
-    pitagorasConmutativa: (c, f, p) => `Propiedad conmutativa: ${c} × ${f} = ${p}`,
+    pitagorasBtnNormal: "🔄 Normal",
+    pitagorasBtnMitad: "🪞 Mitad",
+    pitagorasBtnIguales: "🔍 Iguales",
+    pitagorasBtnCalor: "🔥 Difíciles",
+    pitagorasBtnTapar: "🙈 Tapar",
+    pitagorasBtnReto: "🎯 Reto",
+    pitagorasPie: "💡 Toca un número del borde (1-12) para escuchar su serie",
+    pitagorasPracticar: (n) => `🎡 Practicar ×${n}`,
+    pitagorasCuadradoPerfecto: (p) => `⭐ ¡Cuadrado perfecto! · Área: ${p}`,
+    pitagorasConmutativa: (c, f, p) => `🪞 Espejo: ${c} × ${f} = ${p} · Área: ${p}`,
     pitagorasHablar: (f, c, p) => `${f} por ${c} es ${p}`,
 
     // ⚔️ Duelo Cara a Cara
@@ -4129,13 +4425,18 @@ const i18n = {
 
     // 📊 Pythagorean Table
     pitagorasTitulo: "📊 Interactive Pythagorean Table",
-    pitagorasAyuda: "Tables 1 to 12",
+    pitagorasAyuda: "Tables 1 to 12 · Tap a cell or header",
     pitagorasToca: "Tap any cell",
-    pitagorasBtnPares: "🔢 Even",
-    pitagorasBtnCuadrados: "⭐ Squares",
-    pitagorasBtnLimpiar: "🔄 Reset",
-    pitagorasCuadradoPerfecto: "⭐ Perfect square!",
-    pitagorasConmutativa: (c, f, p) => `Commutative: ${c} × ${f} = ${p}`,
+    pitagorasBtnNormal: "🔄 Normal",
+    pitagorasBtnMitad: "🪞 Half",
+    pitagorasBtnIguales: "🔍 Matches",
+    pitagorasBtnCalor: "🔥 Heatmap",
+    pitagorasBtnTapar: "🙈 Hide",
+    pitagorasBtnReto: "🎯 Quiz",
+    pitagorasPie: "💡 Tap any border number (1-12) to hear its sequence",
+    pitagorasPracticar: (n) => `🎡 Practice ×${n}`,
+    pitagorasCuadradoPerfecto: (p) => `⭐ Perfect square! · Area: ${p}`,
+    pitagorasConmutativa: (c, f, p) => `🪞 Mirror: ${c} × ${f} = ${p} · Area: ${p}`,
     pitagorasHablar: (f, c, p) => `${f} times ${c} is ${p}`,
 
     // ⚔️ Face-to-Face Duel
@@ -4223,6 +4524,24 @@ let historialPartidas = [];
 let revanchaPendiente = null;
 let modoRepasoErrores = false;
 let listaErroresPendientes = [];
+let modoPitagoras = "normal"; // "normal" | "mitad" | "iguales" | "calor" | "tapar" | "reto"
+let ultimaSeleccionPitagoras = null; // { f, c, prod }
+let tablaSugeridaPitagoras = null;
+let productoBuscadoPitagoras = 24;
+let celdasReveladasTapar = new Set();
+let celdasResueltasReto = new Set();
+let retoPitagorasActual = null;
+let aciertosRetoPitagoras = 0;
+let pitagorasSerieTimer = null;
+let pitagorasRetoTimer = null;
+const modalPitagoras = document.getElementById("modalPitagoras");
+const btnAbrirPitagoras = document.getElementById("btnAbrirPitagoras");
+const cerrarPitagoras = document.getElementById("cerrarPitagoras");
+const gridPitagoras = document.getElementById("gridPitagoras");
+const lblPitagorasOperacion = document.getElementById("lblPitagorasOperacion");
+const lblPitagorasAyuda = document.getElementById("lblPitagorasAyuda");
+const btnPitagorasPracticar = document.getElementById("btnPitagorasPracticar");
+const botonesModoPitagoras = document.querySelectorAll("[data-pitagoras-modo]");
 
 
 if (inputNombreModal) {
@@ -4515,17 +4834,30 @@ function actualizarTextosUI() {
   const lblPitagorasTitulo = document.getElementById("lblPitagorasTitulo");
   if (lblPitagorasTitulo) lblPitagorasTitulo.textContent = t.pitagorasTitulo;
   const lblPitagorasAyuda = document.getElementById("lblPitagorasAyuda");
-  if (lblPitagorasAyuda) lblPitagorasAyuda.textContent = t.pitagorasAyuda;
+  if (lblPitagorasAyuda && modoPitagoras === "normal" && !ultimaSeleccionPitagoras) {
+    lblPitagorasAyuda.textContent = t.pitagorasAyuda;
+  }
   const lblPitagorasOperacion = document.getElementById("lblPitagorasOperacion");
   if (lblPitagorasOperacion && (lblPitagorasOperacion.textContent === "Toca una casilla" || lblPitagorasOperacion.textContent === "Tap any cell")) {
     lblPitagorasOperacion.textContent = t.pitagorasToca;
   }
-  const btnPitagorasPares = document.getElementById("btnPitagorasPares");
-  if (btnPitagorasPares) btnPitagorasPares.textContent = t.pitagorasBtnPares;
-  const btnPitagorasCuadrados = document.getElementById("btnPitagorasCuadrados");
-  if (btnPitagorasCuadrados) btnPitagorasCuadrados.textContent = t.pitagorasBtnCuadrados;
-  const btnPitagorasLimpiar = document.getElementById("btnPitagorasLimpiar");
-  if (btnPitagorasLimpiar) btnPitagorasLimpiar.textContent = t.pitagorasBtnLimpiar;
+  const btnPitagorasNormalEl = document.getElementById("btnPitagorasNormal");
+  if (btnPitagorasNormalEl) btnPitagorasNormalEl.textContent = t.pitagorasBtnNormal;
+  const btnPitagorasMitadEl = document.getElementById("btnPitagorasMitad");
+  if (btnPitagorasMitadEl) btnPitagorasMitadEl.textContent = t.pitagorasBtnMitad;
+  const btnPitagorasIgualesEl = document.getElementById("btnPitagorasIguales");
+  if (btnPitagorasIgualesEl) btnPitagorasIgualesEl.textContent = t.pitagorasBtnIguales;
+  const btnPitagorasCalorEl = document.getElementById("btnPitagorasCalor");
+  if (btnPitagorasCalorEl) btnPitagorasCalorEl.textContent = t.pitagorasBtnCalor;
+  const btnPitagorasTaparEl = document.getElementById("btnPitagorasTapar");
+  if (btnPitagorasTaparEl) btnPitagorasTaparEl.textContent = t.pitagorasBtnTapar;
+  const btnPitagorasRetoEl = document.getElementById("btnPitagorasReto");
+  if (btnPitagorasRetoEl) btnPitagorasRetoEl.textContent = t.pitagorasBtnReto;
+  const lblPitagorasPieEl = document.getElementById("lblPitagorasPie");
+  if (lblPitagorasPieEl) lblPitagorasPieEl.textContent = t.pitagorasPie;
+  if (typeof actualizarBotonPracticarPitagoras === "function") {
+    actualizarBotonPracticarPitagoras();
+  }
 
   // 7. Duelo Cara a Cara
   const selectDueloTablaEl = document.getElementById("selectDueloTabla");
@@ -9438,105 +9770,472 @@ document.getElementById("cardHubTrampa")?.addEventListener("click", () => {
 // ===========================================================================
 // LÓGICA DE LA TABLA PITAGÓRICA INTERACTIVA (1 a 12)
 // ===========================================================================
-const modalPitagoras = document.getElementById("modalPitagoras");
-const btnAbrirPitagoras = document.getElementById("btnAbrirPitagoras");
-const cerrarPitagoras = document.getElementById("cerrarPitagoras");
-const gridPitagoras = document.getElementById("gridPitagoras");
-const lblPitagorasOperacion = document.getElementById("lblPitagorasOperacion");
-const lblPitagorasAyuda = document.getElementById("lblPitagorasAyuda");
-const btnPitagorasPares = document.getElementById("btnPitagorasPares");
-const btnPitagorasCuadrados = document.getElementById("btnPitagorasCuadrados");
-const btnPitagorasLimpiar = document.getElementById("btnPitagorasLimpiar");
+function limpiarTemporizadoresPitagoras() {
+  if (pitagorasSerieTimer) {
+    clearInterval(pitagorasSerieTimer);
+    pitagorasSerieTimer = null;
+  }
+  if (pitagorasRetoTimer) {
+    clearTimeout(pitagorasRetoTimer);
+    pitagorasRetoTimer = null;
+  }
+}
 
-let filtroPitagoras = "normal"; // "normal", "pares", "cuadrados"
+function actualizarBotonPracticarPitagoras() {
+  if (!btnPitagorasPracticar) return;
+  if (tablaSugeridaPitagoras >= 1 && tablaSugeridaPitagoras <= 12) {
+    const t = i18n[idiomaActual];
+    btnPitagorasPracticar.textContent = t.pitagorasPracticar(tablaSugeridaPitagoras);
+    btnPitagorasPracticar.hidden = false;
+  } else {
+    btnPitagorasPracticar.hidden = true;
+  }
+}
+
+function obtenerMapaCalorPitagoras() {
+  const mapa = {};
+  if (!Array.isArray(historialPartidas)) return mapa;
+  historialPartidas.forEach((item) => {
+    const tf = Number(item.tabla);
+    const cf = Number(item.factor);
+    if (tf >= 1 && tf <= 12 && cf >= 1 && cf <= 12) {
+      const key = `${tf}-${cf}`;
+      if (!mapa[key]) mapa[key] = { ok: 0, err: 0 };
+      if (item.acertado) mapa[key].ok++;
+      else mapa[key].err++;
+    }
+  });
+  return mapa;
+}
+
+function generarNuevoRetoPitagoras() {
+  const pendientes = [];
+  for (let f = 2; f <= 12; f++) {
+    for (let c = 2; c <= 12; c++) {
+      if (!celdasResueltasReto.has(`${f}-${c}`)) {
+        pendientes.push({ f, c, prod: f * c });
+      }
+    }
+  }
+  const pool = pendientes.length > 0 ? pendientes : [{ f: 7, c: 8, prod: 56 }];
+  retoPitagorasActual = pool[Math.floor(Math.random() * pool.length)];
+  const esEs = idiomaActual === "es";
+  lblPitagorasOperacion.textContent = esEs
+    ? `🎯 Toca: ${retoPitagorasActual.f} × ${retoPitagorasActual.c} = ?`
+    : `🎯 Tap: ${retoPitagorasActual.f} × ${retoPitagorasActual.c} = ?`;
+  lblPitagorasAyuda.textContent = esEs
+    ? `Racha en tabla: ${aciertosRetoPitagoras} · +5 pts por acierto`
+    : `Grid streak: ${aciertosRetoPitagoras} · +5 pts per hit`;
+  tablaSugeridaPitagoras = retoPitagorasActual.f;
+  actualizarBotonPracticarPitagoras();
+}
+
+function iniciarConteoSeriePitagoras(numero, esColumna = false) {
+  limpiarTemporizadoresPitagoras();
+  if (modoPitagoras === "reto") {
+    modoPitagoras = "normal";
+    botonesModoPitagoras.forEach((b) => b.classList.toggle("activo", b.dataset.pitagorasModo === "normal"));
+    renderizarTablaPitagoras();
+  }
+
+  tablaSugeridaPitagoras = numero;
+  actualizarBotonPracticarPitagoras();
+
+  const esEs = idiomaActual === "es";
+  const serie = [];
+  for (let i = 1; i <= 12; i++) serie.push(numero * i);
+
+  lblPitagorasOperacion.textContent = esEs
+    ? `🎵 Tabla del ${numero}`
+    : `🎵 Table of ${numero}`;
+  lblPitagorasAyuda.textContent = serie.slice(0, 6).join(", ") + "…";
+
+  gridPitagoras.querySelectorAll(".celda-pitagoras").forEach((el) => {
+    el.classList.remove("resaltada", "eje", "area-rect", "conmutativa", "eje-activo", "serie-pulso");
+  });
+
+  const selectorEje = esColumna ? `[data-c="${numero}"]` : `[data-f="${numero}"]`;
+  gridPitagoras.querySelectorAll(`.celda-pitagoras${selectorEje}`).forEach((el) => {
+    el.classList.add("eje");
+  });
+
+  hablar(esEs
+    ? `Tabla del ${numero}: ${serie.slice(0, 6).join(", ")}`
+    : `Table of ${numero}: ${serie.slice(0, 6).join(", ")}`);
+
+  let paso = 1;
+  const animarPaso = () => {
+    gridPitagoras.querySelectorAll(".celda-pitagoras.serie-pulso").forEach((el) => {
+      el.classList.remove("serie-pulso");
+    });
+    if (paso > 12) {
+      limpiarTemporizadoresPitagoras();
+      return;
+    }
+    const f = esColumna ? paso : numero;
+    const c = esColumna ? numero : paso;
+    const celda = gridPitagoras.querySelector(`.celda-pitagoras[data-f="${f}"][data-c="${c}"]`);
+    if (celda) {
+      if (celda.classList.contains("oculta")) {
+        celda.classList.remove("oculta");
+        celda.classList.add("revelada");
+        celda.textContent = f * c;
+      }
+      celda.classList.add("serie-pulso");
+    }
+    lblPitagorasOperacion.textContent = `${f} × ${c} = ${f * c}`;
+    lblPitagorasAyuda.textContent = esEs
+      ? `Serie del ${numero}: ${serie.slice(0, paso).join(" · ")}`
+      : `${numero}s sequence: ${serie.slice(0, paso).join(" · ")}`;
+    paso++;
+  };
+
+  animarPaso();
+  pitagorasSerieTimer = setInterval(animarPaso, 320);
+}
+
+function aplicarResaltadoIguales(prodBuscado) {
+  productoBuscadoPitagoras = prodBuscado;
+  let coincidencias = 0;
+  const ejemplos = [];
+  gridPitagoras.querySelectorAll(".celda-pitagoras[data-val]").forEach((el) => {
+    el.classList.remove("mismo-producto", "resaltada", "eje", "area-rect", "conmutativa");
+    const val = Number(el.getAttribute("data-val"));
+    if (val === prodBuscado) {
+      el.classList.add("mismo-producto");
+      coincidencias++;
+      const f = el.getAttribute("data-f");
+      const c = el.getAttribute("data-c");
+      if (ejemplos.length < 4) ejemplos.push(`${f}×${c}`);
+    }
+  });
+  const esEs = idiomaActual === "es";
+  lblPitagorasOperacion.textContent = esEs
+    ? `🔍 Resultado ${prodBuscado} (${coincidencias} ${coincidencias === 1 ? "vez" : "veces"})`
+    : `🔍 Product ${prodBuscado} (${coincidencias} ${coincidencias === 1 ? "match" : "matches"})`;
+  lblPitagorasAyuda.textContent = ejemplos.join(" · ");
+}
 
 function renderizarTablaPitagoras() {
   if (!gridPitagoras) return;
+  limpiarTemporizadoresPitagoras();
   gridPitagoras.replaceChildren();
 
-  // Celda 0,0 (esquina superior izquierda)
+  const esEs = idiomaActual === "es";
+  const mapaCalor = modoPitagoras === "calor" ? obtenerMapaCalorPitagoras() : {};
+  let totalRojas = 0;
+  let totalVerdes = 0;
+
+  // Celda 0,0 (esquina superior izquierda fija)
   const celdaVacia = document.createElement("div");
-  celdaVacia.className = "celda-pitagoras cabecera";
+  celdaVacia.className = "celda-pitagoras cabecera cabecera-esquina";
   celdaVacia.textContent = "×";
   gridPitagoras.appendChild(celdaVacia);
 
-  // Cabecera de columnas (1 a 12)
+  // Cabecera de columnas (1 a 12) interactiva y fija
   for (let c = 1; c <= 12; c++) {
     const colHeader = document.createElement("div");
-    colHeader.className = "celda-pitagoras cabecera";
+    colHeader.className = "celda-pitagoras cabecera cabecera-col";
     colHeader.textContent = c;
+    colHeader.setAttribute("data-hdr-c", c);
+    colHeader.title = esEs ? `Escuchar tabla del ${c}` : `Hear table of ${c}`;
+    colHeader.addEventListener("click", () => {
+      reproducirSonido("click");
+      iniciarConteoSeriePitagoras(c, true);
+    });
     gridPitagoras.appendChild(colHeader);
   }
 
   // Filas (1 a 12)
   for (let f = 1; f <= 12; f++) {
     const rowHeader = document.createElement("div");
-    rowHeader.className = "celda-pitagoras cabecera";
+    rowHeader.className = "celda-pitagoras cabecera cabecera-fila";
     rowHeader.textContent = f;
+    rowHeader.setAttribute("data-hdr-f", f);
+    rowHeader.title = esEs ? `Escuchar tabla del ${f}` : `Hear table of ${f}`;
+    rowHeader.addEventListener("click", () => {
+      reproducirSonido("click");
+      iniciarConteoSeriePitagoras(f, false);
+    });
     gridPitagoras.appendChild(rowHeader);
 
     for (let c = 1; c <= 12; c++) {
       const prod = f * c;
+      const key = `${f}-${c}`;
       const celda = document.createElement("div");
       celda.className = "celda-pitagoras";
-      celda.textContent = prod;
       celda.setAttribute("data-f", f);
       celda.setAttribute("data-c", c);
       celda.setAttribute("data-val", prod);
 
-      if (f === c) {
+      if (f === c && modoPitagoras !== "calor" && modoPitagoras !== "tapar") {
         celda.classList.add("cuadrado");
       }
 
-      if (filtroPitagoras === "pares" && prod % 2 === 0) {
-        celda.style.background = "#e0e7ff";
-        celda.style.color = "#3730a3";
-      } else if (filtroPitagoras === "cuadrados" && f === c) {
-        celda.style.background = "#fef08a";
-        celda.style.transform = "scale(1.05)";
+      if (modoPitagoras === "mitad" && c < f) {
+        celda.classList.add("mitad-atenuada");
+      } else if (modoPitagoras === "calor") {
+        const st = mapaCalor[key];
+        if (st) {
+          if (st.err > 0 && st.err >= st.ok) {
+            celda.classList.add("calor-rojo");
+            totalRojas++;
+          } else if (st.err > 0) {
+            celda.classList.add("calor-ambar");
+          } else if (st.ok > 0) {
+            celda.classList.add("calor-verde");
+            totalVerdes++;
+          }
+        }
+      } else if (modoPitagoras === "tapar") {
+        if (celdasReveladasTapar.has(key)) {
+          celda.classList.add("revelada");
+          celda.textContent = prod;
+        } else {
+          celda.classList.add("oculta");
+          celda.textContent = "?";
+        }
+      } else if (modoPitagoras === "reto") {
+        if (celdasResueltasReto.has(key)) {
+          celda.classList.add("reto-acierto");
+          celda.textContent = prod;
+        } else {
+          celda.classList.add("oculta");
+          celda.textContent = "?";
+        }
+      }
+
+      if (modoPitagoras !== "tapar" && modoPitagoras !== "reto") {
+        celda.textContent = prod;
       }
 
       celda.addEventListener("click", () => {
-        reproducirSonido("click");
-        seleccionarCeldaPitagoras(f, c, prod);
+        seleccionarCeldaPitagoras(f, c, prod, celda);
       });
 
       gridPitagoras.appendChild(celda);
     }
   }
+
+  // Actualizar banner superior según modo activo
+  const t = i18n[idiomaActual];
+  if (modoPitagoras === "iguales") {
+    aplicarResaltadoIguales(ultimaSeleccionPitagoras ? ultimaSeleccionPitagoras.prod : productoBuscadoPitagoras);
+  } else if (modoPitagoras === "mitad") {
+    lblPitagorasOperacion.textContent = esEs ? "🪞 Simetría Conmutativa" : "🪞 Commutative Symmetry";
+    lblPitagorasAyuda.textContent = esEs
+      ? "78 casillas únicas en lugar de 144"
+      : "78 unique facts instead of 144";
+    if (ultimaSeleccionPitagoras) {
+      resaltarAreaYConmutativa(ultimaSeleccionPitagoras.f, ultimaSeleccionPitagoras.c, ultimaSeleccionPitagoras.prod, false);
+    }
+  } else if (modoPitagoras === "calor") {
+    lblPitagorasOperacion.textContent = esEs ? "🔥 Mapa de Dominio Real" : "🔥 Personal Mastery Heatmap";
+    if (!Array.isArray(historialPartidas) || historialPartidas.length === 0) {
+      lblPitagorasAyuda.textContent = esEs
+        ? "Juega en la ruleta para ver tus aciertos y fallos"
+        : "Spin the wheel to track hits & misses here";
+    } else {
+      lblPitagorasAyuda.textContent = esEs
+        ? `🟢 ${totalVerdes} dominadas · 🔴 ${totalRojas} por reforzar`
+        : `🟢 ${totalVerdes} mastered · 🔴 ${totalRojas} to practice`;
+    }
+  } else if (modoPitagoras === "tapar") {
+    lblPitagorasOperacion.textContent = esEs ? "🙈 Modo Autoevaluación" : "🙈 Self-Check Mode";
+    lblPitagorasAyuda.textContent = esEs
+      ? `Piensa el resultado y toca una casilla (${celdasReveladasTapar.size} vistas)`
+      : `Think first, then tap a cell (${celdasReveladasTapar.size} revealed)`;
+  } else if (modoPitagoras === "reto") {
+    generarNuevoRetoPitagoras();
+  } else {
+    if (ultimaSeleccionPitagoras) {
+      resaltarAreaYConmutativa(ultimaSeleccionPitagoras.f, ultimaSeleccionPitagoras.c, ultimaSeleccionPitagoras.prod, false);
+    } else {
+      lblPitagorasOperacion.textContent = t.pitagorasToca;
+      lblPitagorasAyuda.textContent = t.pitagorasAyuda;
+    }
+  }
 }
 
-function seleccionarCeldaPitagoras(f, c, prod) {
-  // Limpiar resaltados previos
-  gridPitagoras.querySelectorAll(".celda-pitagoras").forEach(el => {
-    el.classList.remove("resaltada", "eje");
+function resaltarAreaYConmutativa(f, c, prod, conVoz = true) {
+  gridPitagoras.querySelectorAll(".celda-pitagoras").forEach((el) => {
+    el.classList.remove("resaltada", "eje", "area-rect", "conmutativa", "eje-activo", "serie-pulso");
+    const ef = Number(el.getAttribute("data-f"));
+    const ec = Number(el.getAttribute("data-c"));
+    if (ef >= 1 && ec >= 1 && ef <= f && ec <= c) {
+      el.classList.add("area-rect");
+    }
   });
 
-  // Resaltar ejes de fila y columna
-  gridPitagoras.querySelectorAll(`.celda-pitagoras[data-f="${f}"], .celda-pitagoras[data-c="${c}"]`).forEach(el => {
+  gridPitagoras.querySelectorAll(`.celda-pitagoras[data-f="${f}"], .celda-pitagoras[data-c="${c}"]`).forEach((el) => {
     el.classList.add("eje");
   });
 
-  // Resaltar celda exacta
+  const hdrF = gridPitagoras.querySelector(`.celda-pitagoras[data-hdr-f="${f}"]`);
+  const hdrC = gridPitagoras.querySelector(`.celda-pitagoras[data-hdr-c="${c}"]`);
+  if (hdrF) hdrF.classList.add("eje-activo");
+  if (hdrC) hdrC.classList.add("eje-activo");
+
+  if (f !== c) {
+    const gemela = gridPitagoras.querySelector(`.celda-pitagoras[data-f="${c}"][data-c="${f}"]`);
+    if (gemela) gemela.classList.add("conmutativa");
+  }
+
   const target = gridPitagoras.querySelector(`.celda-pitagoras[data-f="${f}"][data-c="${c}"]`);
   if (target) target.classList.add("resaltada");
 
-  const textoOp = `${f} × ${c} = ${prod}`;
-  lblPitagorasOperacion.textContent = textoOp;
+  const t = i18n[idiomaActual];
+  lblPitagorasOperacion.textContent = `${f} × ${c} = ${prod}`;
+  lblPitagorasAyuda.textContent = f === c
+    ? t.pitagorasCuadradoPerfecto(prod)
+    : t.pitagorasConmutativa(c, f, prod);
 
-  if (f === c) {
-    lblPitagorasAyuda.textContent = idiomaActual === "es" ? "⭐ ¡Cuadrado perfecto!" : "⭐ Perfect square!";
-  } else {
-    lblPitagorasAyuda.textContent = idiomaActual === "es" ? `Propiedad conmutativa: ${c} × ${f} = ${prod}` : `Commutative: ${c} × ${f} = ${prod}`;
+  tablaSugeridaPitagoras = f;
+  actualizarBotonPracticarPitagoras();
+
+  if (conVoz) {
+    hablar(t.pitagorasHablar(f, c, prod));
+  }
+}
+
+function seleccionarCeldaPitagoras(f, c, prod, celdaEl) {
+  limpiarTemporizadoresPitagoras();
+  const esEs = idiomaActual === "es";
+
+  // Modo 1: Mini-Reto interactivo
+  if (modoPitagoras === "reto" && retoPitagorasActual) {
+    if (f === retoPitagorasActual.f && c === retoPitagorasActual.c) {
+      reproducirSonido("acierto");
+      celdasResueltasReto.add(`${f}-${c}`);
+      aciertosRetoPitagoras++;
+      if (celdaEl) {
+        celdaEl.classList.remove("oculta", "reto-error");
+        celdaEl.classList.add("reto-acierto");
+        celdaEl.textContent = prod;
+      }
+      puntos += 5;
+      actualizarEstadisticas();
+      guardarPuntajes();
+
+      lblPitagorasOperacion.textContent = esEs
+        ? `🎉 ¡Exacto! ${f} × ${c} = ${prod} (+5 pts)`
+        : `🎉 Exact! ${f} × ${c} = ${prod} (+5 pts)`;
+      lblPitagorasAyuda.textContent = esEs
+        ? `Racha en tabla: ${aciertosRetoPitagoras}`
+        : `Grid streak: ${aciertosRetoPitagoras}`;
+      hablar(i18n[idiomaActual].pitagorasHablar(f, c, prod));
+
+      pitagorasRetoTimer = setTimeout(() => {
+        if (!modalPitagoras.hidden && modoPitagoras === "reto") {
+          generarNuevoRetoPitagoras();
+        }
+      }, 900);
+    } else {
+      reproducirSonido("error");
+      aciertosRetoPitagoras = 0;
+      if (celdaEl) {
+        celdaEl.classList.add("reto-error");
+        setTimeout(() => celdaEl.classList.remove("reto-error"), 420);
+      }
+      if (f === retoPitagorasActual.c && c === retoPitagorasActual.f) {
+        lblPitagorasAyuda.textContent = esEs
+          ? `🪞 ¡Casi! Ese es ${f}×${c}. Toca fila ${retoPitagorasActual.f}, col ${retoPitagorasActual.c}`
+          : `🪞 Close! That's ${f}×${c}. Tap row ${retoPitagorasActual.f}, col ${retoPitagorasActual.c}`;
+      } else {
+        lblPitagorasAyuda.textContent = esEs
+          ? `💡 Pista: busca fila ${retoPitagorasActual.f} y columna ${retoPitagorasActual.c}`
+          : `💡 Hint: look at row ${retoPitagorasActual.f} and column ${retoPitagorasActual.c}`;
+      }
+    }
+    return;
   }
 
-  hablar(idiomaActual === "es" ? `${f} por ${c} es ${prod}` : `${f} times ${c} is ${prod}`);
+  reproducirSonido("click");
+  ultimaSeleccionPitagoras = { f, c, prod };
+
+  // Modo 2: Autoevaluación (Tapar)
+  if (modoPitagoras === "tapar") {
+    celdasReveladasTapar.add(`${f}-${c}`);
+    if (celdaEl) {
+      celdaEl.classList.remove("oculta");
+      celdaEl.classList.add("revelada");
+      celdaEl.textContent = prod;
+    }
+    resaltarAreaYConmutativa(f, c, prod, true);
+    return;
+  }
+
+  // Modo 3: Buscador de productos iguales
+  if (modoPitagoras === "iguales") {
+    aplicarResaltadoIguales(prod);
+    if (celdaEl) celdaEl.classList.add("resaltada");
+    tablaSugeridaPitagoras = f;
+    actualizarBotonPracticarPitagoras();
+    hablar(i18n[idiomaActual].pitagorasHablar(f, c, prod));
+    return;
+  }
+
+  // Modo 4: Mapa de calor
+  if (modoPitagoras === "calor") {
+    const mapa = obtenerMapaCalorPitagoras();
+    const st = mapa[`${f}-${c}`] || { ok: 0, err: 0 };
+    resaltarAreaYConmutativa(f, c, prod, true);
+    lblPitagorasAyuda.textContent = esEs
+      ? `Historial ${f}×${c}: ✅ ${st.ok} aciertos · ❌ ${st.err} fallos`
+      : `History ${f}×${c}: ✅ ${st.ok} hits · ❌ ${st.err} misses`;
+    return;
+  }
+
+  // Modos Normal / Mitad
+  resaltarAreaYConmutativa(f, c, prod, true);
+}
+
+botonesModoPitagoras.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    reproducirSonido("click");
+    const nuevoModo = btn.getAttribute("data-pitagoras-modo") || "normal";
+    if (nuevoModo === "tapar" && modoPitagoras === "tapar") {
+      celdasReveladasTapar.clear();
+    }
+    if (nuevoModo === "reto") {
+      celdasResueltasReto.clear();
+      aciertosRetoPitagoras = 0;
+    }
+    modoPitagoras = nuevoModo;
+    botonesModoPitagoras.forEach((b) => b.classList.toggle("activo", b === btn));
+    renderizarTablaPitagoras();
+  });
+});
+
+if (btnPitagorasPracticar) {
+  btnPitagorasPracticar.addEventListener("click", () => {
+    if (!tablaSugeridaPitagoras) return;
+    reproducirSonido("click");
+    limpiarTemporizadoresPitagoras();
+    const tablaObjetivo = String(tablaSugeridaPitagoras);
+    if (selectorTabla) {
+      selectorTabla.value = tablaObjetivo;
+      selectorTabla.dispatchEvent(new Event("change"));
+    }
+    modalPitagoras.hidden = true;
+    mostrarTextoFlotante(
+      idiomaActual === "es"
+        ? `🎡 Tabla del ${tablaObjetivo} lista para girar`
+        : `🎡 Table of ${tablaObjetivo} ready to spin`,
+      true,
+      "25%"
+    );
+  });
 }
 
 if (btnAbrirPitagoras) {
   btnAbrirPitagoras.addEventListener("click", () => {
     reproducirSonido("click");
-    filtroPitagoras = "normal";
+    modoPitagoras = "normal";
+    ultimaSeleccionPitagoras = null;
+    tablaSugeridaPitagoras = selectorTabla && selectorTabla.value !== "mixto" ? Number(selectorTabla.value) : null;
+    actualizarBotonPracticarPitagoras();
+    botonesModoPitagoras.forEach((b) => b.classList.toggle("activo", b.dataset.pitagorasModo === "normal"));
     renderizarTablaPitagoras();
     modalPitagoras.hidden = false;
   });
@@ -9544,22 +10243,19 @@ if (btnAbrirPitagoras) {
 
 if (cerrarPitagoras) {
   cerrarPitagoras.addEventListener("click", () => {
+    limpiarTemporizadoresPitagoras();
     modalPitagoras.hidden = true;
   });
 }
 
-btnPitagorasPares?.addEventListener("click", () => {
-  filtroPitagoras = "pares";
-  renderizarTablaPitagoras();
-});
-btnPitagorasCuadrados?.addEventListener("click", () => {
-  filtroPitagoras = "cuadrados";
-  renderizarTablaPitagoras();
-});
-btnPitagorasLimpiar?.addEventListener("click", () => {
-  filtroPitagoras = "normal";
-  renderizarTablaPitagoras();
-});
+if (modalPitagoras) {
+  modalPitagoras.addEventListener("click", (e) => {
+    if (e.target === modalPitagoras) {
+      limpiarTemporizadoresPitagoras();
+      modalPitagoras.hidden = true;
+    }
+  });
+}
 
 // ===========================================================================
 // LÓGICA DEL DIPLOMA DE RECONOCIMIENTO ACADÉMICO
