@@ -1983,9 +1983,10 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 12px 16px;
+      padding: 10px 14px;
       position: relative;
       transition: background-color 0.2s ease;
+      overflow: hidden;
     }
 
     .lado-jugador-1 {
@@ -1999,25 +2000,65 @@
       border-top: 2px dashed rgba(16, 185, 129, 0.4);
     }
 
+    .lado-jugador-3 {
+      transform: rotate(180deg);
+      background: linear-gradient(180deg, #1e1b4b 0%, #451a03 100%);
+      border-bottom: 2px dashed rgba(245, 158, 11, 0.4);
+      border-left: 1px dashed rgba(245, 158, 11, 0.3);
+    }
+
+    .lado-jugador-4 {
+      background: linear-gradient(180deg, #0c4a6e 0%, #082f49 100%);
+      border-top: 2px dashed rgba(56, 189, 248, 0.4);
+      border-left: 1px dashed rgba(56, 189, 248, 0.3);
+    }
+
+    /* Contenedores divididos por fila (para 2 o 4 jugadores) */
+    .fila-duelo-jugadores {
+      flex: 1;
+      display: flex;
+      width: 100%;
+      height: 50%;
+      overflow: hidden;
+    }
+
+    /* En modo 4 jugadores, cada cuadrante tiene padding más compacto */
+    .modal-cara-a-cara.modo-4p .lado-jugador {
+      padding: 6px 8px;
+    }
+    .modal-cara-a-cara.modo-4p .lado-jugador-1 {
+      border-right: 1px dashed rgba(244, 63, 94, 0.3);
+    }
+    .modal-cara-a-cara.modo-4p .lado-jugador-2 {
+      border-right: 1px dashed rgba(16, 185, 129, 0.3);
+    }
+
     .barra-central-duelo {
       height: 44px;
+      min-height: 44px;
       background: #0f172a;
       border-top: 2px solid #334155;
       border-bottom: 2px solid #334155;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 12px;
+      padding: 0 10px;
       z-index: 10;
       box-shadow: 0 0 15px rgba(0,0,0,0.5);
+      gap: 6px;
     }
 
     .marcador-duelo-centro {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 8px;
       font-weight: 900;
-      font-size: 16px;
+      font-size: 15px;
+    }
+
+    .marcador-duelo-centro .duelo-p-score {
+      font-weight: 900;
+      font-size: 15px;
     }
 
     .info-jugador-duelo {
@@ -2025,14 +2066,20 @@
       justify-content: space-between;
       align-items: center;
       font-weight: bold;
+      gap: 4px;
     }
 
     .operacion-duelo {
-      font-size: clamp(28px, 8vw, 38px);
+      font-size: clamp(24px, 7vw, 36px);
       font-weight: 900;
       text-align: center;
-      margin: 4px 0;
+      margin: 2px 0;
       letter-spacing: 1px;
+    }
+
+    .modal-cara-a-cara.modo-4p .operacion-duelo {
+      font-size: clamp(18px, 4.8vw, 26px);
+      margin: 1px 0;
     }
 
     .respuestas-duelo {
@@ -2042,8 +2089,12 @@
       width: 100%;
     }
 
+    .modal-cara-a-cara.modo-4p .respuestas-duelo {
+      gap: 5px;
+    }
+
     .btn-respuesta-duelo {
-      height: 52px;
+      height: 50px;
       font-size: 22px;
       font-weight: 900;
       border-radius: 12px;
@@ -2054,6 +2105,12 @@
       justify-content: center;
       transition: transform 0.1s ease, background-color 0.1s ease;
       box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+    }
+
+    .modal-cara-a-cara.modo-4p .btn-respuesta-duelo {
+      height: 40px;
+      font-size: 17px;
+      border-radius: 10px;
     }
 
     .btn-respuesta-duelo:active {
@@ -2070,6 +2127,18 @@
       background: #a7f3d0;
       color: #064e3b;
       border-color: #10b981;
+    }
+
+    .lado-jugador-3 .btn-respuesta-duelo {
+      background: #fde68a;
+      color: #78350f;
+      border-color: #f59e0b;
+    }
+
+    .lado-jugador-4 .btn-respuesta-duelo {
+      background: #bae6fd;
+      color: #0c4a6e;
+      border-color: #38bdf8;
     }
 
     .lado-jugador.penalizado {
@@ -2871,6 +2940,34 @@
       border-color: #4285f4;
       box-shadow: 0 2px 5px rgba(66, 133, 244, 0.16);
     }
+    body[data-tema="google"] .lado-jugador-3 {
+      background: linear-gradient(180deg, #fef7e0 0%, #feefc3 100%);
+      border-bottom: 2px dashed #f9ab00;
+    }
+    body[data-tema="google"] .lado-jugador-4 {
+      background: linear-gradient(180deg, #e6f4ea 0%, #ceead6 100%);
+      border-top: 2px dashed #34a853;
+    }
+    body[data-tema="google"] #lblDueloP3Nombre,
+    body[data-tema="google"] #lblDueloP3Puntos {
+      color: #b06000 !important;
+    }
+    body[data-tema="google"] #lblDueloP4Nombre,
+    body[data-tema="google"] #lblDueloP4Puntos {
+      color: #137333 !important;
+    }
+    body[data-tema="google"] .lado-jugador-3 .btn-respuesta-duelo {
+      background: #ffffff;
+      color: #b06000;
+      border-color: #f9ab00;
+      box-shadow: 0 2px 5px rgba(249, 171, 0, 0.16);
+    }
+    body[data-tema="google"] .lado-jugador-4 .btn-respuesta-duelo {
+      background: #ffffff;
+      color: #137333;
+      border-color: #34a853;
+      box-shadow: 0 2px 5px rgba(52, 168, 83, 0.16);
+    }
     body[data-tema="google"] .barra-central-duelo {
       background: #ffffff;
       border-top: 1px solid #dadce0;
@@ -2878,6 +2975,7 @@
       box-shadow: 0 2px 8px rgba(60, 64, 67, 0.12);
     }
     body[data-tema="google"] #cerrarCaraACara,
+    body[data-tema="google"] #selectDueloJugadores,
     body[data-tema="google"] #selectDueloTabla,
     body[data-tema="google"] #selectDueloMeta,
     body[data-tema="google"] #btnDueloReiniciar {
@@ -2890,6 +2988,12 @@
     }
     body[data-tema="google"] #scoreCentroP2 {
       color: #4285f4 !important;
+    }
+    body[data-tema="google"] #scoreCentroP3 {
+      color: #f9ab00 !important;
+    }
+    body[data-tema="google"] #scoreCentroP4 {
+      color: #34a853 !important;
     }
 
     /* Tabla Pitagórica, Insignias, Historial y Modales Auxiliares bajo Tema Google, Galaxia y Esmeralda */
@@ -4009,32 +4113,51 @@
   </div>
 
 
-  <!-- Modal: Duelo Cara a Cara (Pantalla Dividida) -->
+  <!-- Modal: Duelo Cara a Cara (Pantalla Dividida - 2 o 4 Jugadores) -->
   <div id="modalCaraACara" class="modal-cara-a-cara" hidden>
     
-    <!-- LADO SUPERIOR (JUGADOR 1 - ROTADO 180° PARA EL OPONENTE AL FRENTE) -->
-    <div class="lado-jugador lado-jugador-1" id="ladoJugador1">
-      <div class="info-jugador-duelo">
-        <span style="color:#f43f5e; font-size:14px;" id="lblDueloP1Nombre">🦖 Jugador 1</span>
-        <span style="color:#fb7185; font-size:16px;" id="lblDueloP1Puntos">0 ⭐</span>
+    <!-- FILA SUPERIOR (JUGADORES ROTADOS 180° PARA EL OPONENTE AL FRENTE) -->
+    <div class="fila-duelo-jugadores" id="filaDueloSuperior">
+      <!-- JUGADOR 1 (Superior Izquierda en 4P / Toda la fila superior en 2P) -->
+      <div class="lado-jugador lado-jugador-1" id="ladoJugador1">
+        <div class="info-jugador-duelo">
+          <span style="color:#f43f5e; font-size:13px;" id="lblDueloP1Nombre">🦖 Jugador 1</span>
+          <span style="color:#fb7185; font-size:15px;" id="lblDueloP1Puntos">0 ⭐</span>
+        </div>
+        <div class="operacion-duelo" style="color:#fff;" id="opDueloJ1">? × ? = ?</div>
+        <div class="respuestas-duelo" id="respuestasDueloJ1"></div>
       </div>
 
-      <div class="operacion-duelo" style="color:#fff;" id="opDueloJ1">? × ? = ?</div>
-
-      <div class="respuestas-duelo" id="respuestasDueloJ1"></div>
+      <!-- JUGADOR 3 (Superior Derecha - Visible en modo 4 Jugadores) -->
+      <div class="lado-jugador lado-jugador-3" id="ladoJugador3" style="display:none;">
+        <div class="info-jugador-duelo">
+          <span style="color:#f59e0b; font-size:13px;" id="lblDueloP3Nombre">🦊 Jugador 3</span>
+          <span style="color:#fbbf24; font-size:15px;" id="lblDueloP3Puntos">0 ⭐</span>
+        </div>
+        <div class="operacion-duelo" style="color:#fff;" id="opDueloJ3">? × ? = ?</div>
+        <div class="respuestas-duelo" id="respuestasDueloJ3"></div>
+      </div>
     </div>
 
     <!-- BARRA CENTRAL DIVISORIA (CONTROLES GENERALES DEL DUELO) -->
     <div class="barra-central-duelo">
-      <button id="cerrarCaraACara" type="button" style="background:#334155; color:#fff; border-radius:50%; width:32px; height:32px; font-size:13px; font-weight:bold; border:none; cursor:pointer;">✕</button>
+      <button id="cerrarCaraACara" type="button" style="background:#334155; color:#fff; border-radius:50%; width:30px; height:30px; font-size:12px; font-weight:bold; border:none; cursor:pointer;" title="Cerrar">✕</button>
       
-      <div class="marcador-duelo-centro">
-        <span style="color:#f43f5e;" id="scoreCentroP1">0</span>
-        <span style="color:#94a3b8; font-size:12px;">VS</span>
-        <span style="color:#10b981;" id="scoreCentroP2">0</span>
+      <div class="marcador-duelo-centro" id="marcadorDueloCentro">
+        <span class="duelo-p-score" style="color:#f43f5e;" id="scoreCentroP1" title="Jugador 1">0</span>
+        <span style="color:#94a3b8; font-size:11px;" id="sepCentro1">VS</span>
+        <span class="duelo-p-score" style="color:#10b981;" id="scoreCentroP2" title="Jugador 2">0</span>
+        <span style="color:#94a3b8; font-size:11px; display:none;" id="sepCentro2">VS</span>
+        <span class="duelo-p-score" style="color:#f59e0b; display:none;" id="scoreCentroP3" title="Jugador 3">0</span>
+        <span style="color:#94a3b8; font-size:11px; display:none;" id="sepCentro3">VS</span>
+        <span class="duelo-p-score" style="color:#38bdf8; display:none;" id="scoreCentroP4" title="Jugador 4">0</span>
       </div>
 
-      <div style="display:flex; align-items:center; gap:5px;">
+      <div style="display:flex; align-items:center; gap:4px; flex-wrap:wrap; justify-content:flex-end;">
+        <select id="selectDueloJugadores" style="font-size:10px; padding:3px 5px; border-radius:6px; background:#1e293b; color:#cbd5e1; border:1px solid #475569; font-weight:bold;" title="Cantidad de jugadores">
+          <option value="2" selected>👥 2 Jug.</option>
+          <option value="4">👨‍👩‍👦‍👦 4 Jug.</option>
+        </select>
         <select id="selectDueloTabla" style="font-size:10px; padding:3px 5px; border-radius:6px; background:#1e293b; color:#cbd5e1; border:1px solid #475569; font-weight:bold;">
           <option value="mixto">✨ Mixto (1-12)</option>
           <option value="facil">🌱 Fáciles (1-5)</option>
@@ -4044,20 +4167,31 @@
           <option value="5" selected>🏁 5 pts</option>
           <option value="10">🏁 10 pts</option>
         </select>
-        <button id="btnDueloReiniciar" type="button" style="background:#1e293b; color:#cbd5e1; border:1px solid #475569; border-radius:6px; font-size:11px; padding:3px 8px; cursor:pointer;" title="Reiniciar partida">🔄</button>
+        <button id="btnDueloReiniciar" type="button" style="background:#1e293b; color:#cbd5e1; border:1px solid #475569; border-radius:6px; font-size:11px; padding:3px 7px; cursor:pointer;" title="Reiniciar partida">🔄</button>
       </div>
     </div>
 
-    <!-- LADO INFERIOR (JUGADOR 2 - VISTA NORMAL) -->
-    <div class="lado-jugador lado-jugador-2" id="ladoJugador2">
-      <div class="info-jugador-duelo">
-        <span style="color:#10b981; font-size:14px;" id="lblDueloP2Nombre">🤖 Jugador 2</span>
-        <span style="color:#34d399; font-size:16px;" id="lblDueloP2Puntos">0 ⭐</span>
+    <!-- FILA INFERIOR (JUGADORES VISTA NORMAL) -->
+    <div class="fila-duelo-jugadores" id="filaDueloInferior">
+      <!-- JUGADOR 2 (Inferior Izquierda en 4P / Toda la fila inferior en 2P) -->
+      <div class="lado-jugador lado-jugador-2" id="ladoJugador2">
+        <div class="info-jugador-duelo">
+          <span style="color:#10b981; font-size:13px;" id="lblDueloP2Nombre">🤖 Jugador 2</span>
+          <span style="color:#34d399; font-size:15px;" id="lblDueloP2Puntos">0 ⭐</span>
+        </div>
+        <div class="operacion-duelo" style="color:#fff;" id="opDueloJ2">? × ? = ?</div>
+        <div class="respuestas-duelo" id="respuestasDueloJ2"></div>
       </div>
 
-      <div class="operacion-duelo" style="color:#fff;" id="opDueloJ2">? × ? = ?</div>
-
-      <div class="respuestas-duelo" id="respuestasDueloJ2"></div>
+      <!-- JUGADOR 4 (Inferior Derecha - Visible en modo 4 Jugadores) -->
+      <div class="lado-jugador lado-jugador-4" id="ladoJugador4" style="display:none;">
+        <div class="info-jugador-duelo">
+          <span style="color:#38bdf8; font-size:13px;" id="lblDueloP4Nombre">🐼 Jugador 4</span>
+          <span style="color:#7dd3fc; font-size:15px;" id="lblDueloP4Puntos">0 ⭐</span>
+        </div>
+        <div class="operacion-duelo" style="color:#fff;" id="opDueloJ4">? × ? = ?</div>
+        <div class="respuestas-duelo" id="respuestasDueloJ4"></div>
+      </div>
     </div>
 
   </div>
@@ -4560,8 +4694,8 @@ const i18n = {
     hubLluviaDesc: "Atrapa o rebana los resultados al vuelo (Cascada o Salto Ninja).",
     hubTrampaTitulo: "¿Correcto o Trampa?",
     hubTrampaDesc: "Descubre al impostor matemático con rapidez.",
-    hubCaraACaraTitulo: "Duelo Cara a Cara (2 Jugadores)",
-    hubCaraACaraDesc: "Pantalla dividida con vista invertida para jugar en la misma mesa.",
+    hubCaraACaraTitulo: "Duelo Cara a Cara (2 o 4 Jugadores)",
+    hubCaraACaraDesc: "Pantalla dividida con vista invertida para 2 o 4 jugadores en la misma mesa.",
     hubBtnJugar: "Jugar",
     hubBtnDuelo: "Duelo",
 
@@ -4582,16 +4716,22 @@ const i18n = {
     pitagorasHablar: (f, c, p) => `${f} por ${c} es ${p}`,
 
     // ⚔️ Duelo Cara a Cara
-    dueloTitulo: "⚔️ Duelo Cara a Cara (2 Jugadores)",
+    dueloTitulo: "⚔️ Duelo Cara a Cara (2 o 4 Jugadores)",
     dueloP1: "Jugador 1",
-    dueloP2: "Rival / Amigo",
+    dueloP2: "Jugador 2",
+    dueloP3: "Jugador 3",
+    dueloP4: "Jugador 4",
+    dueloOpt2P: "👥 2 Jug.",
+    dueloOpt4P: "👨‍👩‍👦‍👦 4 Jug.",
     dueloOptMixto: "✨ Mixto (1-12)",
     dueloOptFacil: "🌱 Fáciles (1-5)",
     dueloOptReto: "🔥 Reto (6-12)",
     dueloBtnReiniciar: "Reiniciar partida",
     dueloGanaP1: "🏆 ¡GANA JUGADOR 1!",
     dueloGanaP2: "🏆 ¡GANA JUGADOR 2!",
-    dueloVictoriaMsg: (nom, p1, p2) => `🏆 ¡VICTORIA! ${nom} ha ganado el Duelo (${p1} - ${p2})`,
+    dueloGanaP3: "🏆 ¡GANA JUGADOR 3!",
+    dueloGanaP4: "🏆 ¡GANA JUGADOR 4!",
+    dueloVictoriaMsg: (nom, scoreTxt) => `🏆 ¡VICTORIA! ${nom} ha ganado el Duelo (${scoreTxt})`,
 
     // 🎓 Diploma de Honor
     btnHistorialDiploma: "🎓 Ver Diploma de Campeón",
@@ -4876,8 +5016,8 @@ const i18n = {
     hubLluviaDesc: "Catch or slice results on the fly (Classic or Ninja mode).",
     hubTrampaTitulo: "Correct or Trap?",
     hubTrampaDesc: "Spot the math imposter quickly.",
-    hubCaraACaraTitulo: "Face-to-Face Duel (2 Players)",
-    hubCaraACaraDesc: "Split screen with inverted view to play on the same table.",
+    hubCaraACaraTitulo: "Face-to-Face Duel (2 or 4 Players)",
+    hubCaraACaraDesc: "Split screen with inverted view for 2 or 4 players on the same table.",
     hubBtnJugar: "Play",
     hubBtnDuelo: "Duel",
 
@@ -4898,16 +5038,22 @@ const i18n = {
     pitagorasHablar: (f, c, p) => `${f} times ${c} is ${p}`,
 
     // ⚔️ Face-to-Face Duel
-    dueloTitulo: "⚔️ Face-to-Face Duel (2 Players)",
+    dueloTitulo: "⚔️ Face-to-Face Duel (2 or 4 Players)",
     dueloP1: "Player 1",
-    dueloP2: "Friend / Rival",
+    dueloP2: "Player 2",
+    dueloP3: "Player 3",
+    dueloP4: "Player 4",
+    dueloOpt2P: "👥 2 Players",
+    dueloOpt4P: "👨‍👩‍👦‍👦 4 Players",
     dueloOptMixto: "✨ Mixed (1-12)",
     dueloOptFacil: "🌱 Easy (1-5)",
     dueloOptReto: "🔥 Challenge (6-12)",
     dueloBtnReiniciar: "Restart game",
     dueloGanaP1: "🏆 PLAYER 1 WINS!",
     dueloGanaP2: "🏆 PLAYER 2 WINS!",
-    dueloVictoriaMsg: (nom, p1, p2) => `🏆 VICTORY! ${nom} won the Duel (${p1} - ${p2})`,
+    dueloGanaP3: "🏆 PLAYER 3 WINS!",
+    dueloGanaP4: "🏆 PLAYER 4 WINS!",
+    dueloVictoriaMsg: (nom, scoreTxt) => `🏆 VICTORY! ${nom} won the Duel (${scoreTxt})`,
 
     // 🎓 Champion Diploma
     btnHistorialDiploma: "🎓 View Champion Diploma",
@@ -5366,6 +5512,13 @@ function actualizarTextosUI() {
   }
 
   // 7. Duelo Cara a Cara
+  const selectDueloJugadoresEl = document.getElementById("selectDueloJugadores");
+  if (selectDueloJugadoresEl && selectDueloJugadoresEl.options.length >= 2) {
+    const valPrevioJug = selectDueloJugadoresEl.value;
+    selectDueloJugadoresEl.options[0].textContent = t.dueloOpt2P || "👥 2 Jug.";
+    selectDueloJugadoresEl.options[1].textContent = t.dueloOpt4P || "👨‍👩‍👦‍👦 4 Jug.";
+    selectDueloJugadoresEl.value = valPrevioJug;
+  }
   const selectDueloTablaEl = document.getElementById("selectDueloTabla");
   if (selectDueloTablaEl && selectDueloTablaEl.options.length >= 3) {
     const valPrevio = selectDueloTablaEl.value;
@@ -5386,6 +5539,14 @@ function actualizarTextosUI() {
   const lblDueloP2NombreEl = document.getElementById("lblDueloP2Nombre");
   if (lblDueloP2NombreEl) {
     lblDueloP2NombreEl.textContent = `🤖 ${t.dueloP2}`;
+  }
+  const lblDueloP3NombreEl = document.getElementById("lblDueloP3Nombre");
+  if (lblDueloP3NombreEl) {
+    lblDueloP3NombreEl.textContent = `🦊 ${t.dueloP3 || "Jugador 3"}`;
+  }
+  const lblDueloP4NombreEl = document.getElementById("lblDueloP4Nombre");
+  if (lblDueloP4NombreEl) {
+    lblDueloP4NombreEl.textContent = `🐼 ${t.dueloP4 || "Jugador 4"}`;
   }
 
   // 8. Diploma de Honor
@@ -11982,32 +12143,72 @@ window.addEventListener("keydown", (e) => {
 
 
 // ===========================================================================
-// LÓGICA DEL MINIJUEGO: DUELO CARA A CARA (2 JUGADORES)
+// LÓGICA DEL MINIJUEGO: DUELO CARA A CARA (2 O 4 JUGADORES)
 // ===========================================================================
 const modalCaraACara = document.getElementById("modalCaraACara");
 const btnCaraACara = document.getElementById("btnCaraACara");
 const cerrarCaraACara = document.getElementById("cerrarCaraACara");
 const btnDueloReiniciar = document.getElementById("btnDueloReiniciar");
+const selectDueloJugadores = document.getElementById("selectDueloJugadores");
 const selectDueloTabla = document.getElementById("selectDueloTabla");
 
 const ladoJugador1 = document.getElementById("ladoJugador1");
 const ladoJugador2 = document.getElementById("ladoJugador2");
+const ladoJugador3 = document.getElementById("ladoJugador3");
+const ladoJugador4 = document.getElementById("ladoJugador4");
+
 const opDueloJ1 = document.getElementById("opDueloJ1");
 const opDueloJ2 = document.getElementById("opDueloJ2");
+const opDueloJ3 = document.getElementById("opDueloJ3");
+const opDueloJ4 = document.getElementById("opDueloJ4");
+
 const respuestasDueloJ1 = document.getElementById("respuestasDueloJ1");
 const respuestasDueloJ2 = document.getElementById("respuestasDueloJ2");
+const respuestasDueloJ3 = document.getElementById("respuestasDueloJ3");
+const respuestasDueloJ4 = document.getElementById("respuestasDueloJ4");
 
 const lblDueloP1Puntos = document.getElementById("lblDueloP1Puntos");
 const lblDueloP2Puntos = document.getElementById("lblDueloP2Puntos");
+const lblDueloP3Puntos = document.getElementById("lblDueloP3Puntos");
+const lblDueloP4Puntos = document.getElementById("lblDueloP4Puntos");
+
 const scoreCentroP1 = document.getElementById("scoreCentroP1");
 const scoreCentroP2 = document.getElementById("scoreCentroP2");
+const scoreCentroP3 = document.getElementById("scoreCentroP3");
+const scoreCentroP4 = document.getElementById("scoreCentroP4");
+const sepCentro2 = document.getElementById("sepCentro2");
+const sepCentro3 = document.getElementById("sepCentro3");
 
-let dueloPuntosP1 = 0;
-let dueloPuntosP2 = 0;
+let dueloCantJugadores = 2;
+let dueloPuntos = [0, 0, 0, 0];
 let DUELO_META_PUNTOS = 5;
 let dueloActivo = false;
 let dueloOperacionActual = { t: 0, f: 0, res: 0 };
 let dueloRondaBloqueada = false;
+
+function obtenerLadoDuelo(numJugador) {
+  if (numJugador === 1) return ladoJugador1;
+  if (numJugador === 2) return ladoJugador2;
+  if (numJugador === 3) return ladoJugador3;
+  if (numJugador === 4) return ladoJugador4;
+  return null;
+}
+
+function obtenerContenedorRespuestasDuelo(numJugador) {
+  if (numJugador === 1) return respuestasDueloJ1;
+  if (numJugador === 2) return respuestasDueloJ2;
+  if (numJugador === 3) return respuestasDueloJ3;
+  if (numJugador === 4) return respuestasDueloJ4;
+  return null;
+}
+
+function obtenerOpDuelo(numJugador) {
+  if (numJugador === 1) return opDueloJ1;
+  if (numJugador === 2) return opDueloJ2;
+  if (numJugador === 3) return opDueloJ3;
+  if (numJugador === 4) return opDueloJ4;
+  return null;
+}
 
 function abrirDueloCaraACara() {
   reproducirSonido("click");
@@ -12016,42 +12217,80 @@ function abrirDueloCaraACara() {
 }
 
 function iniciarPartidaDuelo() {
+  if (selectDueloJugadores) {
+    dueloCantJugadores = Number(selectDueloJugadores.value) === 4 ? 4 : 2;
+  }
   if (selectDueloMeta) {
     DUELO_META_PUNTOS = Number(selectDueloMeta.value) || 5;
   }
-  dueloPuntosP1 = 0;
-  dueloPuntosP2 = 0;
+
+  dueloPuntos = [0, 0, 0, 0];
   dueloActivo = true;
   dueloRondaBloqueada = false;
 
+  // Ajustar clases del modal y visibilidad de cuadrantes según 2 o 4 jugadores
+  if (dueloCantJugadores === 4) {
+    modalCaraACara.classList.add("modo-4p");
+    if (ladoJugador3) ladoJugador3.style.display = "flex";
+    if (ladoJugador4) ladoJugador4.style.display = "flex";
+    if (scoreCentroP3) scoreCentroP3.style.display = "inline";
+    if (scoreCentroP4) scoreCentroP4.style.display = "inline";
+    if (sepCentro2) sepCentro2.style.display = "inline";
+    if (sepCentro3) sepCentro3.style.display = "inline";
+  } else {
+    modalCaraACara.classList.remove("modo-4p");
+    if (ladoJugador3) ladoJugador3.style.display = "none";
+    if (ladoJugador4) ladoJugador4.style.display = "none";
+    if (scoreCentroP3) scoreCentroP3.style.display = "none";
+    if (scoreCentroP4) scoreCentroP4.style.display = "none";
+    if (sepCentro2) sepCentro2.style.display = "none";
+    if (sepCentro3) sepCentro3.style.display = "none";
+  }
+
   actualizarMarcadorDuelo();
 
-  const nombreActual = inputNombre.value.trim() || (idiomaActual === "es" ? "Jugador 1" : "Player 1");
-  document.getElementById("lblDueloP1Nombre").textContent = `${avatarActual} ${nombreActual}`;
-  document.getElementById("lblDueloP2Nombre").textContent = idiomaActual === "es" ? "🤖 Rival / Amigo" : "🤖 Friend / Rival";
+  const esEs = idiomaActual === "es";
+  const nombreP1 = inputNombre.value.trim() || (esEs ? "Jugador 1" : "Player 1");
+  document.getElementById("lblDueloP1Nombre").textContent = `${avatarActual} ${nombreP1}`;
+  document.getElementById("lblDueloP2Nombre").textContent = esEs ? "🤖 Jugador 2" : "🤖 Player 2";
+  if (document.getElementById("lblDueloP3Nombre")) {
+    document.getElementById("lblDueloP3Nombre").textContent = esEs ? "🦊 Jugador 3" : "🦊 Player 3";
+  }
+  if (document.getElementById("lblDueloP4Nombre")) {
+    document.getElementById("lblDueloP4Nombre").textContent = esEs ? "🐼 Jugador 4" : "🐼 Player 4";
+  }
 
-  ladoJugador1.classList.remove("penalizado", "acierto-flash", "error-flash");
-  ladoJugador2.classList.remove("penalizado", "acierto-flash", "error-flash");
+  for (let j = 1; j <= 4; j++) {
+    const lado = obtenerLadoDuelo(j);
+    if (lado) lado.classList.remove("penalizado", "acierto-flash", "error-flash");
+  }
 
   siguienteRondaDuelo();
 }
 
 function actualizarMarcadorDuelo() {
-  lblDueloP1Puntos.textContent = `${dueloPuntosP1}/${DUELO_META_PUNTOS} ⭐`;
-  lblDueloP2Puntos.textContent = `${dueloPuntosP2}/${DUELO_META_PUNTOS} ⭐`;
-  scoreCentroP1.textContent = dueloPuntosP1;
-  scoreCentroP2.textContent = dueloPuntosP2;
+  if (lblDueloP1Puntos) lblDueloP1Puntos.textContent = `${dueloPuntos[0]}/${DUELO_META_PUNTOS} ⭐`;
+  if (lblDueloP2Puntos) lblDueloP2Puntos.textContent = `${dueloPuntos[1]}/${DUELO_META_PUNTOS} ⭐`;
+  if (lblDueloP3Puntos) lblDueloP3Puntos.textContent = `${dueloPuntos[2]}/${DUELO_META_PUNTOS} ⭐`;
+  if (lblDueloP4Puntos) lblDueloP4Puntos.textContent = `${dueloPuntos[3]}/${DUELO_META_PUNTOS} ⭐`;
+
+  if (scoreCentroP1) scoreCentroP1.textContent = dueloPuntos[0];
+  if (scoreCentroP2) scoreCentroP2.textContent = dueloPuntos[1];
+  if (scoreCentroP3) scoreCentroP3.textContent = dueloPuntos[2];
+  if (scoreCentroP4) scoreCentroP4.textContent = dueloPuntos[3];
 }
 
 function siguienteRondaDuelo() {
   if (!dueloActivo) return;
 
   dueloRondaBloqueada = false;
-  ladoJugador1.classList.remove("penalizado", "acierto-flash", "error-flash");
-  ladoJugador2.classList.remove("penalizado", "acierto-flash", "error-flash");
+  for (let j = 1; j <= 4; j++) {
+    const lado = obtenerLadoDuelo(j);
+    if (lado) lado.classList.remove("penalizado", "acierto-flash", "error-flash");
+  }
 
   // Determinar tablas según el selector
-  const modo = selectDueloTabla.value;
+  const modo = selectDueloTabla ? selectDueloTabla.value : "mixto";
   let t = 2, f = 2;
   if (modo === "facil") {
     t = Math.floor(Math.random() * 5) + 1; // 1 a 5
@@ -12068,15 +12307,20 @@ function siguienteRondaDuelo() {
   dueloOperacionActual = { t, f, res };
 
   const textoOp = `${t} × ${f} = ?`;
-  opDueloJ1.textContent = textoOp;
-  opDueloJ2.textContent = textoOp;
+  for (let j = 1; j <= dueloCantJugadores; j++) {
+    const opEl = obtenerOpDuelo(j);
+    if (opEl) opEl.textContent = textoOp;
+  }
 
-  // Generar opciones y barajarlas independientemente para cada jugador
-  const opcionesP1 = generarOpciones(res);
-  const opcionesP2 = mezclar([...opcionesP1]);
-
-  renderizarBotonesDuelo(respuestasDueloJ1, opcionesP1, 1);
-  renderizarBotonesDuelo(respuestasDueloJ2, opcionesP2, 2);
+  // Generar opciones y barajarlas independientemente para cada jugador activo
+  const opcionesBase = generarOpciones(res);
+  for (let j = 1; j <= dueloCantJugadores; j++) {
+    const cont = obtenerContenedorRespuestasDuelo(j);
+    if (cont) {
+      const opcionesJugador = mezclar([...opcionesBase]);
+      renderizarBotonesDuelo(cont, opcionesJugador, j);
+    }
+  }
 }
 
 function renderizarBotonesDuelo(contenedor, opciones, numJugador) {
@@ -12097,7 +12341,7 @@ function manejarRespuestaDuelo(jugador, valorElegido, btnElement) {
   if (!dueloActivo || dueloRondaBloqueada) return;
 
   const esCorrecto = (valorElegido === dueloOperacionActual.res);
-  const lado = (jugador === 1) ? ladoJugador1 : ladoJugador2;
+  const lado = obtenerLadoDuelo(jugador);
 
   if (esCorrecto) {
     // ¡Acierto! El jugador gana la ronda
@@ -12105,18 +12349,17 @@ function manejarRespuestaDuelo(jugador, valorElegido, btnElement) {
     reproducirSonido("acierto");
     vibrar([40, 40]);
 
-    lado.classList.add("acierto-flash");
+    if (lado) lado.classList.add("acierto-flash");
 
-    if (jugador === 1) {
-      dueloPuntosP1++;
-    } else {
-      dueloPuntosP2++;
+    const idx = jugador - 1;
+    if (idx >= 0 && idx < 4) {
+      dueloPuntos[idx]++;
     }
 
     actualizarMarcadorDuelo();
 
     // Comprobar si hay victoria
-    if (dueloPuntosP1 >= DUELO_META_PUNTOS || dueloPuntosP2 >= DUELO_META_PUNTOS) {
+    if (dueloPuntos[idx] >= DUELO_META_PUNTOS) {
       if (jugador === 1) {
         duelosGanados++;
         verificarInsignias();
@@ -12132,15 +12375,15 @@ function manejarRespuestaDuelo(jugador, valorElegido, btnElement) {
     // ¡Error! Penalización de 1.2 segundos para ese jugador
     reproducirSonido("error");
     vibrar(80);
-    lado.classList.add("error-flash", "penalizado");
+    if (lado) lado.classList.add("error-flash", "penalizado");
 
     setTimeout(() => {
-      lado.classList.remove("error-flash");
+      if (lado) lado.classList.remove("error-flash");
     }, 300);
 
     // Despenalizar después de 1.2 segundos si la ronda aún sigue
     setTimeout(() => {
-      if (!dueloRondaBloqueada) {
+      if (!dueloRondaBloqueada && lado) {
         lado.classList.remove("penalizado");
       }
     }, 1200);
@@ -12153,40 +12396,59 @@ function finalizarPartidaDuelo(ganador) {
   reproducirSonido("jaqueMate");
   vibrar([60, 40, 100]);
 
-  const nombreP1 = inputNombre.value.trim() || (idiomaActual === "es" ? "Jugador 1" : "Player 1");
-  const nombreGanador = (ganador === 1) ? nombreP1 : (idiomaActual === "es" ? "Jugador 2" : "Player 2");
+  const esEs = idiomaActual === "es";
+  const nombreP1 = inputNombre.value.trim() || (esEs ? "Jugador 1" : "Player 1");
+  const nombres = [
+    nombreP1,
+    esEs ? "Jugador 2" : "Player 2",
+    esEs ? "Jugador 3" : "Player 3",
+    esEs ? "Jugador 4" : "Player 4"
+  ];
+  const nombreGanador = nombres[ganador - 1] || `${esEs ? "Jugador" : "Player"} ${ganador}`;
 
-  const msgVictoria = idiomaActual === "es"
-    ? `🏆 ¡VICTORIA! ${nombreGanador} ha ganado el Duelo (${dueloPuntosP1} - ${dueloPuntosP2})`
-    : `🏆 VICTORY! ${nombreGanador} won the Duel (${dueloPuntosP1} - ${dueloPuntosP2})`;
+  const scoreResumen = dueloCantJugadores === 4
+    ? dueloPuntos.join(" - ")
+    : `${dueloPuntos[0]} - ${dueloPuntos[1]}`;
 
-  const textoGana = (ganador === 1)
-    ? (i18n[idiomaActual]?.dueloGanaP1 || "🏆 ¡GANA JUGADOR 1!")
-    : (i18n[idiomaActual]?.dueloGanaP2 || "🏆 ¡GANA JUGADOR 2!");
-  opDueloJ1.textContent = textoGana;
-  opDueloJ2.textContent = textoGana;
+  const msgVictoria = esEs
+    ? `🏆 ¡VICTORIA! ${nombreGanador} ha ganado el Duelo (${scoreResumen})`
+    : `🏆 VICTORY! ${nombreGanador} won the Duel (${scoreResumen})`;
 
-  const ladoGanador = ganador === 1 ? ladoJugador1 : ladoJugador2;
-  const ladoPerdedor = ganador === 1 ? ladoJugador2 : ladoJugador1;
-  ladoGanador.classList.add("acierto-flash");
-  ladoPerdedor.classList.add("penalizado");
+  const textoGana = esEs
+    ? `🏆 ¡GANA JUGADOR ${ganador}!`
+    : `🏆 PLAYER ${ganador} WINS!`;
 
-  // Mostrar botón de revancha rápida en ambos lados del duelo
-  [respuestasDueloJ1, respuestasDueloJ2].forEach(cont => {
-    if (!cont) return;
+  for (let j = 1; j <= dueloCantJugadores; j++) {
+    const opEl = obtenerOpDuelo(j);
+    if (opEl) opEl.textContent = textoGana;
+    const lado = obtenerLadoDuelo(j);
+    if (lado) {
+      if (j === ganador) {
+        lado.classList.add("acierto-flash");
+        lado.classList.remove("penalizado");
+      } else {
+        lado.classList.add("penalizado");
+      }
+    }
+  }
+
+  // Mostrar botón de revancha rápida en todos los cuadrantes activos
+  for (let j = 1; j <= dueloCantJugadores; j++) {
+    const cont = obtenerContenedorRespuestasDuelo(j);
+    if (!cont) continue;
     cont.replaceChildren();
     const btnRevanchaDuelo = document.createElement("button");
     btnRevanchaDuelo.type = "button";
     btnRevanchaDuelo.className = "btn-respuesta-duelo";
     btnRevanchaDuelo.style.gridColumn = "1 / -1";
-    btnRevanchaDuelo.style.fontSize = "15px";
-    btnRevanchaDuelo.textContent = idiomaActual === "es" ? "🔄 ¡Jugar Revancha!" : "🔄 Play Rematch!";
+    btnRevanchaDuelo.style.fontSize = dueloCantJugadores === 4 ? "12px" : "15px";
+    btnRevanchaDuelo.textContent = esEs ? "🔄 ¡Revancha!" : "🔄 Rematch!";
     btnRevanchaDuelo.addEventListener("click", () => {
       reproducirSonido("click");
       iniciarPartidaDuelo();
     });
     cont.appendChild(btnRevanchaDuelo);
-  });
+  }
 
   mostrarTextoFlotante(msgVictoria, true, "50%");
 }
@@ -12211,6 +12473,14 @@ if (cerrarCaraACara) {
 if (btnDueloReiniciar) {
   btnDueloReiniciar.addEventListener("click", () => {
     reproducirSonido("click");
+    iniciarPartidaDuelo();
+  });
+}
+
+if (selectDueloJugadores) {
+  selectDueloJugadores.addEventListener("change", () => {
+    reproducirSonido("click");
+    dueloCantJugadores = Number(selectDueloJugadores.value) === 4 ? 4 : 2;
     iniciarPartidaDuelo();
   });
 }
