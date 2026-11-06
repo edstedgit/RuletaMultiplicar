@@ -1321,6 +1321,10 @@
       display: none !important;
     }
 
+    [hidden] {
+      display: none !important;
+    }
+
     .modal-contenido {
       background: #fff;
       width: 100%;
@@ -3149,6 +3153,74 @@
       color: #fecaca;
     }
 
+    .cabecera-tabla-aciertos {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr 1.2fr;
+      gap: 4px;
+      padding: 6px 8px;
+      font-weight: 800;
+      font-size: 11px;
+      color: #1e3a8a;
+      background: #e2e8f0;
+      border-radius: 6px;
+      margin-top: 8px;
+      text-align: center;
+    }
+    .fila-tabla-aciertos {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr 1.2fr;
+      gap: 4px;
+      padding: 6px 8px;
+      align-items: center;
+      font-size: 12px;
+      color: #0f172a;
+      border-bottom: 1px solid #cbd5e1;
+      border-radius: 5px;
+      margin-top: 3px;
+      font-variant-numeric: tabular-nums;
+    }
+    .fila-tabla-aciertos.estado-dominada { background: #dcfce7; color: #14532d; }
+    .fila-tabla-aciertos.estado-avanzada { background: #ecfdf5; color: #065f46; }
+    .fila-tabla-aciertos.estado-iniciada { background: #fef9c3; color: #713f12; }
+    .fila-tabla-aciertos.estado-repasar  { background: #fee2e2; color: #7f1d1d; }
+    .fila-tabla-aciertos.estado-pendiente { background: #ffffff; color: #334155; }
+    .leyenda-tabla-aciertos {
+      font-size: 10px;
+      color: #64748b;
+      text-align: center;
+      margin-top: 6px;
+      padding: 4px 6px;
+      background: #f1f5f9;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+
+    body[data-tema="galaxia"] .lista-historial {
+      background: #0f172a !important;
+      border-color: #334155 !important;
+      color: #e2e8f0 !important;
+    }
+    body[data-tema="galaxia"] .item-historial {
+      border-bottom-color: #334155;
+      color: #f8fafc;
+    }
+    body[data-tema="galaxia"] .cabecera-tabla-aciertos {
+      background: #1e293b;
+      color: #93c5fd;
+    }
+    body[data-tema="galaxia"] .fila-tabla-aciertos {
+      border-bottom-color: #334155;
+    }
+    body[data-tema="galaxia"] .fila-tabla-aciertos.estado-dominada { background: #064e3b; color: #d1fae5; }
+    body[data-tema="galaxia"] .fila-tabla-aciertos.estado-avanzada { background: #0c4a6e; color: #e0f2fe; }
+    body[data-tema="galaxia"] .fila-tabla-aciertos.estado-iniciada { background: #422006; color: #fef08a; }
+    body[data-tema="galaxia"] .fila-tabla-aciertos.estado-repasar  { background: #450a0a; color: #fecaca; }
+    body[data-tema="galaxia"] .fila-tabla-aciertos.estado-pendiente { background: #1e293b; color: #cbd5e1; }
+    body[data-tema="galaxia"] .leyenda-tabla-aciertos {
+      background: #1e293b;
+      color: #94a3b8;
+    }
+
     .offline-banner {
       background: linear-gradient(90deg, #f59e0b, #d97706);
       color: #ffffff;
@@ -4431,24 +4503,44 @@ const i18n = {
     msjResumenCopiado: "📊 ¡Resumen general copiado para compartir!",
     textoCompartir: (n, pts, aci, racha, maxRacha, insigniasConseguidas, totalInsignias, recordDes, tablasDominadas, detalles = {}) => {
       const av = detalles.avatar ? `${detalles.avatar} ` : "";
+      const lineaFecha = detalles.fecha ? `📅 ${detalles.fecha}\n` : "";
+      const rangoTxt = detalles.rangoRacha ? ` (${detalles.rangoRacha})` : "";
+
+      const partesDominio = [`${tablasDominadas}/12 dominadas`];
+      if ((detalles.avanzadas || 0) > 0) partesDominio.push(`${detalles.avanzadas} avanzadas`);
+      if ((detalles.iniciadas || 0) > 0) partesDominio.push(`${detalles.iniciadas} iniciadas`);
+
+      let lineaTablas = `👑 Estado de tablas: ${partesDominio.join(" · ")}\n`;
+      if (Array.isArray(detalles.dominadasLista) && detalles.dominadasLista.length > 0) {
+        lineaTablas += `   ↳ Dominadas: ${detalles.dominadasLista.map(num => `Tabla ${num}`).join(", ")}\n`;
+      }
+
       const extras = [];
       if (typeof detalles.precision === "number") {
-        extras.push(`🎯 Precisión reciente: ${detalles.precision}%`);
+        const partidasTxt = detalles.totalPartidas ? ` (${detalles.totalPartidas} jugadas)` : "";
+        extras.push(`🎯 Precisión reciente: ${detalles.precision}%${partidasTxt}`);
       }
       if (typeof detalles.exploradas === "number" && detalles.exploradas > 0) {
         extras.push(`📊 Tabla Pitagórica: ${detalles.exploradas}/144 casillas`);
       }
-      if (detalles.tablaReforzar) {
+      if (Array.isArray(detalles.minijuegos) && detalles.minijuegos.length > 0) {
+        extras.push(`🎮 Minijuegos: ${detalles.minijuegos.join(" · ")}`);
+      }
+      if (Array.isArray(detalles.repasarLista) && detalles.repasarLista.length > 0) {
+        extras.push(`⚠️ Por repasar: ${detalles.repasarLista.map(num => `Tabla ${num}`).join(", ")}`);
+      } else if (detalles.tablaReforzar) {
         extras.push(`📌 Por reforzar: Tabla del ${detalles.tablaReforzar}`);
       }
       const bloqueExtra = extras.length > 0 ? extras.join("\n") + "\n" : "";
+
       return `🌟 ¡Reporte de Progreso de ${av}${n || 'campeón/a'} en la Ruleta! 🎡\n` +
+        lineaFecha +
         `----------------------------------\n` +
         `⭐ Puntos acumulados: ${pts}\n` +
         `✅ Aciertos totales: ${aci}\n` +
-        `🔥 Mejor racha: ${maxRacha} seguidas\n` +
-        `👑 Tablas dominadas (⭐⭐⭐): ${tablasDominadas}/12\n` +
-        `⚡ Récord Desafío 60s: ${recordDes} aciertos\n` +
+        `🔥 Racha activa: ${racha}${rangoTxt} · Récord: ${maxRacha}\n` +
+        lineaTablas +
+        `⚡ Récord Relámpago 60s: ${recordDes} aciertos\n` +
         `🏆 Logros desbloqueados: ${insigniasConseguidas}/${totalInsignias}\n` +
         bloqueExtra +
         `----------------------------------\n` +
@@ -4727,24 +4819,44 @@ const i18n = {
     msjResumenCopiado: "📊 General summary copied to share!",
     textoCompartir: (n, pts, aci, racha, maxRacha, insigniasConseguidas, totalInsignias, recordDes, tablasDominadas, detalles = {}) => {
       const av = detalles.avatar ? `${detalles.avatar} ` : "";
+      const lineaFecha = detalles.fecha ? `📅 ${detalles.fecha}\n` : "";
+      const rangoTxt = detalles.rangoRacha ? ` (${detalles.rangoRacha})` : "";
+
+      const partsMastery = [`${tablasDominadas}/12 mastered`];
+      if ((detalles.avanzadas || 0) > 0) partsMastery.push(`${detalles.avanzadas} advanced`);
+      if ((detalles.iniciadas || 0) > 0) partsMastery.push(`${detalles.iniciadas} started`);
+
+      let lineTables = `👑 Table status: ${partsMastery.join(" · ")}\n`;
+      if (Array.isArray(detalles.dominadasLista) && detalles.dominadasLista.length > 0) {
+        lineTables += `   ↳ Mastered: ${detalles.dominadasLista.map(num => `Table ${num}`).join(", ")}\n`;
+      }
+
       const extras = [];
       if (typeof detalles.precision === "number") {
-        extras.push(`🎯 Recent accuracy: ${detalles.precision}%`);
+        const gamesTxt = detalles.totalPartidas ? ` (${detalles.totalPartidas} played)` : "";
+        extras.push(`🎯 Recent accuracy: ${detalles.precision}%${gamesTxt}`);
       }
       if (typeof detalles.exploradas === "number" && detalles.exploradas > 0) {
         extras.push(`📊 Pythagorean Table: ${detalles.exploradas}/144 cells`);
       }
-      if (detalles.tablaReforzar) {
+      if (Array.isArray(detalles.minijuegos) && detalles.minijuegos.length > 0) {
+        extras.push(`🎮 Minigames: ${detalles.minijuegos.join(" · ")}`);
+      }
+      if (Array.isArray(detalles.repasarLista) && detalles.repasarLista.length > 0) {
+        extras.push(`⚠️ To review: ${detalles.repasarLista.map(num => `Table ${num}`).join(", ")}`);
+      } else if (detalles.tablaReforzar) {
         extras.push(`📌 To practice: Table of ${detalles.tablaReforzar}`);
       }
       const bloqueExtra = extras.length > 0 ? extras.join("\n") + "\n" : "";
+
       return `🌟 ${av}${n || 'Champion'}'s Progress Report on the Wheel! 🎡\n` +
+        lineaFecha +
         `----------------------------------\n` +
         `⭐ Total points: ${pts}\n` +
         `✅ Correct answers: ${aci}\n` +
-        `🔥 Best streak: ${maxRacha} in a row\n` +
-        `👑 Tables mastered (⭐⭐⭐): ${tablasDominadas}/12\n` +
-        `⚡ 60s Challenge Record: ${recordDes} correct\n` +
+        `🔥 Active streak: ${racha}${rangoTxt} · Best: ${maxRacha}\n` +
+        lineTables +
+        `⚡ 60s Lightning Record: ${recordDes} correct\n` +
         `🏆 Badges unlocked: ${insigniasConseguidas}/${totalInsignias}\n` +
         bloqueExtra +
         `----------------------------------\n` +
@@ -4958,25 +5070,53 @@ function obtenerEstrellasTabla(numTabla) {
   return "⚪⚪⚪";                            // 3 bolitas vacías (0 a 2 aciertos)
 }
 
+function obtenerEstadoTabla(numTabla) {
+  const t = Number(numTabla);
+  const cantAciertos = Number(aciertosPorTabla[t] ?? aciertosPorTabla[String(t)] ?? 0);
+  const esEs = idiomaActual === "es";
+  const jugadasTabla = Array.isArray(historialPartidas)
+    ? historialPartidas.filter(item => item && item.tabla === t)
+    : [];
+  const fallos = jugadasTabla.filter(item => !item.acertado).length;
+
+  if (cantAciertos >= 15) {
+    return { icono: "👑", texto: esEs ? "Dominada" : "Mastered", clave: "dominada", aciertos: cantAciertos };
+  }
+  if (cantAciertos >= 8) {
+    return { icono: "🚀", texto: esEs ? "Avanzada" : "Advanced", clave: "avanzada", aciertos: cantAciertos };
+  }
+  if (cantAciertos >= 3) {
+    return { icono: "🌱", texto: esEs ? "Iniciada" : "Started", clave: "iniciada", aciertos: cantAciertos };
+  }
+  if (fallos > 0) {
+    return { icono: "⚠️", texto: esEs ? "Repasar" : "Review", clave: "repasar", aciertos: cantAciertos };
+  }
+  return { icono: "🎯", texto: esEs ? "Por practicar" : "To practice", clave: "pendiente", aciertos: cantAciertos };
+}
+
 function sincronizarAciertosPorTabla() {
-  if (!aciertosPorTabla || typeof aciertosPorTabla !== 'object') {
-    aciertosPorTabla = {};
-  }
-  
-  // Asegurar que las 12 tablas tengan número entero
+  const origen = (aciertosPorTabla && typeof aciertosPorTabla === 'object') ? aciertosPorTabla : {};
+  const normalizado = {};
+
+  // Asegurar que las 12 tablas tengan número entero no negativo
   for (let i = 1; i <= TOTAL; i++) {
-    const val = Number(aciertosPorTabla[i] ?? aciertosPorTabla[String(i)] ?? 0);
-    aciertosPorTabla[i] = isNaN(val) ? 0 : val;
+    const val = Number(origen[i] ?? origen[String(i)] ?? 0);
+    normalizado[i] = isNaN(val) ? 0 : Math.max(0, Math.floor(val));
   }
+  aciertosPorTabla = normalizado;
 
   // Recalcular y reconciliar con el historial de partidas
+  let aciertosEnHistorial = 0;
   if (Array.isArray(historialPartidas) && historialPartidas.length > 0) {
     const conteoHistorial = {};
     for (let i = 1; i <= TOTAL; i++) conteoHistorial[i] = 0;
 
     historialPartidas.forEach(item => {
-      if (item && item.acertado && item.tabla >= 1 && item.tabla <= TOTAL) {
-        conteoHistorial[item.tabla] = (conteoHistorial[item.tabla] || 0) + 1;
+      if (item && item.acertado) {
+        aciertosEnHistorial++;
+        if (item.tabla >= 1 && item.tabla <= TOTAL) {
+          conteoHistorial[item.tabla] = (conteoHistorial[item.tabla] || 0) + 1;
+        }
       }
     });
 
@@ -4988,17 +5128,17 @@ function sincronizarAciertosPorTabla() {
     }
   }
 
-  // Si los aciertos acumulados globales son mayores a cero pero las tablas estaban en 0 (backup antiguo sin apt)
-  const sumaAciertos = Object.values(aciertosPorTabla).reduce((a, b) => a + Number(b || 0), 0);
-  if (sumaAciertos === 0 && aciertos > 0 && Array.isArray(historialPartidas)) {
-    historialPartidas.forEach(item => {
-      if (item && item.acertado && item.tabla >= 1 && item.tabla <= TOTAL) {
-        aciertosPorTabla[item.tabla] = (aciertosPorTabla[item.tabla] || 0) + 1;
-      }
-    });
-  }
+  // Reconciliar aciertos globales y mejor racha con las tablas e historial
+  const sumaTablas = Object.values(aciertosPorTabla).reduce((a, b) => a + Number(b || 0), 0);
+  const aciertosActual = isNaN(Number(aciertos)) ? 0 : Math.max(0, Math.floor(Number(aciertos)));
+  aciertos = Math.max(aciertosActual, sumaTablas, aciertosEnHistorial);
+  racha = isNaN(Number(racha)) ? 0 : Math.max(0, Math.floor(Number(racha)));
+  maxRacha = Math.max(isNaN(Number(maxRacha)) ? 0 : Math.max(0, Math.floor(Number(maxRacha))), racha);
 
   // Sincronizar también combinaciones exactas para que no se pierdan
+  if (!conteoCombinacionesExactas || typeof conteoCombinacionesExactas !== 'object') {
+    conteoCombinacionesExactas = {};
+  }
   if (Array.isArray(historialPartidas)) {
     historialPartidas.forEach(item => {
       if (item && item.acertado && item.tabla && item.factor) {
@@ -5023,10 +5163,10 @@ function actualizarSelectorTablas() {
     opt.value = i;
     
     const etiquetaTabla = idiomaActual === "es" ? `Tabla ${i}` : `Table ${i}`;
-    // Añadimos el distintivo gratis solo para la tabla 1 y la tabla 2
-    const sufijoGratis = (i === 1 || i === 2) ? (idiomaActual === "es" ? " 🆓 (Gratis)" : " 🆓 (Free)") : "";
+    const sufijoGratis = (i === 1 || i === 2) ? " 🆓" : "";
+    const est = obtenerEstadoTabla(i);
     
-    opt.textContent = `${etiquetaTabla}${sufijoGratis} (${obtenerEstrellasTabla(i)})`;
+    opt.textContent = `${etiquetaTabla}${sufijoGratis} · ${est.icono} ${est.texto}`;
     selectorTabla.appendChild(opt);
   }
   
@@ -5461,6 +5601,9 @@ function actualizarTextosUI() {
 
   botonIdioma.textContent = idiomaActual === "es" ? "🇪🇸" : "🇺🇸";
   btnAbrirAvatares.textContent = avatarActual;
+  if (typeof modalHistorial !== "undefined" && modalHistorial && !modalHistorial.hidden && typeof abrirModalHistorial === "function") {
+    abrirModalHistorial(typeof vistaHistorialActual !== "undefined" ? vistaHistorialActual : "todo");
+  }
 }
 
 // =========================================================================
@@ -5955,7 +6098,7 @@ function cambiarModoTiempo() {
   guardarPuntajes();
 }
 
-function verificarInsignias(esSuperacion = false) {
+function verificarInsignias(esSuperacion = false, silencioso = false) {
   let nuevaDesbloqueada = false;
   if (aciertos >= 1 && !insigniasDesbloqueadas.primerAcierto) { insigniasDesbloqueadas.primerAcierto = true; nuevaDesbloqueada = true; }
   if (racha >= 5 && !insigniasDesbloqueadas.rachaCinco) { insigniasDesbloqueadas.rachaCinco = true; nuevaDesbloqueada = true; }
@@ -5985,7 +6128,7 @@ function verificarInsignias(esSuperacion = false) {
   if (laberintosCompletados >= 1 && !insigniasDesbloqueadas.maestroLaberinto) { insigniasDesbloqueadas.maestroLaberinto = true; nuevaDesbloqueada = true; }
   if (duelosGanados >= 1 && !insigniasDesbloqueadas.campeonDuelo) { insigniasDesbloqueadas.campeonDuelo = true; nuevaDesbloqueada = true; }
 
-  if (nuevaDesbloqueada) {
+  if (nuevaDesbloqueada && !silencioso) {
     setTimeout(() => {
       const t = i18n[idiomaActual];
       mostrarTextoFlotante(t.msjNuevaInsignia, true, "66%");
@@ -6236,6 +6379,7 @@ function esObjetoRespaldoValido(obj) {
 }
 
 function generarObjetoRespaldo() {
+  sincronizarAciertosPorTabla();
   return {
     v: 9,
     app: "RuletaMultiplicar",
@@ -6368,37 +6512,89 @@ function desglosarCodigoRespaldo(textoEntrada) {
   return null;
 }
 
+function calcularResumenDatosRespaldo(datos) {
+  const nom = (datos.n || datos.nombre || "").trim();
+  const av = (typeof datos.av === "string" && datos.av.trim())
+    ? datos.av.trim()
+    : ((typeof datos.avatarActual === "string" && datos.avatarActual.trim()) ? datos.avatarActual.trim() : "🦖");
+
+  const hist = Array.isArray(datos.h)
+    ? datos.h
+    : (Array.isArray(datos.historialPartidas) ? datos.historialPartidas : []);
+  const aptRaw = datos.apt || datos.aciertosPorTabla || {};
+  const tablas = {};
+  for (let i = 1; i <= TOTAL; i++) {
+    const val = Number(aptRaw[i] ?? aptRaw[String(i)] ?? 0);
+    tablas[i] = Math.max(0, isNaN(val) ? 0 : Math.floor(val));
+  }
+
+  const conteoHist = {};
+  for (let i = 1; i <= TOTAL; i++) conteoHist[i] = 0;
+  let aciertosHist = 0;
+  hist.forEach(item => {
+    if (item && item.acertado) {
+      aciertosHist++;
+      if (item.tabla >= 1 && item.tabla <= TOTAL) {
+        conteoHist[item.tabla]++;
+      }
+    }
+  });
+  for (let i = 1; i <= TOTAL; i++) {
+    if (conteoHist[i] > tablas[i]) tablas[i] = conteoHist[i];
+  }
+
+  const sumaTablas = Object.values(tablas).reduce((s, v) => s + v, 0);
+  const aRaw = Number(datos.a ?? datos.aciertos ?? 0);
+  const aciertosTotal = Math.max(isNaN(aRaw) ? 0 : Math.max(0, Math.floor(aRaw)), sumaTablas, aciertosHist);
+
+  const pRaw = datos.p !== undefined
+    ? Number(datos.p)
+    : (datos.puntos !== undefined ? Number(datos.puntos) : NaN);
+  const pts = !isNaN(pRaw) ? Math.max(0, pRaw) : (aciertosTotal * 20);
+
+  let dominadas = 0;
+  let enProgreso = 0;
+  for (let i = 1; i <= TOTAL; i++) {
+    if (tablas[i] >= 15) dominadas++;
+    else if (tablas[i] >= 3) enProgreso++;
+  }
+
+  const ins = datos.ins || datos.insigniasDesbloqueadas || {};
+  const totalIns = Object.values(ins).filter(Boolean).length;
+
+  return {
+    nombre: nom,
+    avatar: av,
+    puntos: pts,
+    aciertos: aciertosTotal,
+    tablasDominadas: dominadas,
+    tablasEnProgreso: enProgreso,
+    totalInsignias: totalIns
+  };
+}
+
 function aplicarDatosRespaldo(datos) {
   if (!esObjetoRespaldoValido(datos)) return false;
 
-  // 1. Nombre del jugador
+  // 1. Nombre del jugador (reinicia si no viene en el respaldo para evitar mezcla entre cuentas)
   const n = datos.n !== undefined ? datos.n : datos.nombre;
-  if (typeof n === "string") {
-    nombre = n.trim();
-    if (inputNombre) inputNombre.value = nombre;
-    if (inputNombreModal) inputNombreModal.value = nombre;
-  }
+  nombre = typeof n === "string" ? n.trim() : "";
+  if (inputNombre) inputNombre.value = nombre;
+  if (inputNombreModal) inputNombreModal.value = nombre;
 
   // 2. Puntos, aciertos y rachas
   const pVal = datos.p !== undefined ? datos.p : datos.puntos;
-  if (pVal !== undefined && !isNaN(Number(pVal))) {
-    puntos = Math.max(0, Number(pVal));
-  }
+  const tienePuntosExplicitos = pVal !== undefined && !isNaN(Number(pVal));
+  puntos = tienePuntosExplicitos ? Math.max(0, Number(pVal)) : 0;
 
   const aVal = datos.a !== undefined ? datos.a : datos.aciertos;
-  if (aVal !== undefined && !isNaN(Number(aVal))) {
-    aciertos = Math.max(0, Number(aVal));
-  }
+  aciertos = (aVal !== undefined && !isNaN(Number(aVal))) ? Math.max(0, Math.floor(Number(aVal))) : 0;
 
   const rVal = datos.r !== undefined ? datos.r : datos.racha;
-  if (rVal !== undefined && !isNaN(Number(rVal))) {
-    racha = Math.max(0, Number(rVal));
-  }
+  racha = (rVal !== undefined && !isNaN(Number(rVal))) ? Math.max(0, Math.floor(Number(rVal))) : 0;
 
   const maxRVal = datos.maxRacha !== undefined ? datos.maxRacha : rVal;
-  if (maxRVal !== undefined && !isNaN(Number(maxRVal))) {
-    maxRacha = Math.max(racha, Number(maxRVal));
-  }
+  maxRacha = (maxRVal !== undefined && !isNaN(Number(maxRVal))) ? Math.max(racha, Math.floor(Number(maxRVal))) : racha;
 
   // 3. Avatar actual y avatares desbloqueados
   const av = datos.av || datos.avatarActual;
@@ -6409,83 +6605,63 @@ function aplicarDatosRespaldo(datos) {
   } else {
     avataresDesbloqueados = [...avBase];
   }
-  if (typeof av === "string" && av.trim()) {
-    avatarActual = av.trim();
-    if (!avataresDesbloqueados.includes(avatarActual)) {
-      avataresDesbloqueados.push(avatarActual);
-    }
-    if (btnAbrirAvatares) btnAbrirAvatares.textContent = avatarActual;
+  avatarActual = (typeof av === "string" && av.trim()) ? av.trim() : "🦖";
+  if (!avataresDesbloqueados.includes(avatarActual)) {
+    avataresDesbloqueados.push(avatarActual);
   }
+  if (btnAbrirAvatares) btnAbrirAvatares.textContent = avatarActual;
 
-  // 4. Insignias desbloqueadas (restaura estado exacto del respaldo)
-  const ins = datos.ins || datos.insigniasDesbloqueadas;
-  if (ins && typeof ins === "object") {
-    const limpias = {};
-    Object.keys(insigniasDesbloqueadas).forEach((k) => {
-      limpias[k] = Boolean(ins[k]);
-    });
-    Object.keys(ins).forEach((k) => {
-      if (Object.prototype.hasOwnProperty.call(limpias, k)) {
-        limpias[k] = Boolean(ins[k]);
-      }
-    });
-    insigniasDesbloqueadas = limpias;
-  }
-
-  // 5. Historial de partidas (antes de sincronizar tablas)
+  // 4. Historial de partidas (limpia previo si el respaldo no trae historial)
   const h = datos.h !== undefined ? datos.h : datos.historialPartidas;
-  if (Array.isArray(h)) {
-    historialPartidas = h.slice(-200);
-  }
+  historialPartidas = Array.isArray(h) ? h.slice(-200) : [];
 
-  // 6. Aciertos por tabla (1 a 12)
+  // 5. Aciertos por tabla (1 a 12) - reinicia a 0 antes de aplicar y recalcular
   const apt = datos.apt || datos.aciertosPorTabla;
-  if (apt && typeof apt === "object") {
-    const nuevasTablas = {};
-    for (let i = 1; i <= TOTAL; i++) {
-      const val = Number(apt[i] ?? apt[String(i)] ?? 0);
-      nuevasTablas[i] = Math.max(0, isNaN(val) ? 0 : val);
-    }
-    aciertosPorTabla = nuevasTablas;
+  const nuevasTablas = {};
+  for (let i = 1; i <= TOTAL; i++) {
+    const val = (apt && typeof apt === "object") ? Number(apt[i] ?? apt[String(i)] ?? 0) : 0;
+    nuevasTablas[i] = Math.max(0, isNaN(val) ? 0 : Math.floor(val));
   }
+  aciertosPorTabla = nuevasTablas;
 
-  // 7. Conteo combinaciones exactas y revancha pendiente
+  // 6. Conteo combinaciones exactas y revancha pendiente
   const cce = datos.cce || datos.conteoCombinacionesExactas;
-  if (cce && typeof cce === "object") {
-    conteoCombinacionesExactas = { ...cce };
-  }
-  if (datos.revancha !== undefined || datos.revanchaPendiente !== undefined) {
-    revanchaPendiente = datos.revancha || datos.revanchaPendiente || null;
-  }
+  conteoCombinacionesExactas = (cce && typeof cce === "object") ? { ...cce } : {};
+  revanchaPendiente = (datos.revancha || datos.revanchaPendiente) || null;
 
-  // 8. Récords y minijuegos
+  // 7. Récords y minijuegos (reinicia a 0 si no vienen en el respaldo)
   const recDes = datos.recDes ?? datos.recordDesafioRelampago;
-  if (recDes !== undefined && !isNaN(Number(recDes))) recordDesafioRelampago = Math.max(0, Number(recDes));
+  recordDesafioRelampago = (recDes !== undefined && !isNaN(Number(recDes))) ? Math.max(0, Number(recDes)) : 0;
 
   const llv = datos.llv ?? datos.aciertosLluviaTotal;
-  if (llv !== undefined && !isNaN(Number(llv))) aciertosLluviaTotal = Math.max(0, Number(llv));
+  aciertosLluviaTotal = (llv !== undefined && !isNaN(Number(llv))) ? Math.max(0, Number(llv)) : 0;
 
   const ajv = datos.ajv ?? datos.victoriasAjedrez;
-  if (ajv !== undefined && !isNaN(Number(ajv))) victoriasAjedrez = Math.max(0, Number(ajv));
+  victoriasAjedrez = (ajv !== undefined && !isNaN(Number(ajv))) ? Math.max(0, Number(ajv)) : 0;
 
   const trp = datos.trp ?? datos.aciertosTrampaTotal;
-  if (trp !== undefined && !isNaN(Number(trp))) aciertosTrampaTotal = Math.max(0, Number(trp));
+  aciertosTrampaTotal = (trp !== undefined && !isNaN(Number(trp))) ? Math.max(0, Number(trp)) : 0;
 
   const lab = datos.lab ?? datos.laberintosCompletados;
-  if (lab !== undefined && !isNaN(Number(lab))) laberintosCompletados = Math.max(0, Number(lab));
+  laberintosCompletados = (lab !== undefined && !isNaN(Number(lab))) ? Math.max(0, Number(lab)) : 0;
 
   const due = datos.due ?? datos.duelosGanados;
-  if (due !== undefined && !isNaN(Number(due))) duelosGanados = Math.max(0, Number(due));
+  duelosGanados = (due !== undefined && !isNaN(Number(due))) ? Math.max(0, Number(due)) : 0;
 
-  // 9. Progreso de exploración en Tabla Pitagórica
-  if (Array.isArray(datos.cep)) {
-    celdasExploradasPitagoras = new Set(datos.cep.filter(k => typeof k === "string"));
-  }
-  if (Array.isArray(datos.hep)) {
-    hitosExploracionPitagoras = new Set(datos.hep.map(Number).filter(n => !isNaN(n)));
-  }
+  // 8. Progreso de exploración en Tabla Pitagórica y recalculo de hitos alcanzados
+  celdasExploradasPitagoras = Array.isArray(datos.cep)
+    ? new Set(datos.cep.filter(k => typeof k === "string"))
+    : new Set();
+  hitosExploracionPitagoras = Array.isArray(datos.hep)
+    ? new Set(datos.hep.map(Number).filter(n => !isNaN(n)))
+    : new Set();
+  [36, 72, 108, 144].forEach(meta => {
+    if (celdasExploradasPitagoras.size >= meta) {
+      hitosExploracionPitagoras.add(meta);
+    }
+  });
 
-  // 10. Preferencias, idioma, tema y estado de licencia
+  // 9. Preferencias, idioma, tema y estado de licencia
   const idiomaBk = datos.idioma || datos.idiomaActual;
   if (idiomaBk === "es" || idiomaBk === "en") {
     idiomaActual = idiomaBk;
@@ -6519,9 +6695,12 @@ function aplicarDatosRespaldo(datos) {
     actualizarVistaModalActivacion();
   }
 
-  // Sincronización integral y actualización inmediata de toda la interfaz
+  // 10. Recálculo integral de aciertos, tablas, estados, selector, insignias y vistas
   sincronizarAciertosPorTabla();
-  verificarInsignias();
+  if (!tienePuntosExplicitos && aciertos > 0) {
+    puntos = aciertos * 20;
+  }
+
   actualizarSelectorTablas();
   if (typeof datos.tablaSel === "string" && selectorTabla) {
     const existeOpt = Array.from(selectorTabla.options || []).some(o => o.value === datos.tablaSel);
@@ -6530,10 +6709,25 @@ function aplicarDatosRespaldo(datos) {
       if (datos.tablaSel !== "mixto") tabla = Number(datos.tablaSel);
     }
   }
+
+  // Restaura insignias del respaldo y recalcula cualquier logro ganado según los datos restaurados
+  const ins = datos.ins || datos.insigniasDesbloqueadas;
+  const limpiasIns = {};
+  Object.keys(insigniasDesbloqueadas).forEach((k) => {
+    limpiasIns[k] = Boolean(ins && typeof ins === "object" && ins[k]);
+  });
+  insigniasDesbloqueadas = limpiasIns;
+  verificarInsignias(false, true);
+
   actualizarBadgeTablaActiva();
+  actualizarBotonRevanchaUI();
+  actualizarBotonModoUI();
   actualizarEstadisticas();
   renderizarInsigniasUI();
   renderizarAvataresDisponibles();
+  if (typeof renderizarTiendaAvatares === "function") {
+    renderizarTiendaAvatares();
+  }
   if (typeof actualizarProgresoExploradorPitagoras === "function") {
     actualizarProgresoExploradorPitagoras();
   }
@@ -6547,7 +6741,10 @@ function aplicarDatosRespaldo(datos) {
   guardarPuntajes();
 
   if (modalHistorial && !modalHistorial.hidden) {
-    abrirModalHistorial("aciertos");
+    abrirModalHistorial(typeof vistaHistorialActual !== "undefined" ? vistaHistorialActual : "aciertos");
+  }
+  if (typeof modalDiploma !== "undefined" && modalDiploma && !modalDiploma.hidden && typeof abrirModalDiploma === "function") {
+    abrirModalDiploma();
   }
   return true;
 }
@@ -6717,13 +6914,8 @@ function actualizarVistaPreviaRestauracion() {
   const datos = desglosarCodigoRespaldo(valor);
   if (datos) {
     datosRestaurarPendientes = datos;
-    const nom = (datos.n || datos.nombre || (esEs ? "Jugador" : "Player")).trim();
-    const pts = Number(datos.p ?? datos.puntos ?? 0) || 0;
-    const av = datos.av || datos.avatarActual || "🦖";
-    const apt = datos.apt || datos.aciertosPorTabla || {};
-    const tablasCompletas = Object.values(apt).filter(v => Number(v) >= 15).length;
-    const ins = datos.ins || datos.insigniasDesbloqueadas || {};
-    const totalIns = Object.values(ins).filter(Boolean).length;
+    const resumen = calcularResumenDatosRespaldo(datos);
+    const nom = resumen.nombre || (esEs ? "Jugador" : "Player");
     const fechaTxt = typeof datos.fecha === "string" && datos.fecha.length >= 10
       ? ` · 📅 ${escaparHtmlTexto(datos.fecha.slice(0, 10))}`
       : "";
@@ -6732,8 +6924,8 @@ function actualizarVistaPreviaRestauracion() {
       ? "✅ ¡Copia válida detectada!"
       : "✅ Valid backup detected!";
     lblPreviewDetalles.innerHTML = esEs
-      ? `<strong>${escaparHtmlTexto(av)} ${escaparHtmlTexto(nom)}</strong> • ⭐ <strong>${pts} pts</strong>${fechaTxt}<br>👑 <strong>${tablasCompletas}/12</strong> tablas dominadas • 🏆 <strong>${totalIns}</strong> insignias`
-      : `<strong>${escaparHtmlTexto(av)} ${escaparHtmlTexto(nom)}</strong> • ⭐ <strong>${pts} pts</strong>${fechaTxt}<br>👑 <strong>${tablasCompletas}/12</strong> tables mastered • 🏆 <strong>${totalIns}</strong> badges`;
+      ? `<strong>${escaparHtmlTexto(resumen.avatar)} ${escaparHtmlTexto(nom)}</strong> • ⭐ <strong>${resumen.puntos} pts</strong> · ✅ <strong>${resumen.aciertos}</strong>${fechaTxt}<br>👑 <strong>${resumen.tablasDominadas}/12</strong> dominadas · 🌱 <strong>${resumen.tablasEnProgreso}</strong> en progreso · 🏆 <strong>${resumen.totalInsignias}</strong> logros`
+      : `<strong>${escaparHtmlTexto(resumen.avatar)} ${escaparHtmlTexto(nom)}</strong> • ⭐ <strong>${resumen.puntos} pts</strong> · ✅ <strong>${resumen.aciertos}</strong>${fechaTxt}<br>👑 <strong>${resumen.tablasDominadas}/12</strong> mastered · 🌱 <strong>${resumen.tablasEnProgreso}</strong> in progress · 🏆 <strong>${resumen.totalInsignias}</strong> badges`;
     cardPreviewRestauracion.style.display = "block";
     btnEjecutarRestauracion.disabled = false;
   } else {
@@ -6903,11 +7095,11 @@ if (btnEjecutarRestauracion) {
       cardPreviewRestauracion.style.display = "none";
       btnEjecutarRestauracion.disabled = true;
       modalBackupRestaurar.hidden = true;
-      mostrarTextoFlotante(
-        esEs ? "🎉 ¡Datos restaurados con éxito!" : "🎉 Data successfully restored!",
-        true,
-        "40%"
-      );
+      const domRest = Object.values(aciertosPorTabla).filter(v => Number(v) >= 15).length;
+      const msgRest = idiomaActual === "es"
+        ? `🎉 ¡Restaurado! ⭐ ${puntos} pts · ✅ ${aciertos} aciertos · 👑 ${domRest}/12 dominadas`
+        : `🎉 Restored! ⭐ ${puntos} pts · ✅ ${aciertos} correct · 👑 ${domRest}/12 mastered`;
+      mostrarTextoFlotante(msgRest, true, "40%");
     } else {
       mostrarTextoFlotante(
         esEs ? "⚠️ No se pudieron restaurar los datos" : "⚠️ Could not restore data",
@@ -7745,6 +7937,7 @@ function responder(valor, esRevancha = false) {
     hablar(t.hablarError(tabla, factor, correcta));
   }
 
+  actualizarSelectorTablas();
   actualizarBotonRevanchaUI();
   actualizarEstadisticas();
   guardarPuntajes();
@@ -8075,6 +8268,7 @@ function responderEnModoRepaso(valor, correcta) {
     hablar(t.hablarError(tabla, factor, correcta));
   }
 
+  actualizarSelectorTablas();
   actualizarEstadisticas();
   guardarPuntajes();
   botonSiguiente.hidden = false;
@@ -8090,33 +8284,82 @@ function responderEnModoRepaso(valor, correcta) {
 // Vinculamos el botón de salida del repaso
 document.getElementById("btnSalirRepaso").addEventListener("click", salirModoRepaso);
 
+let vistaHistorialActual = "todo";
+
+function actualizarBotonesContextualesHistorial(tipoVista = "todo") {
+  const vista = ["puntos", "aciertos", "racha"].includes(tipoVista) ? tipoVista : "todo";
+  const btnDiplomaEl = document.getElementById("btnHistorialDiploma");
+  const btnHubEl = document.getElementById("btnAbrirHub");
+
+  const visibilidad = {
+    compartir: true,
+    diploma: true,
+    copiarCodigo: vista === "todo",
+    pegarCodigo: vista === "todo",
+    hub: vista === "todo" || vista === "puntos",
+    activacion: vista === "todo",
+    limpiar: vista === "todo",
+    resetTest: vista === "todo"
+  };
+
+  const aplicarVisibilidad = (el, visible) => {
+    if (!el) return;
+    el.hidden = !visible;
+    el.style.display = visible ? "" : "none";
+  };
+
+  aplicarVisibilidad(compartirHistorialBtn, visibilidad.compartir);
+  aplicarVisibilidad(btnDiplomaEl, visibilidad.diploma);
+  aplicarVisibilidad(btnCopiarCodigo, visibilidad.copiarCodigo);
+  aplicarVisibilidad(btnPegarCodigo, visibilidad.pegarCodigo);
+  aplicarVisibilidad(btnHubEl, visibilidad.hub);
+  aplicarVisibilidad(btnAbrirActivacion, visibilidad.activacion);
+  aplicarVisibilidad(limpiarHistorialBtn, visibilidad.limpiar);
+  aplicarVisibilidad(btnResetTestActivacion, visibilidad.resetTest);
+
+  if (listaHistorialDiv) {
+    if (vista === "aciertos") {
+      listaHistorialDiv.style.maxHeight = "360px";
+    } else if (vista === "puntos" || vista === "racha") {
+      listaHistorialDiv.style.maxHeight = "260px";
+    } else {
+      listaHistorialDiv.style.maxHeight = "210px";
+    }
+  }
+}
+
 function abrirModalHistorial(tipoVista = "todo") {
+  const vistaNormalizada = ["puntos", "aciertos", "racha"].includes(tipoVista) ? tipoVista : "todo";
+  vistaHistorialActual = vistaNormalizada;
   modalHistorial.hidden = false;
+  actualizarBotonesContextualesHistorial(vistaNormalizada);
   listaHistorialDiv.replaceChildren();
   const t = i18n[idiomaActual];
+  const esEs = idiomaActual === "es";
   
   const headerTitulo = document.getElementById("lblHistorialTitulo");
 
-  if (tipoVista === "puntos") {
+  if (vistaNormalizada === "puntos") {
     headerTitulo.textContent = t.historialTituloPuntos;
     
     const divRuleta = document.createElement("div");
     divRuleta.className = "item-historial";
-    divRuleta.innerHTML = `<span>🎯 <strong>Giros de Ruleta / Práctica</strong></span><span>${aciertos * 20} pts ⭐</span>`;
+    divRuleta.innerHTML = `<span>🎯 <strong>${esEs ? "Giros de Ruleta / Práctica" : "Wheel Spins / Practice"}</strong></span><span>${aciertos * 20} pts ⭐</span>`;
     listaHistorialDiv.appendChild(divRuleta);
 
     const divDesafio = document.createElement("div");
     divDesafio.className = "item-historial";
-    divDesafio.innerHTML = `<span>⚡ <strong>Desafíos Relámpago (60s)</strong></span><span>Récord: ${recordDesafioRelampago} ops</span>`;
+    divDesafio.innerHTML = `<span>⚡ <strong>${esEs ? "Desafíos Relámpago (60s)" : "Lightning Challenges (60s)"}</strong></span><span>${esEs ? "Récord" : "Record"}: ${recordDesafioRelampago} ops</span>`;
     listaHistorialDiv.appendChild(divDesafio);
 
     const divTotal = document.createElement("div");
     divTotal.className = "item-historial";
     divTotal.style.background = "#fef3c7";
-    divTotal.innerHTML = `<span>⭐ <strong>Puntaje Acumulado Total</strong></span><span><strong>${puntos} pts ⭐</strong></span>`;
+    divTotal.style.color = "#92400e";
+    divTotal.innerHTML = `<span>⭐ <strong>${esEs ? "Puntaje Acumulado Total" : "Total Accumulated Score"}</strong></span><span><strong>${puntos} pts ⭐</strong></span>`;
     listaHistorialDiv.appendChild(divTotal);
 
-  } else if (tipoVista === "aciertos") {
+  } else if (vistaNormalizada === "aciertos") {
     headerTitulo.textContent = t.historialTituloAciertos;
     
     // Análisis inteligente con compensación (Errores históricos - Aciertos totales)
@@ -8139,12 +8382,13 @@ function abrirModalHistorial(tipoVista = "todo") {
       divAlertaDebilidad.className = "item-historial";
       divAlertaDebilidad.style.background = "#fef2f2";
       divAlertaDebilidad.style.borderColor = "#f87171";
-      divAlertaDebilidad.innerHTML = `<span>⚠️ <strong>${idiomaActual === "es" ? "Tabla a reforzar:" : "Table to practice:"}</strong></span><span style="color:#b91c1c; font-weight:bold;">Tabla del ${tablaMasDificil}</span>`;
+      divAlertaDebilidad.style.color = "#7f1d1d";
+      divAlertaDebilidad.innerHTML = `<span>⚠️ <strong>${esEs ? "Tabla a reforzar:" : "Table to practice:"}</strong></span><span style="color:#b91c1c; font-weight:bold;">${esEs ? `Tabla del ${tablaMasDificil}` : `Table of ${tablaMasDificil}`}</span>`;
       listaHistorialDiv.appendChild(divAlertaDebilidad);
     }
 
     // Botón directo para iniciar el modo repaso desde el historial
-    const textoBtnRepaso = idiomaActual === "es" ? "🧠 Repasar mis errores pendientes" : "🧠 Review pending errors";
+    const textoBtnRepaso = esEs ? "🧠 Repasar mis errores pendientes" : "🧠 Review pending errors";
     const divBtnRepaso = document.createElement("div");
     divBtnRepaso.style.margin = "8px 0";
     divBtnRepaso.innerHTML = `<button type="button" class="principal btn-modal-accion" style="background:#f59e0b; font-size:12px; padding:8px;">${textoBtnRepaso}</button>`;
@@ -8154,62 +8398,43 @@ function abrirModalHistorial(tipoVista = "todo") {
     });
     listaHistorialDiv.appendChild(divBtnRepaso);
 
-    // NUEVO: Cabecera con títulos de columnas (Tabla, Aciertos, Estado)
+    // Cabecera con títulos de columnas (Tabla, Aciertos, Estado)
     const divCabeceraTabla = document.createElement("div");
-    divCabeceraTabla.style.cssText = "display: grid; grid-template-columns: 1fr 1fr 1.2fr; gap: 4px; padding: 6px 8px; font-weight: bold; font-size: 11px; color: #1e3a8a; background: #e2e8f0; border-radius: 6px; margin-top: 8px; text-align: center;";
+    divCabeceraTabla.className = "cabecera-tabla-aciertos";
     divCabeceraTabla.innerHTML = `
-      <span style="text-align: left;">${idiomaActual === "es" ? "Tabla" : "Table"}</span>
-      <span>${idiomaActual === "es" ? "Aciertos" : "Correct"}</span>
-      <span style="text-align: right;">${idiomaActual === "es" ? "Estado" : "Status"}</span>
+      <span style="text-align: left;">${esEs ? "Tabla" : "Table"}</span>
+      <span>${esEs ? "Aciertos" : "Correct"}</span>
+      <span style="text-align: right;">${esEs ? "Estado" : "Status"}</span>
     `;
     listaHistorialDiv.appendChild(divCabeceraTabla);
 
     // Sincronizar y asegurar datos antes de listar
     sincronizarAciertosPorTabla();
 
-    // Bucle unificado del 1 al 12 con formato de columnas
+    // Bucle unificado del 1 al 12 con formato de columnas sin iconos duplicados
     for (let i = 1; i <= TOTAL; i++) {
       const cantAciertos = Number(aciertosPorTabla[i] ?? aciertosPorTabla[String(i)] ?? 0);
       const estrellas = obtenerEstrellasTabla(i);
-      
-      // Diagnóstico integral: evalúa aciertos acumulados y precisión reciente
-      const jugadasTabla = historialPartidas.filter(item => item.tabla === i);
-      let estadoTexto = idiomaActual === "es" ? "Por practicar" : "To practice";
-      let emojiEstado = "⚪⚪⚪";
-      let colorFondo = "#f8fafc";
-      
-      if (cantAciertos >= 15) {
-        emojiEstado = "👑";
-        estadoTexto = idiomaActual === "es" ? "Dominada" : "Mastered";
-        colorFondo = "#dcfce7"; // Verde claro (¡Completada!)
-      } else if (cantAciertos >= 8) {
-        emojiEstado = "⭐";
-        estadoTexto = idiomaActual === "es" ? "Avanzada" : "Advanced";
-        colorFondo = "#ecfdf5"; // Esmeralda suave
-      } else if (cantAciertos >= 3) {
-        emojiEstado = "🌱";
-        estadoTexto = idiomaActual === "es" ? "Iniciada" : "Started";
-        colorFondo = "#fef9c3"; // Amarillo suave
-      } else if (jugadasTabla.length > 0) {
-        const fallos = jugadasTabla.filter(item => !item.acertado).length;
-        if (fallos > 0) {
-          emojiEstado = "⚠️";
-          estadoTexto = idiomaActual === "es" ? "Repasar" : "Review";
-          colorFondo = "#fee2e2"; // Rojo suave
-        }
-      }
+      const est = obtenerEstadoTabla(i);
 
       const divFila = document.createElement("div");
-      divFila.style.cssText = `display: grid; grid-template-columns: 1fr 1.1fr 1.2fr; gap: 4px; padding: 6px 8px; align-items: center; font-size: 12px; background: ${colorFondo}; border-bottom: 1px solid #cbd5e1; border-radius: 4px; margin-top: 3px;`;
+      divFila.className = `fila-tabla-aciertos estado-${est.clave}`;
       divFila.innerHTML = `
-        <span style="font-weight: bold; text-align: left;">Tabla ${i}</span>
+        <span style="font-weight: bold; text-align: left;">${esEs ? `Tabla ${i}` : `Table ${i}`}</span>
         <span style="text-align: center; white-space: nowrap;">${cantAciertos} <span style="font-size:11px;">${estrellas}</span></span>
-        <span style="text-align: right; font-weight: bold; font-size: 11px;">${emojiEstado} ${estadoTexto}</span>
+        <span style="text-align: right; font-weight: bold; font-size: 11px;">${est.icono} ${est.texto}</span>
       `;
       listaHistorialDiv.appendChild(divFila);
     }
 
-  } else if (tipoVista === "racha") {
+    const divLeyenda = document.createElement("div");
+    divLeyenda.className = "leyenda-tabla-aciertos";
+    divLeyenda.textContent = esEs
+      ? "Progreso: ⚪⚪⚪ 0–2 · ⭐⚪⚪ 3–7 · ⭐⭐⚪ 8–14 · ⭐⭐⭐ 15+ aciertos"
+      : "Progress: ⚪⚪⚪ 0–2 · ⭐⚪⚪ 3–7 · ⭐⭐⚪ 8–14 · ⭐⭐⭐ 15+ correct";
+    listaHistorialDiv.appendChild(divLeyenda);
+
+  } else if (vistaNormalizada === "racha") {
     headerTitulo.textContent = t.historialTituloRacha;
     
     let categoriaRacha = t.catNormal;
@@ -8218,45 +8443,46 @@ function abrirModalHistorial(tipoVista = "todo") {
 
     const divRachaActual = document.createElement("div");
     divRachaActual.className = "item-historial";
-    divRachaActual.innerHTML = `<span>🔥 Racha Actual</span><span><strong>${racha} seguidas</strong></span>`;
+    divRachaActual.innerHTML = `<span>🔥 ${esEs ? "Racha Actual" : "Current Streak"}</span><span><strong>${racha} ${esEs ? "seguidas" : "in a row"}</strong></span>`;
     listaHistorialDiv.appendChild(divRachaActual);
 
     const divMaxRacha = document.createElement("div");
     divMaxRacha.className = "item-historial";
-    divMaxRacha.innerHTML = `<span>👑 Mejor Racha Histórica</span><span><strong>${maxRacha} seguidas</strong></span>`;
+    divMaxRacha.innerHTML = `<span>👑 ${esEs ? "Mejor Racha Histórica" : "Best All-Time Streak"}</span><span><strong>${maxRacha} ${esEs ? "seguidas" : "in a row"}</strong></span>`;
     listaHistorialDiv.appendChild(divMaxRacha);
 
     const divCat = document.createElement("div");
     divCat.className = "item-historial";
-    divCat.innerHTML = `<span>🎖️ Categoría Actual</span><span><strong>${categoriaRacha}</strong></span>`;
+    divCat.innerHTML = `<span>🎖️ ${esEs ? "Categoría Actual" : "Current Rank"}</span><span><strong>${categoriaRacha}</strong></span>`;
     listaHistorialDiv.appendChild(divCat);
 
     const divRecDes = document.createElement("div");
     divRecDes.className = "item-historial";
     divRecDes.style.background = "#fdf2f8";
-    divRecDes.innerHTML = `<span>⚡ Récord Desafío Relámpago</span><span><strong>${recordDesafioRelampago} aciertos</strong></span>`;
+    divRecDes.style.color = "#831843";
+    divRecDes.innerHTML = `<span>⚡ ${esEs ? "Récord Desafío Relámpago" : "Lightning Challenge Record"}</span><span><strong>${recordDesafioRelampago} ${esEs ? "aciertos" : "correct"}</strong></span>`;
     listaHistorialDiv.appendChild(divRecDes);
 
   } else {
-    headerTitulo.textContent = idiomaActual === "es" ? "📋 Historial General de Partidas" : "📋 General Game History";
+    headerTitulo.textContent = esEs ? "📋 Historial General de Partidas" : "📋 General Game History";
     
     if (historialPartidas.length === 0) {
       listaHistorialDiv.textContent = t.historialVacio;
-      return;
+    } else {
+      historialPartidas.slice().reverse().forEach(item => {
+        const div = document.createElement("div");
+        div.className = "item-historial";
+        div.innerHTML = `<span>${item.tabla} × ${item.factor} = ${item.correcta}</span><span>${item.acertado ? '✅' : '❌'} (${item.fecha})</span>`;
+        listaHistorialDiv.appendChild(div);
+      });
     }
-
-    historialPartidas.slice().reverse().forEach(item => {
-      const div = document.createElement("div");
-      div.className = "item-historial";
-      div.innerHTML = `<span>${item.tabla} × ${item.factor} = ${item.correcta}</span><span>${item.acertado ? '✅' : '❌'} (${item.fecha})</span>`;
-      listaHistorialDiv.appendChild(div);
-    });
   }
 }
 
 function limpiarHistorial() {
   reproducirSonido("click");
   historialPartidas = [];
+  actualizarSelectorTablas();
   guardarPuntajes();
   abrirModalHistorial("todo");
 }
@@ -8269,14 +8495,26 @@ function compartirResultados() {
 
   const medallasConseguidas = Object.values(insigniasDesbloqueadas).filter(Boolean).length;
   let tablasDominadasCount = 0;
+  let tablasAvanzadasCount = 0;
+  let tablasIniciadasCount = 0;
+  const tablasDominadasLista = [];
+  const tablasRepasarLista = [];
   let tablaMasDebil = null;
   let maxBalanceNegativo = 0;
 
   for (let i = 1; i <= TOTAL; i++) {
-    const cantAciertos = Number(aciertosPorTabla[i] ?? aciertosPorTabla[String(i)] ?? 0);
-    if (cantAciertos >= 15) {
+    const est = obtenerEstadoTabla(i);
+    if (est.clave === "dominada") {
       tablasDominadasCount++;
+      tablasDominadasLista.push(i);
+    } else if (est.clave === "avanzada") {
+      tablasAvanzadasCount++;
+    } else if (est.clave === "iniciada") {
+      tablasIniciadasCount++;
+    } else if (est.clave === "repasar") {
+      tablasRepasarLista.push(i);
     }
+
     const fallos = historialPartidas.filter(item => item && item.tabla === i && !item.acertado).length;
     const aciertosTablaHist = historialPartidas.filter(item => item && item.tabla === i && item.acertado).length;
     const balance = fallos - aciertosTablaHist;
@@ -8287,9 +8525,41 @@ function compartirResultados() {
   }
 
   let precisionReciente = null;
+  let totalPartidasHist = 0;
   if (Array.isArray(historialPartidas) && historialPartidas.length > 0) {
+    totalPartidasHist = historialPartidas.length;
     const aciertosHist = historialPartidas.filter(item => item && item.acertado).length;
-    precisionReciente = Math.round((aciertosHist / historialPartidas.length) * 100);
+    precisionReciente = Math.round((aciertosHist / totalPartidasHist) * 100);
+  }
+
+  let rangoRacha = t.catNormal;
+  if (racha >= 10) rangoRacha = t.catDominador;
+  else if (racha >= 5) rangoRacha = t.catVeloz;
+
+  let fechaHoy = "";
+  try {
+    fechaHoy = new Date().toLocaleDateString(esEs ? "es-ES" : "en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric"
+    });
+  } catch (e) {}
+
+  const minijuegosItems = [];
+  if (aciertosLluviaTotal > 0) {
+    minijuegosItems.push(esEs ? `🌠 ${aciertosLluviaTotal} estrellas` : `🌠 ${aciertosLluviaTotal} stars`);
+  }
+  if (aciertosTrampaTotal > 0) {
+    minijuegosItems.push(esEs ? `🕵️ ${aciertosTrampaTotal} pistas` : `🕵️ ${aciertosTrampaTotal} clues`);
+  }
+  if (laberintosCompletados > 0) {
+    minijuegosItems.push(esEs ? `🗺️ ${laberintosCompletados} laberintos` : `🗺️ ${laberintosCompletados} mazes`);
+  }
+  if (victoriasAjedrez > 0) {
+    minijuegosItems.push(esEs ? `♟️ ${victoriasAjedrez} partidas` : `♟️ ${victoriasAjedrez} matches`);
+  }
+  if (duelosGanados > 0) {
+    minijuegosItems.push(esEs ? `⚔️ ${duelosGanados} duelos` : `⚔️ ${duelosGanados} duels`);
   }
 
   const texto = t.textoCompartir(
@@ -8304,8 +8574,16 @@ function compartirResultados() {
     tablasDominadasCount,
     {
       avatar: avatarActual,
+      fecha: fechaHoy,
+      rangoRacha,
+      avanzadas: tablasAvanzadasCount,
+      iniciadas: tablasIniciadasCount,
+      dominadasLista: tablasDominadasLista,
+      repasarLista: tablasRepasarLista,
       precision: precisionReciente,
+      totalPartidas: totalPartidasHist,
       exploradas: celdasExploradasPitagoras ? celdasExploradasPitagoras.size : 0,
+      minijuegos: minijuegosItems,
       tablaReforzar: tablaMasDebil
     }
   );
@@ -9086,6 +9364,11 @@ botonIdioma.addEventListener("click", toggleIdioma);
 botonModo.addEventListener("click", cambiarModoTiempo);
 botonHistorial.addEventListener("click", () => abrirModalHistorial("todo"));
 cerrarHistorial.addEventListener("click", () => modalHistorial.hidden = true);
+if (modalHistorial) {
+  modalHistorial.addEventListener("click", (e) => {
+    if (e.target === modalHistorial) modalHistorial.hidden = true;
+  });
+}
 limpiarHistorialBtn.addEventListener("click", limpiarHistorial);
 compartirHistorialBtn.addEventListener("click", compartirResultados);
 botonRevancha.addEventListener("click", iniciarRevancha);
