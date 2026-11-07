@@ -642,12 +642,90 @@
     }
 
     .pregunta {
+      position: relative;
       margin-top: 2px;
       padding: 8px 12px;
       background: #ffffff;
       border-radius: 16px;
       border: 1.5px solid #e2e8f0;
       box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+    }
+
+    /* Mini botón discreto en esquina superior derecha para reescuchar la voz (Opción B) */
+    .btn-escuchar-pregunta {
+      position: absolute;
+      top: 6px;
+      right: 7px;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      padding: 0;
+      color: #334155;
+      transition: transform 0.12s ease, background 0.12s ease, border-color 0.12s ease;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+      touch-action: manipulation;
+    }
+    .btn-escuchar-pregunta:hover {
+      background: #f1f5f9;
+      border-color: #94a3b8;
+      transform: scale(1.08);
+    }
+    .btn-escuchar-pregunta:active {
+      transform: scale(0.92);
+      background: #e2e8f0;
+    }
+    body[data-tema="google"] .btn-escuchar-pregunta {
+      background: #ffffff;
+      border-color: #dadce0;
+      box-shadow: 0 1px 2px rgba(60, 64, 67, 0.15);
+    }
+
+    /* Banner discreto con memoria "Entendido" para iPhone (Opción A) */
+    .aviso-silencio-ios {
+      background: #fef3c7;
+      color: #92400e;
+      border: 1px solid #fde68a;
+      border-radius: 8px;
+      padding: 4px 7px;
+      margin-bottom: 5px;
+      font-size: 10.5px;
+      box-shadow: 0 1px 3px rgba(217, 119, 6, 0.12);
+    }
+    .aviso-silencio-ios-contenido {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      line-height: 1.25;
+    }
+    .aviso-silencio-ios-txt {
+      font-weight: 500;
+      text-align: left;
+    }
+    .btn-descartar-silencio {
+      background: #f59e0b;
+      color: #ffffff;
+      border: none;
+      border-radius: 5px;
+      padding: 2px 6px;
+      font-size: 9.5px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      touch-action: manipulation;
+    }
+    .btn-descartar-silencio:active {
+      background: #d97706;
+      transform: scale(0.95);
     }
 
     #instruccion {
@@ -3483,6 +3561,15 @@
   </button>
 
   <section class="pregunta" aria-label="Pregunta de multiplicación">
+    <button id="btnEscucharPregunta" class="btn-escuchar-pregunta" type="button" aria-label="Escuchar pregunta en voz alta" title="Escuchar pregunta en voz alta">
+      🗣️
+    </button>
+    <div id="avisoSilencioIOS" class="aviso-silencio-ios" hidden>
+      <div class="aviso-silencio-ios-contenido">
+        <span class="aviso-silencio-ios-txt">💡 En iPhone: Para escuchar la voz, desactiva el interruptor lateral de silencio.</span>
+        <button type="button" id="btnDescartarSilencioIOS" class="btn-descartar-silencio">Entendido ✕</button>
+      </div>
+    </div>
 	<div id="panelModoRepaso" style="display: none; justify-content: space-between; align-items: center; background: #fef3c7; padding: 4px 8px; border-radius: 6px; margin-bottom: 4px; border: 1.5px solid #fcd34d;">
       <span id="txtModoRepasoInfo" style="font-size: 11px; font-weight: bold; color: #92400e;">🧠 Repasando errores (0 pendientes)</span>
       <button id="btnSalirRepaso" type="button" style="background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; border-radius: 4px; font-size: 10px; padding: 3px 8px; cursor: pointer; font-weight: bold;">
@@ -5771,9 +5858,17 @@ function actualizarTextosUI() {
   }
 
   botonIdioma.textContent = idiomaActual === "es" ? "🇪🇸" : "🇺🇸";
-  btnAbrirAvatares.textContent = avatarActual;
+  if (btnAbrirAvatares) btnAbrirAvatares.textContent = avatarActual;
   if (typeof modalHistorial !== "undefined" && modalHistorial && !modalHistorial.hidden && typeof abrirModalHistorial === "function") {
     abrirModalHistorial(typeof vistaHistorialActual !== "undefined" ? vistaHistorialActual : "todo");
+  }
+  const btnEscucharEl = document.getElementById("btnEscucharPregunta");
+  if (btnEscucharEl) {
+    btnEscucharEl.setAttribute("title", idiomaActual === "es" ? "Escuchar pregunta en voz alta" : "Listen to question aloud");
+    btnEscucharEl.setAttribute("aria-label", idiomaActual === "es" ? "Escuchar pregunta en voz alta" : "Listen to question aloud");
+  }
+  if (typeof verificarAvisoSilencioIOS === "function") {
+    verificarAvisoSilencioIOS();
   }
 }
 
@@ -6248,6 +6343,73 @@ function hablar(texto) {
     } catch (e) {}
   }
 }
+
+// ===========================================================================
+// OPCIONES A Y B: GESTIÓN DE VOZ Y AVISO DE SILENCIO PARA IPHONE
+// ===========================================================================
+const btnEscucharPregunta = document.getElementById("btnEscucharPregunta");
+const avisoSilencioIOS = document.getElementById("avisoSilencioIOS");
+const btnDescartarSilencioIOS = document.getElementById("btnDescartarSilencioIOS");
+
+function verificarAvisoSilencioIOS() {
+  if (!esDispositivoIOS || !avisoSilencioIOS) return;
+  const descartado = localStorage.getItem("avisoSilencioDescartado");
+  if (!descartado && sonidoActivo) {
+    const esEs = idiomaActual === "es";
+    const txtSpan = avisoSilencioIOS.querySelector(".aviso-silencio-ios-txt");
+    if (txtSpan) {
+      txtSpan.textContent = esEs
+        ? "💡 En iPhone: Para escuchar la voz, desactiva el interruptor lateral de silencio."
+        : "💡 On iPhone: To hear voice, turn off the side silent switch.";
+    }
+    if (btnDescartarSilencioIOS) {
+      btnDescartarSilencioIOS.textContent = esEs ? "Entendido ✕" : "Got it ✕";
+    }
+    avisoSilencioIOS.hidden = false;
+  } else {
+    avisoSilencioIOS.hidden = true;
+  }
+}
+
+if (btnDescartarSilencioIOS) {
+  btnDescartarSilencioIOS.addEventListener("click", () => {
+    try {
+      localStorage.setItem("avisoSilencioDescartado", "true");
+    } catch (e) {}
+    if (avisoSilencioIOS) avisoSilencioIOS.hidden = true;
+    reproducirSonido("click");
+  });
+}
+
+if (btnEscucharPregunta) {
+  btnEscucharPregunta.addEventListener("click", () => {
+    reproducirSonido("click");
+    const t = i18n[idiomaActual] || i18n.es;
+    if (preguntaActiva && typeof tabla === "number" && typeof factor === "number") {
+      hablar(t.hablarPregunta(tabla, factor));
+    } else {
+      const opEl = document.getElementById("operacion");
+      const textoOp = opEl ? opEl.textContent.trim() : "";
+      if (textoOp && textoOp !== "? × ? = ?") {
+        const limpia = textoOp.replace("=", "").replace("?", "").trim();
+        hablar(idiomaActual === "es" ? `¿Cuánto es ${limpia}?` : `What is ${limpia}?`);
+      } else {
+        hablar(idiomaActual === "es" ? "¡Gira la ruleta para comenzar!" : "Spin the wheel to start!");
+      }
+    }
+
+    if (esDispositivoIOS) {
+      mostrarTextoFlotante(
+        idiomaActual === "es"
+          ? "🔊 En iPhone: si no escuchas la voz, desactiva el silencio lateral"
+          : "🔊 On iPhone: if no voice, turn off the side silent switch",
+        false,
+        "22%"
+      );
+    }
+  });
+}
+
 function actualizarBotonSonido() {
   if (!botonSonido) return;
   const idx = obtenerEstadoAudioIndex();
@@ -8100,6 +8262,9 @@ function mostrarPregunta(esRevancha = false) {
   document.getElementById("mensaje").textContent = t.mensajeElegir;
   hablar(t.hablarPregunta(tabla, factor));
   iniciarTemporizador();
+  if (typeof verificarAvisoSilencioIOS === "function") {
+    verificarAvisoSilencioIOS();
+  }
 
   const correcta = tabla * factor;
   contenedorRespuestas.replaceChildren();
