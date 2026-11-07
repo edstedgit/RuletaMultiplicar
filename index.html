@@ -67,6 +67,19 @@
       scrollbar-width: thin;
     }
 
+    /* Scrollbars elegantes para navegadores de escritorio (Windows Edge / Chrome / Firefox) */
+    main::-webkit-scrollbar, .modal-contenido::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    main::-webkit-scrollbar-thumb, .modal-contenido::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.45);
+      border-radius: 999px;
+    }
+    main::-webkit-scrollbar-track, .modal-contenido::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
     /* Regla crítica para iPhone Safari: evita zoom indeseado al tocar inputs */
     @media screen and (max-width: 768px) {
       input[type="text"], input[type="number"], select, textarea {
@@ -12180,6 +12193,10 @@ window.addEventListener("keydown", (e) => {
     }
   } else if (e.key === "Escape") {
     document.querySelectorAll(".modal-historial").forEach(m => m.hidden = true);
+    const mDuelo = document.getElementById("modalCaraACara");
+    if (mDuelo && !mDuelo.hidden) mDuelo.hidden = true;
+    const mTema = document.getElementById("menuSelectorTema");
+    if (mTema && !mTema.hidden) mTema.hidden = true;
     if (tableroRetoBox) tableroRetoBox.style.display = "none";
   } else if (["1", "2", "3", "4"].includes(e.key) && preguntaActiva && !contestada) {
     const idx = parseInt(e.key) - 1;
@@ -12379,8 +12396,17 @@ function renderizarBotonesDuelo(contenedor, opciones, numJugador) {
     btn.type = "button";
     btn.className = "btn-respuesta-duelo";
     btn.textContent = val;
-    btn.addEventListener("click", () => {
+    let procesado = false;
+    btn.addEventListener("pointerdown", (e) => {
+      if (e.button !== undefined && e.button !== 0) return;
+      procesado = true;
       manejarRespuestaDuelo(numJugador, val, btn);
+    });
+    btn.addEventListener("click", () => {
+      if (!procesado) {
+        manejarRespuestaDuelo(numJugador, val, btn);
+      }
+      procesado = false;
     });
     contenedor.appendChild(btn);
   });
