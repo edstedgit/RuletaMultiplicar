@@ -3341,9 +3341,6 @@
 
 <body data-tema="google">
 <main>
-  <div id="avisoSilencio" style="display:none; background:#fef3c7; color:#92400e; font-size:10px; padding:4px; text-align:center; border-radius:4px; margin-bottom:2px;">
-    🔇 iPhone en silencio: Los sonidos y la voz pueden no escucharse.
-  </div>
   <div id="offlineBanner" class="offline-banner" hidden>
     📡 Modo sin conexión · Progreso guardado localmente
   </div>
@@ -5899,10 +5896,58 @@ function cambiarTemaGlobal() {
 }
 
 let audioCtx = null;
+let elementoAudioSilenciosoIOS = null;
+
+function activarCanalMultimediaIOS() {
+  // 1. Safari 16.4+ / iOS 17 / iOS 18: Activar canal oficial 'playback' (ignora switch de silencio)
+  if ('audioSession' in navigator && navigator.audioSession) {
+    try {
+      navigator.audioSession.type = 'playback';
+    } catch (e) {}
+  }
+
+  // 2. Puente universal para iOS: Micro-audio en bucle para conmutar la categoría de audio
+  // de 'Ambient' a 'Playback' (modo multimedia como YouTube/Spotify que suena en silencio)
+  if (!elementoAudioSilenciosoIOS && typeof document !== "undefined") {
+    try {
+      const audio = document.createElement("audio");
+      audio.setAttribute("x-webkit-airplay", "deny");
+      audio.setAttribute("webkit-playsinline", "true");
+      audio.setAttribute("playsinline", "true");
+      audio.preload = "auto";
+      audio.loop = true;
+      audio.src = "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=";
+      const promesa = audio.play();
+      if (promesa !== undefined) {
+        promesa.then(() => {
+          elementoAudioSilenciosoIOS = audio;
+        }).catch(() => {});
+      }
+    } catch (e) {}
+  }
+}
+
+if (typeof document !== "undefined") {
+  document.addEventListener("visibilitychange", () => {
+    if (elementoAudioSilenciosoIOS) {
+      if (document.hidden) {
+        try { elementoAudioSilenciosoIOS.pause(); } catch (e) {}
+      } else {
+        try { elementoAudioSilenciosoIOS.play().catch(() => {}); } catch (e) {}
+      }
+    }
+  });
+}
+
 function obtenerAudioContext() {
   if (!audioCtx) {
     const AudioContextClass = window.AudioContext || window.webkitAudioContext;
     if (AudioContextClass) audioCtx = new AudioContextClass();
+    if ('audioSession' in navigator && navigator.audioSession) {
+      try {
+        navigator.audioSession.type = 'playback';
+      } catch (e) {}
+    }
   }
   if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
   return audioCtx;
@@ -6214,6 +6259,10 @@ function toggleSonido() {
   } else {
     sonidoActivo = false;
     musicaActiva = false;
+  }
+
+  if (siguiente !== 3) {
+    activarCanalMultimediaIOS();
   }
 
   try {
@@ -12642,6 +12691,8 @@ function desbloquearAudioIOS() {
   if (audioDesbloqueadoIOS) return;
   audioDesbloqueadoIOS = true;
 
+  activarCanalMultimediaIOS();
+
   try {
     const ctx = obtenerAudioContext();
     if (ctx) {
@@ -12678,18 +12729,6 @@ function desbloquearAudioIOS() {
   document.addEventListener(evt, desbloquearAudioIOS, { passive: true, once: true });
 });
 
-if (esDispositivoIOS) {
-  const aviso = document.getElementById("avisoSilencio");
-  if (aviso) {
-    aviso.textContent = idiomaActual === "es"
-      ? "💡 En iPhone: Si el interruptor lateral está en silencio, la voz puede no sonar. Toca para cerrar."
-      : "💡 On iPhone: If side switch is on silent, voice may not play. Tap to dismiss.";
-    aviso.style.display = "block";
-    aviso.style.cursor = "pointer";
-    aviso.onclick = () => aviso.style.display = "none";
-    setTimeout(() => { if (aviso) aviso.style.display = "none"; }, 8000);
-  }
-}
 appInicializada = true;
 </script>
 </body>
