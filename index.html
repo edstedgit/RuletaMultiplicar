@@ -2362,6 +2362,166 @@
       background: #7f1d1d !important;
     }
 
+    /* ⏱️ Overlay de Conteo Inicial en Duelo Cara a Cara */
+    .duelo-conteo-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 9999 !important;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+      pointer-events: auto;
+      user-select: none;
+      animation: fadeInConteoDuelo 0.25s ease-out;
+    }
+
+    @keyframes fadeInConteoDuelo {
+      from { opacity: 0; transform: scale(0.96); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .duelo-conteo-caja {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.96), rgba(15, 23, 42, 0.98));
+      border: 2px solid rgba(245, 158, 11, 0.6);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.65), 0 0 35px rgba(245, 158, 11, 0.35);
+      border-radius: 24px;
+      padding: 24px 28px;
+      max-width: 420px;
+      width: 90%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .duelo-conteo-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(245, 158, 11, 0.18);
+      color: #fbbf24;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 5px 14px;
+      border-radius: 9999px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      border: 1px solid rgba(245, 158, 11, 0.4);
+    }
+
+    .duelo-conteo-numero {
+      font-size: 92px;
+      font-weight: 900;
+      line-height: 1;
+      color: #f8fafc;
+      text-shadow: 0 4px 20px rgba(245, 158, 11, 0.7), 0 0 40px rgba(234, 179, 8, 0.5);
+      min-height: 96px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease-out;
+    }
+
+    .duelo-conteo-numero.conteo-anim {
+      animation: pulsoConteoDuelo 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .duelo-conteo-numero.conteo-final {
+      font-size: 32px;
+      color: #38bdf8;
+      text-shadow: 0 0 25px rgba(56, 189, 248, 0.85);
+      letter-spacing: 0.5px;
+    }
+
+    @keyframes pulsoConteoDuelo {
+      0% {
+        transform: scale(1.55);
+        opacity: 0.25;
+      }
+      50% {
+        transform: scale(1.06);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .duelo-conteo-subtitulo {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #cbd5e1;
+      margin: 0;
+      line-height: 1.4;
+    }
+
+    .duelo-conteo-tip {
+      font-size: 12px;
+      color: #94a3b8;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 6px 14px;
+      border-radius: 12px;
+      margin-top: 2px;
+    }
+
+    .btn-duelo-start {
+      background: linear-gradient(135deg, #10b981, #059669) !important;
+      color: #ffffff !important;
+      border: 1.5px solid #34d399 !important;
+      border-radius: 6px !important;
+      font-size: 11.5px !important;
+      height: 28px !important;
+      padding: 2px 10px !important;
+      font-weight: 900 !important;
+      letter-spacing: 0.3px !important;
+      cursor: pointer !important;
+      position: relative !important;
+      z-index: 206 !important;
+      touch-action: manipulation !important;
+      box-shadow: 0 2px 6px rgba(16, 185, 129, 0.4) !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 4px !important;
+      transition: transform 0.1s ease, filter 0.15s ease !important;
+    }
+    .btn-duelo-start:hover {
+      filter: brightness(1.1) !important;
+      transform: translateY(-1px) !important;
+    }
+    .btn-duelo-start:active {
+      transform: scale(0.95) !important;
+    }
+
+    .btn-duelo-iniciar-cuadrante {
+      grid-column: 1 / -1 !important;
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8) !important;
+      color: #ffffff !important;
+      border: 2px solid #60a5fa !important;
+      font-size: 14px !important;
+      font-weight: 900 !important;
+      padding: 12px 16px !important;
+      border-radius: 12px !important;
+      cursor: pointer !important;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35) !important;
+      animation: pulsoBotonListo 1.8s infinite ease-in-out !important;
+    }
+
+    @keyframes pulsoBotonListo {
+      0%, 100% { transform: scale(1); box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35); }
+      50% { transform: scale(1.03); box-shadow: 0 6px 20px rgba(59, 130, 246, 0.55); }
+    }
+
+
     /* 🌟 Modos Lluvia de Estrellas: Cascada vs Salto Ninja */
     .modo-lluvia-selector {
       display: flex;
@@ -4398,6 +4558,7 @@
           <option value="5" selected>🏁 5 pts</option>
           <option value="10">🏁 10 pts</option>
         </select>
+        <button id="btnDueloStart" class="btn-duelo-start" type="button" title="Iniciar Duelo con cuenta regresiva">▶️ ¡Iniciar!</button>
         <button id="btnDueloReiniciar" type="button" style="background:#ffffff; color:#0f172a; border:1.5px solid #94a3b8; border-radius:6px; font-size:12px; height:28px; padding:2px 8px; cursor:pointer; position:relative; z-index:205; touch-action:manipulation; font-weight:700; box-shadow:0 1px 3px rgba(0,0,0,0.1);" title="Reiniciar partida">🔄</button>
       </div>
     </div>
@@ -4422,6 +4583,16 @@
         </div>
         <div class="operacion-duelo" style="color:#fff;" id="opDueloJ4">? × ? = ?</div>
         <div class="respuestas-duelo" id="respuestasDueloJ4"></div>
+      </div>
+    </div>
+
+    <!-- Overlay de Conteo Inicial cuando se juega contra la IA -->
+    <div id="dueloConteoOverlay" class="duelo-conteo-overlay" style="display:none;" aria-live="assertive">
+      <div class="duelo-conteo-caja">
+        <div class="duelo-conteo-tag" id="dueloConteoTag">🤖 VS IA · PREPÁRATE</div>
+        <div class="duelo-conteo-numero" id="dueloConteoNumero">5</div>
+        <p class="duelo-conteo-subtitulo" id="dueloConteoSubtitulo">¡Pon tus dedos listos para multiplicar!</p>
+        <div class="duelo-conteo-tip" id="dueloConteoTip">⚡ El más rápido en acertar gana el punto</div>
       </div>
     </div>
 
@@ -4672,6 +4843,8 @@ let dueloCantJugadores = 2;
 let dueloModoEquipos = false;
 let dueloRivalIA = false;
 let dueloIATimeouts = [];
+let dueloConteoInterval = null;
+let dueloEnConteo = false;
 let dueloPuntos = [0, 0, 0, 0];
 let dueloPuntosEquipo = [0, 0]; // [Equipo 1 (J1+J3), Equipo 2 (J2+J4)]
 let DUELO_META_PUNTOS = 5;
@@ -4971,6 +5144,23 @@ const i18n = {
     dueloBotNombre: "Bot IA",
     dueloBot2Nombre: "Bot Alfa",
     dueloBot4Nombre: "Bot Beta",
+    dueloConteoTag1v1: "🤖 DUELO 1 VS 1 CONTRA IA",
+    dueloConteoTag4p: "🤖 4 JUGADORES VS IA",
+    dueloConteoTagEquipos: "🤝 EQUIPO HUMANO VS IA",
+    dueloConteoTagHumano1v1: "👥 DUELO 1 VS 1 · ¡PREPÁRENSE!",
+    dueloConteoTagHumano4p: "👨‍👩‍👦‍👦 4 JUGADORES · ¡PREPÁRENSE!",
+    dueloConteoTagHumanoEq: "🤝 2 VS 2 EQUIPOS · ¡PREPÁRENSE!",
+    dueloConteoSub: "¡Pon tus dedos listos para multiplicar!",
+    dueloConteoSubHumano: "¡Pongan sus dedos listos para multiplicar!",
+    dueloConteoTip: "⚡ El más rápido en acertar gana el punto",
+    dueloConteoPrep: "⏳ ¡PREPÁRATE!",
+    dueloConteoConectandoIA: "🤖 Conectando IA...",
+    dueloConteoGo: "⚔️ ¡A MULTIPLICAR!",
+    btnDueloStart: "▶️ ¡Iniciar!",
+    btnDueloStartTitle: "Iniciar duelo con cuenta regresiva",
+    dueloEstadoEsperando: "⚔️ ¡Presiona Iniciar para comenzar!",
+    dueloBotonListo: "▶️ ¡Listo para Iniciar!",
+    dueloBotEsperando: "🤖 Bot esperando inicio...",
     dueloOptMixto: "✨ Mixto (1-12)",
     dueloOptFacil: "🌱 Fáciles (1-5)",
     dueloOptReto: "🔥 Reto (6-12)",
@@ -5310,6 +5500,23 @@ const i18n = {
     dueloBotNombre: "AI Bot",
     dueloBot2Nombre: "Bot Alpha",
     dueloBot4Nombre: "Bot Beta",
+    dueloConteoTag1v1: "🤖 1 VS 1 DUEL AGAINST AI",
+    dueloConteoTag4p: "🤖 4 PLAYERS VS AI",
+    dueloConteoTagEquipos: "🤝 HUMAN TEAM VS AI",
+    dueloConteoTagHumano1v1: "👥 1 VS 1 DUEL · GET READY!",
+    dueloConteoTagHumano4p: "👨‍👩‍👦‍👦 4 PLAYERS · GET READY!",
+    dueloConteoTagHumanoEq: "🤝 2 VS 2 TEAMS · GET READY!",
+    dueloConteoSub: "Get your fingers ready to multiply!",
+    dueloConteoSubHumano: "Get your fingers ready to multiply!",
+    dueloConteoTip: "⚡ Fastest to tap the right answer wins",
+    dueloConteoPrep: "⏳ GET READY!",
+    dueloConteoConectandoIA: "🤖 Connecting AI...",
+    dueloConteoGo: "⚔️ MULTIPLY!",
+    btnDueloStart: "▶️ Start!",
+    btnDueloStartTitle: "Start duel with countdown",
+    dueloEstadoEsperando: "⚔️ Press Start to begin!",
+    dueloBotonListo: "▶️ Ready to Start!",
+    dueloBotEsperando: "🤖 Bot waiting to start...",
     dueloOptMixto: "✨ Mixed (1-12)",
     dueloOptFacil: "🌱 Easy (1-5)",
     dueloOptReto: "🔥 Challenge (6-12)",
@@ -5815,6 +6022,11 @@ function actualizarTextosUI() {
     selectDueloTablaEl.options[1].textContent = t.dueloOptFacil;
     selectDueloTablaEl.options[2].textContent = t.dueloOptReto;
     selectDueloTablaEl.value = valPrevio;
+  }
+  const btnDueloStartEl = document.getElementById("btnDueloStart");
+  if (btnDueloStartEl) {
+    btnDueloStartEl.textContent = t.btnDueloStart || (idiomaActual === "es" ? "▶️ ¡Iniciar!" : "▶️ Start!");
+    btnDueloStartEl.setAttribute("title", t.btnDueloStartTitle || (idiomaActual === "es" ? "Iniciar duelo con cuenta regresiva" : "Start duel with countdown"));
   }
   const btnDueloReiniciarEl = document.getElementById("btnDueloReiniciar");
   if (btnDueloReiniciarEl) {
@@ -12474,6 +12686,14 @@ window.addEventListener("keydown", (e) => {
 
   if (e.code === "Space" || e.code === "Enter") {
     e.preventDefault();
+    const mDuelo = document.getElementById("modalCaraACara");
+    if (mDuelo && !mDuelo.hidden) {
+      if (!dueloActivo && !dueloEnConteo) {
+        reproducirSonido("click");
+        iniciarPartidaDuelo();
+      }
+      return;
+    }
     if (!girando && !preguntaActiva && botonGirar && !botonGirar.disabled && botonGirar.style.display !== "none") {
       girarRuleta();
     } else if (botonSiguiente && !botonSiguiente.hidden) {
@@ -12484,6 +12704,7 @@ window.addEventListener("keydown", (e) => {
     const mDuelo = document.getElementById("modalCaraACara");
     if (mDuelo && !mDuelo.hidden) {
       dueloActivo = false;
+      if (typeof cancelarConteoIADuelo === "function") cancelarConteoIADuelo();
       if (typeof limpiarTemporizadoresIADuelo === "function") limpiarTemporizadoresIADuelo();
       mDuelo.hidden = true;
     }
@@ -12506,6 +12727,7 @@ window.addEventListener("keydown", (e) => {
 const modalCaraACara = document.getElementById("modalCaraACara");
 const btnCaraACara = document.getElementById("btnCaraACara");
 const cerrarCaraACara = document.getElementById("cerrarCaraACara");
+const btnDueloStart = document.getElementById("btnDueloStart");
 const btnDueloReiniciar = document.getElementById("btnDueloReiniciar");
 const selectDueloJugadores = document.getElementById("selectDueloJugadores");
 const selectDueloModo4P = document.getElementById("selectDueloModo4P");
@@ -12657,10 +12879,141 @@ function obtenerOpDuelo(numJugador) {
 function abrirDueloCaraACara() {
   reproducirSonido("click");
   modalCaraACara.hidden = false;
-  iniciarPartidaDuelo();
+  configurarTableroDuelo(false);
 }
 
-function iniciarPartidaDuelo() {
+function cancelarConteoIADuelo() {
+  if (dueloConteoInterval) {
+    clearInterval(dueloConteoInterval);
+    dueloConteoInterval = null;
+  }
+  dueloEnConteo = false;
+  const overlay = document.getElementById("dueloConteoOverlay");
+  if (overlay) overlay.style.display = "none";
+}
+
+function iniciarConteoIADuelo(alFinalizar) {
+  cancelarConteoIADuelo();
+  limpiarTemporizadoresIADuelo();
+  dueloEnConteo = true;
+  dueloRondaBloqueada = true;
+
+  const overlay = document.getElementById("dueloConteoOverlay");
+  const numEl = document.getElementById("dueloConteoNumero");
+  const tagEl = document.getElementById("dueloConteoTag");
+  const subEl = document.getElementById("dueloConteoSubtitulo");
+  const tipEl = document.getElementById("dueloConteoTip");
+
+  const esEs = idiomaActual === "es";
+  const t = (typeof i18n !== "undefined" && i18n[idiomaActual]) ? i18n[idiomaActual] : (typeof i18n !== "undefined" ? i18n.es : {});
+
+  if (tagEl) {
+    if (dueloRivalIA) {
+      if (dueloModoEquipos) {
+        tagEl.textContent = t.dueloConteoTagEquipos || (esEs ? "🤝 EQUIPO HUMANO VS IA" : "🤝 HUMAN TEAM VS AI");
+      } else if (dueloCantJugadores === 4) {
+        tagEl.textContent = t.dueloConteoTag4p || (esEs ? "🤖 4 JUGADORES VS IA" : "🤖 4 PLAYERS VS AI");
+      } else {
+        tagEl.textContent = t.dueloConteoTag1v1 || (esEs ? "🤖 DUELO CONTRA IA · ¡PREPÁRATE!" : "🤖 1 VS 1 DUEL AGAINST AI");
+      }
+    } else {
+      if (dueloModoEquipos) {
+        tagEl.textContent = t.dueloConteoTagHumanoEq || (esEs ? "🤝 2 VS 2 EQUIPOS · ¡PREPÁRENSE!" : "🤝 2 VS 2 TEAMS · GET READY!");
+      } else if (dueloCantJugadores === 4) {
+        tagEl.textContent = t.dueloConteoTagHumano4p || (esEs ? "👨‍👩‍👦‍👦 4 JUGADORES · ¡PREPÁRENSE!" : "👨‍👩‍👦‍👦 4 PLAYERS · GET READY!");
+      } else {
+        tagEl.textContent = t.dueloConteoTagHumano1v1 || (esEs ? "👥 DUELO 1 VS 1 · ¡PREPÁRENSE!" : "👥 1 VS 1 DUEL · GET READY!");
+      }
+    }
+  }
+
+  if (subEl) {
+    if (dueloRivalIA) {
+      subEl.textContent = t.dueloConteoSub || (esEs ? "¡Pon tus dedos listos para multiplicar!" : "Get your fingers ready to multiply!");
+    } else {
+      subEl.textContent = t.dueloConteoSubHumano || (esEs ? "¡Pongan sus dedos listos para multiplicar!" : "Get your fingers ready to multiply!");
+    }
+  }
+  if (tipEl) {
+    tipEl.textContent = t.dueloConteoTip || (esEs ? "⚡ El más rápido en acertar gana el punto" : "⚡ Fastest to tap the right answer wins");
+  }
+
+  // Despejar botones y mostrar indicador de espera en los cuadrantes de jugadores
+  for (let j = 1; j <= dueloCantJugadores; j++) {
+    const cont = obtenerContenedorRespuestasDuelo(j);
+    if (cont) cont.replaceChildren();
+    const opEl = obtenerOpDuelo(j);
+    if (opEl) {
+      if (esJugadorBotDuelo(j)) {
+        opEl.textContent = t.dueloConteoConectandoIA || (esEs ? "🤖 Conectando IA..." : "🤖 Connecting AI...");
+      } else {
+        opEl.textContent = t.dueloConteoPrep || (esEs ? "⏳ ¡PREPÁRATE!" : "⏳ GET READY!");
+      }
+    }
+  }
+
+  if (overlay) overlay.style.display = "flex";
+
+  let segundosRestantes = 5;
+
+  const animarNumero = (texto, esFinal = false) => {
+    if (!numEl) return;
+    numEl.classList.remove("conteo-anim", "conteo-final");
+    void numEl.offsetWidth; // Force CSS reflow
+    if (esFinal) {
+      numEl.classList.add("conteo-final");
+    }
+    numEl.classList.add("conteo-anim");
+    numEl.textContent = String(texto);
+  };
+
+  // Mostrar el 5 inicial
+  animarNumero(segundosRestantes, false);
+  reproducirSonido("click");
+  vibrar(35);
+
+  for (let j = 1; j <= dueloCantJugadores; j++) {
+    const opEl = obtenerOpDuelo(j);
+    if (opEl && !esJugadorBotDuelo(j)) {
+      opEl.textContent = `⏳ ${segundosRestantes}...`;
+    }
+  }
+
+  dueloConteoInterval = setInterval(() => {
+    segundosRestantes--;
+
+    if (segundosRestantes > 0) {
+      animarNumero(segundosRestantes, false);
+      reproducirSonido("click");
+      vibrar(35);
+      for (let j = 1; j <= dueloCantJugadores; j++) {
+        const opEl = obtenerOpDuelo(j);
+        if (opEl && !esJugadorBotDuelo(j)) {
+          opEl.textContent = `⏳ ${segundosRestantes}...`;
+        }
+      }
+    } else if (segundosRestantes === 0) {
+      // 0 -> ¡A MULTIPLICAR!
+      const textoGo = t.dueloConteoGo || (esEs ? "⚔️ ¡A MULTIPLICAR!" : "⚔️ MULTIPLY!");
+      animarNumero(textoGo, true);
+      reproducirSonido("acierto");
+      vibrar([40, 30, 70]);
+      for (let j = 1; j <= dueloCantJugadores; j++) {
+        const opEl = obtenerOpDuelo(j);
+        if (opEl) opEl.textContent = textoGo;
+      }
+    } else {
+      // Fin del conteo
+      cancelarConteoIADuelo();
+      if (typeof alFinalizar === "function" && dueloActivo) {
+        alFinalizar();
+      }
+    }
+  }, 1000);
+}
+
+function configurarTableroDuelo(arrancarConteo = false) {
+  cancelarConteoIADuelo();
   limpiarTemporizadoresIADuelo();
 
   if (selectDueloJugadores) {
@@ -12711,8 +13064,8 @@ function iniciarPartidaDuelo() {
 
   dueloPuntos = [0, 0, 0, 0];
   dueloPuntosEquipo = [0, 0];
-  dueloActivo = true;
-  dueloRondaBloqueada = false;
+  dueloActivo = false;
+  dueloRondaBloqueada = true;
 
   actualizarMarcadorDuelo();
 
@@ -12768,7 +13121,75 @@ function iniciarPartidaDuelo() {
     if (lado) lado.classList.remove("penalizado", "acierto-flash", "error-flash");
   }
 
-  siguienteRondaDuelo();
+  if (arrancarConteo) {
+    iniciarPartidaDuelo();
+  } else {
+    // Renderizar botones de "▶️ ¡Listo para Iniciar!" en cada cuadrante humano
+    for (let j = 1; j <= dueloCantJugadores; j++) {
+      const opEl = obtenerOpDuelo(j);
+      if (opEl) opEl.textContent = t.dueloEstadoEsperando || (esEs ? "⚔️ ¡Presiona Iniciar para comenzar!" : "⚔️ Press Start to begin!");
+      const cont = obtenerContenedorRespuestasDuelo(j);
+      if (cont) {
+        cont.replaceChildren();
+        if (esJugadorBotDuelo(j)) {
+          const btnBot = document.createElement("button");
+          btnBot.type = "button";
+          btnBot.className = "btn-respuesta-duelo";
+          btnBot.disabled = true;
+          btnBot.style.gridColumn = "1 / -1";
+          btnBot.style.opacity = "0.75";
+          btnBot.style.cursor = "default";
+          btnBot.style.fontSize = dueloCantJugadores === 4 ? "11px" : "13px";
+          btnBot.textContent = t.dueloBotEsperando || (esEs ? "🤖 Bot esperando inicio..." : "🤖 Bot waiting to start...");
+          cont.appendChild(btnBot);
+        } else {
+          const btnListo = document.createElement("button");
+          btnListo.type = "button";
+          btnListo.className = "btn-respuesta-duelo btn-duelo-iniciar-cuadrante";
+          btnListo.style.gridColumn = "1 / -1";
+          btnListo.style.fontSize = dueloCantJugadores === 4 ? "12px" : "14px";
+          btnListo.textContent = t.dueloBotonListo || (esEs ? "▶️ ¡Listo para Iniciar!" : "▶️ Ready to Start!");
+          btnListo.addEventListener("click", () => {
+            reproducirSonido("click");
+            iniciarPartidaDuelo();
+          });
+          cont.appendChild(btnListo);
+        }
+      }
+    }
+  }
+}
+
+function iniciarPartidaDuelo() {
+  cancelarConteoIADuelo();
+  limpiarTemporizadoresIADuelo();
+
+  if (selectDueloJugadores) {
+    dueloCantJugadores = Number(selectDueloJugadores.value) === 4 ? 4 : 2;
+  }
+  if (selectDueloMeta) {
+    DUELO_META_PUNTOS = Number(selectDueloMeta.value) || 5;
+  }
+  if (selectDueloRival) {
+    dueloRivalIA = (selectDueloRival.value === "ia");
+  }
+
+  dueloPuntos = [0, 0, 0, 0];
+  dueloPuntosEquipo = [0, 0];
+  dueloActivo = true;
+  dueloRondaBloqueada = true;
+
+  actualizarMarcadorDuelo();
+
+  for (let j = 1; j <= 4; j++) {
+    const lado = obtenerLadoDuelo(j);
+    if (lado) lado.classList.remove("penalizado", "acierto-flash", "error-flash");
+  }
+
+  // Cuenta regresiva 5..4..3..2..1 para TODOS los modos (humano vs humano o vs IA)
+  iniciarConteoIADuelo(() => {
+    siguienteRondaDuelo();
+  });
 }
 
 function actualizarMarcadorDuelo() {
@@ -12801,7 +13222,7 @@ function actualizarMarcadorDuelo() {
 }
 
 function siguienteRondaDuelo() {
-  if (!dueloActivo) return;
+  if (!dueloActivo || dueloEnConteo) return;
 
   limpiarTemporizadoresIADuelo();
   dueloRondaBloqueada = false;
@@ -12884,7 +13305,7 @@ function renderizarBotonesDuelo(contenedor, opciones, numJugador) {
 }
 
 function manejarRespuestaDuelo(jugador, valorElegido, btnElement) {
-  if (!dueloActivo || dueloRondaBloqueada) return;
+  if (!dueloActivo || dueloRondaBloqueada || dueloEnConteo) return;
   const lado = obtenerLadoDuelo(jugador);
   if (lado && lado.classList.contains("penalizado")) return;
 
@@ -13169,8 +13590,16 @@ document.getElementById("cardHubCaraACara")?.addEventListener("click", () => {
 if (cerrarCaraACara) {
   cerrarCaraACara.addEventListener("click", () => {
     dueloActivo = false;
+    cancelarConteoIADuelo();
     limpiarTemporizadoresIADuelo();
     modalCaraACara.hidden = true;
+  });
+}
+
+if (btnDueloStart) {
+  btnDueloStart.addEventListener("click", () => {
+    reproducirSonido("click");
+    iniciarPartidaDuelo();
   });
 }
 
@@ -13185,14 +13614,14 @@ if (selectDueloJugadores) {
   selectDueloJugadores.addEventListener("change", () => {
     reproducirSonido("click");
     dueloCantJugadores = Number(selectDueloJugadores.value) === 4 ? 4 : 2;
-    iniciarPartidaDuelo();
+    configurarTableroDuelo(false);
   });
 }
 
 if (selectDueloModo4P) {
   selectDueloModo4P.addEventListener("change", () => {
     reproducirSonido("click");
-    iniciarPartidaDuelo();
+    configurarTableroDuelo(false);
   });
 }
 
@@ -13200,14 +13629,14 @@ if (selectDueloRival) {
   selectDueloRival.addEventListener("change", () => {
     reproducirSonido("click");
     dueloRivalIA = (selectDueloRival.value === "ia");
-    iniciarPartidaDuelo();
+    configurarTableroDuelo(false);
   });
 }
 
 if (selectDueloTabla) {
   selectDueloTabla.addEventListener("change", () => {
     reproducirSonido("click");
-    iniciarPartidaDuelo();
+    configurarTableroDuelo(false);
   });
 }
 
@@ -13215,7 +13644,7 @@ if (selectDueloMeta) {
   selectDueloMeta.addEventListener("change", () => {
     reproducirSonido("click");
     DUELO_META_PUNTOS = Number(selectDueloMeta.value) || 5;
-    iniciarPartidaDuelo();
+    configurarTableroDuelo(false);
   });
 }
 
