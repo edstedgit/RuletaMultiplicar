@@ -80,11 +80,32 @@
       background: transparent;
     }
 
-    /* Regla crítica para iPhone Safari: evita zoom indeseado al tocar inputs */
-    @media screen and (max-width: 768px) {
-      input[type="text"], input[type="number"], select, textarea {
-        font-size: 16px !important;
+    /* Regla para iPhone Safari: evita zoom indeseado al tocar inputs en iOS */
+    @supports (-webkit-touch-callout: none) {
+      @media screen and (max-width: 768px) {
+        input[type="text"], input[type="number"], select, textarea {
+          font-size: 16px !important;
+        }
       }
+    }
+
+    /* Regla global: garantizar interacción 100% nativa y estándar para todos los select/combobox (Chrome, Edge, Safari, Firefox) */
+    select,
+    .selector-tabla select,
+    .ajedrez-select-control,
+    .duelo-select-control {
+      -webkit-appearance: menulist !important;
+      -moz-appearance: menulist !important;
+      appearance: menulist !important;
+      touch-action: manipulation !important;
+      -webkit-user-select: auto !important;
+      user-select: auto !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+      box-sizing: border-box !important;
+      white-space: normal !important;
+      text-overflow: clip !important;
+      overflow: visible !important;
     }
 
     /* Optimización táctil para iPhone: elimina retardo de 300ms y selecciones accidentales */
@@ -112,12 +133,22 @@
 
     /* Prevención de gestos de zoom del navegador durante el Duelo Cara a Cara a 2 manos */
     .modal-cara-a-cara {
-      touch-action: none;
-      -webkit-user-select: none;
-      user-select: none;
+      touch-action: manipulation;
     }
     .lado-jugador {
       touch-action: manipulation;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    .barra-central-duelo,
+    .barra-central-duelo select,
+    .barra-central-duelo button,
+    .controles-duelo-derecha {
+      touch-action: manipulation !important;
+      -webkit-user-select: auto !important;
+      user-select: auto !important;
+      pointer-events: auto !important;
+      overflow: visible !important;
     }
 
     @media (min-width: 430px) {
@@ -1168,19 +1199,31 @@
     }
 
     .ajedrez-select-control {
-      font-size: 10.5px;
-      padding: 4px 6px;
+      -webkit-appearance: menulist !important;
+      -moz-appearance: menulist !important;
+      appearance: menulist !important;
+      font-size: 11px;
+      height: 30px;
+      line-height: normal;
+      padding: 3px 6px;
       border-radius: 8px;
       border: 1.5px solid #cbd5e1;
-      background: #f8fafc;
-      font-weight: 800;
-      color: #334155;
+      background: #ffffff;
+      font-weight: 700;
+      color: #1e293b;
       cursor: pointer;
-      transition: all 0.15s ease;
       width: 100%;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      overflow: hidden;
+      user-select: auto !important;
+      -webkit-user-select: auto !important;
+      touch-action: manipulation !important;
+      pointer-events: auto !important;
+    }
+
+    .ajedrez-select-control option {
+      background: #ffffff;
+      color: #1e293b;
+      font-size: 12px;
+      padding: 3px 6px;
     }
 
     .ajedrez-select-control:focus {
@@ -2061,9 +2104,8 @@
       z-index: 1000;
       display: flex;
       flex-direction: column;
-      user-select: none;
-      -webkit-user-select: none;
       overflow: hidden;
+      touch-action: manipulation;
     }
     .modal-cara-a-cara[hidden] {
       display: none !important;
@@ -2078,6 +2120,9 @@
       position: relative;
       transition: background-color 0.2s ease;
       overflow: hidden;
+      -webkit-user-select: none;
+      user-select: none;
+      touch-action: manipulation;
     }
 
     .lado-jugador-1 {
@@ -2106,10 +2151,11 @@
 
     /* Contenedores divididos por fila (para 2 o 4 jugadores) */
     .fila-duelo-jugadores {
-      flex: 1;
+      flex: 1 1 0;
+      min-height: 0;
       display: flex;
       width: 100%;
-      height: 50%;
+      height: auto;
       overflow: hidden;
     }
 
@@ -2124,19 +2170,89 @@
       border-right: 1px dashed rgba(16, 185, 129, 0.3);
     }
 
+    /* Estilos del modo por equipos (2 vs 2) en Duelo Cara a Cara */
+    .modal-cara-a-cara.modo-equipos #filaDueloSuperior {
+      box-shadow: inset 0 -3px 0 rgba(244, 63, 94, 0.45);
+    }
+    .modal-cara-a-cara.modo-equipos #filaDueloInferior {
+      box-shadow: inset 0 3px 0 rgba(16, 185, 129, 0.45);
+    }
+    .modal-cara-a-cara.modo-equipos .lado-jugador-1,
+    .modal-cara-a-cara.modo-equipos .lado-jugador-3 {
+      background: radial-gradient(circle at 50% 50%, #4c0519 0%, #1c0209 100%);
+    }
+    .modal-cara-a-cara.modo-equipos .lado-jugador-2,
+    .modal-cara-a-cara.modo-equipos .lado-jugador-4 {
+      background: radial-gradient(circle at 50% 50%, #022c22 0%, #011611 100%);
+    }
+
     .barra-central-duelo {
-      height: 44px;
-      min-height: 44px;
+      position: relative;
+      z-index: 200;
+      flex-shrink: 0;
+      height: auto;
+      min-height: 48px;
       background: #0f172a;
       border-top: 2px solid #334155;
       border-bottom: 2px solid #334155;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 10px;
-      z-index: 10;
+      padding: 5px 10px;
       box-shadow: 0 0 15px rgba(0,0,0,0.5);
       gap: 6px;
+      flex-wrap: wrap;
+      overflow: visible;
+      touch-action: manipulation;
+      -webkit-user-select: auto;
+      user-select: auto;
+      pointer-events: auto;
+    }
+
+    .barra-central-duelo select,
+    .duelo-select-control {
+      -webkit-appearance: menulist !important;
+      -moz-appearance: menulist !important;
+      appearance: menulist !important;
+      position: relative !important;
+      z-index: 205 !important;
+      font-size: 11.5px !important;
+      height: 28px !important;
+      line-height: normal !important;
+      padding: 2px 6px !important;
+      border-radius: 6px !important;
+      background: #ffffff !important;
+      color: #0f172a !important;
+      border: 1.5px solid #94a3b8 !important;
+      font-weight: 700 !important;
+      cursor: pointer !important;
+      touch-action: manipulation !important;
+      -webkit-user-select: auto !important;
+      user-select: auto !important;
+      pointer-events: auto !important;
+      outline: none !important;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+    }
+
+    .barra-central-duelo select option,
+    .duelo-select-control option {
+      background: #ffffff !important;
+      color: #0f172a !important;
+      font-size: 12px !important;
+      padding: 3px 6px !important;
+    }
+
+    body[data-tema="google"] .barra-central-duelo select,
+    body[data-tema="google"] .duelo-select-control {
+      background: #f1f3f4 !important;
+      color: #202124 !important;
+      border-color: #dadce0 !important;
+    }
+
+    body[data-tema="google"] .barra-central-duelo select option,
+    body[data-tema="google"] .duelo-select-control option {
+      background: #ffffff !important;
+      color: #202124 !important;
     }
 
     .marcador-duelo-centro {
@@ -3067,12 +3183,22 @@
     }
     body[data-tema="google"] #cerrarCaraACara,
     body[data-tema="google"] #selectDueloJugadores,
+    body[data-tema="google"] #selectDueloModo4P,
+    body[data-tema="google"] #selectDueloRival,
     body[data-tema="google"] #selectDueloTabla,
     body[data-tema="google"] #selectDueloMeta,
     body[data-tema="google"] #btnDueloReiniciar {
       background: #f1f3f4 !important;
       color: #3c4043 !important;
       border-color: #dadce0 !important;
+    }
+    body[data-tema="google"] .modal-cara-a-cara.modo-equipos .lado-jugador-1,
+    body[data-tema="google"] .modal-cara-a-cara.modo-equipos .lado-jugador-3 {
+      background: linear-gradient(135deg, #fce8e6 0%, #fad2cf 100%) !important;
+    }
+    body[data-tema="google"] .modal-cara-a-cara.modo-equipos .lado-jugador-2,
+    body[data-tema="google"] .modal-cara-a-cara.modo-equipos .lado-jugador-4 {
+      background: linear-gradient(135deg, #e6f4ea 0%, #ceead6 100%) !important;
     }
     body[data-tema="google"] #scoreCentroP1 {
       color: #ea4335 !important;
@@ -4250,21 +4376,29 @@
         <span class="duelo-p-score" style="color:#38bdf8; display:none;" id="scoreCentroP4" title="Jugador 4">0</span>
       </div>
 
-      <div style="display:flex; align-items:center; gap:4px; flex-wrap:wrap; justify-content:flex-end;">
-        <select id="selectDueloJugadores" style="font-size:10px; padding:3px 5px; border-radius:6px; background:#1e293b; color:#cbd5e1; border:1px solid #475569; font-weight:bold;" title="Cantidad de jugadores">
+      <div class="controles-duelo-derecha" style="display:flex; align-items:center; gap:5px; flex-wrap:wrap; justify-content:flex-end; position:relative; z-index:201; overflow:visible; pointer-events:auto; touch-action:manipulation;">
+        <select id="selectDueloJugadores" class="duelo-select-control" title="Cantidad de jugadores">
           <option value="2" selected>👥 2 Jug.</option>
           <option value="4">👨‍👩‍👦‍👦 4 Jug.</option>
         </select>
-        <select id="selectDueloTabla" style="font-size:10px; padding:3px 5px; border-radius:6px; background:#1e293b; color:#cbd5e1; border:1px solid #475569; font-weight:bold;">
+        <select id="selectDueloModo4P" class="duelo-select-control" style="display:none;" title="Modo de 4 jugadores: 4 Individual o 2 vs 2">
+          <option value="individual" selected>⚔️ 4 Indiv.</option>
+          <option value="equipos">🤝 2 vs 2</option>
+        </select>
+        <select id="selectDueloRival" class="duelo-select-control" title="Oponente: Humano o contra IA">
+          <option value="humano" selected>👥 Humano</option>
+          <option value="ia">🤖 vs. IA</option>
+        </select>
+        <select id="selectDueloTabla" class="duelo-select-control" title="Tabla de multiplicar">
           <option value="mixto">✨ Mixto (1-12)</option>
           <option value="facil">🌱 Fáciles (1-5)</option>
           <option value="reto">🔥 Reto (6-12)</option>
         </select>
-        <select id="selectDueloMeta" style="font-size:10px; padding:3px 5px; border-radius:6px; background:#1e293b; color:#cbd5e1; border:1px solid #475569; font-weight:bold;" title="Meta de puntos">
+        <select id="selectDueloMeta" class="duelo-select-control" title="Meta de puntos">
           <option value="5" selected>🏁 5 pts</option>
           <option value="10">🏁 10 pts</option>
         </select>
-        <button id="btnDueloReiniciar" type="button" style="background:#1e293b; color:#cbd5e1; border:1px solid #475569; border-radius:6px; font-size:11px; padding:3px 7px; cursor:pointer;" title="Reiniciar partida">🔄</button>
+        <button id="btnDueloReiniciar" type="button" style="background:#ffffff; color:#0f172a; border:1.5px solid #94a3b8; border-radius:6px; font-size:12px; height:28px; padding:2px 8px; cursor:pointer; position:relative; z-index:205; touch-action:manipulation; font-weight:700; box-shadow:0 1px 3px rgba(0,0,0,0.1);" title="Reiniciar partida">🔄</button>
       </div>
     </div>
 
@@ -4534,6 +4668,16 @@ let victoriasAjedrez = 0;
 let aciertosTrampaTotal = 0;
 let laberintosCompletados = 0;
 let duelosGanados = 0;
+let dueloCantJugadores = 2;
+let dueloModoEquipos = false;
+let dueloRivalIA = false;
+let dueloIATimeouts = [];
+let dueloPuntos = [0, 0, 0, 0];
+let dueloPuntosEquipo = [0, 0]; // [Equipo 1 (J1+J3), Equipo 2 (J2+J4)]
+let DUELO_META_PUNTOS = 5;
+let dueloActivo = false;
+let dueloOperacionActual = { t: 0, f: 0, res: 0 };
+let dueloRondaBloqueada = false;
 
 let aciertosPorTabla = {
   1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 
@@ -4820,6 +4964,13 @@ const i18n = {
     dueloP4: "Jugador 4",
     dueloOpt2P: "👥 2 Jug.",
     dueloOpt4P: "👨‍👩‍👦‍👦 4 Jug.",
+    dueloOpt4PIndiv: "⚔️ 4 Indiv.",
+    dueloOpt4PEquipos: "🤝 2 vs 2",
+    dueloOptRivalHumano: "👥 Humano",
+    dueloOptRivalIA: "🤖 vs. IA",
+    dueloBotNombre: "Bot IA",
+    dueloBot2Nombre: "Bot Alfa",
+    dueloBot4Nombre: "Bot Beta",
     dueloOptMixto: "✨ Mixto (1-12)",
     dueloOptFacil: "🌱 Fáciles (1-5)",
     dueloOptReto: "🔥 Reto (6-12)",
@@ -4828,7 +4979,15 @@ const i18n = {
     dueloGanaP2: "🏆 ¡GANA JUGADOR 2!",
     dueloGanaP3: "🏆 ¡GANA JUGADOR 3!",
     dueloGanaP4: "🏆 ¡GANA JUGADOR 4!",
+    dueloGanaIA: "🤖 ¡GANA LA IA!",
+    dueloGanaEq1: "🏆 ¡GANA EQUIPO 1!",
+    dueloGanaEq2: "🏆 ¡GANA EQUIPO 2!",
+    dueloGanaEqIA: "🤖 ¡GANA EQUIPO IA!",
+    dueloGanaEqHumano: "🏆 ¡GANA EQUIPO HUMANO!",
+    dueloEq1: "Equipo 1",
+    dueloEq2: "Equipo 2",
     dueloVictoriaMsg: (nom, scoreTxt) => `🏆 ¡VICTORIA! ${nom} ha ganado el Duelo (${scoreTxt})`,
+    dueloVictoriaEqMsg: (eqNom, scoreTxt) => `🏆 ¡VICTORIA! El ${eqNom} ha ganado el Duelo (${scoreTxt})`,
 
     // 🎓 Diploma de Honor
     btnHistorialDiploma: "🎓 Ver Diploma de Campeón",
@@ -4868,12 +5027,14 @@ const i18n = {
     tooltipPitagoras: "Tabla Pitagórica",
     tooltipDuelo: "Minijuego: Duelo Cara a Cara",
     tooltipHistorial: "Ver historial",
-    tooltipSonido: "Control de sonido y música",
+    tooltipSonido: "Control de sonido (Efectos)",
+    audioSonidoOn: "🔊 Sonido activado",
+    audioSonidoOff: "🔇 Sonido desactivado",
+    audioTituloOn: "Sonido: Activado",
+    audioTituloOff: "Sonido: Silenciado",
     audioEstados: [
-      { icono: "🔊", titulo: "Audio: Sonido ON (sin música)", toast: "🔊 Sonido activado" },
-      { icono: "🎶", titulo: "Audio: Sonido + Música de fondo", toast: "🎶 Sonido + Música de fondo" },
-      { icono: "🎵", titulo: "Audio: Solo música de fondo", toast: "🎵 Solo música de fondo" },
-      { icono: "🔇", titulo: "Audio: Todo silenciado", toast: "🔇 Sonido desactivado" }
+      { icono: "🔊", titulo: "Audio: Activado", toast: "🔊 Sonido activado" },
+      { icono: "🔇", titulo: "Audio: Silenciado", toast: "🔇 Sonido desactivado" }
     ],
     tooltipAvatar: "Cambiar avatar"
   },
@@ -5142,6 +5303,13 @@ const i18n = {
     dueloP4: "Player 4",
     dueloOpt2P: "👥 2 Players",
     dueloOpt4P: "👨‍👩‍👦‍👦 4 Players",
+    dueloOpt4PIndiv: "⚔️ 4 Indiv.",
+    dueloOpt4PEquipos: "🤝 2 vs 2",
+    dueloOptRivalHumano: "👥 Human",
+    dueloOptRivalIA: "🤖 vs. AI",
+    dueloBotNombre: "AI Bot",
+    dueloBot2Nombre: "Bot Alpha",
+    dueloBot4Nombre: "Bot Beta",
     dueloOptMixto: "✨ Mixed (1-12)",
     dueloOptFacil: "🌱 Easy (1-5)",
     dueloOptReto: "🔥 Challenge (6-12)",
@@ -5150,7 +5318,15 @@ const i18n = {
     dueloGanaP2: "🏆 PLAYER 2 WINS!",
     dueloGanaP3: "🏆 PLAYER 3 WINS!",
     dueloGanaP4: "🏆 PLAYER 4 WINS!",
+    dueloGanaIA: "🤖 AI WINS!",
+    dueloGanaEq1: "🏆 TEAM 1 WINS!",
+    dueloGanaEq2: "🏆 TEAM 2 WINS!",
+    dueloGanaEqIA: "🤖 AI TEAM WINS!",
+    dueloGanaEqHumano: "🏆 HUMAN TEAM WINS!",
+    dueloEq1: "Team 1",
+    dueloEq2: "Team 2",
     dueloVictoriaMsg: (nom, scoreTxt) => `🏆 VICTORY! ${nom} won the Duel (${scoreTxt})`,
+    dueloVictoriaEqMsg: (eqNom, scoreTxt) => `🏆 VICTORY! ${eqNom} won the Duel (${scoreTxt})`,
 
     // 🎓 Champion Diploma
     btnHistorialDiploma: "🎓 View Champion Diploma",
@@ -5190,12 +5366,14 @@ const i18n = {
     tooltipPitagoras: "Pythagorean Table",
     tooltipDuelo: "Minigame: Face-to-Face Duel",
     tooltipHistorial: "View history",
-    tooltipSonido: "Sound & music control",
+    tooltipSonido: "Sound control (Effects)",
+    audioSonidoOn: "🔊 Sound ON",
+    audioSonidoOff: "🔇 Sound OFF",
+    audioTituloOn: "Sound: ON",
+    audioTituloOff: "Sound: Muted",
     audioEstados: [
-      { icono: "🔊", titulo: "Audio: Sound ON (no music)", toast: "🔊 Sound ON" },
-      { icono: "🎶", titulo: "Audio: Sound + Background Music", toast: "🎶 Sound + Background Music" },
-      { icono: "🎵", titulo: "Audio: Background Music Only", toast: "🎵 Background Music Only" },
-      { icono: "🔇", titulo: "Audio: All Muted", toast: "🔇 Sound OFF" }
+      { icono: "🔊", titulo: "Audio: ON", toast: "🔊 Sound ON" },
+      { icono: "🔇", titulo: "Audio: Muted", toast: "🔇 Sound OFF" }
     ],
     tooltipAvatar: "Change avatar"
   }
@@ -5616,6 +5794,20 @@ function actualizarTextosUI() {
     selectDueloJugadoresEl.options[1].textContent = t.dueloOpt4P || "👨‍👩‍👦‍👦 4 Jug.";
     selectDueloJugadoresEl.value = valPrevioJug;
   }
+  const selectDueloModo4PEl = document.getElementById("selectDueloModo4P");
+  if (selectDueloModo4PEl && selectDueloModo4PEl.options.length >= 2) {
+    const valPrevioModo = selectDueloModo4PEl.value;
+    selectDueloModo4PEl.options[0].textContent = t.dueloOpt4PIndiv || "⚔️ 4 Indiv.";
+    selectDueloModo4PEl.options[1].textContent = t.dueloOpt4PEquipos || "🤝 2 vs 2";
+    selectDueloModo4PEl.value = valPrevioModo;
+  }
+  const selectDueloRivalEl = document.getElementById("selectDueloRival");
+  if (selectDueloRivalEl && selectDueloRivalEl.options.length >= 2) {
+    const valPrevioRival = selectDueloRivalEl.value;
+    selectDueloRivalEl.options[0].textContent = t.dueloOptRivalHumano || "👥 Humano";
+    selectDueloRivalEl.options[1].textContent = t.dueloOptRivalIA || "🤖 vs. IA";
+    selectDueloRivalEl.value = valPrevioRival;
+  }
   const selectDueloTablaEl = document.getElementById("selectDueloTabla");
   if (selectDueloTablaEl && selectDueloTablaEl.options.length >= 3) {
     const valPrevio = selectDueloTablaEl.value;
@@ -5629,21 +5821,36 @@ function actualizarTextosUI() {
     btnDueloReiniciarEl.setAttribute("title", t.dueloBtnReiniciar);
   }
   const lblDueloP1NombreEl = document.getElementById("lblDueloP1Nombre");
-  if (lblDueloP1NombreEl && (!lblDueloP1NombreEl.textContent || lblDueloP1NombreEl.textContent.includes("Jugador 1") || lblDueloP1NombreEl.textContent.includes("Player 1"))) {
-    const nomJ1 = inputNombre.value.trim() || t.dueloP1;
-    lblDueloP1NombreEl.textContent = `${avatarActual} ${nomJ1}`;
-  }
-  const lblDueloP2NombreEl = document.getElementById("lblDueloP2Nombre");
-  if (lblDueloP2NombreEl) {
-    lblDueloP2NombreEl.textContent = `🤖 ${t.dueloP2}`;
-  }
-  const lblDueloP3NombreEl = document.getElementById("lblDueloP3Nombre");
-  if (lblDueloP3NombreEl) {
-    lblDueloP3NombreEl.textContent = `🦊 ${t.dueloP3 || "Jugador 3"}`;
-  }
-  const lblDueloP4NombreEl = document.getElementById("lblDueloP4Nombre");
-  if (lblDueloP4NombreEl) {
-    lblDueloP4NombreEl.textContent = `🐼 ${t.dueloP4 || "Jugador 4"}`;
+  const nomJ1 = inputNombre.value.trim() || t.dueloP1;
+  const esModoEquipos = Boolean((document.getElementById("modalCaraACara")?.classList.contains("modo-equipos")) || dueloModoEquipos);
+  const esRivalIA = Boolean(dueloRivalIA || (document.getElementById("selectDueloRival")?.value === "ia"));
+
+  if (esModoEquipos) {
+    const eq1Tag = t.dueloEq1 || "🔴 Eq. 1";
+    const eq2Tag = t.dueloEq2 || "🟢 Eq. 2";
+    if (lblDueloP1NombreEl) lblDueloP1NombreEl.textContent = `${avatarActual} ${nomJ1} · ${eq1Tag}`;
+    const lblDueloP2NombreEl = document.getElementById("lblDueloP2Nombre");
+    if (lblDueloP2NombreEl) lblDueloP2NombreEl.textContent = esRivalIA ? `🤖 ${t.dueloBot2Nombre || "Bot Alfa"} · ${eq2Tag}` : `🤖 ${t.dueloP2} · ${eq2Tag}`;
+    const lblDueloP3NombreEl = document.getElementById("lblDueloP3Nombre");
+    if (lblDueloP3NombreEl) lblDueloP3NombreEl.textContent = `🦊 ${t.dueloP3 || "Jugador 3"} · ${eq1Tag}`;
+    const lblDueloP4NombreEl = document.getElementById("lblDueloP4Nombre");
+    if (lblDueloP4NombreEl) lblDueloP4NombreEl.textContent = esRivalIA ? `🤖 ${t.dueloBot4Nombre || "Bot Beta"} · ${eq2Tag}` : `🐼 ${t.dueloP4 || "Jugador 4"} · ${eq2Tag}`;
+  } else {
+    if (lblDueloP1NombreEl && (!lblDueloP1NombreEl.textContent || lblDueloP1NombreEl.textContent.includes("Jugador 1") || lblDueloP1NombreEl.textContent.includes("Player 1"))) {
+      lblDueloP1NombreEl.textContent = `${avatarActual} ${nomJ1}`;
+    }
+    const lblDueloP2NombreEl = document.getElementById("lblDueloP2Nombre");
+    if (lblDueloP2NombreEl) {
+      lblDueloP2NombreEl.textContent = esRivalIA ? `🤖 ${t.dueloBotNombre || "Bot IA"}` : `🤖 ${t.dueloP2}`;
+    }
+    const lblDueloP3NombreEl = document.getElementById("lblDueloP3Nombre");
+    if (lblDueloP3NombreEl) {
+      lblDueloP3NombreEl.textContent = esRivalIA ? `🤖 Bot 3` : `🦊 ${t.dueloP3 || "Jugador 3"}`;
+    }
+    const lblDueloP4NombreEl = document.getElementById("lblDueloP4Nombre");
+    if (lblDueloP4NombreEl) {
+      lblDueloP4NombreEl.textContent = esRivalIA ? `🤖 Bot 4` : `🐼 ${t.dueloP4 || "Jugador 4"}`;
+    }
   }
 
   // 8. Diploma de Honor
@@ -6004,47 +6211,14 @@ function cambiarTemaGlobal() {
 }
 
 let audioCtx = null;
-let elementoAudioSilenciosoIOS = null;
 
 function activarCanalMultimediaIOS() {
-  // 1. Safari 16.4+ / iOS 17 / iOS 18: Activar canal oficial 'playback' (ignora switch de silencio)
+  // Safari 16.4+ / iOS 17 / iOS 18: Activar canal oficial 'playback' para efectos de sonido
   if ('audioSession' in navigator && navigator.audioSession) {
     try {
       navigator.audioSession.type = 'playback';
     } catch (e) {}
   }
-
-  // 2. Puente universal para iOS: Micro-audio en bucle para conmutar la categoría de audio
-  // de 'Ambient' a 'Playback' (modo multimedia como YouTube/Spotify que suena en silencio)
-  if (!elementoAudioSilenciosoIOS && typeof document !== "undefined") {
-    try {
-      const audio = document.createElement("audio");
-      audio.setAttribute("x-webkit-airplay", "deny");
-      audio.setAttribute("webkit-playsinline", "true");
-      audio.setAttribute("playsinline", "true");
-      audio.preload = "auto";
-      audio.loop = true;
-      audio.src = "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=";
-      const promesa = audio.play();
-      if (promesa !== undefined) {
-        promesa.then(() => {
-          elementoAudioSilenciosoIOS = audio;
-        }).catch(() => {});
-      }
-    } catch (e) {}
-  }
-}
-
-if (typeof document !== "undefined") {
-  document.addEventListener("visibilitychange", () => {
-    if (elementoAudioSilenciosoIOS) {
-      if (document.hidden) {
-        try { elementoAudioSilenciosoIOS.pause(); } catch (e) {}
-      } else {
-        try { elementoAudioSilenciosoIOS.play().catch(() => {}); } catch (e) {}
-      }
-    }
-  });
 }
 
 function obtenerAudioContext() {
@@ -6062,46 +6236,19 @@ function obtenerAudioContext() {
 }
 
 // =========================================================================
-// 🎵 MÚSICA DE FONDO SINTETIZADA (LO-FI / ARCADE SUAVE WEB AUDIO API)
+// 🔇 SONIDO DE FONDO ELIMINADO - EFECTOS NATIVOS LIMPIOS Y BAJO DEMANDA
 // =========================================================================
-const NOTAS_BGM_LOOP = [
-  261.63, 329.63, 392.00, 493.88, 523.25, 392.00, 329.63, 293.66,
-  349.23, 440.00, 523.25, 659.25, 587.33, 440.00, 392.00, 329.63
-];
-
-function tocarNotaMusica() {
-  if (!musicaActiva || document.hidden) return;
-  try {
-    const ctxAudio = obtenerAudioContext();
-    if (!ctxAudio || ctxAudio.state !== "running") return;
-
-    const now = ctxAudio.currentTime;
-    const freq = NOTAS_BGM_LOOP[musicaPasoActual % NOTAS_BGM_LOOP.length];
-    musicaPasoActual++;
-
-    const osc = ctxAudio.createOscillator();
-    const gain = ctxAudio.createGain();
-    osc.type = "triangle";
-    osc.frequency.setValueAtTime(freq, now);
-
-    gain.gain.setValueAtTime(0.001, now);
-    gain.gain.linearRampToValueAtTime(0.032, now + 0.04);
-    gain.gain.exponentialRampToValueAtTime(0.0008, now + 0.38);
-
-    osc.connect(gain);
-    gain.connect(ctxAudio.destination);
-    osc.start(now);
-    osc.stop(now + 0.4);
-  } catch (e) {}
-}
-
 function iniciarMusicaFondo() {
-  if (musicaIntervalId) clearInterval(musicaIntervalId);
-  tocarNotaMusica();
-  musicaIntervalId = setInterval(tocarNotaMusica, 420);
+  // Desactivado: el sonido de fondo ha sido eliminado para máxima estabilidad y compatibilidad
+  musicaActiva = false;
+  if (musicaIntervalId) {
+    clearInterval(musicaIntervalId);
+    musicaIntervalId = null;
+  }
 }
 
 function detenerMusicaFondo() {
+  musicaActiva = false;
   if (musicaIntervalId) {
     clearInterval(musicaIntervalId);
     musicaIntervalId = null;
@@ -6109,10 +6256,7 @@ function detenerMusicaFondo() {
 }
 
 function obtenerEstadoAudioIndex() {
-  if (sonidoActivo && !musicaActiva) return 0; // 🔊 Sonido ON
-  if (sonidoActivo && musicaActiva) return 1;  // 🎶 Sonido + Música de fondo
-  if (!sonidoActivo && musicaActiva) return 2; // 🎵 Solo música de fondo
-  return 3;                                    // 🔇 Sonido OFF
+  return sonidoActivo ? 0 : 1;
 }
 
 function obtenerMetaEstadoAudio(indice) {
@@ -6121,9 +6265,7 @@ function obtenerMetaEstadoAudio(indice) {
     return t.audioEstados[indice];
   }
   const fallback = [
-    { icono: "🔊", titulo: "Audio: Sonido ON", toast: "🔊 Sonido activado" },
-    { icono: "🎶", titulo: "Audio: Sonido + Música", toast: "🎶 Sonido + Música" },
-    { icono: "🎵", titulo: "Audio: Solo música", toast: "🎵 Solo música" },
+    { icono: "🔊", titulo: "Audio: Activado", toast: "🔊 Sonido activado" },
     { icono: "🔇", titulo: "Audio: Silenciado", toast: "🔇 Sonido desactivado" }
   ];
   return fallback[indice] || fallback[0];
@@ -6412,48 +6554,28 @@ if (btnEscucharPregunta) {
 
 function actualizarBotonSonido() {
   if (!botonSonido) return;
-  const idx = obtenerEstadoAudioIndex();
-  const meta = obtenerMetaEstadoAudio(idx);
-  botonSonido.textContent = meta.icono;
-  botonSonido.style.opacity = idx === 3 ? "0.68" : "1";
-  botonSonido.setAttribute("title", meta.titulo);
-  botonSonido.setAttribute("aria-label", meta.titulo);
+  const t = i18n[idiomaActual] || i18n.es;
+  const titulo = sonidoActivo ? (t.audioTituloOn || "Sonido: Activado") : (t.audioTituloOff || "Sonido: Silenciado");
+  botonSonido.textContent = sonidoActivo ? "🔊" : "🔇";
+  botonSonido.style.opacity = sonidoActivo ? "1" : "0.68";
+  botonSonido.setAttribute("title", titulo);
+  botonSonido.setAttribute("aria-label", titulo);
 }
 
 function toggleSonido() {
-  const siguiente = (obtenerEstadoAudioIndex() + 1) % 4;
-  if (siguiente === 0) {
-    sonidoActivo = true;
-    musicaActiva = false;
-  } else if (siguiente === 1) {
-    sonidoActivo = true;
-    musicaActiva = true;
-  } else if (siguiente === 2) {
-    sonidoActivo = false;
-    musicaActiva = true;
-  } else {
-    sonidoActivo = false;
-    musicaActiva = false;
-  }
+  sonidoActivo = !sonidoActivo;
+  musicaActiva = false;
+  detenerMusicaFondo();
 
-  if (siguiente !== 3) {
+  if (sonidoActivo) {
     activarCanalMultimediaIOS();
-  }
-
-  try {
-    const ctxAudio = obtenerAudioContext();
-    if (ctxAudio && ctxAudio.state === "suspended") {
-      ctxAudio.resume().catch(() => {});
-    }
-  } catch (e) {}
-
-  if (musicaActiva) {
-    if (!musicaIntervalId) iniciarMusicaFondo();
-  } else {
-    detenerMusicaFondo();
-  }
-
-  if (!sonidoActivo && "speechSynthesis" in window) {
+    try {
+      const ctxAudio = obtenerAudioContext();
+      if (ctxAudio && ctxAudio.state === "suspended") {
+        ctxAudio.resume().catch(() => {});
+      }
+    } catch (e) {}
+  } else if ("speechSynthesis" in window) {
     try {
       window.speechSynthesis.cancel();
     } catch (e) {}
@@ -6461,9 +6583,14 @@ function toggleSonido() {
 
   actualizarBotonSonido();
   if (sonidoActivo) reproducirSonido("click");
-  const meta = obtenerMetaEstadoAudio(siguiente);
+
+  const t = i18n[idiomaActual] || i18n.es;
+  const toastMsg = sonidoActivo
+    ? (t.audioSonidoOn || "🔊 Sonido activado")
+    : (t.audioSonidoOff || "🔇 Sonido desactivado");
+
   if (typeof mostrarTextoFlotante === "function") {
-    mostrarTextoFlotante(meta.toast, siguiente !== 3, "14%");
+    mostrarTextoFlotante(toastMsg, sonidoActivo, "14%");
   }
   guardarPuntajes();
 }
@@ -7116,11 +7243,7 @@ function aplicarDatosRespaldo(datos) {
   if (typeof actualizarProgresoExploradorPitagoras === "function") {
     actualizarProgresoExploradorPitagoras();
   }
-  if (musicaActiva) {
-    if (!musicaIntervalId) iniciarMusicaFondo();
-  } else {
-    detenerMusicaFondo();
-  }
+  detenerMusicaFondo();
   actualizarBotonSonido();
   actualizarTextosUI();
   guardarPuntajes();
@@ -12359,7 +12482,11 @@ window.addEventListener("keydown", (e) => {
   } else if (e.key === "Escape") {
     document.querySelectorAll(".modal-historial").forEach(m => m.hidden = true);
     const mDuelo = document.getElementById("modalCaraACara");
-    if (mDuelo && !mDuelo.hidden) mDuelo.hidden = true;
+    if (mDuelo && !mDuelo.hidden) {
+      dueloActivo = false;
+      if (typeof limpiarTemporizadoresIADuelo === "function") limpiarTemporizadoresIADuelo();
+      mDuelo.hidden = true;
+    }
     const mTema = document.getElementById("menuSelectorTema");
     if (mTema && !mTema.hidden) mTema.hidden = true;
     if (tableroRetoBox) tableroRetoBox.style.display = "none";
@@ -12381,6 +12508,8 @@ const btnCaraACara = document.getElementById("btnCaraACara");
 const cerrarCaraACara = document.getElementById("cerrarCaraACara");
 const btnDueloReiniciar = document.getElementById("btnDueloReiniciar");
 const selectDueloJugadores = document.getElementById("selectDueloJugadores");
+const selectDueloModo4P = document.getElementById("selectDueloModo4P");
+const selectDueloRival = document.getElementById("selectDueloRival");
 const selectDueloTabla = document.getElementById("selectDueloTabla");
 
 const ladoJugador1 = document.getElementById("ladoJugador1");
@@ -12410,12 +12539,96 @@ const scoreCentroP4 = document.getElementById("scoreCentroP4");
 const sepCentro2 = document.getElementById("sepCentro2");
 const sepCentro3 = document.getElementById("sepCentro3");
 
-let dueloCantJugadores = 2;
-let dueloPuntos = [0, 0, 0, 0];
-let DUELO_META_PUNTOS = 5;
-let dueloActivo = false;
-let dueloOperacionActual = { t: 0, f: 0, res: 0 };
-let dueloRondaBloqueada = false;
+function esJugadorBotDuelo(numJugador) {
+  if (!dueloRivalIA) return false;
+  if (dueloModoEquipos) {
+    // En modo por equipos (2 vs 2): Equipo 2 (J2 y J4) es el equipo de la IA
+    return (numJugador === 2 || numJugador === 4);
+  }
+  if (dueloCantJugadores === 2) {
+    // En modo 2 jugadores: Jugador 2 es la IA
+    return (numJugador === 2);
+  }
+  // En modo 4 individual: J2, J3 y J4 son bots
+  return (numJugador >= 2);
+}
+
+function limpiarTemporizadoresIADuelo() {
+  if (Array.isArray(dueloIATimeouts)) {
+    dueloIATimeouts.forEach(t => clearTimeout(t));
+    dueloIATimeouts = [];
+  }
+}
+
+function programarTurnoIADuelo() {
+  limpiarTemporizadoresIADuelo();
+  if (!dueloActivo || dueloRondaBloqueada || !dueloRivalIA) return;
+
+  let botsActivos = [];
+  if (dueloModoEquipos) {
+    botsActivos = [2, 4];
+  } else if (dueloCantJugadores === 2) {
+    botsActivos = [2];
+  } else {
+    botsActivos = [2, 3, 4];
+  }
+
+  const modoTabla = selectDueloTabla ? selectDueloTabla.value : "mixto";
+  const minBase = modoTabla === "facil" ? 1200 : 1600;
+  const maxBase = modoTabla === "facil" ? 2300 : 3100;
+
+  botsActivos.forEach((botNum, idx) => {
+    // Añadimos variación realista para que parezca un humano pensando
+    const delay = minBase + Math.random() * (maxBase - minBase) + (idx * 280);
+    const timerId = setTimeout(() => {
+      ejecutarAccionBotDuelo(botNum);
+    }, delay);
+    dueloIATimeouts.push(timerId);
+  });
+}
+
+function ejecutarAccionBotDuelo(botNum) {
+  if (!dueloActivo || dueloRondaBloqueada || !dueloRivalIA) return;
+  const lado = obtenerLadoDuelo(botNum);
+  if (!lado || lado.classList.contains("penalizado")) return;
+
+  const cont = obtenerContenedorRespuestasDuelo(botNum);
+  if (!cont) return;
+
+  const botones = Array.from(cont.querySelectorAll(".btn-respuesta-duelo"));
+  if (!botones || botones.length === 0) return;
+
+  // 82% probabilidad de acierto, 18% probabilidad de error plausible
+  const acierta = Math.random() < 0.82;
+  let btnElegido = null;
+  let valElegido = null;
+
+  if (acierta) {
+    btnElegido = botones.find(b => Number(b.textContent) === dueloOperacionActual.res);
+    valElegido = dueloOperacionActual.res;
+  } else {
+    const distractores = botones.filter(b => Number(b.textContent) !== dueloOperacionActual.res);
+    if (distractores.length > 0) {
+      btnElegido = distractores[Math.floor(Math.random() * distractores.length)];
+      valElegido = Number(btnElegido.textContent);
+    } else {
+      btnElegido = botones[0];
+      valElegido = Number(btnElegido.textContent);
+    }
+  }
+
+  if (btnElegido && valElegido !== null) {
+    // Animación visual de pulsación en el tablero del bot
+    btnElegido.style.transform = "scale(0.92)";
+    btnElegido.style.filter = "brightness(1.35)";
+    setTimeout(() => {
+      btnElegido.style.transform = "";
+      btnElegido.style.filter = "";
+    }, 180);
+
+    manejarRespuestaDuelo(botNum, valElegido, btnElegido);
+  }
+}
 
 function obtenerLadoDuelo(numJugador) {
   if (numJugador === 1) return ladoJugador1;
@@ -12448,47 +12661,106 @@ function abrirDueloCaraACara() {
 }
 
 function iniciarPartidaDuelo() {
+  limpiarTemporizadoresIADuelo();
+
   if (selectDueloJugadores) {
     dueloCantJugadores = Number(selectDueloJugadores.value) === 4 ? 4 : 2;
   }
   if (selectDueloMeta) {
     DUELO_META_PUNTOS = Number(selectDueloMeta.value) || 5;
   }
+  if (selectDueloRival) {
+    dueloRivalIA = (selectDueloRival.value === "ia");
+  }
 
-  dueloPuntos = [0, 0, 0, 0];
-  dueloActivo = true;
-  dueloRondaBloqueada = false;
-
-  // Ajustar clases del modal y visibilidad de cuadrantes según 2 o 4 jugadores
+  // En modo 4 jugadores se habilita la opción de 4 Individual o 2 vs 2 en Equipos
   if (dueloCantJugadores === 4) {
     modalCaraACara.classList.add("modo-4p");
+    if (selectDueloModo4P) selectDueloModo4P.style.display = "inline-block";
+    dueloModoEquipos = (selectDueloModo4P && selectDueloModo4P.value === "equipos");
     if (ladoJugador3) ladoJugador3.style.display = "flex";
     if (ladoJugador4) ladoJugador4.style.display = "flex";
-    if (scoreCentroP3) scoreCentroP3.style.display = "inline";
-    if (scoreCentroP4) scoreCentroP4.style.display = "inline";
-    if (sepCentro2) sepCentro2.style.display = "inline";
-    if (sepCentro3) sepCentro3.style.display = "inline";
   } else {
     modalCaraACara.classList.remove("modo-4p");
+    if (selectDueloModo4P) selectDueloModo4P.style.display = "none";
+    dueloModoEquipos = false;
     if (ladoJugador3) ladoJugador3.style.display = "none";
     if (ladoJugador4) ladoJugador4.style.display = "none";
+  }
+
+  if (dueloModoEquipos) {
+    modalCaraACara.classList.add("modo-equipos");
     if (scoreCentroP3) scoreCentroP3.style.display = "none";
     if (scoreCentroP4) scoreCentroP4.style.display = "none";
     if (sepCentro2) sepCentro2.style.display = "none";
     if (sepCentro3) sepCentro3.style.display = "none";
+  } else {
+    modalCaraACara.classList.remove("modo-equipos");
+    if (dueloCantJugadores === 4) {
+      if (scoreCentroP3) scoreCentroP3.style.display = "inline";
+      if (scoreCentroP4) scoreCentroP4.style.display = "inline";
+      if (sepCentro2) sepCentro2.style.display = "inline";
+      if (sepCentro3) sepCentro3.style.display = "inline";
+    } else {
+      if (scoreCentroP3) scoreCentroP3.style.display = "none";
+      if (scoreCentroP4) scoreCentroP4.style.display = "none";
+      if (sepCentro2) sepCentro2.style.display = "none";
+      if (sepCentro3) sepCentro3.style.display = "none";
+    }
   }
+
+  dueloPuntos = [0, 0, 0, 0];
+  dueloPuntosEquipo = [0, 0];
+  dueloActivo = true;
+  dueloRondaBloqueada = false;
 
   actualizarMarcadorDuelo();
 
   const esEs = idiomaActual === "es";
   const nombreP1 = inputNombre.value.trim() || (esEs ? "Jugador 1" : "Player 1");
-  document.getElementById("lblDueloP1Nombre").textContent = `${avatarActual} ${nombreP1}`;
-  document.getElementById("lblDueloP2Nombre").textContent = esEs ? "🤖 Jugador 2" : "🤖 Player 2";
-  if (document.getElementById("lblDueloP3Nombre")) {
-    document.getElementById("lblDueloP3Nombre").textContent = esEs ? "🦊 Jugador 3" : "🦊 Player 3";
-  }
-  if (document.getElementById("lblDueloP4Nombre")) {
-    document.getElementById("lblDueloP4Nombre").textContent = esEs ? "🐼 Jugador 4" : "🐼 Player 4";
+  const t = (typeof i18n !== "undefined" && i18n[idiomaActual]) ? i18n[idiomaActual] : (typeof i18n !== "undefined" ? i18n.es : {});
+  const eq1Tag = t.dueloEq1 || "🔴 Eq. 1";
+  const eq2Tag = t.dueloEq2 || "🟢 Eq. 2";
+
+  if (dueloModoEquipos) {
+    if (dueloRivalIA) {
+      document.getElementById("lblDueloP1Nombre").textContent = `${avatarActual} ${nombreP1} · ${eq1Tag}`;
+      document.getElementById("lblDueloP2Nombre").textContent = `🤖 ${t.dueloBot2Nombre || "Bot Alfa"} · ${eq2Tag}`;
+      if (document.getElementById("lblDueloP3Nombre")) {
+        document.getElementById("lblDueloP3Nombre").textContent = `🦊 ${esEs ? "Compañero (J3)" : "Teammate (P3)"} · ${eq1Tag}`;
+      }
+      if (document.getElementById("lblDueloP4Nombre")) {
+        document.getElementById("lblDueloP4Nombre").textContent = `🤖 ${t.dueloBot4Nombre || "Bot Beta"} · ${eq2Tag}`;
+      }
+    } else {
+      document.getElementById("lblDueloP1Nombre").textContent = `${avatarActual} ${nombreP1} · ${eq1Tag}`;
+      document.getElementById("lblDueloP2Nombre").textContent = `🤖 ${esEs ? "Jugador 2" : "Player 2"} · ${eq2Tag}`;
+      if (document.getElementById("lblDueloP3Nombre")) {
+        document.getElementById("lblDueloP3Nombre").textContent = `🦊 ${esEs ? "Jugador 3" : "Player 3"} · ${eq1Tag}`;
+      }
+      if (document.getElementById("lblDueloP4Nombre")) {
+        document.getElementById("lblDueloP4Nombre").textContent = `🐼 ${esEs ? "Jugador 4" : "Player 4"} · ${eq2Tag}`;
+      }
+    }
+  } else {
+    document.getElementById("lblDueloP1Nombre").textContent = `${avatarActual} ${nombreP1}`;
+    if (dueloRivalIA) {
+      document.getElementById("lblDueloP2Nombre").textContent = `🤖 ${t.dueloBotNombre || "Bot IA"}`;
+      if (document.getElementById("lblDueloP3Nombre")) {
+        document.getElementById("lblDueloP3Nombre").textContent = `🤖 Bot 3`;
+      }
+      if (document.getElementById("lblDueloP4Nombre")) {
+        document.getElementById("lblDueloP4Nombre").textContent = `🤖 Bot 4`;
+      }
+    } else {
+      document.getElementById("lblDueloP2Nombre").textContent = esEs ? "🤖 Jugador 2" : "🤖 Player 2";
+      if (document.getElementById("lblDueloP3Nombre")) {
+        document.getElementById("lblDueloP3Nombre").textContent = esEs ? "🦊 Jugador 3" : "🦊 Player 3";
+      }
+      if (document.getElementById("lblDueloP4Nombre")) {
+        document.getElementById("lblDueloP4Nombre").textContent = esEs ? "🐼 Jugador 4" : "🐼 Player 4";
+      }
+    }
   }
 
   for (let j = 1; j <= 4; j++) {
@@ -12500,21 +12772,40 @@ function iniciarPartidaDuelo() {
 }
 
 function actualizarMarcadorDuelo() {
-  if (lblDueloP1Puntos) lblDueloP1Puntos.textContent = `${dueloPuntos[0]}/${DUELO_META_PUNTOS} ⭐`;
-  if (lblDueloP2Puntos) lblDueloP2Puntos.textContent = `${dueloPuntos[1]}/${DUELO_META_PUNTOS} ⭐`;
-  if (lblDueloP3Puntos) lblDueloP3Puntos.textContent = `${dueloPuntos[2]}/${DUELO_META_PUNTOS} ⭐`;
-  if (lblDueloP4Puntos) lblDueloP4Puntos.textContent = `${dueloPuntos[3]}/${DUELO_META_PUNTOS} ⭐`;
+  if (dueloModoEquipos) {
+    const ptsEq1 = `${dueloPuntosEquipo[0]}/${DUELO_META_PUNTOS} ⭐`;
+    const ptsEq2 = `${dueloPuntosEquipo[1]}/${DUELO_META_PUNTOS} ⭐`;
+    if (lblDueloP1Puntos) lblDueloP1Puntos.textContent = ptsEq1;
+    if (lblDueloP3Puntos) lblDueloP3Puntos.textContent = ptsEq1;
+    if (lblDueloP2Puntos) lblDueloP2Puntos.textContent = ptsEq2;
+    if (lblDueloP4Puntos) lblDueloP4Puntos.textContent = ptsEq2;
 
-  if (scoreCentroP1) scoreCentroP1.textContent = dueloPuntos[0];
-  if (scoreCentroP2) scoreCentroP2.textContent = dueloPuntos[1];
-  if (scoreCentroP3) scoreCentroP3.textContent = dueloPuntos[2];
-  if (scoreCentroP4) scoreCentroP4.textContent = dueloPuntos[3];
+    const tagEq2 = dueloRivalIA ? "🤖" : "🟢";
+    if (scoreCentroP1) scoreCentroP1.textContent = `🔴 ${dueloPuntosEquipo[0]}`;
+    if (scoreCentroP2) scoreCentroP2.textContent = `${dueloPuntosEquipo[1]} ${tagEq2}`;
+    if (scoreCentroP3) scoreCentroP3.style.display = "none";
+    if (scoreCentroP4) scoreCentroP4.style.display = "none";
+    if (sepCentro2) sepCentro2.style.display = "none";
+    if (sepCentro3) sepCentro3.style.display = "none";
+  } else {
+    if (lblDueloP1Puntos) lblDueloP1Puntos.textContent = `${dueloPuntos[0]}/${DUELO_META_PUNTOS} ⭐`;
+    if (lblDueloP2Puntos) lblDueloP2Puntos.textContent = `${dueloPuntos[1]}/${DUELO_META_PUNTOS} ⭐`;
+    if (lblDueloP3Puntos) lblDueloP3Puntos.textContent = `${dueloPuntos[2]}/${DUELO_META_PUNTOS} ⭐`;
+    if (lblDueloP4Puntos) lblDueloP4Puntos.textContent = `${dueloPuntos[3]}/${DUELO_META_PUNTOS} ⭐`;
+
+    if (scoreCentroP1) scoreCentroP1.textContent = dueloPuntos[0];
+    if (scoreCentroP2) scoreCentroP2.textContent = dueloRivalIA ? `🤖 ${dueloPuntos[1]}` : dueloPuntos[1];
+    if (scoreCentroP3) scoreCentroP3.textContent = dueloPuntos[2];
+    if (scoreCentroP4) scoreCentroP4.textContent = dueloPuntos[3];
+  }
 }
 
 function siguienteRondaDuelo() {
   if (!dueloActivo) return;
 
+  limpiarTemporizadoresIADuelo();
   dueloRondaBloqueada = false;
+
   for (let j = 1; j <= 4; j++) {
     const lado = obtenerLadoDuelo(j);
     if (lado) lado.classList.remove("penalizado", "acierto-flash", "error-flash");
@@ -12552,22 +12843,37 @@ function siguienteRondaDuelo() {
       renderizarBotonesDuelo(cont, opcionesJugador, j);
     }
   }
+
+  // Si hay oponente IA, programar su turno con tiempo de reacción natural
+  if (dueloRivalIA) {
+    programarTurnoIADuelo();
+  }
 }
 
 function renderizarBotonesDuelo(contenedor, opciones, numJugador) {
   contenedor.replaceChildren();
+  const esBot = esJugadorBotDuelo(numJugador);
+
   opciones.forEach(val => {
     const btn = document.createElement("button");
     btn.type = "button";
     btn.className = "btn-respuesta-duelo";
     btn.textContent = val;
+    if (esBot) {
+      btn.style.opacity = "0.85";
+      btn.style.cursor = "default";
+      btn.setAttribute("tabindex", "-1");
+    }
+
     let procesado = false;
     btn.addEventListener("pointerdown", (e) => {
+      if (esBot) return; // Si es bot, no recibe clics humanos
       if (e.button !== undefined && e.button !== 0) return;
       procesado = true;
       manejarRespuestaDuelo(numJugador, val, btn);
     });
     btn.addEventListener("click", () => {
+      if (esBot) return; // Si es bot, no recibe clics humanos
       if (!procesado) {
         manejarRespuestaDuelo(numJugador, val, btn);
       }
@@ -12579,13 +12885,80 @@ function renderizarBotonesDuelo(contenedor, opciones, numJugador) {
 
 function manejarRespuestaDuelo(jugador, valorElegido, btnElement) {
   if (!dueloActivo || dueloRondaBloqueada) return;
+  const lado = obtenerLadoDuelo(jugador);
+  if (lado && lado.classList.contains("penalizado")) return;
 
   const esCorrecto = (valorElegido === dueloOperacionActual.res);
-  const lado = obtenerLadoDuelo(jugador);
 
+  // MODO POR EQUIPOS (2 vs 2): Equipo 1 = J1 y J3, Equipo 2 = J2 y J4
+  if (dueloModoEquipos) {
+    const numEquipo = (jugador === 1 || jugador === 3) ? 1 : 2;
+    const companeros = (numEquipo === 1) ? [1, 3] : [2, 4];
+
+    if (esCorrecto) {
+      // Acierto: Cualquiera de los 2 del equipo puntúa para el equipo
+      dueloRondaBloqueada = true;
+      limpiarTemporizadoresIADuelo();
+      reproducirSonido("acierto");
+      vibrar([40, 40]);
+
+      companeros.forEach(j => {
+        const l = obtenerLadoDuelo(j);
+        if (l) l.classList.add("acierto-flash");
+      });
+
+      dueloPuntosEquipo[numEquipo - 1]++;
+      actualizarMarcadorDuelo();
+
+      if (dueloPuntosEquipo[numEquipo - 1] >= DUELO_META_PUNTOS) {
+        if (numEquipo === 1) {
+          duelosGanados++;
+          verificarInsignias();
+        }
+        finalizarPartidaDueloEquipo(numEquipo);
+      } else {
+        setTimeout(() => {
+          siguienteRondaDuelo();
+        }, 700);
+      }
+    } else {
+      // Error: Si uno responde mal, todo el equipo queda penalizado (bloqueado) por 1.2 segundos
+      reproducirSonido("error");
+      vibrar(80);
+
+      companeros.forEach(j => {
+        const l = obtenerLadoDuelo(j);
+        if (l) l.classList.add("error-flash", "penalizado");
+      });
+
+      setTimeout(() => {
+        companeros.forEach(j => {
+          const l = obtenerLadoDuelo(j);
+          if (l) l.classList.remove("error-flash");
+        });
+      }, 300);
+
+      setTimeout(() => {
+        if (!dueloRondaBloqueada) {
+          companeros.forEach(j => {
+            const l = obtenerLadoDuelo(j);
+            if (l) l.classList.remove("penalizado");
+          });
+          // Si el equipo despenalizado es el de la IA y la ronda sigue activa, programar reintento
+          if (numEquipo === 2 && dueloRivalIA && !dueloRondaBloqueada) {
+            programarTurnoIADuelo();
+          }
+        }
+      }, 1200);
+    }
+    return;
+  }
+
+  // MODO INDIVIDUAL (2P O 4P)
   if (esCorrecto) {
     // ¡Acierto! El jugador gana la ronda
     dueloRondaBloqueada = true;
+    limpiarTemporizadoresIADuelo();
     reproducirSonido("acierto");
     vibrar([40, 40]);
 
@@ -12625,24 +12998,104 @@ function manejarRespuestaDuelo(jugador, valorElegido, btnElement) {
     setTimeout(() => {
       if (!dueloRondaBloqueada && lado) {
         lado.classList.remove("penalizado");
+        // Si el jugador despenalizado es bot y la ronda sigue activa, reintentar
+        if (esJugadorBotDuelo(jugador) && !dueloRondaBloqueada) {
+          programarTurnoIADuelo();
+        }
       }
     }, 1200);
   }
 }
 
-function finalizarPartidaDuelo(ganador) {
+function finalizarPartidaDueloEquipo(numEquipo) {
   dueloActivo = false;
+  limpiarTemporizadoresIADuelo();
   dispararConfetiVictoria();
   reproducirSonido("jaqueMate");
   vibrar([60, 40, 100]);
 
   const esEs = idiomaActual === "es";
+  const t = (typeof i18n !== "undefined" && i18n[idiomaActual]) ? i18n[idiomaActual] : (typeof i18n !== "undefined" ? i18n.es : {});
+  const scoreResumen = `🔴 ${dueloPuntosEquipo[0]} - 🟢 ${dueloPuntosEquipo[1]}`;
+
+  let textoGana = "";
+  let msgVictoria = "";
+
+  if (dueloRivalIA) {
+    if (numEquipo === 1) {
+      textoGana = t.dueloGanaEqHumano || (esEs ? "🏆 ¡GANA EQUIPO HUMANO!" : "🏆 HUMAN TEAM WINS!");
+      msgVictoria = esEs
+        ? `🏆 ¡VICTORIA! El equipo humano superó a la IA (${scoreResumen})`
+        : `🏆 VICTORY! Human team defeated the AI (${scoreResumen})`;
+    } else {
+      textoGana = t.dueloGanaEqIA || (esEs ? "🤖 ¡GANA EQUIPO IA!" : "🤖 AI TEAM WINS!");
+      msgVictoria = esEs
+        ? `🤖 ¡El Equipo IA gana esta vez! (${scoreResumen})`
+        : `🤖 AI Team wins this time! (${scoreResumen})`;
+    }
+  } else {
+    textoGana = numEquipo === 1 
+      ? (t.dueloGanaEq1 || "🏆 ¡GANA EQUIPO 1! (J1 + J3)")
+      : (t.dueloGanaEq2 || "🏆 ¡GANA EQUIPO 2! (J2 + J4)");
+    const nomGanador = numEquipo === 1 ? (t.dueloEq1 || "Equipo 1") : (t.dueloEq2 || "Equipo 2");
+    msgVictoria = esEs
+      ? `🏆 ¡VICTORIA! ${nomGanador} gana el Duelo en Equipo (${scoreResumen})`
+      : `🏆 VICTORY! ${nomGanador} wins the Team Duel (${scoreResumen})`;
+  }
+
+  const ganadores = (numEquipo === 1) ? [1, 3] : [2, 4];
+
+  for (let j = 1; j <= 4; j++) {
+    const opEl = obtenerOpDuelo(j);
+    if (opEl) opEl.textContent = textoGana;
+    const lado = obtenerLadoDuelo(j);
+    if (lado) {
+      if (ganadores.includes(j)) {
+        lado.classList.add("acierto-flash");
+        lado.classList.remove("penalizado");
+      } else {
+        lado.classList.add("penalizado");
+      }
+    }
+  }
+
+  // Mostrar botón de revancha rápida en los 4 cuadrantes
+  for (let j = 1; j <= 4; j++) {
+    const cont = obtenerContenedorRespuestasDuelo(j);
+    if (!cont) continue;
+    cont.replaceChildren();
+    const btnRevanchaDuelo = document.createElement("button");
+    btnRevanchaDuelo.type = "button";
+    btnRevanchaDuelo.className = "btn-respuesta-duelo";
+    btnRevanchaDuelo.style.gridColumn = "1 / -1";
+    btnRevanchaDuelo.style.fontSize = "12px";
+    btnRevanchaDuelo.style.pointerEvents = "auto";
+    btnRevanchaDuelo.textContent = esEs ? "🔄 ¡Revancha!" : "🔄 Rematch!";
+    btnRevanchaDuelo.addEventListener("click", () => {
+      reproducirSonido("click");
+      iniciarPartidaDuelo();
+    });
+    cont.appendChild(btnRevanchaDuelo);
+  }
+
+  mostrarTextoFlotante(msgVictoria, true, "50%");
+}
+
+function finalizarPartidaDuelo(ganador) {
+  dueloActivo = false;
+  limpiarTemporizadoresIADuelo();
+  dispararConfetiVictoria();
+  reproducirSonido("jaqueMate");
+  vibrar([60, 40, 100]);
+
+  const esEs = idiomaActual === "es";
+  const t = (typeof i18n !== "undefined" && i18n[idiomaActual]) ? i18n[idiomaActual] : (typeof i18n !== "undefined" ? i18n.es : {});
   const nombreP1 = inputNombre.value.trim() || (esEs ? "Jugador 1" : "Player 1");
   const nombres = [
     nombreP1,
-    esEs ? "Jugador 2" : "Player 2",
-    esEs ? "Jugador 3" : "Player 3",
-    esEs ? "Jugador 4" : "Player 4"
+    dueloRivalIA ? (t.dueloBotNombre || "Bot IA") : (esEs ? "Jugador 2" : "Player 2"),
+    dueloRivalIA ? "Bot 3" : (esEs ? "Jugador 3" : "Player 3"),
+    dueloRivalIA ? "Bot 4" : (esEs ? "Jugador 4" : "Player 4")
   ];
   const nombreGanador = nombres[ganador - 1] || `${esEs ? "Jugador" : "Player"} ${ganador}`;
 
@@ -12650,13 +13103,22 @@ function finalizarPartidaDuelo(ganador) {
     ? dueloPuntos.join(" - ")
     : `${dueloPuntos[0]} - ${dueloPuntos[1]}`;
 
-  const msgVictoria = esEs
-    ? `🏆 ¡VICTORIA! ${nombreGanador} ha ganado el Duelo (${scoreResumen})`
-    : `🏆 VICTORY! ${nombreGanador} won the Duel (${scoreResumen})`;
+  let msgVictoria = "";
+  let textoGana = "";
 
-  const textoGana = esEs
-    ? `🏆 ¡GANA JUGADOR ${ganador}!`
-    : `🏆 PLAYER ${ganador} WINS!`;
+  if (dueloRivalIA && ganador > 1) {
+    textoGana = t.dueloGanaIA || (esEs ? "🤖 ¡GANA LA IA!" : "🤖 AI WINS!");
+    msgVictoria = esEs
+      ? `🤖 ¡Victoria de la IA! Sigue practicando (${scoreResumen})`
+      : `🤖 AI wins! Keep practicing (${scoreResumen})`;
+  } else {
+    msgVictoria = esEs
+      ? `🏆 ¡VICTORIA! ${nombreGanador} ha ganado el Duelo (${scoreResumen})`
+      : `🏆 VICTORY! ${nombreGanador} won the Duel (${scoreResumen})`;
+    textoGana = esEs
+      ? `🏆 ¡GANA JUGADOR ${ganador}!`
+      : `🏆 PLAYER ${ganador} WINS!`;
+  }
 
   for (let j = 1; j <= dueloCantJugadores; j++) {
     const opEl = obtenerOpDuelo(j);
@@ -12682,6 +13144,7 @@ function finalizarPartidaDuelo(ganador) {
     btnRevanchaDuelo.className = "btn-respuesta-duelo";
     btnRevanchaDuelo.style.gridColumn = "1 / -1";
     btnRevanchaDuelo.style.fontSize = dueloCantJugadores === 4 ? "12px" : "15px";
+    btnRevanchaDuelo.style.pointerEvents = "auto";
     btnRevanchaDuelo.textContent = esEs ? "🔄 ¡Revancha!" : "🔄 Rematch!";
     btnRevanchaDuelo.addEventListener("click", () => {
       reproducirSonido("click");
@@ -12706,6 +13169,7 @@ document.getElementById("cardHubCaraACara")?.addEventListener("click", () => {
 if (cerrarCaraACara) {
   cerrarCaraACara.addEventListener("click", () => {
     dueloActivo = false;
+    limpiarTemporizadoresIADuelo();
     modalCaraACara.hidden = true;
   });
 }
@@ -12725,6 +13189,21 @@ if (selectDueloJugadores) {
   });
 }
 
+if (selectDueloModo4P) {
+  selectDueloModo4P.addEventListener("change", () => {
+    reproducirSonido("click");
+    iniciarPartidaDuelo();
+  });
+}
+
+if (selectDueloRival) {
+  selectDueloRival.addEventListener("change", () => {
+    reproducirSonido("click");
+    dueloRivalIA = (selectDueloRival.value === "ia");
+    iniciarPartidaDuelo();
+  });
+}
+
 if (selectDueloTabla) {
   selectDueloTabla.addEventListener("change", () => {
     reproducirSonido("click");
@@ -12739,6 +13218,8 @@ if (selectDueloMeta) {
     iniciarPartidaDuelo();
   });
 }
+
+
 
 // Exponer funciones globales para llamadas dinámicas
 window.seleccionarSuperpoder = seleccionarSuperpoder;
@@ -12879,7 +13360,7 @@ actualizarEstadoConexion();
 let audioDesbloqueadoIOS = false;
 
 function desbloquearAudioIOS() {
-  if (audioDesbloqueadoIOS) return;
+  if (!esDispositivoIOS || audioDesbloqueadoIOS) return;
   audioDesbloqueadoIOS = true;
 
   activarCanalMultimediaIOS();
@@ -12898,11 +13379,6 @@ function desbloquearAudioIOS() {
       source.start(0);
     }
   } catch (e) {}
-
-  // Si el usuario tenía la música activada al cargar, iniciarla tras el primer gesto
-  if (musicaActiva && !musicaIntervalId) {
-    iniciarMusicaFondo();
-  }
 
   // Calentamiento previo del sintetizador de voz para iOS Safari
   if ('speechSynthesis' in window) {
