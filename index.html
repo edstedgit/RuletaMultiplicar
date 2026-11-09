@@ -2125,28 +2125,37 @@
       touch-action: manipulation;
     }
 
-    .lado-jugador-1 {
-      transform: rotate(180deg);
-      background: linear-gradient(180deg, #1e1b4b 0%, #311042 100%);
-      border-bottom: 2px dashed rgba(244, 63, 94, 0.4);
-    }
-
+    /* Fila Superior (Oponentes / IA: Jugador 2 y 4) */
     .lado-jugador-2 {
-      background: linear-gradient(180deg, #022c22 0%, #064e3b 100%);
-      border-top: 2px dashed rgba(16, 185, 129, 0.4);
-    }
-
-    .lado-jugador-3 {
       transform: rotate(180deg);
-      background: linear-gradient(180deg, #1e1b4b 0%, #451a03 100%);
-      border-bottom: 2px dashed rgba(245, 158, 11, 0.4);
-      border-left: 1px dashed rgba(245, 158, 11, 0.3);
+      background: linear-gradient(180deg, #022c22 0%, #064e3b 100%);
+      border-bottom: 2px dashed rgba(16, 185, 129, 0.4);
     }
 
     .lado-jugador-4 {
+      transform: rotate(180deg);
       background: linear-gradient(180deg, #0c4a6e 0%, #082f49 100%);
-      border-top: 2px dashed rgba(56, 189, 248, 0.4);
+      border-bottom: 2px dashed rgba(56, 189, 248, 0.4);
       border-left: 1px dashed rgba(56, 189, 248, 0.3);
+    }
+
+    /* Fila Inferior (Jugadores Humanos: Jugador 1 y 3 - Orientación normal 0° para el usuario) */
+    .lado-jugador-1 {
+      transform: none;
+      background: linear-gradient(180deg, #1e1b4b 0%, #311042 100%);
+      border-top: 2px dashed rgba(244, 63, 94, 0.4);
+    }
+
+    .lado-jugador-3 {
+      transform: none;
+      background: linear-gradient(180deg, #1e1b4b 0%, #451a03 100%);
+      border-top: 2px dashed rgba(245, 158, 11, 0.4);
+      border-left: 1px dashed rgba(245, 158, 11, 0.3);
+    }
+
+    /* En modo contra IA, la fila superior (IA/Bot) se orienta al derecho (0°) para que el usuario no sienta que está al revés */
+    .modal-cara-a-cara.modo-ia #filaDueloSuperior .lado-jugador {
+      transform: none !important;
     }
 
     /* Contenedores divididos por fila (para 2 o 4 jugadores) */
@@ -2172,10 +2181,10 @@
 
     /* Estilos del modo por equipos (2 vs 2) en Duelo Cara a Cara */
     .modal-cara-a-cara.modo-equipos #filaDueloSuperior {
-      box-shadow: inset 0 -3px 0 rgba(244, 63, 94, 0.45);
+      box-shadow: inset 0 -3px 0 rgba(16, 185, 129, 0.45);
     }
     .modal-cara-a-cara.modo-equipos #filaDueloInferior {
-      box-shadow: inset 0 3px 0 rgba(16, 185, 129, 0.45);
+      box-shadow: inset 0 3px 0 rgba(244, 63, 94, 0.45);
     }
     .modal-cara-a-cara.modo-equipos .lado-jugador-1,
     .modal-cara-a-cara.modo-equipos .lado-jugador-3 {
@@ -2360,6 +2369,78 @@
 
     .lado-jugador.error-flash {
       background: #7f1d1d !important;
+    }
+
+    /* 💥 Feedback visual y mensajes de Acierto y Error en Duelo */
+    .duelo-feedback-toast {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 10px 22px;
+      border-radius: 9999px;
+      font-size: 15px;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      pointer-events: none;
+      z-index: 35;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.65);
+      animation: popDueloToast 0.85s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      white-space: nowrap;
+    }
+
+    .duelo-feedback-toast.toast-acierto {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #ffffff;
+      border: 2px solid #6ee7b7;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    }
+
+    .duelo-feedback-toast.toast-error {
+      background: linear-gradient(135deg, #ef4444, #b91c1c);
+      color: #ffffff;
+      border: 2px solid #fca5a5;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    }
+
+    @keyframes popDueloToast {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -40%) scale(0.5);
+      }
+      25% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.15);
+      }
+      70% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -68%) scale(0.85);
+      }
+    }
+
+    .btn-respuesta-acertada {
+      background: #10b981 !important;
+      color: #ffffff !important;
+      border-color: #6ee7b7 !important;
+      transform: scale(1.08) !important;
+      box-shadow: 0 0 22px rgba(16, 185, 129, 0.85) !important;
+    }
+
+    .btn-respuesta-fallada {
+      background: #ef4444 !important;
+      color: #ffffff !important;
+      border-color: #fca5a5 !important;
+      animation: shakeDueloBtn 0.4s ease-in-out !important;
+    }
+
+    @keyframes shakeDueloBtn {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
     }
 
     /* ⏱️ Overlay de Conteo Inicial en Duelo Cara a Cara */
@@ -4499,26 +4580,26 @@
   <!-- Modal: Duelo Cara a Cara (Pantalla Dividida - 2 o 4 Jugadores) -->
   <div id="modalCaraACara" class="modal-cara-a-cara" hidden>
     
-    <!-- FILA SUPERIOR (JUGADORES ROTADOS 180° PARA EL OPONENTE AL FRENTE) -->
+    <!-- FILA SUPERIOR (OPONENTES / IA: JUGADOR 2 Y JUGADOR 4) -->
     <div class="fila-duelo-jugadores" id="filaDueloSuperior">
-      <!-- JUGADOR 1 (Superior Izquierda en 4P / Toda la fila superior en 2P) -->
-      <div class="lado-jugador lado-jugador-1" id="ladoJugador1">
+      <!-- JUGADOR 2 (Superior Izquierda en 4P / Toda la fila superior en 2P: IA u Oponente) -->
+      <div class="lado-jugador lado-jugador-2" id="ladoJugador2">
         <div class="info-jugador-duelo">
-          <span style="color:#f43f5e; font-size:13px;" id="lblDueloP1Nombre">🦖 Jugador 1</span>
-          <span style="color:#fb7185; font-size:15px;" id="lblDueloP1Puntos">0 ⭐</span>
+          <span style="color:#10b981; font-size:13px;" id="lblDueloP2Nombre">🤖 Jugador 2</span>
+          <span style="color:#34d399; font-size:15px;" id="lblDueloP2Puntos">0 ⭐</span>
         </div>
-        <div class="operacion-duelo" style="color:#fff;" id="opDueloJ1">? × ? = ?</div>
-        <div class="respuestas-duelo" id="respuestasDueloJ1"></div>
+        <div class="operacion-duelo" style="color:#fff;" id="opDueloJ2">? × ? = ?</div>
+        <div class="respuestas-duelo" id="respuestasDueloJ2"></div>
       </div>
 
-      <!-- JUGADOR 3 (Superior Derecha - Visible en modo 4 Jugadores) -->
-      <div class="lado-jugador lado-jugador-3" id="ladoJugador3" style="display:none;">
+      <!-- JUGADOR 4 (Superior Derecha - Visible en modo 4 Jugadores: Bot Beta / Oponente) -->
+      <div class="lado-jugador lado-jugador-4" id="ladoJugador4" style="display:none;">
         <div class="info-jugador-duelo">
-          <span style="color:#f59e0b; font-size:13px;" id="lblDueloP3Nombre">🦊 Jugador 3</span>
-          <span style="color:#fbbf24; font-size:15px;" id="lblDueloP3Puntos">0 ⭐</span>
+          <span style="color:#38bdf8; font-size:13px;" id="lblDueloP4Nombre">🐼 Jugador 4</span>
+          <span style="color:#7dd3fc; font-size:15px;" id="lblDueloP4Puntos">0 ⭐</span>
         </div>
-        <div class="operacion-duelo" style="color:#fff;" id="opDueloJ3">? × ? = ?</div>
-        <div class="respuestas-duelo" id="respuestasDueloJ3"></div>
+        <div class="operacion-duelo" style="color:#fff;" id="opDueloJ4">? × ? = ?</div>
+        <div class="respuestas-duelo" id="respuestasDueloJ4"></div>
       </div>
     </div>
 
@@ -4563,26 +4644,26 @@
       </div>
     </div>
 
-    <!-- FILA INFERIOR (JUGADORES VISTA NORMAL) -->
+    <!-- FILA INFERIOR (HUMANOS: JUGADOR 1 Y JUGADOR 3 - VISTA NORMAL DERECHA) -->
     <div class="fila-duelo-jugadores" id="filaDueloInferior">
-      <!-- JUGADOR 2 (Inferior Izquierda en 4P / Toda la fila inferior en 2P) -->
-      <div class="lado-jugador lado-jugador-2" id="ladoJugador2">
+      <!-- JUGADOR 1 (Inferior Izquierda en 4P / Toda la fila inferior en 2P: Usuario Humano Principal) -->
+      <div class="lado-jugador lado-jugador-1" id="ladoJugador1">
         <div class="info-jugador-duelo">
-          <span style="color:#10b981; font-size:13px;" id="lblDueloP2Nombre">🤖 Jugador 2</span>
-          <span style="color:#34d399; font-size:15px;" id="lblDueloP2Puntos">0 ⭐</span>
+          <span style="color:#f43f5e; font-size:13px;" id="lblDueloP1Nombre">🦖 Jugador 1</span>
+          <span style="color:#fb7185; font-size:15px;" id="lblDueloP1Puntos">0 ⭐</span>
         </div>
-        <div class="operacion-duelo" style="color:#fff;" id="opDueloJ2">? × ? = ?</div>
-        <div class="respuestas-duelo" id="respuestasDueloJ2"></div>
+        <div class="operacion-duelo" style="color:#fff;" id="opDueloJ1">? × ? = ?</div>
+        <div class="respuestas-duelo" id="respuestasDueloJ1"></div>
       </div>
 
-      <!-- JUGADOR 4 (Inferior Derecha - Visible en modo 4 Jugadores) -->
-      <div class="lado-jugador lado-jugador-4" id="ladoJugador4" style="display:none;">
+      <!-- JUGADOR 3 (Inferior Derecha - Visible en modo 4 Jugadores: Humano Compañero / Jugador 3) -->
+      <div class="lado-jugador lado-jugador-3" id="ladoJugador3" style="display:none;">
         <div class="info-jugador-duelo">
-          <span style="color:#38bdf8; font-size:13px;" id="lblDueloP4Nombre">🐼 Jugador 4</span>
-          <span style="color:#7dd3fc; font-size:15px;" id="lblDueloP4Puntos">0 ⭐</span>
+          <span style="color:#f59e0b; font-size:13px;" id="lblDueloP3Nombre">🦊 Jugador 3</span>
+          <span style="color:#fbbf24; font-size:15px;" id="lblDueloP3Puntos">0 ⭐</span>
         </div>
-        <div class="operacion-duelo" style="color:#fff;" id="opDueloJ4">? × ? = ?</div>
-        <div class="respuestas-duelo" id="respuestasDueloJ4"></div>
+        <div class="operacion-duelo" style="color:#fff;" id="opDueloJ3">? × ? = ?</div>
+        <div class="respuestas-duelo" id="respuestasDueloJ3"></div>
       </div>
     </div>
 
@@ -5161,6 +5242,12 @@ const i18n = {
     dueloEstadoEsperando: "⚔️ ¡Presiona Iniciar para comenzar!",
     dueloBotonListo: "▶️ ¡Listo para Iniciar!",
     dueloBotEsperando: "🤖 Bot esperando inicio...",
+    dueloFeedbackAcierto: "¡CORRECTO! +1 ⭐",
+    dueloFeedbackAciertoEquipo: "¡PUNTO PARA EL EQUIPO! +1 ⭐",
+    dueloFeedbackRivalAcierto: (nom) => `⚡ ¡${nom} acertó primero!`,
+    dueloFeedbackError: "❌ ¡INCORRECTO! ⏳ Bloqueado 1.2s",
+    dueloFeedbackToastAcierto: "⭐ +1 PUNTO",
+    dueloFeedbackToastError: "❌ ¡PENALIZADO 1.2s!",
     dueloOptMixto: "✨ Mixto (1-12)",
     dueloOptFacil: "🌱 Fáciles (1-5)",
     dueloOptReto: "🔥 Reto (6-12)",
@@ -5517,6 +5604,12 @@ const i18n = {
     dueloEstadoEsperando: "⚔️ Press Start to begin!",
     dueloBotonListo: "▶️ Ready to Start!",
     dueloBotEsperando: "🤖 Bot waiting to start...",
+    dueloFeedbackAcierto: "CORRECT! +1 ⭐",
+    dueloFeedbackAciertoEquipo: "TEAM POINT! +1 ⭐",
+    dueloFeedbackRivalAcierto: (nom) => `⚡ ${nom} scored first!`,
+    dueloFeedbackError: "❌ WRONG! ⏳ Locked 1.2s",
+    dueloFeedbackToastAcierto: "⭐ +1 POINT",
+    dueloFeedbackToastError: "❌ LOCKED 1.2s!",
     dueloOptMixto: "✨ Mixed (1-12)",
     dueloOptFacil: "🌱 Easy (1-5)",
     dueloOptReto: "🔥 Challenge (6-12)",
@@ -6606,6 +6699,43 @@ function reproducirSonido(tipo, extra = 1) {
       noise.start(now);
       noise.stop(now + 0.4);
       return; // Salimos aquí para que no ejecute los osciladores de abajo
+    }
+
+    if (tipo === "puntoDuelo") {
+      // 🔔 Sonido triunfante de doble campana armónica para acierto en Duelo
+      [587.33, 880.00].forEach((f, idx) => {
+        const oscP = ctxAudio.createOscillator();
+        const gainP = ctxAudio.createGain();
+        oscP.type = "sine";
+        const tInicio = now + idx * 0.08;
+        oscP.frequency.setValueAtTime(f, tInicio);
+        gainP.gain.setValueAtTime(0.24, tInicio);
+        gainP.gain.exponentialRampToValueAtTime(0.008, tInicio + 0.22);
+        oscP.connect(gainP);
+        gainP.connect(ctxAudio.destination);
+        oscP.start(tInicio);
+        oscP.stop(tInicio + 0.22);
+      });
+      return;
+    }
+
+    if (tipo === "errorDuelo") {
+      // 🔕 Buzzer doble descendente de penalización en Duelo
+      [260, 160].forEach((f, idx) => {
+        const oscE = ctxAudio.createOscillator();
+        const gainE = ctxAudio.createGain();
+        oscE.type = "sawtooth";
+        const tInicio = now + idx * 0.09;
+        oscE.frequency.setValueAtTime(f, tInicio);
+        oscE.frequency.exponentialRampToValueAtTime(f * 0.65, tInicio + 0.14);
+        gainE.gain.setValueAtTime(0.25, tInicio);
+        gainE.gain.exponentialRampToValueAtTime(0.01, tInicio + 0.14);
+        oscE.connect(gainE);
+        gainE.connect(ctxAudio.destination);
+        oscE.start(tInicio);
+        oscE.stop(tInicio + 0.14);
+      });
+      return;
     }
 
     const osc = ctxAudio.createOscillator();
@@ -12876,6 +13006,26 @@ function obtenerOpDuelo(numJugador) {
   return null;
 }
 
+function mostrarFeedbackToastDuelo(jugador, tipo, texto) {
+  const lado = obtenerLadoDuelo(jugador);
+  if (!lado) return;
+  lado.querySelectorAll(".duelo-feedback-toast").forEach(el => el.remove());
+  const toast = document.createElement("div");
+  toast.className = `duelo-feedback-toast toast-${tipo}`;
+  toast.textContent = texto;
+  lado.appendChild(toast);
+  setTimeout(() => {
+    if (toast.parentNode) toast.remove();
+  }, 850);
+}
+
+function obtenerNombreJugadorDuelo(num) {
+  const lbl = document.getElementById(`lblDueloP${num}Nombre`);
+  if (lbl && lbl.textContent) return lbl.textContent.replace(/\s*·.*$/, "").trim();
+  const esEs = idiomaActual === "es";
+  return esEs ? `Jugador ${num}` : `Player ${num}`;
+}
+
 function abrirDueloCaraACara() {
   reproducirSonido("click");
   modalCaraACara.hidden = false;
@@ -13025,6 +13175,9 @@ function configurarTableroDuelo(arrancarConteo = false) {
   if (selectDueloRival) {
     dueloRivalIA = (selectDueloRival.value === "ia");
   }
+  if (modalCaraACara) {
+    modalCaraACara.classList.toggle("modo-ia", dueloRivalIA);
+  }
 
   // En modo 4 jugadores se habilita la opción de 4 Individual o 2 vs 2 en Equipos
   if (dueloCantJugadores === 4) {
@@ -13173,6 +13326,9 @@ function iniciarPartidaDuelo() {
   if (selectDueloRival) {
     dueloRivalIA = (selectDueloRival.value === "ia");
   }
+  if (modalCaraACara) {
+    modalCaraACara.classList.toggle("modo-ia", dueloRivalIA);
+  }
 
   dueloPuntos = [0, 0, 0, 0];
   dueloPuntosEquipo = [0, 0];
@@ -13310,22 +13466,45 @@ function manejarRespuestaDuelo(jugador, valorElegido, btnElement) {
   if (lado && lado.classList.contains("penalizado")) return;
 
   const esCorrecto = (valorElegido === dueloOperacionActual.res);
+  const esEs = idiomaActual === "es";
+  const t = (typeof i18n !== "undefined" && i18n[idiomaActual]) ? i18n[idiomaActual] : (typeof i18n !== "undefined" ? i18n.es : {});
+  const nombreGanador = obtenerNombreJugadorDuelo(jugador);
 
   // MODO POR EQUIPOS (2 vs 2): Equipo 1 = J1 y J3, Equipo 2 = J2 y J4
   if (dueloModoEquipos) {
     const numEquipo = (jugador === 1 || jugador === 3) ? 1 : 2;
     const companeros = (numEquipo === 1) ? [1, 3] : [2, 4];
+    const rivales = (numEquipo === 1) ? [2, 4] : [1, 3];
 
     if (esCorrecto) {
       // Acierto: Cualquiera de los 2 del equipo puntúa para el equipo
       dueloRondaBloqueada = true;
       limpiarTemporizadoresIADuelo();
-      reproducirSonido("acierto");
-      vibrar([40, 40]);
+      reproducirSonido("puntoDuelo");
+      vibrar([50, 40, 70]);
+
+      if (btnElement && btnElement.classList) {
+        btnElement.classList.add("btn-respuesta-acertada");
+      }
 
       companeros.forEach(j => {
         const l = obtenerLadoDuelo(j);
         if (l) l.classList.add("acierto-flash");
+        mostrarFeedbackToastDuelo(j, "acierto", t.dueloFeedbackToastAcierto || "⭐ +1 PUNTO");
+        const op = obtenerOpDuelo(j);
+        if (op) {
+          op.innerHTML = `<span style="color:#34d399; font-weight:900;">⭐ ${t.dueloFeedbackAciertoEquipo || "¡PUNTO PARA EL EQUIPO! +1 ⭐"}</span>`;
+        }
+      });
+
+      rivales.forEach(j => {
+        const op = obtenerOpDuelo(j);
+        if (op) {
+          const txtRival = (typeof t.dueloFeedbackRivalAcierto === "function")
+            ? t.dueloFeedbackRivalAcierto(nombreGanador)
+            : `⚡ ¡${nombreGanador} acertó primero!`;
+          op.innerHTML = `<span style="color:#fbbf24; font-weight:800;">${txtRival}</span>`;
+        }
       });
 
       dueloPuntosEquipo[numEquipo - 1]++;
@@ -13340,16 +13519,25 @@ function manejarRespuestaDuelo(jugador, valorElegido, btnElement) {
       } else {
         setTimeout(() => {
           siguienteRondaDuelo();
-        }, 700);
+        }, 900);
       }
     } else {
       // Error: Si uno responde mal, todo el equipo queda penalizado (bloqueado) por 1.2 segundos
-      reproducirSonido("error");
-      vibrar(80);
+      reproducirSonido("errorDuelo");
+      vibrar([90, 50, 90]);
+
+      if (btnElement && btnElement.classList) {
+        btnElement.classList.add("btn-respuesta-fallada");
+      }
 
       companeros.forEach(j => {
         const l = obtenerLadoDuelo(j);
         if (l) l.classList.add("error-flash", "penalizado");
+        mostrarFeedbackToastDuelo(j, "error", t.dueloFeedbackToastError || "❌ ¡PENALIZADO 1.2s!");
+        const op = obtenerOpDuelo(j);
+        if (op) {
+          op.innerHTML = `<span style="color:#f87171; font-weight:900;">${t.dueloFeedbackError || "❌ ¡INCORRECTO! ⏳ Bloqueado 1.2s"}</span>`;
+        }
       });
 
       setTimeout(() => {
@@ -13364,7 +13552,12 @@ function manejarRespuestaDuelo(jugador, valorElegido, btnElement) {
           companeros.forEach(j => {
             const l = obtenerLadoDuelo(j);
             if (l) l.classList.remove("penalizado");
+            const op = obtenerOpDuelo(j);
+            if (op && dueloOperacionActual) {
+              op.textContent = `${dueloOperacionActual.t} × ${dueloOperacionActual.f} = ?`;
+            }
           });
+          reproducirSonido("click");
           // Si el equipo despenalizado es el de la IA y la ronda sigue activa, programar reintento
           if (numEquipo === 2 && dueloRivalIA && !dueloRondaBloqueada) {
             programarTurnoIADuelo();
@@ -13380,10 +13573,32 @@ function manejarRespuestaDuelo(jugador, valorElegido, btnElement) {
     // ¡Acierto! El jugador gana la ronda
     dueloRondaBloqueada = true;
     limpiarTemporizadoresIADuelo();
-    reproducirSonido("acierto");
-    vibrar([40, 40]);
+    reproducirSonido("puntoDuelo");
+    vibrar([50, 40, 70]);
+
+    if (btnElement && btnElement.classList) {
+      btnElement.classList.add("btn-respuesta-acertada");
+    }
 
     if (lado) lado.classList.add("acierto-flash");
+    mostrarFeedbackToastDuelo(jugador, "acierto", t.dueloFeedbackToastAcierto || "⭐ +1 PUNTO");
+
+    const opWin = obtenerOpDuelo(jugador);
+    if (opWin) {
+      opWin.innerHTML = `<span style="color:#34d399; font-weight:900;">⭐ ${t.dueloFeedbackAcierto || "¡CORRECTO! +1 ⭐"}</span>`;
+    }
+
+    for (let j = 1; j <= dueloCantJugadores; j++) {
+      if (j !== jugador) {
+        const opRiv = obtenerOpDuelo(j);
+        if (opRiv) {
+          const txtRival = (typeof t.dueloFeedbackRivalAcierto === "function")
+            ? t.dueloFeedbackRivalAcierto(nombreGanador)
+            : `⚡ ¡${nombreGanador} acertó primero!`;
+          opRiv.innerHTML = `<span style="color:#fbbf24; font-weight:800;">${txtRival}</span>`;
+        }
+      }
+    }
 
     const idx = jugador - 1;
     if (idx >= 0 && idx < 4) {
@@ -13402,14 +13617,25 @@ function manejarRespuestaDuelo(jugador, valorElegido, btnElement) {
     } else {
       setTimeout(() => {
         siguienteRondaDuelo();
-      }, 700);
+      }, 900);
     }
 
   } else {
     // ¡Error! Penalización de 1.2 segundos para ese jugador
-    reproducirSonido("error");
-    vibrar(80);
+    reproducirSonido("errorDuelo");
+    vibrar([90, 50, 90]);
+
+    if (btnElement && btnElement.classList) {
+      btnElement.classList.add("btn-respuesta-fallada");
+    }
+
     if (lado) lado.classList.add("error-flash", "penalizado");
+    mostrarFeedbackToastDuelo(jugador, "error", t.dueloFeedbackToastError || "❌ ¡PENALIZADO 1.2s!");
+
+    const opErr = obtenerOpDuelo(jugador);
+    if (opErr) {
+      opErr.innerHTML = `<span style="color:#f87171; font-weight:900;">${t.dueloFeedbackError || "❌ ¡INCORRECTO! ⏳ Bloqueado 1.2s"}</span>`;
+    }
 
     setTimeout(() => {
       if (lado) lado.classList.remove("error-flash");
@@ -13419,6 +13645,10 @@ function manejarRespuestaDuelo(jugador, valorElegido, btnElement) {
     setTimeout(() => {
       if (!dueloRondaBloqueada && lado) {
         lado.classList.remove("penalizado");
+        if (opErr && dueloOperacionActual) {
+          opErr.textContent = `${dueloOperacionActual.t} × ${dueloOperacionActual.f} = ?`;
+        }
+        reproducirSonido("click");
         // Si el jugador despenalizado es bot y la ronda sigue activa, reintentar
         if (esJugadorBotDuelo(jugador) && !dueloRondaBloqueada) {
           programarTurnoIADuelo();
