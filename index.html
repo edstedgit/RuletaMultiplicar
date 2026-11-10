@@ -5695,6 +5695,7 @@ let angulo = 0;
 let girando = false;
 let tabla = 3;
 let factor = 0;
+let historialFactoresRecientes = []; // Ventana de memoria anti-repetición de factores en la ruleta
 let puntos = 0;
 let aciertos = 0;
 let racha = 0;
@@ -5740,9 +5741,11 @@ const botonesModoPitagoras = document.querySelectorAll("[data-pitagoras-modo]");
 
 
 if (inputNombreModal) {
-  // Sincronizar cuando escriben en el modal -> actualiza el input principal
+  // Sincronizar cuando escriben en el modal -> actualiza el input principal y la variable global
   inputNombreModal.addEventListener("input", (e) => {
-    inputNombre.value = e.target.value;
+    const val = e.target.value;
+    if (inputNombre) inputNombre.value = val;
+    nombre = val.trim();
     if (typeof guardarPuntajes === "function") guardarPuntajes();
   });
 }
@@ -5780,15 +5783,40 @@ function dispararConfetiVictoria() {
   }
 }
 
+function obtenerFactoresAcertadosTabla(numTabla) {
+  const t = Number(numTabla);
+  const factores = new Set();
+  if (Array.isArray(historialPartidas)) {
+    historialPartidas.forEach(item => {
+      if (item && item.acertado && Number(item.tabla) === t && Number(item.factor) >= 1 && Number(item.factor) <= TOTAL) {
+        factores.add(Number(item.factor));
+      }
+    });
+  }
+  if (conteoCombinacionesExactas && typeof conteoCombinacionesExactas === "object") {
+    for (let f = 1; f <= TOTAL; f++) {
+      const k = `${t}-${f}`;
+      if (Number(conteoCombinacionesExactas[k]) >= 1) {
+        factores.add(f);
+      }
+    }
+  }
+  return factores;
+}
+
 function obtenerEstrellasTabla(numTabla) {
   const t = Number(numTabla);
-  const aciertosEnTabla = Number(aciertosPorTabla[t] ?? aciertosPorTabla[String(t)] ?? 0);
+  const cantAciertos = Number(aciertosPorTabla[t] ?? aciertosPorTabla[String(t)] ?? 0);
+  const factores = obtenerFactoresAcertadosTabla(t);
+  const cantFactores = factores.size;
   
-  // Muestra siempre las 3 bolitas/estrellas indicadoras del progreso hacia completar la tabla
-  if (aciertosEnTabla >= 15) return "⭐⭐⭐"; // 3 estrellas (¡Tabla completada y dominada!)
-  if (aciertosEnTabla >= 8)  return "⭐⭐⚪"; // 2 estrellas + 1 vacía (Avanzada)
-  if (aciertosEnTabla >= 3)  return "⭐⚪⚪"; // 1 estrella + 2 vacías (En progreso)
-  return "⚪⚪⚪";                            // 3 bolitas vacías (0 a 2 aciertos)
+  // 3 estrellas doradas: ¡Requiere dominar los 12 factores de la tabla!
+  if (cantFactores >= 12 && cantAciertos >= 12) return "⭐⭐⭐";
+  // 2 estrellas doradas: Avanzada (al menos 7 factores distintos o 8 aciertos)
+  if (cantFactores >= 7 || cantAciertos >= 8)  return "⭐⭐⚪";
+  // 1 estrella dorada: Iniciada (al menos 3 factores distintos o 3 aciertos)
+  if (cantFactores >= 3 || cantAciertos >= 3)  return "⭐⚪⚪";
+  return "⚪⚪⚪";
 }
 
 function obtenerEstadoTabla(numTabla) {
@@ -5800,19 +5828,73 @@ function obtenerEstadoTabla(numTabla) {
     : [];
   const fallos = jugadasTabla.filter(item => !item.acertado).length;
 
-  if (cantAciertos >= 15) {
-    return { icono: "👑", texto: esEs ? "Dominada" : "Mastered", clave: "dominada", aciertos: cantAciertos };
+  const factoresAcertados = obtenerFactoresAcertadosTabla(t);
+  const cantFactores = factoresAcertados.size;
+  const factoresFaltantes = [];
+  for (let f = 1; f <= TOTAL; f++) {
+    if (!factoresAcertados.has(f)) {
+      factoresFaltantes.push(f);
+    }
   }
-  if (cantAciertos >= 8) {
-    return { icono: "🚀", texto: esEs ? "Avanzada" : "Advanced", clave: "avanzada", aciertos: cantAciertos };
+
+  // 👑 REGLA PEDAGÓGICA RIGUROSA:
+  // Solo se otorga la corona de "Dominada" si el niño ha acertado los 12 factores distintos (1 al 12)
+  if (cantFactores >= 12 && cantAciertos >= 12) {
+    return {
+      icono: "👑",
+      texto: esEs ? "Dominada" : "Mastered",
+      clave: "dominada",
+      aciertos: cantAciertos,
+      factoresCubiertos: 12,
+      factoresFaltantes: []
+    };
   }
-  if (cantAciertos >= 3) {
-    return { icono: "🌱", texto: esEs ? "Iniciada" : "Started", clave: "iniciada", aciertos: cantAciertos };
+
+  // 🚀 Avanzada: Ha cubierto al menos 7 factores o tiene 8 o más aciertos acumulados
+  if (cantFactores >= 7 || cantAciertos >= 8) {
+    return {
+      icono: "🚀",
+      texto: esEs ? "Avanzada" : "Advanced",
+      clave: "avanzada",
+      aciertos: cantAciertos,
+      factoresCubiertos: cantFactores,
+      factoresFaltantes: factoresFaltantes
+    };
   }
+
+  // 🌱 Iniciada: Al menos 3 factores o 3 aciertos
+  if (cantFactores >= 3 || cantAciertos >= 3) {
+    return {
+      icono: "🌱",
+      texto: esEs ? "Iniciada" : "Started",
+      clave: "iniciada",
+      aciertos: cantAciertos,
+      factoresCubiertos: cantFactores,
+      factoresFaltantes: factoresFaltantes
+    };
+  }
+
+  // ⚠️ Si tiene fallos registrados en esta tabla y menos de 3 aciertos
   if (fallos > 0) {
-    return { icono: "⚠️", texto: esEs ? "Repasar" : "Review", clave: "repasar", aciertos: cantAciertos };
+    return {
+      icono: "⚠️",
+      texto: esEs ? "Repasar" : "Review",
+      clave: "repasar",
+      aciertos: cantAciertos,
+      factoresCubiertos: cantFactores,
+      factoresFaltantes: factoresFaltantes
+    };
   }
-  return { icono: "🎯", texto: esEs ? "Por practicar" : "To practice", clave: "pendiente", aciertos: cantAciertos };
+
+  // 🎯 Por practicar: Sin fallos y aún sin iniciar
+  return {
+    icono: "🎯",
+    texto: esEs ? "Por practicar" : "To practice",
+    clave: "pendiente",
+    aciertos: cantAciertos,
+    factoresCubiertos: cantFactores,
+    factoresFaltantes: factoresFaltantes
+  };
 }
 
 function sincronizarAciertosPorTabla() {
@@ -5886,8 +5968,11 @@ function actualizarSelectorTablas() {
     const etiquetaTabla = idiomaActual === "es" ? `Tabla ${i}` : `Table ${i}`;
     const sufijoGratis = (i === 1 || i === 2) ? " 🆓" : "";
     const est = obtenerEstadoTabla(i);
+    const detalleAvance = est.clave === "dominada"
+      ? " (12/12)"
+      : (est.factoresCubiertos > 0 ? ` (${est.factoresCubiertos}/12)` : "");
     
-    opt.textContent = `${etiquetaTabla}${sufijoGratis} · ${est.icono} ${est.texto}`;
+    opt.textContent = `${etiquetaTabla}${sufijoGratis} · ${est.icono} ${est.texto}${detalleAvance}`;
     selectorTabla.appendChild(opt);
   }
   
@@ -7117,9 +7202,13 @@ function renderizarTiendaAvatares() {
 }
 function renderizarAvataresDisponibles() {
 
-const inputNombreModal = document.getElementById("inputNombreModal");
-  if (inputNombreModal && typeof inputNombre !== 'undefined' && inputNombre) {
-    inputNombreModal.value = inputNombre.value;
+  const inputNombreModal = document.getElementById("inputNombreModal");
+  if (inputNombreModal) {
+    const valActual = (inputNombre?.value || nombre || "").trim();
+    inputNombreModal.value = valActual;
+    if (inputNombre && !inputNombre.value && valActual) {
+      inputNombre.value = valActual;
+    }
   }
   
   const gridAvatares = document.querySelector(".grid-avatares");
@@ -7212,6 +7301,27 @@ async function compartirTextoConRespaldo(titulo, texto, msgCopiado, topPos = "40
   return false;
 }
 
+function extraerNombreDeRespaldo(datos) {
+  if (!datos || typeof datos !== "object") return "";
+  const candidatos = [
+    datos.nombre,
+    datos.n,
+    datos.nombreJugador,
+    datos.nombreNino,
+    datos.jugador,
+    datos.name,
+    datos.player,
+    datos.usuario
+  ];
+  for (const c of candidatos) {
+    if (c !== undefined && c !== null) {
+      const s = String(c).trim();
+      if (s) return s;
+    }
+  }
+  return "";
+}
+
 function esObjetoRespaldoValido(obj) {
   if (!obj || typeof obj !== "object" || Array.isArray(obj)) return false;
   return (
@@ -7228,17 +7338,25 @@ function esObjetoRespaldoValido(obj) {
     obj.historialPartidas !== undefined ||
     obj.cep !== undefined ||
     obj.n !== undefined ||
-    obj.nombre !== undefined
+    obj.nombre !== undefined ||
+    extraerNombreDeRespaldo(obj) !== ""
   );
 }
 
 function generarObjetoRespaldo() {
   sincronizarAciertosPorTabla();
+  const nomActual = (inputNombre?.value || inputNombreModal?.value || nombre || "").trim();
+  if (nomActual) {
+    nombre = nomActual;
+    if (inputNombre && inputNombre.value !== nomActual) inputNombre.value = nomActual;
+    if (inputNombreModal && inputNombreModal.value !== nomActual) inputNombreModal.value = nomActual;
+  }
   return {
     v: 9,
     app: "RuletaMultiplicar",
     fecha: new Date().toISOString(),
-    n: (inputNombre.value || nombre || "").trim(),
+    n: nomActual,
+    nombre: nomActual,
     p: Number(puntos) || 0,
     a: Number(aciertos) || 0,
     r: Number(racha) || 0,
@@ -7367,7 +7485,7 @@ function desglosarCodigoRespaldo(textoEntrada) {
 }
 
 function calcularResumenDatosRespaldo(datos) {
-  const nom = (datos.n || datos.nombre || "").trim();
+  const nom = extraerNombreDeRespaldo(datos);
   const av = (typeof datos.av === "string" && datos.av.trim())
     ? datos.av.trim()
     : ((typeof datos.avatarActual === "string" && datos.avatarActual.trim()) ? datos.avatarActual.trim() : "🦖");
@@ -7406,11 +7524,24 @@ function calcularResumenDatosRespaldo(datos) {
     : (datos.puntos !== undefined ? Number(datos.puntos) : NaN);
   const pts = !isNaN(pRaw) ? Math.max(0, pRaw) : (aciertosTotal * 20);
 
+  const cceRaw = datos.cce || datos.conteoCombinacionesExactas || {};
   let dominadas = 0;
   let enProgreso = 0;
   for (let i = 1; i <= TOTAL; i++) {
-    if (tablas[i] >= 15) dominadas++;
-    else if (tablas[i] >= 3) enProgreso++;
+    const factores = new Set();
+    hist.forEach(item => {
+      if (item && item.acertado && Number(item.tabla) === i && Number(item.factor) >= 1 && Number(item.factor) <= TOTAL) {
+        factores.add(Number(item.factor));
+      }
+    });
+    for (let f = 1; f <= TOTAL; f++) {
+      if (Number(cceRaw[`${i}-${f}`]) >= 1) factores.add(f);
+    }
+    if (factores.size >= 12 && tablas[i] >= 12) {
+      dominadas++;
+    } else if (factores.size >= 3 || tablas[i] >= 3) {
+      enProgreso++;
+    }
   }
 
   const ins = datos.ins || datos.insigniasDesbloqueadas || {};
@@ -7430,9 +7561,17 @@ function calcularResumenDatosRespaldo(datos) {
 function aplicarDatosRespaldo(datos) {
   if (!esObjetoRespaldoValido(datos)) return false;
 
-  // 1. Nombre del jugador (reinicia si no viene en el respaldo para evitar mezcla entre cuentas)
-  const n = datos.n !== undefined ? datos.n : datos.nombre;
-  nombre = typeof n === "string" ? n.trim() : "";
+  // 1. Nombre del jugador: extrae con precisión de nombre, n, nombreJugador, etc.
+  // Si el respaldo contiene nombre, se asigna y sincroniza inmediatamente.
+  // Si el respaldo vino sin nombre, se preserva el nombre que el usuario tenga actualmente en pantalla para no borrarlo.
+  const nomRestaurado = extraerNombreDeRespaldo(datos);
+  if (nomRestaurado) {
+    nombre = nomRestaurado;
+  } else if (!nombre && inputNombre && inputNombre.value.trim()) {
+    nombre = inputNombre.value.trim();
+  } else if (!nombre && inputNombreModal && inputNombreModal.value.trim()) {
+    nombre = inputNombreModal.value.trim();
+  }
   if (inputNombre) inputNombre.value = nombre;
   if (inputNombreModal) inputNombreModal.value = nombre;
 
@@ -7719,8 +7858,17 @@ function cambiarPestanaBackup(pestaña) {
 
 function actualizarVistaHacerBackup() {
   const esEs = idiomaActual === "es";
-  const nom = (inputNombre.value || nombre || (esEs ? "Campeón" : "Champion")).trim();
-  const tablasCompletas = Object.values(aciertosPorTabla).filter(v => Number(v) >= 15).length;
+  const nomActual = (inputNombre?.value || inputNombreModal?.value || nombre || "").trim();
+  if (nomActual) {
+    nombre = nomActual;
+    if (inputNombre && inputNombre.value !== nomActual) inputNombre.value = nomActual;
+    if (inputNombreModal && inputNombreModal.value !== nomActual) inputNombreModal.value = nomActual;
+  }
+  const nom = nomActual || (esEs ? "Campeón" : "Champion");
+  let tablasCompletas = 0;
+  for (let i = 1; i <= TOTAL; i++) {
+    if (obtenerEstadoTabla(i).clave === "dominada") tablasCompletas++;
+  }
   const insigniasTotales = Object.values(insigniasDesbloqueadas).filter(Boolean).length;
   
   if (lblResumenJugadorBackup) {
@@ -7944,11 +8092,14 @@ if (btnEjecutarRestauracion) {
       datosRestaurarPendientes = null;
       cardPreviewRestauracion.style.display = "none";
       btnEjecutarRestauracion.disabled = true;
-      modalBackupRestaurar.hidden = true;
-      const domRest = Object.values(aciertosPorTabla).filter(v => Number(v) >= 15).length;
+      let domRest = 0;
+      for (let i = 1; i <= TOTAL; i++) {
+        if (obtenerEstadoTabla(i).clave === "dominada") domRest++;
+      }
+      const nomMostrado = nombre || (esEs ? "Campeón" : "Champion");
       const msgRest = idiomaActual === "es"
-        ? `🎉 ¡Restaurado! ⭐ ${puntos} pts · ✅ ${aciertos} aciertos · 👑 ${domRest}/12 dominadas`
-        : `🎉 Restored! ⭐ ${puntos} pts · ✅ ${aciertos} correct · 👑 ${domRest}/12 mastered`;
+        ? `🎉 ¡Restaurado para ${nomMostrado}! ⭐ ${puntos} pts · ✅ ${aciertos} aciertos · 👑 ${domRest}/12 dominadas`
+        : `🎉 Restored for ${nomMostrado}! ⭐ ${puntos} pts · ✅ ${aciertos} correct · 👑 ${domRest}/12 mastered`;
       mostrarTextoFlotante(msgRest, true, "40%");
     } else {
       mostrarTextoFlotante(
@@ -7987,7 +8138,7 @@ function cargarPuntajes() {
         aciertos = Number(datos.aciertos) || 0;
         racha = Number(datos.racha) || 0;
         maxRacha = Number(datos.maxRacha) || racha;
-        nombre = datos.nombre || "";
+        nombre = (datos.nombre || datos.n || "").trim();
         if (datos.avatarActual) avatarActual = datos.avatarActual;
         if (Array.isArray(datos.avataresDesbloqueados)) avataresDesbloqueados = datos.avataresDesbloqueados;
         if (datos.insigniasDesbloqueadas) insigniasDesbloqueadas = { ...insigniasDesbloqueadas, ...datos.insigniasDesbloqueadas };
@@ -8062,9 +8213,13 @@ function cargarPuntajes() {
 
 function guardarPuntajes() {
   try {
-    nombre = inputNombre.value.trim();
+    const nomVal = (inputNombre?.value || inputNombreModal?.value || nombre || "").trim();
+    nombre = nomVal;
+    if (inputNombre && inputNombre.value !== nombre) inputNombre.value = nombre;
+    if (inputNombreModal && inputNombreModal.value !== nombre) inputNombreModal.value = nombre;
     localStorage.setItem(CLAVE_PUNTAJES, JSON.stringify({
       nombre,
+      n: nombre,
       puntos,
       aciertos,
       racha,
@@ -8116,38 +8271,68 @@ function generarOpciones(correcta) {
 }
 
 function elegirFactorValido(tActual) {
-  let disponibles = [];
-
+  const factoresAcertados = obtenerFactoresAcertadosTabla(tActual);
+  const faltantes = [];
   for (let f = 1; f <= TOTAL; f++) {
-    const clave = `${tActual}-${f}`;
-    if (conteoCombinacionesExactas[clave] === undefined) {
-      conteoCombinacionesExactas[clave] = 0;
-    }
-    if (conteoCombinacionesExactas[clave] < 4) {
-      disponibles.push(f);
+    if (!factoresAcertados.has(f)) {
+      faltantes.push(f);
     }
   }
 
-  if (disponibles.length === 0) {
-    const t = i18n[idiomaActual];
-    const mensajeTablaCompletada = idiomaActual === "es" 
-      ? `🌟 ¡Increíble! ¡Completaste toda la Tabla del ${tActual}! 🎉` 
-      : `🌟 Amazing! You completed the whole Table of ${tActual}! 🎉`;
-    
-    mostrarTextoFlotante(mensajeTablaCompletada, true, "44%");
-    reproducirSonido("acierto");
-    dispararConfetiVictoria();
+  let seleccionado = null;
 
+  // 1. Prioridad de Refuerzo Pedagógico Inteligente:
+  // Si hay factores de esta tabla que el niño AÚN NO HA ACERTADO,
+  // con un 85% de probabilidad la ruleta le presenta uno de los factores faltantes
+  // para que pueda completarlos todos y ganar la corona de forma balanceada.
+  if (faltantes.length > 0 && Math.random() < 0.85) {
+    // Anti-repetición en faltantes: evitar que por puro azar salga el mismo factor consecutivo
+    let candidatosFaltantes = faltantes.filter(f => !historialFactoresRecientes.includes(f));
+    if (candidatosFaltantes.length === 0) {
+      candidatosFaltantes = faltantes.filter(f => f !== factor);
+    }
+    const poolFaltantes = candidatosFaltantes.length > 0 ? candidatosFaltantes : faltantes;
+    seleccionado = poolFaltantes[Math.floor(Math.random() * poolFaltantes.length)];
+  } else {
+    // 2. Si ya acertó todos (o para el 15% de repaso afianzado):
+    // Se eligen los factores que tengan menor frecuencia de aciertos para mantener un repaso uniforme
+    let menorFrecuencia = Infinity;
+    let candidatos = [];
     for (let f = 1; f <= TOTAL; f++) {
-      conteoCombinacionesExactas[`${tActual}-${f}`] = 0;
-      disponibles.push(f);
+      const k = `${tActual}-${f}`;
+      const hits = Number(conteoCombinacionesExactas[k] || 0);
+      if (hits < menorFrecuencia) {
+        menorFrecuencia = hits;
+        candidatos = [f];
+      } else if (hits === menorFrecuencia) {
+        candidatos.push(f);
+      }
+    }
+
+    // Anti-repetición estricta pedagógica:
+    // Evita repetir operaciones recién jugadas mediante una memoria de ventana deslizante
+    let candidatosFiltrados = candidatos.filter(f => !historialFactoresRecientes.includes(f));
+    if (candidatosFiltrados.length === 0) {
+      candidatosFiltrados = candidatos.filter(f => f !== factor);
+    }
+    const pool = candidatosFiltrados.length > 0 ? candidatosFiltrados : candidatos;
+    if (pool.length > 0) {
+      seleccionado = pool[Math.floor(Math.random() * pool.length)];
+    } else {
+      seleccionado = Math.floor(Math.random() * TOTAL) + 1;
     }
   }
 
-  const factorElegido = disponibles[Math.floor(Math.random() * disponibles.length)];
-  conteoCombinacionesExactas[`${tActual}-${factorElegido}`]++;
+  // Registrar en el historial reciente para prevenir repeticiones consecutivas (ventana de los últimos 3)
+  if (seleccionado !== null) {
+    historialFactoresRecientes.push(seleccionado);
+    if (historialFactoresRecientes.length > 3) {
+      historialFactoresRecientes.shift();
+    }
+    return seleccionado;
+  }
 
-  return factorElegido;
+  return Math.floor(Math.random() * TOTAL) + 1;
 }
 
 function iniciarRevancha() {
@@ -8758,22 +8943,50 @@ function responder(valor, esRevancha = false) {
 
   const fechaSimple = new Date().toLocaleDateString();
   if (valor === correcta) {
+    const factoresAntes = obtenerFactoresAcertadosTabla(tabla);
+    const cantAntes = factoresAntes.size;
+    const yaAcertadoEsteFactor = factoresAntes.has(factor);
+
     puntos += 20;
     aciertos++;
     racha++;
     aciertosPorTabla[tabla] = (aciertosPorTabla[tabla] || 0) + 1;
-    actualizarSelectorTablas();
-    vibrar([40, 30, 40]);
-    
+    const kComb = `${tabla}-${factor}`;
+    conteoCombinacionesExactas[kComb] = (conteoCombinacionesExactas[kComb] || 0) + 1;
+
     let esSuperacion = revanchaPendiente && revanchaPendiente.tabla === tabla && revanchaPendiente.factor === factor;
     if (esSuperacion) revanchaPendiente = null;
     verificarInsignias(esSuperacion);
 
+    historialPartidas.push({ tabla, factor, respuestaUsuario: valor, correcta, acertado: true, fecha: fechaSimple, tipo: "ruleta" });
+    actualizarSelectorTablas();
+    vibrar([40, 30, 40]);
+
     const frase = t.frasesAcierto[Math.floor(Math.random() * t.frasesAcierto.length)];
     mostrarTextoFlotante(frase, true, "36%");
     mostrarTextoFlotante(`+20 pts ⭐`, true, "52%");
-    
-    historialPartidas.push({ tabla, factor, respuestaUsuario: valor, correcta, acertado: true, fecha: fechaSimple, tipo: "ruleta" });
+
+    // Celebración pedagógica de factores completados:
+    const factoresAhora = obtenerFactoresAcertadosTabla(tabla);
+    const cantAhora = factoresAhora.size;
+    if (cantAhora === 12 && cantAntes < 12) {
+      setTimeout(() => {
+        dispararConfetiVictoria();
+        reproducirSonido("jaqueMate");
+        const msgCorona = (idiomaActual === "es")
+          ? `👑 ¡TABLA DOMINADA AL 100%! ¡Conseguiste la Corona de la Tabla del ${tabla}! (12/12) ⭐⭐⭐`
+          : `👑 TABLE 100% MASTERED! You earned the Crown of Table ${tabla}! (12/12) ⭐⭐⭐`;
+        mostrarTextoFlotante(msgCorona, true, "28%");
+      }, 700);
+    } else if (!yaAcertadoEsteFactor) {
+      setTimeout(() => {
+        const msgNuevo = (idiomaActual === "es")
+          ? `🎯 ¡Nuevo factor dominado: ${tabla}×${factor}! (${cantAhora}/12)`
+          : `🎯 New factor mastered: ${tabla}×${factor}! (${cantAhora}/12)`;
+        mostrarTextoFlotante(msgNuevo, true, "26%");
+      }, 650);
+    }
+
     reproducirSonido(racha >= 3 ? "racha" : "acierto");
     document.getElementById("mensaje").textContent = `${frase} +20 pts`;
     hablar(t.hablarAcierto(inputNombre.value.trim() || "Campeón", frase, tabla, factor, correcta));
@@ -8808,7 +9021,7 @@ function reiniciarPuntajes() {
   aciertosLluviaTotal = 0; victoriasAjedrez = 0; aciertosTrampaTotal = 0; laberintosCompletados = 0; duelosGanados = 0;
   insigniasDesbloqueadas = Object.keys(insigniasDesbloqueadas).reduce((acc, k) => ({ ...acc, [k]: false }), {});
   aciertosPorTabla = Object.keys(aciertosPorTabla).reduce((acc, k) => ({ ...acc, [k]: 0 }), {});
-  historialPartidas = []; revanchaPendiente = null; conteoCombinacionesExactas = {};
+  historialPartidas = []; revanchaPendiente = null; conteoCombinacionesExactas = {}; historialFactoresRecientes = []; factor = 0;
   celdasExploradasPitagoras.clear();
   hitosExploracionPitagoras.clear();
   if (typeof actualizarProgresoExploradorPitagoras === "function") {
@@ -9093,6 +9306,8 @@ function responderEnModoRepaso(valor, correcta) {
     aciertos++;
     racha++;
     aciertosPorTabla[tabla] = (aciertosPorTabla[tabla] || 0) + 1;
+    const kComb = `${tabla}-${factor}`;
+    conteoCombinacionesExactas[kComb] = (conteoCombinacionesExactas[kComb] || 0) + 1;
     
     // Si acertó, removemos este error de la lista pendiente
     listaErroresPendientes.shift();
@@ -9272,10 +9487,14 @@ function abrirModalHistorial(tipoVista = "todo") {
 
       const divFila = document.createElement("div");
       divFila.className = `fila-tabla-aciertos estado-${est.clave}`;
+      const subInfo = est.clave === "dominada"
+        ? `<small style="display:block; font-size:10px; color:#10b981; font-weight:normal;">${esEs ? "¡12/12 factores dominados!" : "12/12 factors mastered!"}</small>`
+        : `<small style="display:block; font-size:10px; color:#64748b; font-weight:normal;">${est.factoresCubiertos}/12 ${esEs ? "factores" : "factors"}${est.factoresFaltantes && est.factoresFaltantes.length > 0 && est.factoresFaltantes.length <= 4 ? ` (${esEs ? "falta" : "need"}: ${est.factoresFaltantes.map(f => `${i}×${f}`).join(", ")})` : ""}</small>`;
+
       divFila.innerHTML = `
         <span style="font-weight: bold; text-align: left;">${esEs ? `Tabla ${i}` : `Table ${i}`}</span>
-        <span style="text-align: center; white-space: nowrap;">${cantAciertos} <span style="font-size:11px;">${estrellas}</span></span>
-        <span style="text-align: right; font-weight: bold; font-size: 11px;">${est.icono} ${est.texto}</span>
+        <span style="text-align: center; white-space: nowrap;">${cantAciertos} aciertos <span style="font-size:11px;">${estrellas}</span></span>
+        <span style="text-align: right; font-weight: bold; font-size: 11px;">${est.icono} ${est.texto}${subInfo}</span>
       `;
       listaHistorialDiv.appendChild(divFila);
     }
@@ -9283,8 +9502,8 @@ function abrirModalHistorial(tipoVista = "todo") {
     const divLeyenda = document.createElement("div");
     divLeyenda.className = "leyenda-tabla-aciertos";
     divLeyenda.textContent = esEs
-      ? "Progreso: ⚪⚪⚪ 0–2 · ⭐⚪⚪ 3–7 · ⭐⭐⚪ 8–14 · ⭐⭐⭐ 15+ aciertos"
-      : "Progress: ⚪⚪⚪ 0–2 · ⭐⚪⚪ 3–7 · ⭐⭐⚪ 8–14 · ⭐⭐⭐ 15+ correct";
+      ? "Progreso: ⚪⚪⚪ Iniciando · ⭐⚪⚪ 3+ factores · ⭐⭐⚪ 7+ factores · ⭐⭐⭐ 👑 Dominada (12/12 factores acertados)"
+      : "Progress: ⚪⚪⚪ Starting · ⭐⚪⚪ 3+ factors · ⭐⭐⚪ 7+ factors · ⭐⭐⭐ 👑 Mastered (12/12 factors correct)";
     listaHistorialDiv.appendChild(divLeyenda);
 
   } else if (vistaNormalizada === "racha") {
@@ -10294,9 +10513,16 @@ btnResetTestActivacion.addEventListener("click", () => {
   mostrarTextoFlotante(idiomaActual === "es" ? "🛠️ [TEST] Activación reseteada" : "🛠️ [TEST] Activation reset", true, "40%");
 });
 
-inputNombre.addEventListener("input", guardarPuntajes);
+inputNombre.addEventListener("input", (e) => {
+  const val = e.target.value;
+  if (inputNombreModal) inputNombreModal.value = val;
+  nombre = val.trim();
+  guardarPuntajes();
+});
 selectorTabla.addEventListener("change", () => {
   if (selectorTabla.value !== "mixto") tabla = Number(selectorTabla.value);
+  historialFactoresRecientes = [];
+  factor = 0;
   actualizarBadgeTablaActiva();
   guardarPuntajes();
 });
@@ -12744,7 +12970,7 @@ function abrirModalDiploma() {
   dispararConfetiVictoria();
   const t = i18n[idiomaActual];
 
-  const nombreJugador = inputNombre.value.trim() || (idiomaActual === "es" ? "Campeón/a" : "Champion");
+  const nombreJugador = (inputNombre?.value || inputNombreModal?.value || nombre || "").trim() || (idiomaActual === "es" ? "Campeón/a" : "Champion");
   document.getElementById("diplomaNombreEstudiante").textContent = nombreJugador;
   document.getElementById("diplomaAvatar").textContent = avatarActual;
   document.getElementById("diplomaPuntos").textContent = `${puntos} ⭐`;
@@ -12794,7 +13020,7 @@ btnImprimirDiploma?.addEventListener("click", () => {
 btnCompartirDiploma?.addEventListener("click", () => {
   reproducirSonido("click");
   const esEs = idiomaActual === "es";
-  const nombreJugador = inputNombre.value.trim() || (esEs ? "Campeón/a" : "Champion");
+  const nombreJugador = (inputNombre?.value || inputNombreModal?.value || nombre || "").trim() || (esEs ? "Campeón/a" : "Champion");
   const textoDiploma = esEs
     ? `🎓 ¡CERTIFICADO DE HONOR! 🌟\n${nombreJugador} ha superado con éxito las Tablas de Multiplicar en la Ruleta con ${puntos} puntos ⭐ y racha récord de ${maxRacha} 🔥. ¡Todo un genio de las matemáticas! 🏆`
     : `🎓 CERTIFICATE OF HONOR! 🌟\n${nombreJugador} successfully mastered the Multiplication Tables with ${puntos} points ⭐ and record streak of ${maxRacha} 🔥! A true math champion! 🏆`;
