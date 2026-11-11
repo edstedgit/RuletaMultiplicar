@@ -5783,22 +5783,35 @@ function dispararConfetiVictoria() {
   }
 }
 
-function obtenerFactoresAcertadosTabla(numTabla) {
+const ACIERTOS_PARA_DOMINAR_FACTOR = 3; // Refuerzo pedagógico: se requieren 3 aciertos mínimos por factor para afianzarlo al 100%
+
+function obtenerFactoresAcertadosTabla(numTabla, minAciertos = ACIERTOS_PARA_DOMINAR_FACTOR) {
   const t = Number(numTabla);
   const factores = new Set();
-  if (Array.isArray(historialPartidas)) {
-    historialPartidas.forEach(item => {
-      if (item && item.acertado && Number(item.tabla) === t && Number(item.factor) >= 1 && Number(item.factor) <= TOTAL) {
-        factores.add(Number(item.factor));
-      }
-    });
-  }
+  const conteoLocal = {};
+
   if (conteoCombinacionesExactas && typeof conteoCombinacionesExactas === "object") {
     for (let f = 1; f <= TOTAL; f++) {
       const k = `${t}-${f}`;
-      if (Number(conteoCombinacionesExactas[k]) >= 1) {
-        factores.add(f);
+      const hits = Number(conteoCombinacionesExactas[k] || 0);
+      conteoLocal[f] = hits;
+    }
+  }
+
+  if (Array.isArray(historialPartidas)) {
+    historialPartidas.forEach(item => {
+      if (item && item.acertado && Number(item.tabla) === t && Number(item.factor) >= 1 && Number(item.factor) <= TOTAL) {
+        const f = Number(item.factor);
+        if (!conteoLocal[f] || conteoLocal[f] === 0) {
+          conteoLocal[f] = (conteoLocal[f] || 0) + 1;
+        }
       }
+    });
+  }
+
+  for (let f = 1; f <= TOTAL; f++) {
+    if ((conteoLocal[f] || 0) >= minAciertos) {
+      factores.add(f);
     }
   }
   return factores;
@@ -5807,15 +5820,16 @@ function obtenerFactoresAcertadosTabla(numTabla) {
 function obtenerEstrellasTabla(numTabla) {
   const t = Number(numTabla);
   const cantAciertos = Number(aciertosPorTabla[t] ?? aciertosPorTabla[String(t)] ?? 0);
-  const factores = obtenerFactoresAcertadosTabla(t);
+  const factores = obtenerFactoresAcertadosTabla(t, ACIERTOS_PARA_DOMINAR_FACTOR);
   const cantFactores = factores.size;
   
-  // 3 estrellas doradas: ¡Requiere dominar los 12 factores de la tabla!
-  if (cantFactores >= 12 && cantAciertos >= 12) return "⭐⭐⭐";
-  // 2 estrellas doradas: Avanzada (al menos 7 factores distintos o 8 aciertos)
-  if (cantFactores >= 7 || cantAciertos >= 8)  return "⭐⭐⚪";
-  // 1 estrella dorada: Iniciada (al menos 3 factores distintos o 3 aciertos)
-  if (cantFactores >= 3 || cantAciertos >= 3)  return "⭐⚪⚪";
+  // 3 estrellas doradas: ¡Requiere afianzar los 12 factores de la tabla con refuerzo (al menos 3 aciertos por factor)!
+  if (cantFactores >= 12 && cantAciertos >= 36) return "⭐⭐⭐";
+  // 2 estrellas doradas: Avanzada (al menos 6 factores afianzados o 18 aciertos)
+  if (cantFactores >= 6 || cantAciertos >= 18)  return "⭐⭐⚪";
+  // 1 estrella dorada: Iniciada (al menos 3 factores iniciados o 6 aciertos)
+  const factoresIniciados = obtenerFactoresAcertadosTabla(t, 1);
+  if (cantFactores >= 2 || factoresIniciados.size >= 3 || cantAciertos >= 6)  return "⭐⚪⚪";
   return "⚪⚪⚪";
 }
 
@@ -5828,18 +5842,18 @@ function obtenerEstadoTabla(numTabla) {
     : [];
   const fallos = jugadasTabla.filter(item => !item.acertado).length;
 
-  const factoresAcertados = obtenerFactoresAcertadosTabla(t);
-  const cantFactores = factoresAcertados.size;
+  const factoresAfianzados = obtenerFactoresAcertadosTabla(t, ACIERTOS_PARA_DOMINAR_FACTOR);
+  const cantFactores = factoresAfianzados.size;
   const factoresFaltantes = [];
   for (let f = 1; f <= TOTAL; f++) {
-    if (!factoresAcertados.has(f)) {
+    if (!factoresAfianzados.has(f)) {
       factoresFaltantes.push(f);
     }
   }
 
-  // 👑 REGLA PEDAGÓGICA RIGUROSA:
-  // Solo se otorga la corona de "Dominada" si el niño ha acertado los 12 factores distintos (1 al 12)
-  if (cantFactores >= 12 && cantAciertos >= 12) {
+  // 👑 REGLA PEDAGÓGICA RIGUROSA DE REFUERZO (3 ACIERTOS POR FACTOR):
+  // Solo se otorga la corona de "Dominada" si el niño ha afianzado los 12 factores con refuerzo (al menos 3 aciertos por cada uno)
+  if (cantFactores >= 12 && cantAciertos >= 36) {
     return {
       icono: "👑",
       texto: esEs ? "Dominada" : "Mastered",
@@ -5850,8 +5864,8 @@ function obtenerEstadoTabla(numTabla) {
     };
   }
 
-  // 🚀 Avanzada: Ha cubierto al menos 7 factores o tiene 8 o más aciertos acumulados
-  if (cantFactores >= 7 || cantAciertos >= 8) {
+  // 🚀 Avanzada: Ha afianzado al menos 6 factores o tiene 18 o más aciertos acumulados
+  if (cantFactores >= 6 || cantAciertos >= 18) {
     return {
       icono: "🚀",
       texto: esEs ? "Avanzada" : "Advanced",
@@ -5862,8 +5876,9 @@ function obtenerEstadoTabla(numTabla) {
     };
   }
 
-  // 🌱 Iniciada: Al menos 3 factores o 3 aciertos
-  if (cantFactores >= 3 || cantAciertos >= 3) {
+  // 🌱 Iniciada: Al menos 2 factores afianzados, o 3 factores iniciados, o 6 aciertos
+  const factoresIniciados = obtenerFactoresAcertadosTabla(t, 1);
+  if (cantFactores >= 2 || factoresIniciados.size >= 3 || cantAciertos >= 6) {
     return {
       icono: "🌱",
       texto: esEs ? "Iniciada" : "Started",
@@ -5874,7 +5889,7 @@ function obtenerEstadoTabla(numTabla) {
     };
   }
 
-  // ⚠️ Si tiene fallos registrados en esta tabla y menos de 3 aciertos
+  // ⚠️ Si tiene fallos registrados en esta tabla y menos de 4 aciertos
   if (fallos > 0) {
     return {
       icono: "⚠️",
@@ -8271,10 +8286,10 @@ function generarOpciones(correcta) {
 }
 
 function elegirFactorValido(tActual) {
-  const factoresAcertados = obtenerFactoresAcertadosTabla(tActual);
+  const factoresAfianzados = obtenerFactoresAcertadosTabla(tActual, ACIERTOS_PARA_DOMINAR_FACTOR);
   const faltantes = [];
   for (let f = 1; f <= TOTAL; f++) {
-    if (!factoresAcertados.has(f)) {
+    if (!factoresAfianzados.has(f)) {
       faltantes.push(f);
     }
   }
@@ -8282,16 +8297,23 @@ function elegirFactorValido(tActual) {
   let seleccionado = null;
 
   // 1. Prioridad de Refuerzo Pedagógico Inteligente:
-  // Si hay factores de esta tabla que el niño AÚN NO HA ACERTADO,
-  // con un 85% de probabilidad la ruleta le presenta uno de los factores faltantes
-  // para que pueda completarlos todos y ganar la corona de forma balanceada.
+  // Si hay factores de esta tabla que el niño AÚN NO HA AFIANZADO (menos de 3 aciertos),
+  // con un 85% de probabilidad la ruleta le presenta uno de los factores faltantes.
+  // Prioriza con 75% los que ya tienen 1 o 2 aciertos (urgencia de consolidación y repetición espaciada).
   if (faltantes.length > 0 && Math.random() < 0.85) {
+    const enRefuerzo = faltantes.filter(f => {
+      const k = `${tActual}-${f}`;
+      const hits = Number(conteoCombinacionesExactas[k] || 0);
+      return hits >= 1 && hits < ACIERTOS_PARA_DOMINAR_FACTOR;
+    });
+    const poolObjetivo = (enRefuerzo.length > 0 && Math.random() < 0.75) ? enRefuerzo : faltantes;
+
     // Anti-repetición en faltantes: evitar que por puro azar salga el mismo factor consecutivo
-    let candidatosFaltantes = faltantes.filter(f => !historialFactoresRecientes.includes(f));
+    let candidatosFaltantes = poolObjetivo.filter(f => !historialFactoresRecientes.includes(f));
     if (candidatosFaltantes.length === 0) {
-      candidatosFaltantes = faltantes.filter(f => f !== factor);
+      candidatosFaltantes = poolObjetivo.filter(f => f !== factor);
     }
-    const poolFaltantes = candidatosFaltantes.length > 0 ? candidatosFaltantes : faltantes;
+    const poolFaltantes = candidatosFaltantes.length > 0 ? candidatosFaltantes : poolObjetivo;
     seleccionado = poolFaltantes[Math.floor(Math.random() * poolFaltantes.length)];
   } else {
     // 2. Si ya acertó todos (o para el 15% de repaso afianzado):
@@ -8943,16 +8965,18 @@ function responder(valor, esRevancha = false) {
 
   const fechaSimple = new Date().toLocaleDateString();
   if (valor === correcta) {
-    const factoresAntes = obtenerFactoresAcertadosTabla(tabla);
+    const factoresAntes = obtenerFactoresAcertadosTabla(tabla, ACIERTOS_PARA_DOMINAR_FACTOR);
     const cantAntes = factoresAntes.size;
-    const yaAcertadoEsteFactor = factoresAntes.has(factor);
+    const yaAfianzadoEsteFactor = factoresAntes.has(factor);
 
     puntos += 20;
     aciertos++;
     racha++;
     aciertosPorTabla[tabla] = (aciertosPorTabla[tabla] || 0) + 1;
     const kComb = `${tabla}-${factor}`;
-    conteoCombinacionesExactas[kComb] = (conteoCombinacionesExactas[kComb] || 0) + 1;
+    const hitsPrevios = Number(conteoCombinacionesExactas[kComb] || 0);
+    conteoCombinacionesExactas[kComb] = hitsPrevios + 1;
+    const hitsAhora = conteoCombinacionesExactas[kComb];
 
     let esSuperacion = revanchaPendiente && revanchaPendiente.tabla === tabla && revanchaPendiente.factor === factor;
     if (esSuperacion) revanchaPendiente = null;
@@ -8967,23 +8991,37 @@ function responder(valor, esRevancha = false) {
     mostrarTextoFlotante(`+20 pts ⭐`, true, "52%");
 
     // Celebración pedagógica de factores completados:
-    const factoresAhora = obtenerFactoresAcertadosTabla(tabla);
+    const factoresAhora = obtenerFactoresAcertadosTabla(tabla, ACIERTOS_PARA_DOMINAR_FACTOR);
     const cantAhora = factoresAhora.size;
     if (cantAhora === 12 && cantAntes < 12) {
       setTimeout(() => {
         dispararConfetiVictoria();
         reproducirSonido("jaqueMate");
         const msgCorona = (idiomaActual === "es")
-          ? `👑 ¡TABLA DOMINADA AL 100%! ¡Conseguiste la Corona de la Tabla del ${tabla}! (12/12) ⭐⭐⭐`
-          : `👑 TABLE 100% MASTERED! You earned the Crown of Table ${tabla}! (12/12) ⭐⭐⭐`;
+          ? `👑 ¡TABLA DOMINADA AL 100%! ¡Conseguiste la Corona de la Tabla del ${tabla}! (12/12 consolidadas × 3 aciertos) ⭐⭐⭐`
+          : `👑 TABLE 100% MASTERED! You earned the Crown of Table ${tabla}! (12/12 reinforced × 3 hits) ⭐⭐⭐`;
         mostrarTextoFlotante(msgCorona, true, "28%");
       }, 700);
-    } else if (!yaAcertadoEsteFactor) {
+    } else if (hitsAhora === 3 && !yaAfianzadoEsteFactor) {
       setTimeout(() => {
         const msgNuevo = (idiomaActual === "es")
-          ? `🎯 ¡Nuevo factor dominado: ${tabla}×${factor}! (${cantAhora}/12)`
-          : `🎯 New factor mastered: ${tabla}×${factor}! (${cantAhora}/12)`;
+          ? `⭐ ¡Factor afianzado al 100%: ${tabla}×${factor}! (${cantAhora}/12 consolidadas)`
+          : `⭐ Factor 100% consolidated: ${tabla}×${factor}! (${cantAhora}/12 consolidated)`;
         mostrarTextoFlotante(msgNuevo, true, "26%");
+      }, 650);
+    } else if (hitsAhora === 2) {
+      setTimeout(() => {
+        const msgRefuerzo = (idiomaActual === "es")
+          ? `🔄 ¡2° acierto de ${tabla}×${factor}! (Falta 1 para afianzarlo)`
+          : `🔄 2nd hit for ${tabla}×${factor}! (1 more hit to consolidate)`;
+        mostrarTextoFlotante(msgRefuerzo, true, "26%");
+      }, 650);
+    } else if (hitsAhora === 1) {
+      setTimeout(() => {
+        const msgInicio = (idiomaActual === "es")
+          ? `🎯 ¡1er acierto de ${tabla}×${factor}! (1 de 3 completado)`
+          : `🎯 1st hit for ${tabla}×${factor}! (1 of 3 completed)`;
+        mostrarTextoFlotante(msgInicio, true, "26%");
       }, 650);
     }
 
