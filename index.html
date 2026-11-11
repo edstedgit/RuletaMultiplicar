@@ -2016,6 +2016,546 @@
         font-size: 10px;
       }
     }
+    /* ==========================================================================
+       ESTILOS DEL MINIJUEGO: ROMPE-GLOBOS A TODA PRESIÓN (BALLOON POP FRENZY)
+       ========================================================================== */
+    .globo-item {
+      position: absolute;
+      width: 68px;
+      height: 84px;
+      border-radius: 50% 50% 50% 50% / 45% 45% 55% 55%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+      transition: transform 0.08s ease;
+      box-shadow: inset -6px -6px 12px rgba(0, 0, 0, 0.22), inset 6px 6px 12px rgba(255, 255, 255, 0.65), 0 8px 16px rgba(0,0,0,0.18);
+      font-weight: 900;
+      font-size: 20px;
+      color: #ffffff;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      z-index: 5;
+    }
+    .globo-item:active {
+      transform: scale(0.92);
+    }
+    .globo-nudo {
+      position: absolute;
+      bottom: -7px;
+      width: 10px;
+      height: 7px;
+      border-radius: 2px 2px 5px 5px;
+      background: inherit;
+      filter: brightness(0.85);
+    }
+    .globo-cuerda {
+      position: absolute;
+      bottom: -28px;
+      width: 2px;
+      height: 24px;
+      background: rgba(100, 116, 139, 0.6);
+      transform-origin: top center;
+      animation: mecerCuerda 1.6s ease-in-out infinite alternate;
+    }
+    @keyframes mecerCuerda {
+      from { transform: rotate(-10deg); }
+      to { transform: rotate(10deg); }
+    }
+    .particula-globo {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 8;
+    }
+
+    /* ==========================================================================
+       ESTILOS DEL MINIJUEGO: MARTILLAZO AL TOPO (WHACK-A-MOLE ARCADE)
+       ========================================================================== */
+    .topos-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 12px;
+      width: 100%;
+      height: 100%;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+    .topo-hoyo-wrap {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: 125px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      overflow: hidden;
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.4) 0%, rgba(34, 197, 94, 0.22) 100%);
+      border: 2px dashed rgba(34, 197, 94, 0.55);
+    }
+    .topo-cueva-base {
+      position: absolute;
+      bottom: 2px;
+      width: 90%;
+      height: 38px;
+      background: radial-gradient(ellipse at center, #27170a 0%, #45240c 70%, #1e1005 100%);
+      border-radius: 50%;
+      box-shadow: inset 0 6px 10px rgba(0,0,0,0.7), 0 3px 0 #15803d;
+      z-index: 1;
+    }
+    .topo-hierba-frente {
+      position: absolute;
+      bottom: 0;
+      width: 95%;
+      height: 18px;
+      background: linear-gradient(180deg, #22c55e 0%, #16a34a 100%);
+      border-radius: 10px 10px 0 0;
+      z-index: 5;
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-start;
+      padding-top: 1px;
+      pointer-events: none;
+    }
+    .topo-criatura {
+      position: relative;
+      width: 86px;
+      height: 108px;
+      background: linear-gradient(180deg, #9a3412 0%, #7c2d12 45%, #431407 100%);
+      border-radius: 42px 42px 18px 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding-top: 5px;
+      box-sizing: border-box;
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+      transition: transform 0.22s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+      transform: translateY(120%);
+      z-index: 3;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      border: 2.5px solid #3b1606;
+    }
+    .topo-criatura.arriba {
+      transform: translateY(-8%);
+    }
+    .topo-criatura.golpeado {
+      transform: translateY(5%) rotate(-8deg) scale(0.92);
+      filter: brightness(1.25);
+    }
+    .topo-cartel-numero {
+      background: #fef08a;
+      border: 3px solid #b45309;
+      border-radius: 10px;
+      padding: 3px 10px;
+      font-size: 21px;
+      line-height: 1.1;
+      font-weight: 900;
+      color: #713f12;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.35), inset 0 1px 2px #fff;
+      min-width: 48px;
+      text-align: center;
+      pointer-events: none;
+      margin-bottom: 2px;
+      z-index: 6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .topo-cara {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      pointer-events: none;
+    }
+    .topo-ojos {
+      display: flex;
+      gap: 14px;
+      margin-top: 2px;
+    }
+    .topo-ojo {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #000;
+      box-shadow: 1px 1px 0 rgba(255,255,255,0.7);
+    }
+    .topo-hocico {
+      width: 22px;
+      height: 12px;
+      background: #fda4af;
+      border-radius: 10px;
+      margin-top: 2px;
+      border: 1px solid #e11d48;
+    }
+    .martillo-animado {
+      position: absolute;
+      font-size: 38px;
+      pointer-events: none;
+      z-index: 10;
+      transform-origin: bottom right;
+      animation: golpeMartillo 0.28s ease forwards;
+    }
+    /* ==========================================================================
+       ESTILOS DEL MINIJUEGO: CARRERA DE NITRO (NITRO RACING RUSH)
+       ========================================================================== */
+    .nitro-pista {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+      cursor: grab;
+    }
+    .nitro-pista:active {
+      cursor: grabbing;
+    }
+    .nitro-carriles {
+      position: relative;
+      flex: 1;
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-bottom: 3px solid #f97316;
+      background: repeating-linear-gradient(180deg, #1e293b 0px, #1e293b 35px, #334155 35px, #334155 70px);
+      animation: nitroPistaDesplazar 0.6s linear infinite;
+    }
+    @keyframes nitroPistaDesplazar {
+      from { background-position-y: 0px; }
+      to { background-position-y: 70px; }
+    }
+    .nitro-carril-linea {
+      border-right: 2px dashed rgba(255, 255, 255, 0.25);
+      height: 100%;
+      position: relative;
+    }
+    .nitro-carril-linea:last-child {
+      border-right: none;
+    }
+    .nitro-meta-item {
+      position: absolute;
+      width: 58px;
+      height: 78px;
+      left: calc(50% - 29px);
+      border-radius: 14px 14px 10px 10px;
+      padding: 6px 3px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      box-sizing: border-box;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.5), inset 0 1px 2px rgba(255,255,255,0.4);
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+      transition: transform 0.1s ease, filter 0.15s ease;
+      z-index: 6;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+    }
+    .nitro-meta-item:hover, .nitro-meta-item:active {
+      transform: scale(0.96);
+    }
+    .nitro-auto-rival-numero {
+      background: #0f172a;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 900;
+      padding: 2px 7px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+      line-height: 1.1;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+    .nitro-auto-rival-icono {
+      font-size: 22px;
+      line-height: 1;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+    }
+    .nitro-auto-jugador {
+      position: absolute;
+      bottom: 12px;
+      width: 62px;
+      height: 82px;
+      background: linear-gradient(180deg, #ef4444 0%, #b91c1c 70%, #7f1d1d 100%);
+      border: 2px solid #fca5a5;
+      border-radius: 18px 18px 10px 10px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.6), 0 0 16px rgba(239, 68, 68, 0.4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 5px 2px;
+      box-sizing: border-box;
+      transform-origin: center center;
+      transition: left 0.16s cubic-bezier(0.18, 0.89, 0.32, 1.28), transform 0.12s ease-out;
+      z-index: 8;
+      pointer-events: none;
+    }
+    .nitro-auto-jugador.arrastrando {
+      transition: left 0.02s linear, transform 0.08s ease-out !important;
+    }
+    .nitro-fuego-escape {
+      position: absolute;
+      bottom: -18px;
+      font-size: 20px;
+      filter: drop-shadow(0 0 6px #f97316);
+      animation: flamaNitro 0.1s infinite alternate;
+    }
+    @keyframes flamaNitro {
+      from { transform: scale(0.9) translateY(0); }
+      to { transform: scale(1.25) translateY(3px); }
+    }
+
+    /* ==========================================================================
+       ESTILOS DEL MODO ENDURO ATARI (ENDURANCE RACING)
+       ========================================================================== */
+    .tabs-modo-carrera button.activo {
+      background: #ea580c !important;
+      color: #fff !important;
+      box-shadow: 0 2px 6px rgba(234, 88, 12, 0.4) !important;
+    }
+    .enduro-horizonte {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 44px;
+      z-index: 4;
+      border-bottom: 2px solid #334155;
+      display: none;
+      align-items: flex-end;
+      justify-content: space-between;
+      padding: 2px 8px;
+      overflow: hidden;
+      transition: background 0.8s ease;
+    }
+    .enduro-horizonte.visible {
+      display: flex;
+    }
+    .enduro-horizonte.dia {
+      background: linear-gradient(180deg, #38bdf8 0%, #7dd3fc 60%, #166534 100%);
+    }
+    .enduro-horizonte.atardecer {
+      background: linear-gradient(180deg, #701a75 0%, #c026d3 35%, #ea580c 70%, #facc15 100%);
+    }
+    .enduro-horizonte.noche {
+      background: linear-gradient(180deg, #020617 0%, #090d16 65%, #0f172a 100%);
+    }
+    .enduro-horizonte.niebla {
+      background: linear-gradient(180deg, #94a3b8 0%, #cbd5e1 60%, #64748b 100%);
+    }
+    .enduro-luces-jugador {
+      position: absolute;
+      bottom: 70px;
+      width: 90px;
+      height: 110px;
+      background: radial-gradient(ellipse at bottom, rgba(254, 240, 138, 0.5) 0%, rgba(254, 240, 138, 0.18) 50%, transparent 80%);
+      pointer-events: none;
+      z-index: 7;
+      display: none;
+      clip-path: polygon(32% 100%, 68% 100%, 100% 0%, 0% 0%);
+      transition: left 0.16s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    }
+    .enduro-luces-jugador.visible {
+      display: block;
+    }
+    .enduro-capa-niebla {
+      position: absolute;
+      inset: 0;
+      background: rgba(226, 232, 240, 0.32);
+      backdrop-filter: blur(1.5px);
+      -webkit-backdrop-filter: blur(1.5px);
+      pointer-events: none;
+      z-index: 7;
+      display: none;
+    }
+    .enduro-capa-niebla.visible {
+      display: block;
+    }
+    .nitro-pista.enduro-pista-dia {
+      border-left: 6px solid #22c55e !important;
+      border-right: 6px solid #22c55e !important;
+    }
+    .nitro-pista.enduro-pista-atardecer {
+      border-left: 6px solid #ea580c !important;
+      border-right: 6px solid #ea580c !important;
+    }
+    .nitro-pista.enduro-pista-noche {
+      border-left: 6px solid #1e293b !important;
+      border-right: 6px solid #1e293b !important;
+      background: linear-gradient(180deg, #050811 0%, #020617 100%) !important;
+    }
+    .nitro-pista.enduro-pista-niebla {
+      border-left: 6px solid #38bdf8 !important;
+      border-right: 6px solid #38bdf8 !important;
+    }
+
+    /* ==========================================================================
+       ESTILOS DEL MINIJUEGO: DEFENSA GALÁCTICA (GALACTIC MATH DEFENDER)
+       ========================================================================== */
+    .galactica-espacio {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(ellipse at bottom, #1e1b4b 0%, #09090b 70%, #030712 100%);
+      border-radius: 14px;
+      overflow: hidden;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .galactica-estrella-fondo {
+      position: absolute;
+      background: #fff;
+      border-radius: 50%;
+      opacity: 0.6;
+      animation: titilarEstrella 2s infinite alternate;
+    }
+    @keyframes titilarEstrella {
+      from { opacity: 0.2; }
+      to { opacity: 0.9; }
+    }
+    .galactica-enemigo {
+      position: absolute;
+      width: 66px;
+      height: 66px;
+      border-radius: 46% 54% 50% 50% / 52% 48% 52% 48%;
+      background: radial-gradient(circle at 35% 35%, #78716c 0%, #44403c 55%, #1c1917 100%);
+      border: 2.5px solid #d97706;
+      box-shadow: 0 0 14px rgba(245, 158, 11, 0.6), inset -3px -3px 8px rgba(0,0,0,0.8), inset 3px 3px 6px rgba(254, 215, 170, 0.4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+      transition: filter 0.1s ease;
+      color: #fff;
+      font-weight: 900;
+      font-size: 18px;
+      z-index: 6;
+      transform-origin: center center;
+    }
+    .galactica-enemigo:active {
+      filter: brightness(1.25);
+    }
+    .galactica-enemigo-icono {
+      font-size: 15px;
+      line-height: 1;
+      margin-bottom: 2px;
+      filter: drop-shadow(0 0 4px #f59e0b);
+    }
+    .galactica-enemigo-numero {
+      background: rgba(15, 23, 42, 0.88);
+      color: #fef08a;
+      font-size: 15px;
+      font-weight: 900;
+      padding: 1px 7px;
+      border-radius: 8px;
+      border: 1px solid rgba(253, 224, 71, 0.6);
+      box-shadow: 0 0 8px rgba(234, 179, 8, 0.3);
+      line-height: 1.1;
+    }
+    .galactica-nave-canon {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%) rotate(0deg);
+      transform-origin: 50% 86%;
+      transition: transform 0.1s cubic-bezier(0.2, 0.9, 0.3, 1.25);
+      z-index: 12;
+      pointer-events: none;
+      width: 58px;
+      height: 64px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+    }
+    .galactica-canon-torreta {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+    }
+    .galactica-canon-canones {
+      display: flex;
+      gap: 12px;
+      position: absolute;
+      top: 2px;
+      z-index: 2;
+    }
+    .galactica-canon-tubo {
+      width: 6px;
+      height: 24px;
+      background: linear-gradient(180deg, #38bdf8 0%, #0284c7 60%, #1e293b 100%);
+      border-radius: 3px 3px 1px 1px;
+      box-shadow: 0 0 8px rgba(56, 189, 248, 0.8);
+      border: 1px solid #7dd3fc;
+    }
+    .galactica-canon-nucleo {
+      width: 44px;
+      height: 34px;
+      background: linear-gradient(180deg, #1e1b4b 0%, #312e81 60%, #0f172a 100%);
+      border: 2px solid #6366f1;
+      border-radius: 14px 14px 8px 8px;
+      box-shadow: 0 0 14px rgba(99, 102, 241, 0.6), inset 0 0 8px rgba(56, 189, 248, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 3;
+    }
+    .galactica-canon-ojo {
+      width: 14px;
+      height: 14px;
+      background: radial-gradient(circle, #ffffff 0%, #38bdf8 50%, #0284c7 100%);
+      border-radius: 50%;
+      box-shadow: 0 0 10px #38bdf8;
+      animation: pulsoReactorGalactico 1.2s infinite alternate ease-in-out;
+    }
+    @keyframes pulsoReactorGalactico {
+      0% { transform: scale(0.85); box-shadow: 0 0 6px #38bdf8; }
+      100% { transform: scale(1.15); box-shadow: 0 0 16px #67e8f9; }
+    }
+    .galactica-canon-base {
+      width: 54px;
+      height: 10px;
+      background: linear-gradient(90deg, #0f172a 0%, #334155 50%, #0f172a 100%);
+      border: 1.5px solid #475569;
+      border-radius: 6px 6px 3px 3px;
+      margin-top: -2px;
+      z-index: 1;
+    }
+    .galactica-laser-grupo {
+      animation: desvanecerLaser 0.22s ease-out forwards;
+    }
+    @keyframes desvanecerLaser {
+      0% { opacity: 1; }
+      100% { opacity: 0; }
+    }
 
     /* Estilos del Diploma de Honor */
     .diploma-marco {
@@ -3875,7 +4415,7 @@
   <!-- Escenario central de la ruleta con docks flex izquierdo y derecho simétricos -->
   <div class="ruleta-escenario">
 
-    <!-- Dock Flex Izquierdo: Velocidad, Tabla Pitagórica y 2 Minijuegos -->
+    <!-- Dock Flex Izquierdo: Velocidad, Tabla Pitagórica y Minijuegos -->
     <div class="dock-lateral-ruleta" aria-label="Herramientas y modos">
       <button id="toggleModo" class="btn-dock-utilidad" type="button" aria-label="Modo de tiempo" title="Modo de tiempo">
         🚫
@@ -3886,8 +4426,14 @@
       <button id="btnMinijuego" class="btn-minijuego-compacto" type="button" title="Minijuego: ¿Correcto o Trampa?">
         🕵️‍♂️
       </button>
-      <button id="btnLluvia" class="btn-minijuego-compacto" type="button" title="Minijuego: Lluvia de Estrellas" style="background:#0284c7; border-color:#bae6fd;">
+      <button id="btnLluvia" class="btn-minijuego-compacto" type="button" title="Minijuego: Salto Ninja (Lluvia de Estrellas)" style="background:#0284c7; border-color:#bae6fd;">
         ⭐
+      </button>
+      <button id="btnGlobos" class="btn-minijuego-compacto" type="button" title="Minijuego: Rompe-Globos a Toda Presión" style="background:#f43f5e; border-color:#fecdd3; color:white;">
+        🎈
+      </button>
+      <button id="btnNitro" class="btn-minijuego-compacto" type="button" title="Minijuego: Carrera de Nitro" style="background:#ea580c; border-color:#fed7aa; color:white;">
+        🏎️
       </button>
     </div>
 
@@ -3914,6 +4460,12 @@
       </button>
       <button id="btnCaraACara" class="btn-minijuego-compacto" type="button" title="Minijuego: Duelo Cara a Cara" style="background:#e11d48; border-color:#fecdd3; color:white;">
         ⚔️
+      </button>
+      <button id="btnTopos" class="btn-minijuego-compacto" type="button" title="Minijuego: Martillazo al Topo Travieso" style="background:#854d0e; border-color:#fef08a; color:white;">
+        🔨
+      </button>
+      <button id="btnGalactica" class="btn-minijuego-compacto" type="button" title="Minijuego: Defensa Galáctica" style="background:#4338ca; border-color:#c7d2fe; color:white;">
+        🚀
       </button>
     </div>
 
@@ -4181,6 +4733,211 @@
 	  </div>
 	</div>
 
+	<!-- Modal de Minijuego: Rompe-Globos a Toda Presión -->
+	<div id="modalGlobos" class="modal-historial" hidden>
+	  <div class="modal-contenido" style="text-align: center; position: relative; overflow: hidden; max-width: 440px; width: 95%; height: 86vh; max-height: 92dvh; min-height: 540px; display: flex; flex-direction: column;">
+		<div class="modal-header">
+		  <span id="lblGlobosTitulo" style="color:#e11d48; font-weight:900;">🎈 Rompe-Globos a Toda Presión</span>
+		  <button id="cerrarGlobos" type="button" style="background:#e2e8f0; border-radius:50%; width:28px; height:28px; font-size:12px; font-weight:bold; border:none; cursor:pointer;">✕</button>
+		</div>
+
+		<div id="globosBarraEstado" style="display:flex; justify-content:space-between; align-items:center; background:#ffe4e6; padding:4px 10px; border-radius:8px; margin-bottom:4px; border:1.5px solid #fecdd3;">
+		  <span id="lblGlobosVidas" style="font-size:12px; font-weight:bold; color:#be123c;">❤️❤️❤️ Vidas: 3</span>
+		  <span id="lblGlobosCombo" style="font-size:11px; font-weight:extrabold; color:#e11d48; background:#fff; padding:2px 8px; border-radius:12px; border:1px solid #fecdd3;">🔥 Combo: x1</span>
+		  <span id="lblGlobosPuntos" style="font-size:12px; font-weight:bold; color:#be123c;">⭐ Puntos: 0</span>
+		</div>
+
+		<!-- Operación a resolver -->
+		<div id="globosOperacion" style="font-size: 28px; font-weight: 900; margin: 4px 0 6px; color: #9f1239; min-height: 36px; display: flex; align-items: center; justify-content: center;">
+		  ? × ? = ?
+		</div>
+
+		<!-- Área de juego del cielo con globos flotando -->
+		<div id="globosAreaJuego" style="position: relative; width: 100%; flex: 1; min-height: 330px; background: linear-gradient(180deg, #bae6fd 0%, #e0f2fe 70%, #f0fdf4 100%); border: 2px dashed #fda4af; border-radius: 14px; overflow: hidden; margin-bottom: 6px; touch-action: manipulation; -webkit-user-select: none; user-select: none;">
+		  <!-- Nubes de fondo decorativas -->
+		  <div style="position:absolute; top:12px; left:16px; font-size:28px; opacity:0.4; pointer-events:none;">☁️</div>
+		  <div style="position:absolute; top:36px; right:24px; font-size:34px; opacity:0.4; pointer-events:none;">☁️</div>
+		  <div style="position:absolute; top:80px; left:45%; font-size:24px; opacity:0.3; pointer-events:none;">☁️</div>
+		</div>
+
+		<button id="btnIniciarGlobos" class="principal btn-modal-accion" type="button" style="background: linear-gradient(135deg, #f43f5e, #e11d48); padding: 10px; font-size: 13px; font-weight: bold;">
+		  🚀 ¡Comenzar Rompe-Globos!
+		</button>
+	  </div>
+	</div>
+
+	<!-- Modal de Minijuego: Martillazo al Topo Travieso -->
+	<div id="modalTopos" class="modal-historial" hidden>
+	  <div class="modal-contenido" style="text-align: center; position: relative; overflow: hidden; max-width: 440px; width: 95%; height: 86vh; max-height: 92dvh; min-height: 540px; display: flex; flex-direction: column;">
+		<div class="modal-header">
+		  <span id="lblToposTitulo" style="color:#854d0e; font-weight:900;">🔨 Martillazo al Topo Travieso</span>
+		  <button id="cerrarTopos" type="button" style="background:#e2e8f0; border-radius:50%; width:28px; height:28px; font-size:12px; font-weight:bold; border:none; cursor:pointer;">✕</button>
+		</div>
+
+		<div id="toposBarraEstado" style="display:flex; justify-content:space-between; align-items:center; background:#fef9c3; padding:4px 10px; border-radius:8px; margin-bottom:4px; border:1.5px solid #fef08a;">
+		  <span id="lblToposVidas" style="font-size:12px; font-weight:bold; color:#854d0e;">❤️❤️❤️ Vidas: 3</span>
+		  <span id="lblToposRacha" style="font-size:11px; font-weight:extrabold; color:#a16207; background:#fff; padding:2px 8px; border-radius:12px; border:1px solid #fde047;">🔨 Racha: x0</span>
+		  <span id="lblToposPuntos" style="font-size:12px; font-weight:bold; color:#854d0e;">⭐ Puntos: 0</span>
+		</div>
+
+		<!-- Operación a resolver -->
+		<div id="toposOperacion" style="font-size: 28px; font-weight: 900; margin: 4px 0 6px; color: #713f12; min-height: 36px; display: flex; align-items: center; justify-content: center;">
+		  ? × ? = ?
+		</div>
+
+		<!-- Área de juego: Madrigueras de césped (3x2) -->
+		<div id="toposAreaJuego" style="position: relative; width: 100%; flex: 1; min-height: 330px; background: linear-gradient(180deg, #dcfce7 0%, #bbf7d0 40%, #86efac 100%); border: 2px dashed #854d0e; border-radius: 14px; overflow: hidden; margin-bottom: 6px; touch-action: manipulation; -webkit-user-select: none; user-select: none;">
+		  <div class="topos-grid" id="toposGridContainer">
+			<!-- 6 Hoyos se renderizarán dinámicamente -->
+		  </div>
+		</div>
+
+		<button id="btnIniciarTopos" class="principal btn-modal-accion" type="button" style="background: linear-gradient(135deg, #a16207, #854d0e); padding: 10px; font-size: 13px; font-weight: bold;">
+		  🔨 ¡Comenzar Martillazos!
+		</button>
+	  </div>
+	</div>
+
+	<!-- Modal de Minijuego: Carrera de Nitro (Nitro Racing Rush) -->
+	<div id="modalNitro" class="modal-historial" hidden>
+	  <div class="modal-contenido" style="text-align: center; position: relative; overflow: hidden; max-width: 440px; width: 95%; height: 86vh; max-height: 92dvh; min-height: 540px; display: flex; flex-direction: column;">
+		<div class="modal-header">
+		  <span id="lblNitroTitulo" style="color:#ea580c; font-weight:900;">🏎️ Carrera de Nitro & Enduro Atari</span>
+		  <button id="cerrarNitro" type="button" style="background:#e2e8f0; border-radius:50%; width:28px; height:28px; font-size:12px; font-weight:bold; border:none; cursor:pointer;">✕</button>
+		</div>
+
+		<!-- Pestañas de Modo de Juego: Sprint Nitro vs. Enduro Atari -->
+		<div class="tabs-modo-carrera" style="display: flex; gap: 6px; margin-bottom: 5px; background: #fed7aa; padding: 3px; border-radius: 12px;">
+		  <button id="tabModoNitro" type="button" class="tab-carrera activo" style="flex: 1; padding: 5px 4px; font-size: 11px; font-weight: 800; border-radius: 9px; border: none; cursor: pointer; background: #ea580c; color: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.15); transition: all 0.15s ease;">
+			⚡ Sprint Nitro
+		  </button>
+		  <button id="tabModoEnduro" type="button" class="tab-carrera" style="flex: 1; padding: 5px 4px; font-size: 11px; font-weight: 800; border-radius: 9px; border: none; cursor: pointer; background: transparent; color: #7c2d12; transition: all 0.15s ease;">
+			🕹️ Enduro Atari 1983
+		  </button>
+		</div>
+
+		<!-- Barra de estado para Modo Sprint Nitro (Vidas y Turbo) -->
+		<div id="nitroBarraEstado" style="display:flex; justify-content:space-between; align-items:center; background:#ffedd5; padding:4px 10px; border-radius:8px; margin-bottom:4px; border:1.5px solid #fed7aa;">
+		  <span id="lblNitroVidas" style="font-size:12px; font-weight:bold; color:#c2410c;">❤️❤️❤️ Vidas: 3</span>
+		  <span id="lblNitroVelocidad" style="font-size:11px; font-weight:extrabold; color:#ea580c; background:#fff; padding:2px 8px; border-radius:12px; border:1px solid #fdba74;">⚡ 120 km/h</span>
+		  <span id="lblNitroPuntos" style="font-size:12px; font-weight:bold; color:#c2410c;">⭐ Puntos: 0</span>
+		</div>
+
+		<!-- Barra de estado para Modo Enduro Atari (Etapas y Cronómetro) -->
+		<div id="enduroBarraEstado" style="display: none; justify-content: space-between; align-items: center; background: #0f172a; padding: 4px 10px; border-radius: 8px; margin-bottom: 4px; border: 2px solid #38bdf8; color: #fff;">
+		  <span id="lblEnduroDia" style="font-size: 11px; font-weight: 900; color: #facc15;">📅 Día 1 ☀️</span>
+		  <span id="lblEnduroRestan" style="font-size: 11px; font-weight: 800; color: #38bdf8; background: rgba(56,189,248,0.15); padding: 2px 7px; border-radius: 10px; border: 1px solid #0284c7;">🎯 Restan: 10 🚗</span>
+		  <span id="lblEnduroTiempo" style="font-size: 11.5px; font-weight: 900; color: #4ade80;">⏳ 60s</span>
+		  <span id="lblEnduroKm" style="font-size: 10.5px; font-weight: 800; color: #f43f5e; background: rgba(244,63,94,0.15); padding: 2px 6px; border-radius: 8px; border: 1px solid #e11d48;">⚡ 120 km/h</span>
+		</div>
+
+		<!-- Operación a resolver -->
+		<div id="nitroOperacion" style="font-size: 28px; font-weight: 900; margin: 4px 0 4px; color: #ea580c; min-height: 36px; display: flex; align-items: center; justify-content: center;">
+		  ? × ? = ?
+		</div>
+
+		<!-- Indicador interactivo de control táctil / deslizamiento -->
+		<div id="lblNitroConsejo" style="font-size: 11px; font-weight: 800; color: #9a3412; background: #fff7ed; padding: 4px 10px; border-radius: 12px; margin-bottom: 4px; border: 1.5px solid #fed7aa; display: flex; align-items: center; justify-content: center; gap: 6px;">
+		  <span style="font-size: 13px;">👆</span><span id="txtNitroConsejo">¡Desliza tu dedo o haz clic en la pista para conducir a toda velocidad!</span>
+		</div>
+
+		<!-- Pista de 3 carriles con metas numéricas descendiendo -->
+		<div id="nitroAreaJuego" class="nitro-pista" style="flex: 1; min-height: 330px; margin-bottom: 6px;">
+		  <!-- Horizonte retro Atari para el ciclo día/noche/clima de Enduro -->
+		  <div id="enduroHorizonte" class="enduro-horizonte dia">
+			<span style="font-size: 10px; font-weight: 900; color: #fff; text-shadow: 0 1px 2px #000; letter-spacing: 0.5px;" id="lblEnduroClimaTexto">☀️ DÍA SOLEADO</span>
+			<span style="font-size: 16px;">🏔️🌲</span>
+		  </div>
+		  <!-- Capa de niebla y nieve para etapas difíciles de Enduro -->
+		  <div id="enduroCapaNiebla" class="enduro-capa-niebla"></div>
+		  <!-- Haz de luces delanteras del jugador en la noche de Enduro -->
+		  <div id="enduroHazLuces" class="enduro-luces-jugador"></div>
+
+		  <div class="nitro-carriles" id="nitroCarrilesWrap">
+			<div class="nitro-carril-linea" id="carrilNitro_0"></div>
+			<div class="nitro-carril-linea" id="carrilNitro_1"></div>
+			<div class="nitro-carril-linea" id="carrilNitro_2"></div>
+		  </div>
+		  <!-- Auto del jugador -->
+		  <div class="nitro-auto-jugador" id="nitroAutoPlayer" style="left: calc(50% - 31px);">
+			<span style="font-size: 26px; line-height: 1;">🏎️</span>
+			<span id="lblAutoBadge" style="font-size: 10px; font-weight: 900; color: #fff; background: #991b1b; padding: 1px 4px; border-radius: 4px;">NITRO</span>
+			<div class="nitro-fuego-escape" id="nitroFlamaEscape">🔥</div>
+		  </div>
+		</div>
+
+		<!-- Controles de carril táctiles -->
+		<!-- Controles de carril táctiles y atajos de teclado PC -->
+		<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 4px;">
+		  <button id="btnNitroCarril0" type="button" class="principal" style="background:#ea580c; padding:6px 4px; font-size:12px; font-weight:bold; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;">
+		    <span>⬅️ <span id="txtBtnNitro0">Izq</span></span>
+		    <span style="font-size: 9px; font-weight: 800; opacity: 0.95; background: rgba(0,0,0,0.22); padding: 1px 5px; border-radius: 4px; letter-spacing: 0.5px;">[◀] [A] [1]</span>
+		  </button>
+		  <button id="btnNitroCarril1" type="button" class="principal" style="background:#f97316; padding:6px 4px; font-size:12px; font-weight:bold; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;">
+		    <span>⬆️ <span id="txtBtnNitro1">Centro</span></span>
+		    <span style="font-size: 9px; font-weight: 800; opacity: 0.95; background: rgba(0,0,0,0.22); padding: 1px 5px; border-radius: 4px; letter-spacing: 0.5px;">[▲] [W] [2]</span>
+		  </button>
+		  <button id="btnNitroCarril2" type="button" class="principal" style="background:#ea580c; padding:6px 4px; font-size:12px; font-weight:bold; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;">
+		    <span><span id="txtBtnNitro2">Der</span> ➡️</span>
+		    <span style="font-size: 9px; font-weight: 800; opacity: 0.95; background: rgba(0,0,0,0.22); padding: 1px 5px; border-radius: 4px; letter-spacing: 0.5px;">[▶] [D] [3]</span>
+		  </button>
+		</div>
+
+		<!-- Guía de atajos de teclado para PC -->
+		<div id="lblNitroPcGuia" style="font-size: 10px; font-weight: 800; color: #7c2d12; margin-bottom: 5px; display: flex; justify-content: center; align-items: center; gap: 4px; background: rgba(254, 215, 170, 0.4); padding: 3px 8px; border-radius: 8px;">
+		  <span>⌨️ PC: Flechas ⬅️ ➡️ o teclas [A] [D] • [Espacio] Arrancar</span>
+		</div>
+
+		<button id="btnIniciarNitro" class="principal btn-modal-accion" type="button" style="background: linear-gradient(135deg, #ea580c, #c2410c); padding: 10px; font-size: 13px; font-weight: bold;">
+		  🏁 ¡Arrancar Carrera de Nitro!
+		</button>
+	  </div>
+	</div>
+
+	<!-- Modal de Minijuego: Defensa Galáctica (Galactic Defender) -->
+	<div id="modalGalactica" class="modal-historial" hidden>
+	  <div class="modal-contenido" style="text-align: center; position: relative; overflow: hidden; max-width: 440px; width: 95%; height: 86vh; max-height: 92dvh; min-height: 540px; display: flex; flex-direction: column;">
+		<div class="modal-header">
+		  <span id="lblGalacticaTitulo" style="color:#4f46e5; font-weight:900;">🚀 Defensa Galáctica (Space Defender)</span>
+		  <button id="cerrarGalactica" type="button" style="background:#e2e8f0; border-radius:50%; width:28px; height:28px; font-size:12px; font-weight:bold; border:none; cursor:pointer;">✕</button>
+		</div>
+
+		<div id="galacticaBarraEstado" style="display:flex; justify-content:space-between; align-items:center; background:#e0e7ff; padding:4px 10px; border-radius:8px; margin-bottom:4px; border:1.5px solid #c7d2fe;">
+		  <span id="lblGalacticaVidas" style="font-size:12px; font-weight:bold; color:#3730a3;">🛡️ Escudos: 3</span>
+		  <span id="lblGalacticaOleada" style="font-size:11px; font-weight:extrabold; color:#4338ca; background:#fff; padding:2px 8px; border-radius:12px; border:1px solid #c7d2fe;">👾 Oleada: 1</span>
+		  <span id="lblGalacticaPuntos" style="font-size:12px; font-weight:bold; color:#3730a3;">⭐ Puntos: 0</span>
+		</div>
+
+		<!-- Operación a resolver -->
+		<div id="galacticaOperacion" style="font-size: 28px; font-weight: 900; margin: 4px 0 6px; color: #4338ca; min-height: 36px; display: flex; align-items: center; justify-content: center;">
+		  ? × ? = ?
+		</div>
+
+		<!-- Espacio sideral con invasores alienígenas descendiendo -->
+		<div id="galacticaAreaJuego" class="galactica-espacio" style="flex: 1; min-height: 330px; margin-bottom: 6px; border: 2px dashed #6366f1;">
+		  <!-- Cañón láser direccionable con torreta móvil -->
+		  <div class="galactica-nave-canon" id="galacticaCanon">
+			<div class="galactica-canon-torreta">
+			  <div class="galactica-canon-canones">
+				<div class="galactica-canon-tubo"></div>
+				<div class="galactica-canon-tubo"></div>
+			  </div>
+			  <div class="galactica-canon-nucleo">
+				<div class="galactica-canon-ojo"></div>
+			  </div>
+			  <div class="galactica-canon-base"></div>
+			</div>
+		  </div>
+		  <!-- Capa SVG para haces láser y efectos de plasma exactos -->
+		  <svg id="galacticaLaserOverlay" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; overflow: visible;"></svg>
+		</div>
+
+		<button id="btnIniciarGalactica" class="principal btn-modal-accion" type="button" style="background: linear-gradient(135deg, #4f46e5, #3730a3); padding: 10px; font-size: 13px; font-weight: bold;">
+		  🚀 ¡Iniciar Defensa Planetaria!
+		</button>
+	  </div>
+	</div>
+
 	<!-- Modal de Minijuego: Ajedrez Táctico 8x8 (Modular / Bot o 2P) -->
 	<div id="modalTableroMagico" class="modal-historial" hidden>
 	  <div class="modal-contenido modal-ajedrez-card" style="text-align: center; position: relative; overflow: hidden;">
@@ -4442,10 +5199,28 @@
         <div class="card-hub-juego" id="cardHubLluvia" style="background:#f0f9ff; border:1.5px solid #bae6fd;">
           <span style="font-size:26px;">⭐</span>
           <div style="flex:1; text-align:left;">
-            <strong id="lblLluviaTituloHub" style="font-size:12px; color:#0284c7; display:block;">Lluvia de Estrellas</strong>
-            <span id="lblLluviaDesc" style="font-size:10px; color:#475569;">Atrapa los resultados correctos al vuelo.</span>
+            <strong id="lblLluviaTituloHub" style="font-size:12px; color:#0284c7; display:block;">Salto Ninja (Lluvia de Estrellas)</strong>
+            <span id="lblLluviaDesc" style="font-size:10px; color:#475569;">Corta las estrellas correctas con katana.</span>
           </div>
           <button type="button" class="principal" style="background:#0284c7; font-size:10px; padding:6px 10px; border-radius:8px;">Jugar</button>
+        </div>
+        <!-- Tarjeta Rompe-Globos -->
+        <div class="card-hub-juego" id="cardHubGlobos" style="background:#fff1f2; border:1.5px solid #fda4af;">
+          <span style="font-size:26px;">🎈</span>
+          <div style="flex:1; text-align:left;">
+            <strong id="lblGlobosTituloHub" style="font-size:12px; color:#e11d48; display:block;">Rompe-Globos a Toda Presión</strong>
+            <span id="lblGlobosDesc" style="font-size:10px; color:#475569;">Revienta el globo correcto antes de que vuele al cielo.</span>
+          </div>
+          <button type="button" class="principal" style="background:#f43f5e; font-size:10px; padding:6px 10px; border-radius:8px;">Jugar</button>
+        </div>
+        <!-- Tarjeta Martillazo al Topo -->
+        <div class="card-hub-juego" id="cardHubTopos" style="background:#fefce8; border:1.5px solid #fef08a;">
+          <span style="font-size:26px;">🔨</span>
+          <div style="flex:1; text-align:left;">
+            <strong id="lblToposTituloHub" style="font-size:12px; color:#854d0e; display:block;">Martillazo al Topo Travieso</strong>
+            <span id="lblToposDesc" style="font-size:10px; color:#475569;">¡PUM! Martilla al topo con el resultado correcto.</span>
+          </div>
+          <button type="button" class="principal" style="background:#854d0e; font-size:10px; padding:6px 10px; border-radius:8px;">Jugar</button>
         </div>
         <!-- Tarjeta ¿Correcto o Trampa? -->
         <div class="card-hub-juego" id="cardHubTrampa" style="background:#fef3c7; border:1.5px solid #fde68a;">
@@ -4464,6 +5239,24 @@
             <span id="lblCaraACaraDesc" style="font-size:10px; color:#475569;">Pantalla dividida con vista invertida para jugar en la misma mesa.</span>
           </div>
           <button type="button" class="principal" style="background:#e11d48; font-size:10px; padding:6px 10px; border-radius:8px;">Duelo</button>
+        </div>
+        <!-- Tarjeta Carrera de Nitro -->
+        <div class="card-hub-juego" id="cardHubNitro" style="background:#fff7ed; border:1.5px solid #fed7aa;">
+          <span style="font-size:26px;">🏎️</span>
+          <div style="flex:1; text-align:left;">
+            <strong id="lblNitroTituloHub" style="font-size:12px; color:#c2410c; display:block;">Carrera de Nitro (Nitro Rush)</strong>
+            <span id="lblNitroDesc" style="font-size:10px; color:#475569;">Cambia de carril y acelera hacia el resultado correcto.</span>
+          </div>
+          <button type="button" class="principal" style="background:#ea580c; font-size:10px; padding:6px 10px; border-radius:8px;">Jugar</button>
+        </div>
+        <!-- Tarjeta Defensa Galáctica -->
+        <div class="card-hub-juego" id="cardHubGalactica" style="background:#eef2ff; border:1.5px solid #c7d2fe;">
+          <span style="font-size:26px;">🚀</span>
+          <div style="flex:1; text-align:left;">
+            <strong id="lblGalacticaTituloHub" style="font-size:12px; color:#4338ca; display:block;">Defensa Galáctica (Space Defender)</strong>
+            <span id="lblGalacticaDesc" style="font-size:10px; color:#475569;">Dispara rayos láser para pulverizar a los invasores.</span>
+          </div>
+          <button type="button" class="principal" style="background:#4f46e5; font-size:10px; padding:6px 10px; border-radius:8px;">Jugar</button>
         </div>
       </div>
     </div>
@@ -4852,6 +5645,7 @@ let lluviaScore = 0;
 let lluviaIntervalo = null;
 let estrellasActuales = [];
 let lluviaCombo = 0;
+let lluviaRachaNinja = 0;
 let lluviaUltimoAciertoTiempo = 0;
 let lluviaRondaInicioTiempo = 0;
 
@@ -5191,8 +5985,77 @@ const i18n = {
     hubTrampaDesc: "Descubre al impostor matemático con rapidez.",
     hubCaraACaraTitulo: "Duelo Cara a Cara (2 o 4 Jugadores)",
     hubCaraACaraDesc: "Pantalla dividida con vista invertida para 2 o 4 jugadores en la misma mesa.",
+    hubGlobosTitulo: "Rompe-Globos a Toda Presión",
+    hubGlobosDesc: "Revienta el globo correcto antes de que vuele al cielo.",
+    hubToposTitulo: "Martillazo al Topo Travieso",
+    hubToposDesc: "¡PUM! Martilla al topo con el resultado correcto.",
+    hubNitroTitulo: "Carrera de Nitro (Nitro Rush)",
+    hubNitroDesc: "Cambia de carril y acelera hacia el resultado correcto.",
+    hubGalacticaTitulo: "Defensa Galáctica (Space Defender)",
+    hubGalacticaDesc: "Dispara rayos láser para pulverizar a los invasores.",
     hubBtnJugar: "Jugar",
     hubBtnDuelo: "Duelo",
+
+    // 🎈 Rompe-Globos
+    globosTitulo: "🎈 Rompe-Globos a Toda Presión",
+    globosBtnIniciar: "🚀 ¡Comenzar Rompe-Globos!",
+    globosBtnReintentar: "🔄 ¡Jugar de Nuevo!",
+    globosVidasTexto: (v) => `${'❤️'.repeat(v)}${'💔'.repeat(Math.max(0, 3 - v))} Vidas: ${v}`,
+    globosComboTexto: (c) => `🔥 Combo: x${c}`,
+    globosPuntosTexto: (p) => `⭐ Puntos: ${p}`,
+    globosMsjEscape: "💨 ¡Se escapó el globo correcto!",
+    globosMsjEquivocado: "❌ ¡Globo equivocado!",
+    globosFinPartida: "🏁 ¡FIN DE PARTIDA!",
+
+    // 🔨 Martillazo al Topo
+    toposTitulo: "🔨 Martillazo al Topo Travieso",
+    toposBtnIniciar: "🔨 ¡Comenzar Martillazos!",
+    toposBtnReintentar: "🔄 ¡Jugar de Nuevo!",
+    toposVidasTexto: (v) => `${'❤️'.repeat(v)}${'💔'.repeat(Math.max(0, 3 - v))} Vidas: ${v}`,
+    toposRachaTexto: (r) => `🔨 Racha: x${r}`,
+    toposPuntosTexto: (p) => `⭐ Puntos: ${p}`,
+    toposMsjEscondidos: "🕳️ ¡Se escondieron a tiempo!",
+    toposMsjEquivocado: "❌ ¡Topo equivocado!",
+    toposFinPartida: "🏁 ¡FIN DE PARTIDA!",
+
+    // 🏎️ Carrera de Nitro & Modo Enduro Atari
+    nitroTitulo: "🏎️ Carrera de Nitro & Enduro Atari",
+    nitroTabSprint: "⚡ Sprint Nitro",
+    nitroTabEnduro: "🕹️ Enduro Atari 1983",
+    nitroConsejo: "¡Usa flechas ⬅️ ➡️ o A/D en PC, o desliza tu dedo en la pista!",
+    nitroBtnIniciar: "🏁 ¡Arrancar Carrera de Nitro!",
+    nitroBtnReintentar: "🔄 ¡Correr de Nuevo!",
+    nitroVidasTexto: (v) => `${'❤️'.repeat(v)}${'💔'.repeat(Math.max(0, 3 - v))} Vidas: ${v}`,
+    nitroVelocidadTexto: (km) => `⚡ ${km} km/h`,
+    nitroPuntosTexto: (p) => `⭐ Puntos: ${p}`,
+    nitroMsjPasaste: "💨 ¡Pasaste de largo la meta correcta!",
+    nitroMsjEquivocado: "💥 ¡Choque! Respuesta incorrecta",
+    nitroFinPartida: "🏁 ¡CARRERA TERMINADA!",
+    nitroPcGuia: "⌨️ PC: Flechas ⬅️ ➡️ o teclas [A] [D] • [Espacio] Arrancar",
+    nitroBtnIzqTexto: "Izq",
+    nitroBtnCentroTexto: "Centro",
+    nitroBtnDerTexto: "Der",
+    enduroDiaTexto: (d, icono) => `📅 Día ${d} ${icono}`,
+    enduroRestanTexto: (r) => `🎯 Restan: ${r} 🚗`,
+    enduroTiempoTexto: (s) => `⏳ ${s}s`,
+    enduroConsejo: "¡Usa flechas ⬅️ ➡️ o A/D para adelantar los autos antes de la noche!",
+    enduroBtnIniciar: "🕹️ ¡Arrancar Enduro Atari!",
+    enduroBtnReintentar: "🔄 ¡Reintentar Enduro!",
+    enduroMsjEtapa: (d) => `🏁 ¡DÍA ${d} COMPLETADO! Avanzando al siguiente clima...`,
+    enduroMsjChoque: "💥 ¡Choque! Auto frenado (-3s)",
+    enduroMsjTiempoAgotado: "⏱️ ¡Tiempo agotado! Fin de la carrera Enduro",
+    enduroFinVictoria: (d, c, p) => `🏆 ¡Piloto Legendario! ${d} Días, ${c} Autos, ${p} Pts ⭐`,
+
+    // 🚀 Defensa Galáctica
+    galacticaTitulo: "🚀 Defensa Galáctica (Space Defender)",
+    galacticaBtnIniciar: "🚀 ¡Iniciar Defensa Planetaria!",
+    galacticaBtnReintentar: "🔄 ¡Defender de Nuevo!",
+    galacticaEscudosTexto: (v) => `${'🛡️'.repeat(v)}${'💥'.repeat(Math.max(0, 3 - v))} Escudos: ${v}`,
+    galacticaOleadaTexto: (o) => `👾 Oleada: ${o}`,
+    galacticaPuntosTexto: (p) => `⭐ Puntos: ${p}`,
+    galacticaMsjInvasion: "🛸 ¡Los invasores penetraron la atmósfera!",
+    galacticaMsjEquivocado: "❌ ¡Blanco incorrecto!",
+    galacticaFinPartida: "🏁 ¡DEFENSA FINALIZADA!",
 
     // 📊 Tabla Pitagórica
     pitagorasTitulo: "📊 Tabla Pitagórica Interactiva",
@@ -5300,7 +6163,9 @@ const i18n = {
 
     // Tooltips y accesibilidad
     tooltipHub: "Centro de Minijuegos",
-    btnAbrirHubModal: "🎮 Centro de Minijuegos (6 juegos)",
+    btnAbrirHubModal: "🎮 Centro de Minijuegos (10 juegos)",
+    tooltipNitro: "Minijuego: Carrera de Nitro",
+    tooltipGalactica: "Minijuego: Defensa Galáctica",
     tooltipPitagoras: "Tabla Pitagórica",
     tooltipDuelo: "Minijuego: Duelo Cara a Cara",
     tooltipHistorial: "Ver historial",
@@ -5553,8 +6418,77 @@ const i18n = {
     hubTrampaDesc: "Spot the math imposter quickly.",
     hubCaraACaraTitulo: "Face-to-Face Duel (2 or 4 Players)",
     hubCaraACaraDesc: "Split screen with inverted view for 2 or 4 players on the same table.",
+    hubGlobosTitulo: "Balloon Pop Frenzy",
+    hubGlobosDesc: "Pop the right balloon before it flies up to the sky.",
+    hubToposTitulo: "Whack-a-Mole Arcade",
+    hubToposDesc: "WHACK! Hit the mole holding the correct result.",
+    hubNitroTitulo: "Nitro Racing Rush",
+    hubNitroDesc: "Switch lanes and accelerate into the correct goal.",
+    hubGalacticaTitulo: "Galactic Math Defender",
+    hubGalacticaDesc: "Blast lasers to vaporize falling alien invaders.",
     hubBtnJugar: "Play",
     hubBtnDuelo: "Duel",
+
+    // 🎈 Balloon Pop
+    globosTitulo: "🎈 Balloon Pop Frenzy",
+    globosBtnIniciar: "🚀 Start Balloon Pop!",
+    globosBtnReintentar: "🔄 Play Again!",
+    globosVidasTexto: (v) => `${'❤️'.repeat(v)}${'💔'.repeat(Math.max(0, 3 - v))} Lives: ${v}`,
+    globosComboTexto: (c) => `🔥 Combo: x${c}`,
+    globosPuntosTexto: (p) => `⭐ Points: ${p}`,
+    globosMsjEscape: "💨 The correct balloon flew away!",
+    globosMsjEquivocado: "❌ Wrong balloon popped!",
+    globosFinPartida: "🏁 GAME OVER!",
+
+    // 🔨 Whack-a-Mole
+    toposTitulo: "🔨 Whack-a-Mole Arcade",
+    toposBtnIniciar: "🔨 Start Whacking!",
+    toposBtnReintentar: "🔄 Play Again!",
+    toposVidasTexto: (v) => `${'❤️'.repeat(v)}${'💔'.repeat(Math.max(0, 3 - v))} Lives: ${v}`,
+    toposRachaTexto: (r) => `🔨 Streak: x${r}`,
+    toposPuntosTexto: (p) => `⭐ Points: ${p}`,
+    toposMsjEscondidos: "🕳️ They hid in time!",
+    toposMsjEquivocado: "❌ Wrong mole hit!",
+    toposFinPartida: "🏁 GAME OVER!",
+
+    // 🏎️ Nitro Racing Rush & Atari Enduro
+    nitroTitulo: "🏎️ Nitro Racing Rush & Atari Enduro",
+    nitroTabSprint: "⚡ Sprint Nitro",
+    nitroTabEnduro: "🕹️ Atari Enduro 1983",
+    nitroConsejo: "Use ⬅️ ➡️ Arrow keys or A/D on PC, or swipe on the track!",
+    nitroBtnIniciar: "🏁 Start Nitro Race!",
+    nitroBtnReintentar: "🔄 Race Again!",
+    nitroVidasTexto: (v) => `${'❤️'.repeat(v)}${'💔'.repeat(Math.max(0, 3 - v))} Lives: ${v}`,
+    nitroVelocidadTexto: (km) => `⚡ ${km} km/h`,
+    nitroPuntosTexto: (p) => `⭐ Points: ${p}`,
+    nitroMsjPasaste: "💨 You missed the correct finish line!",
+    nitroMsjEquivocado: "💥 Crash! Wrong answer",
+    nitroFinPartida: "🏁 RACE FINISHED!",
+    nitroPcGuia: "⌨️ PC: Arrow keys ⬅️ ➡️ or [A] [D] keys • [Space] Start",
+    nitroBtnIzqTexto: "Left",
+    nitroBtnCentroTexto: "Center",
+    nitroBtnDerTexto: "Right",
+    enduroDiaTexto: (d, icono) => `📅 Day ${d} ${icono}`,
+    enduroRestanTexto: (r) => `🎯 Goal: ${r} 🚗`,
+    enduroTiempoTexto: (s) => `⏳ ${s}s`,
+    enduroConsejo: "Use ⬅️ ➡️ Arrow keys or A/D to overtake targets before nightfall!",
+    enduroBtnIniciar: "🕹️ Start Atari Enduro!",
+    enduroBtnReintentar: "🔄 Try Enduro Again!",
+    enduroMsjEtapa: (d) => `🏁 DAY ${d} COMPLETED! Advancing to next weather...`,
+    enduroMsjChoque: "💥 Crash! Car stalled (-3s)",
+    enduroMsjTiempoAgotado: "⏱️ Time's up! End of the endurance race",
+    enduroFinVictoria: (d, c, p) => `🏆 Legendary Driver! ${d} Days, ${c} Cars, ${p} Pts ⭐`,
+
+    // 🚀 Galactic Defender
+    galacticaTitulo: "🚀 Galactic Math Defender",
+    galacticaBtnIniciar: "🚀 Launch Planetary Defense!",
+    galacticaBtnReintentar: "🔄 Defend Again!",
+    galacticaEscudosTexto: (v) => `${'🛡️'.repeat(v)}${'💥'.repeat(Math.max(0, 3 - v))} Shields: ${v}`,
+    galacticaOleadaTexto: (o) => `👾 Wave: ${o}`,
+    galacticaPuntosTexto: (p) => `⭐ Points: ${p}`,
+    galacticaMsjInvasion: "🛸 Invaders breached the shields!",
+    galacticaMsjEquivocado: "❌ Incorrect target!",
+    galacticaFinPartida: "🏁 DEFENSE COMPLETED!",
 
     // 📊 Pythagorean Table
     pitagorasTitulo: "📊 Interactive Pythagorean Table",
@@ -5662,7 +6596,9 @@ const i18n = {
 
     // Tooltips & Accessibility
     tooltipHub: "Minigames Hub",
-    btnAbrirHubModal: "🎮 Minigames Hub (6 games)",
+    btnAbrirHubModal: "🎮 Minigames Hub (10 games)",
+    tooltipNitro: "Minigame: Nitro Racing Rush",
+    tooltipGalactica: "Minigame: Galactic Math Defender",
     tooltipPitagoras: "Pythagorean Table",
     tooltipDuelo: "Minigame: Face-to-Face Duel",
     tooltipHistorial: "View history",
@@ -6067,7 +7003,7 @@ function actualizarTextosUI() {
   // 3. Tooltips de controles superiores
   const btnAbrirHubEl = document.getElementById("btnAbrirHub");
   if (btnAbrirHubEl) {
-    btnAbrirHubEl.textContent = t.btnAbrirHubModal || (idiomaActual === "es" ? "🎮 Centro de Minijuegos (6 juegos)" : "🎮 Minigames Hub (6 games)");
+    btnAbrirHubEl.textContent = t.btnAbrirHubModal || (idiomaActual === "es" ? "🎮 Centro de Minijuegos (10 juegos)" : "🎮 Minigames Hub (10 games)");
     btnAbrirHubEl.setAttribute("title", t.tooltipHub || (idiomaActual === "es" ? "Centro de Minijuegos" : "Minigames Hub"));
   }
   const btnAbrirPitagorasEl = document.getElementById("btnAbrirPitagoras");
@@ -6107,6 +7043,22 @@ function actualizarTextosUI() {
   if (btnCaraACaraEl) {
     btnCaraACaraEl.setAttribute("title", t.tooltipDuelo || (idiomaActual === "es" ? "Minijuego: Duelo Cara a Cara" : "Minigame: Face-to-Face Duel"));
   }
+  const btnGlobosEl = document.getElementById("btnGlobos");
+  if (btnGlobosEl) {
+    btnGlobosEl.setAttribute("title", idiomaActual === "es" ? "Minijuego: Rompe-Globos a Toda Presión" : "Minigame: Balloon Pop Frenzy");
+  }
+  const btnToposEl = document.getElementById("btnTopos");
+  if (btnToposEl) {
+    btnToposEl.setAttribute("title", idiomaActual === "es" ? "Minijuego: Martillazo al Topo Travieso" : "Minigame: Whack-a-Mole Arcade");
+  }
+  const btnNitroEl = document.getElementById("btnNitro");
+  if (btnNitroEl) {
+    btnNitroEl.setAttribute("title", t.tooltipNitro || (idiomaActual === "es" ? "Minijuego: Carrera de Nitro" : "Minigame: Nitro Racing Rush"));
+  }
+  const btnGalacticaEl = document.getElementById("btnGalactica");
+  if (btnGalacticaEl) {
+    btnGalacticaEl.setAttribute("title", t.tooltipGalactica || (idiomaActual === "es" ? "Minijuego: Defensa Galáctica" : "Minigame: Galactic Math Defender"));
+  }
 
   // 5. Centro de Minijuegos (Game Hub)
   const lblHubTitulo = document.getElementById("lblHubTitulo");
@@ -6143,6 +7095,77 @@ function actualizarTextosUI() {
   if (lblCaraACaraTitulo) lblCaraACaraTitulo.textContent = t.hubCaraACaraTitulo;
   const lblCaraACaraDesc = document.getElementById("lblCaraACaraDesc");
   if (lblCaraACaraDesc) lblCaraACaraDesc.textContent = t.hubCaraACaraDesc;
+
+  const lblGlobosTituloHub = document.getElementById("lblGlobosTituloHub");
+  if (lblGlobosTituloHub) lblGlobosTituloHub.textContent = t.hubGlobosTitulo;
+  const lblGlobosDesc = document.getElementById("lblGlobosDesc");
+  if (lblGlobosDesc) lblGlobosDesc.textContent = t.hubGlobosDesc;
+
+  const lblToposTituloHub = document.getElementById("lblToposTituloHub");
+  if (lblToposTituloHub) lblToposTituloHub.textContent = t.hubToposTitulo;
+  const lblToposDesc = document.getElementById("lblToposDesc");
+  if (lblToposDesc) lblToposDesc.textContent = t.hubToposDesc;
+
+  const lblNitroTituloHub = document.getElementById("lblNitroTituloHub");
+  if (lblNitroTituloHub) lblNitroTituloHub.textContent = t.hubNitroTitulo;
+  const lblNitroDesc = document.getElementById("lblNitroDesc");
+  if (lblNitroDesc) lblNitroDesc.textContent = t.hubNitroDesc;
+
+  const lblGalacticaTituloHub = document.getElementById("lblGalacticaTituloHub");
+  if (lblGalacticaTituloHub) lblGalacticaTituloHub.textContent = t.hubGalacticaTitulo;
+  const lblGalacticaDesc = document.getElementById("lblGalacticaDesc");
+  if (lblGalacticaDesc) lblGalacticaDesc.textContent = t.hubGalacticaDesc;
+
+  // Actualizar títulos de cabecera de los modales de minijuegos
+  const lblGlobosTitulo = document.getElementById("lblGlobosTitulo");
+  if (lblGlobosTitulo) lblGlobosTitulo.textContent = t.globosTitulo;
+  const btnIniciarGlobosEl = document.getElementById("btnIniciarGlobos");
+  if (btnIniciarGlobosEl && !globosActivo) {
+    btnIniciarGlobosEl.textContent = t.globosBtnIniciar;
+  }
+
+  const lblToposTitulo = document.getElementById("lblToposTitulo");
+  if (lblToposTitulo) lblToposTitulo.textContent = t.toposTitulo;
+  const btnIniciarToposEl = document.getElementById("btnIniciarTopos");
+  if (btnIniciarToposEl && !toposActivo) {
+    btnIniciarToposEl.textContent = t.toposBtnIniciar;
+  }
+
+  const lblNitroTitulo = document.getElementById("lblNitroTitulo");
+  if (lblNitroTitulo) lblNitroTitulo.textContent = t.nitroTitulo;
+  const tabModoNitro = document.getElementById("tabModoNitro");
+  if (tabModoNitro && t.nitroTabSprint) tabModoNitro.textContent = t.nitroTabSprint;
+  const tabModoEnduro = document.getElementById("tabModoEnduro");
+  if (tabModoEnduro && t.nitroTabEnduro) tabModoEnduro.textContent = t.nitroTabEnduro;
+  const txtNitroConsejo = document.getElementById("txtNitroConsejo");
+  if (txtNitroConsejo) {
+    txtNitroConsejo.textContent = (typeof carreraModoActual !== "undefined" && carreraModoActual === "enduro")
+      ? (t.enduroConsejo || t.nitroConsejo)
+      : t.nitroConsejo;
+  }
+  const btnIniciarNitroEl = document.getElementById("btnIniciarNitro");
+  if (btnIniciarNitroEl && (typeof nitroActivo === "undefined" || !nitroActivo)) {
+    btnIniciarNitroEl.textContent = (typeof carreraModoActual !== "undefined" && carreraModoActual === "enduro")
+      ? (t.enduroBtnIniciar || t.nitroBtnIniciar)
+      : t.nitroBtnIniciar;
+  }
+  const txtBtnNitro0 = document.getElementById("txtBtnNitro0");
+  if (txtBtnNitro0 && t.nitroBtnIzqTexto) txtBtnNitro0.textContent = t.nitroBtnIzqTexto;
+  const txtBtnNitro1 = document.getElementById("txtBtnNitro1");
+  if (txtBtnNitro1 && t.nitroBtnCentroTexto) txtBtnNitro1.textContent = t.nitroBtnCentroTexto;
+  const txtBtnNitro2 = document.getElementById("txtBtnNitro2");
+  if (txtBtnNitro2 && t.nitroBtnDerTexto) txtBtnNitro2.textContent = t.nitroBtnDerTexto;
+  const lblNitroPcGuia = document.getElementById("lblNitroPcGuia");
+  if (lblNitroPcGuia && t.nitroPcGuia) {
+    lblNitroPcGuia.innerHTML = `<span>${t.nitroPcGuia}</span>`;
+  }
+
+  const lblGalacticaTitulo = document.getElementById("lblGalacticaTitulo");
+  if (lblGalacticaTitulo) lblGalacticaTitulo.textContent = t.galacticaTitulo;
+  const btnIniciarGalacticaEl = document.getElementById("btnIniciarGalactica");
+  if (btnIniciarGalacticaEl && (typeof galacticaActivo === "undefined" || !galacticaActivo)) {
+    btnIniciarGalacticaEl.textContent = t.galacticaBtnIniciar;
+  }
 
   const cardsHub = document.querySelectorAll("#modalHubMinijuegos .card-hub-juego button");
   cardsHub.forEach(btn => {
@@ -6683,29 +7706,253 @@ function reproducirSonido(tipo, extra = 1) {
     if (!ctxAudio) return;
     const now = ctxAudio.currentTime;
 
-    if (tipo === "corte") {
-      // 🥷 Swish / blade slice effect
-      const bufferSize = Math.floor(ctxAudio.sampleRate * 0.14);
+    if (tipo === "popGlobo") {
+      // 🎈 Sonido pop alegre, resonante y nítido de globo inflado
+      const osc = ctxAudio.createOscillator();
+      const gain = ctxAudio.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(620, now);
+      osc.frequency.exponentialRampToValueAtTime(80, now + 0.11);
+      gain.gain.setValueAtTime(0.55, now);
+      gain.gain.exponentialRampToValueAtTime(0.005, now + 0.11);
+      osc.connect(gain);
+      gain.connect(ctxAudio.destination);
+      osc.start(now);
+      osc.stop(now + 0.11);
+      return;
+    }
+
+    if (tipo === "martillazo") {
+      // 🔨 Golpe contundente y resonante de martillo arcade
+      const osc1 = ctxAudio.createOscillator();
+      const gain1 = ctxAudio.createGain();
+      osc1.type = "triangle";
+      osc1.frequency.setValueAtTime(220, now);
+      osc1.frequency.exponentialRampToValueAtTime(45, now + 0.14);
+      gain1.gain.setValueAtTime(0.65, now);
+      gain1.gain.exponentialRampToValueAtTime(0.005, now + 0.14);
+      osc1.connect(gain1);
+      gain1.connect(ctxAudio.destination);
+      osc1.start(now);
+      osc1.stop(now + 0.14);
+
+      // Clank metálico breve en el impacto
+      const osc2 = ctxAudio.createOscillator();
+      const gain2 = ctxAudio.createGain();
+      osc2.type = "square";
+      osc2.frequency.setValueAtTime(540, now);
+      osc2.frequency.exponentialRampToValueAtTime(160, now + 0.06);
+      gain2.gain.setValueAtTime(0.25, now);
+      gain2.gain.exponentialRampToValueAtTime(0.005, now + 0.06);
+      osc2.connect(gain2);
+      gain2.connect(ctxAudio.destination);
+      osc2.start(now);
+      osc2.stop(now + 0.06);
+      return;
+    }
+
+    if (tipo === "corte" || tipo === "corteKatana") {
+      // 🥷 Corte veloz y afilado de espada katana con silbido y chasquido metálico
+      const bufferSize = Math.floor(ctxAudio.sampleRate * 0.16);
       const buffer = ctxAudio.createBuffer(1, bufferSize, ctxAudio.sampleRate);
       const data = buffer.getChannelData(0);
       for (let i = 0; i < bufferSize; i++) {
-        data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.28));
+        data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.22));
       }
       const noise = ctxAudio.createBufferSource();
       noise.buffer = buffer;
       const filter = ctxAudio.createBiquadFilter();
       filter.type = "bandpass";
-      filter.frequency.setValueAtTime(3200, now);
-      filter.frequency.exponentialRampToValueAtTime(600, now + 0.14);
-      filter.Q.value = 3.2;
+      filter.frequency.setValueAtTime(4200, now);
+      filter.frequency.exponentialRampToValueAtTime(800, now + 0.15);
+      filter.Q.value = 4.5;
       const gainNodeSlash = ctxAudio.createGain();
-      gainNodeSlash.gain.setValueAtTime(0.35, now);
-      gainNodeSlash.gain.exponentialRampToValueAtTime(0.01, now + 0.14);
+      gainNodeSlash.gain.setValueAtTime(0.5, now);
+      gainNodeSlash.gain.exponentialRampToValueAtTime(0.005, now + 0.15);
       noise.connect(filter);
       filter.connect(gainNodeSlash);
       gainNodeSlash.connect(ctxAudio.destination);
       noise.start(now);
-      noise.stop(now + 0.14);
+      noise.stop(now + 0.15);
+
+      // Chink agudo de filo de acero
+      const bladeOsc = ctxAudio.createOscillator();
+      const bladeGain = ctxAudio.createGain();
+      bladeOsc.type = "sine";
+      bladeOsc.frequency.setValueAtTime(1480, now);
+      bladeOsc.frequency.exponentialRampToValueAtTime(880, now + 0.08);
+      bladeGain.gain.setValueAtTime(0.28, now);
+      bladeGain.gain.exponentialRampToValueAtTime(0.005, now + 0.08);
+      bladeOsc.connect(bladeGain);
+      bladeGain.connect(ctxAudio.destination);
+      bladeOsc.start(now);
+      bladeOsc.stop(now + 0.08);
+      return;
+    }
+
+    if (tipo === "explosionNinja" || tipo === "bombaHumo") {
+      // 💨 Explosión ninja / bomba de humo con retumbo y chispas
+      const bufferSize = Math.floor(ctxAudio.sampleRate * 0.45);
+      const buffer = ctxAudio.createBuffer(1, bufferSize, ctxAudio.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.4));
+      }
+      const noise = ctxAudio.createBufferSource();
+      noise.buffer = buffer;
+      const filter = ctxAudio.createBiquadFilter();
+      filter.type = "lowpass";
+      filter.frequency.setValueAtTime(850, now);
+      filter.frequency.exponentialRampToValueAtTime(50, now + 0.45);
+      const gainNode = ctxAudio.createGain();
+      gainNode.gain.setValueAtTime(0.65, now);
+      gainNode.gain.exponentialRampToValueAtTime(0.005, now + 0.45);
+      noise.connect(filter);
+      filter.connect(gainNode);
+      gainNode.connect(ctxAudio.destination);
+      noise.start(now);
+      noise.stop(now + 0.45);
+
+      // Sub-bajo sísmico del golpe
+      const subOsc = ctxAudio.createOscillator();
+      const subGain = ctxAudio.createGain();
+      subOsc.type = "sine";
+      subOsc.frequency.setValueAtTime(140, now);
+      subOsc.frequency.exponentialRampToValueAtTime(35, now + 0.35);
+      subGain.gain.setValueAtTime(0.45, now);
+      subGain.gain.exponentialRampToValueAtTime(0.005, now + 0.35);
+      subOsc.connect(subGain);
+      subGain.connect(ctxAudio.destination);
+      subOsc.start(now);
+      subOsc.stop(now + 0.35);
+      return;
+    }
+
+    if (tipo === "nitro" || tipo === "turboCar") {
+      // 🏎️ Rugido de aceleración Turbo Nitro (pitch sweep ascendente + chisporroteo)
+      const oscN = ctxAudio.createOscillator();
+      const gainN = ctxAudio.createGain();
+      oscN.type = "sawtooth";
+      oscN.frequency.setValueAtTime(110, now);
+      oscN.frequency.exponentialRampToValueAtTime(480, now + 0.32);
+      gainN.gain.setValueAtTime(0.45, now);
+      gainN.gain.exponentialRampToValueAtTime(0.01, now + 0.32);
+      oscN.connect(gainN);
+      gainN.connect(ctxAudio.destination);
+      oscN.start(now);
+      oscN.stop(now + 0.32);
+
+      // Flama de escape sibilante
+      const bSize = Math.floor(ctxAudio.sampleRate * 0.28);
+      const bBuff = ctxAudio.createBuffer(1, bSize, ctxAudio.sampleRate);
+      const bData = bBuff.getChannelData(0);
+      for (let i = 0; i < bSize; i++) bData[i] = (Math.random() * 2 - 1) * 0.8;
+      const bSource = ctxAudio.createBufferSource();
+      bSource.buffer = bBuff;
+      const bFilter = ctxAudio.createBiquadFilter();
+      bFilter.type = "bandpass";
+      bFilter.frequency.setValueAtTime(1800, now);
+      bFilter.frequency.exponentialRampToValueAtTime(3600, now + 0.28);
+      const bGain = ctxAudio.createGain();
+      bGain.gain.setValueAtTime(0.35, now);
+      bGain.gain.exponentialRampToValueAtTime(0.01, now + 0.28);
+      bSource.connect(bFilter);
+      bFilter.connect(bGain);
+      bGain.connect(ctxAudio.destination);
+      bSource.start(now);
+      bSource.stop(now + 0.28);
+      return;
+    }
+
+    if (tipo === "laser" || tipo === "disparoGalactico") {
+      // 🚀 Disparo láser espacial arcade de Defensa Galáctica
+      const oscL = ctxAudio.createOscillator();
+      const gainL = ctxAudio.createGain();
+      oscL.type = "sawtooth";
+      oscL.frequency.setValueAtTime(1100, now);
+      oscL.frequency.exponentialRampToValueAtTime(140, now + 0.16);
+      gainL.gain.setValueAtTime(0.42, now);
+      gainL.gain.exponentialRampToValueAtTime(0.005, now + 0.16);
+      oscL.connect(gainL);
+      gainL.connect(ctxAudio.destination);
+      oscL.start(now);
+      oscL.stop(now + 0.16);
+      return;
+    }
+
+    if (tipo === "explosionLaser" || tipo === "impactoAlien") {
+      // 💥 Destrucción de asteroide / nave invasora con onda expansiva
+      const bSize = Math.floor(ctxAudio.sampleRate * 0.35);
+      const bBuff = ctxAudio.createBuffer(1, bSize, ctxAudio.sampleRate);
+      const bData = bBuff.getChannelData(0);
+      for (let i = 0; i < bSize; i++) bData[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bSize * 0.3));
+      const bSource = ctxAudio.createBufferSource();
+      bSource.buffer = bBuff;
+      const bFilter = ctxAudio.createBiquadFilter();
+      bFilter.type = "lowpass";
+      bFilter.frequency.setValueAtTime(1200, now);
+      bFilter.frequency.exponentialRampToValueAtTime(80, now + 0.35);
+      const bGain = ctxAudio.createGain();
+      bGain.gain.setValueAtTime(0.55, now);
+      bGain.gain.exponentialRampToValueAtTime(0.008, now + 0.35);
+      bSource.connect(bFilter);
+      bFilter.connect(bGain);
+      bGain.connect(ctxAudio.destination);
+      bSource.start(now);
+      bSource.stop(now + 0.35);
+      return;
+    }
+    if (tipo === "choqueEnduro" || tipo === "derrapeEnduro") {
+      // 🕹️ Freno y derrape clásico Atari 2600 Enduro al rozar un coche
+      const oscS = ctxAudio.createOscillator();
+      const gainS = ctxAudio.createGain();
+      oscS.type = "sawtooth";
+      oscS.frequency.setValueAtTime(860, now);
+      oscS.frequency.exponentialRampToValueAtTime(140, now + 0.38);
+      gainS.gain.setValueAtTime(0.55, now);
+      gainS.gain.exponentialRampToValueAtTime(0.01, now + 0.38);
+      oscS.connect(gainS);
+      gainS.connect(ctxAudio.destination);
+      oscS.start(now);
+      oscS.stop(now + 0.38);
+      // Chirrido de neumáticos 8-bit
+      const bSize = Math.floor(ctxAudio.sampleRate * 0.35);
+      const bBuff = ctxAudio.createBuffer(1, bSize, ctxAudio.sampleRate);
+      const bData = bBuff.getChannelData(0);
+      for (let i = 0; i < bSize; i++) bData[i] = (Math.random() * 2 - 1) * Math.sin(i * 0.08);
+      const bSource = ctxAudio.createBufferSource();
+      bSource.buffer = bBuff;
+      const bFilter = ctxAudio.createBiquadFilter();
+      bFilter.type = "bandpass";
+      bFilter.frequency.setValueAtTime(2400, now);
+      bFilter.frequency.exponentialRampToValueAtTime(800, now + 0.35);
+      const bGain = ctxAudio.createGain();
+      bGain.gain.setValueAtTime(0.4, now);
+      bGain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+      bSource.connect(bFilter);
+      bFilter.connect(bGain);
+      bGain.connect(ctxAudio.destination);
+      bSource.start(now);
+      bSource.stop(now + 0.35);
+      return;
+    }
+    if (tipo === "etapaEnduro") {
+      // 🏁 Fanfarria 8-bit de día superado en Enduro Atari
+      const notasEnduro = [329.63, 440.0, 554.37, 659.25, 880.0];
+      notasEnduro.forEach((f, idx) => {
+        const oscE = ctxAudio.createOscillator();
+        const gainE = ctxAudio.createGain();
+        oscE.type = "square";
+        const tInicio = now + idx * 0.08;
+        const dur = idx === notasEnduro.length - 1 ? 0.35 : 0.1;
+        oscE.frequency.setValueAtTime(f, tInicio);
+        gainE.gain.setValueAtTime(0.2, tInicio);
+        gainE.gain.exponentialRampToValueAtTime(0.005, tInicio + dur);
+        oscE.connect(gainE);
+        gainE.connect(ctxAudio.destination);
+        oscE.start(tInicio);
+        oscE.stop(tInicio + dur);
+      });
       return;
     }
 
@@ -9979,27 +11226,53 @@ function cortarEstrella(star) {
 
     const puntosRonda = 10 * lluviaCombo;
 
-    reproducirSonido("corte");
-    if (lluviaCombo >= 2) {
+    lluviaScore += puntosRonda;
+    aciertosLluviaTotal++;
+    lluviaRachaNinja++;
+
+    // 🗡️ Efectos de sonido y bonificaciones especiales Ninja
+    if (modoLluviaEstilo === "ninja") {
+      reproducirSonido("corteKatana");
+    } else {
+      reproducirSonido("corte");
+    }
+
+    let bonoRachaPts = 0;
+    let txtBonoRacha = "";
+
+    // 💥 Bono especial por Racha Perfecta Ninja (cada 3 aciertos consecutivos sin fallo)
+    if (lluviaRachaNinja > 0 && lluviaRachaNinja % 3 === 0) {
+      bonoRachaPts = lluviaRachaNinja * 15; // ej: 3 -> +45, 6 -> +90, 9 -> +135
+      lluviaScore += bonoRachaPts;
+      puntos += bonoRachaPts;
+      setTimeout(() => {
+        reproducirSonido("explosionNinja");
+        reproducirSonido("racha");
+      }, 70);
+
+      txtBonoRacha = idiomaActual === "es"
+        ? `🥷 ¡RACHA PERFECTA x${lluviaRachaNinja}! +${bonoRachaPts} ⭐`
+        : `🥷 PERFECT STREAK x${lluviaRachaNinja}! +${bonoRachaPts} ⭐`;
+    } else if (lluviaCombo >= 2) {
       setTimeout(() => reproducirSonido("combo", lluviaCombo), 35);
     } else {
       setTimeout(() => reproducirSonido("acierto"), 35);
     }
     vibrar([40, 25, 60]);
 
-    lluviaScore += puntosRonda;
-    aciertosLluviaTotal++;
     verificarInsignias();
     guardarPuntajes();
     lblLluviaPuntos.textContent = `⭐ Puntos: ${lluviaScore}`;
     actualizarBadgeComboNinja();
 
     let txtSlash;
-    if (lluviaCombo >= 2) {
+    if (txtBonoRacha) {
+      txtSlash = txtBonoRacha;
+    } else if (lluviaCombo >= 2) {
       txtSlash = `🔥 COMBO x${lluviaCombo}! +${puntosRonda} ⭐`;
     } else {
       txtSlash = modoLluviaEstilo === "ninja"
-        ? (idiomaActual === "es" ? "¡Corte Ninja! +10 ⭐" : "Ninja Slash! +10 ⭐")
+        ? (idiomaActual === "es" ? "¡Corte Katana! +10 ⭐" : "Katana Slash! +10 ⭐")
         : "+10 ⭐";
     }
     mostrarTextoFlotante(txtSlash, true, "40%");
@@ -10048,6 +11321,7 @@ function reiniciarLluviaUI() {
   lluviaVidas = 3;
   lluviaScore = 0;
   lluviaCombo = 0;
+  lluviaRachaNinja = 0;
   lluviaUltimoAciertoTiempo = 0;
   lluviaRondaInicioTiempo = 0;
   const t = i18n[idiomaActual];
@@ -10398,6 +11672,7 @@ function iniciarLluviaLoopAnimacion() {
 function perderVidaLluvia() {
   lluviaVidas--;
   lluviaCombo = 0;
+  lluviaRachaNinja = 0;
   lluviaUltimoAciertoTiempo = 0;
   actualizarBadgeComboNinja();
   const t = i18n[idiomaActual];
@@ -10440,6 +11715,1877 @@ function finalizarLluviaEstrellas() {
   btnIniciarLluvia.style.display = "block";
   btnIniciarLluvia.textContent = idiomaActual === "es" ? "⚡ ¡Jugar otra vez!" : "⚡ Play Again!";
 }
+
+// ===========================================================================
+// LÓGICA DEL MINIJUEGO: ROMPE-GLOBOS A TODA PRESIÓN (BALLOON POP FRENZY)
+// ===========================================================================
+let globosVidas = 3;
+let globosPuntos = 0;
+let globosCombo = 1;
+let globosActivo = false;
+let globosTablaActual = 3;
+let globosFactorActual = 4;
+let globosCorrecta = 12;
+let globosObjetos = [];
+let globosParticulas = [];
+let globosAnimFrameId = null;
+let globosRondaResuelta = false;
+let globosTimeouts = [];
+
+const modalGlobos = document.getElementById("modalGlobos");
+const cerrarGlobos = document.getElementById("cerrarGlobos");
+const btnIniciarGlobos = document.getElementById("btnIniciarGlobos");
+const btnGlobos = document.getElementById("btnGlobos");
+const lblGlobosVidas = document.getElementById("lblGlobosVidas");
+const lblGlobosCombo = document.getElementById("lblGlobosCombo");
+const lblGlobosPuntos = document.getElementById("lblGlobosPuntos");
+const globosOperacion = document.getElementById("globosOperacion");
+const globosAreaJuego = document.getElementById("globosAreaJuego");
+
+const PALETA_GLOBOS = [
+  { bg: "linear-gradient(135deg, #ef4444 0%, #b91c1c 100%)", borde: "#991b1b" },
+  { bg: "linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)", borde: "#1e40af" },
+  { bg: "linear-gradient(135deg, #10b981 0%, #047857 100%)", borde: "#065f46" },
+  { bg: "linear-gradient(135deg, #f59e0b 0%, #d97706 100%)", borde: "#b45309" },
+  { bg: "linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%)", borde: "#5b21b6" },
+  { bg: "linear-gradient(135deg, #ec4899 0%, #be185d 100%)", borde: "#9d174d" },
+  { bg: "linear-gradient(135deg, #06b6d4 0%, #0e7490 100%)", borde: "#155e75" }
+];
+
+function abrirRompeGlobos() {
+  reproducirSonido("click");
+  if (modalGlobos) modalGlobos.hidden = false;
+  reiniciarGlobosUI();
+}
+
+function detenerGlobosLoop() {
+  globosActivo = false;
+  if (globosAnimFrameId) {
+    cancelAnimationFrame(globosAnimFrameId);
+    globosAnimFrameId = null;
+  }
+  globosTimeouts.forEach(id => clearTimeout(id));
+  globosTimeouts = [];
+}
+
+function reiniciarGlobosUI() {
+  detenerGlobosLoop();
+  globosVidas = 3;
+  globosPuntos = 0;
+  globosCombo = 1;
+  globosRondaResuelta = false;
+  const t = i18n[idiomaActual];
+  if (lblGlobosVidas) lblGlobosVidas.textContent = t.globosVidasTexto ? t.globosVidasTexto(3) : `❤️❤️❤️ Vidas: 3`;
+  if (lblGlobosCombo) lblGlobosCombo.textContent = t.globosComboTexto ? t.globosComboTexto(1) : `🔥 Combo: x1`;
+  if (lblGlobosPuntos) lblGlobosPuntos.textContent = t.globosPuntosTexto ? t.globosPuntosTexto(0) : `⭐ Puntos: 0`;
+  if (globosOperacion) globosOperacion.textContent = idiomaActual === "es" ? `🎈 ¡Prepárate!` : `🎈 Get Ready!`;
+  if (btnIniciarGlobos) {
+    btnIniciarGlobos.style.display = "block";
+    btnIniciarGlobos.textContent = t.globosBtnIniciar || (idiomaActual === "es" ? "🚀 ¡Comenzar Rompe-Globos!" : "🚀 Start Balloon Pop!");
+  }
+  limpiarAreaGlobos();
+}
+
+function limpiarAreaGlobos() {
+  if (!globosAreaJuego) return;
+  const nubes = Array.from(globosAreaJuego.children).filter(c => c.textContent && c.textContent.includes("☁️"));
+  globosAreaJuego.replaceChildren(...nubes);
+  globosObjetos = [];
+  globosParticulas = [];
+}
+
+function iniciarRompeGlobos() {
+  reproducirSonido("click");
+  if (btnIniciarGlobos) btnIniciarGlobos.style.display = "none";
+  globosVidas = 3;
+  globosPuntos = 0;
+  globosCombo = 1;
+  globosActivo = true;
+  const t = i18n[idiomaActual];
+  if (lblGlobosVidas) lblGlobosVidas.textContent = t.globosVidasTexto ? t.globosVidasTexto(3) : `❤️❤️❤️ Vidas: 3`;
+  if (lblGlobosCombo) lblGlobosCombo.textContent = t.globosComboTexto ? t.globosComboTexto(1) : `🔥 Combo: x1`;
+  if (lblGlobosPuntos) lblGlobosPuntos.textContent = t.globosPuntosTexto ? t.globosPuntosTexto(0) : `⭐ Puntos: 0`;
+  siguienteRondaGlobos();
+}
+
+function siguienteRondaGlobos() {
+  if (!globosActivo || globosVidas <= 0) return;
+  limpiarAreaGlobos();
+  globosRondaResuelta = false;
+
+  const tSel = selectorTabla ? selectorTabla.value : "mixto";
+  globosTablaActual = (tSel === "mixto" || !tSel) ? (Math.floor(Math.random() * 11) + 2) : Number(tSel);
+  globosFactorActual = Math.floor(Math.random() * 12) + 1;
+  globosCorrecta = globosTablaActual * globosFactorActual;
+
+  if (globosOperacion) globosOperacion.textContent = `${globosTablaActual} × ${globosFactorActual} = ?`;
+
+  const conjunto = new Set([globosCorrecta]);
+  while (conjunto.size < 4) {
+    const delta = (Math.floor(Math.random() * 9) - 4) * globosTablaActual;
+    const opc = globosCorrecta + (delta !== 0 ? delta : (Math.random() < 0.5 ? 2 : -2));
+    if (opc > 0 && opc <= 144 && opc !== globosCorrecta) conjunto.add(opc);
+    else {
+      const alt = Math.floor(Math.random() * 100) + 1;
+      if (alt !== globosCorrecta) conjunto.add(alt);
+    }
+  }
+
+  const opciones = mezclar([...conjunto]);
+  const W = globosAreaJuego ? (globosAreaJuego.clientWidth || 360) : 360;
+  const H = globosAreaJuego ? (globosAreaJuego.clientHeight || 340) : 340;
+  const anchoColumna = W / opciones.length;
+
+  opciones.forEach((val, idx) => {
+    const paleta = PALETA_GLOBOS[idx % PALETA_GLOBOS.length];
+    const btn = document.createElement("div");
+    btn.className = "globo-item";
+    btn.style.background = paleta.bg;
+    btn.style.borderColor = paleta.borde;
+    btn.textContent = String(val);
+
+    const nudo = document.createElement("div");
+    nudo.className = "globo-nudo";
+    btn.appendChild(nudo);
+
+    const cuerda = document.createElement("div");
+    cuerda.className = "globo-cuerda";
+    btn.appendChild(cuerda);
+
+    const xBase = idx * anchoColumna + (anchoColumna - 68) / 2 + (Math.random() * 16 - 8);
+    const startY = H + 10 + (Math.random() * 40);
+    const speedY = -(1.1 + Math.random() * 0.7 + Math.min(1.2, globosCombo * 0.08));
+
+    const obj = {
+      elem: btn,
+      val: val,
+      x: Math.max(8, Math.min(W - 76, xBase)),
+      y: startY,
+      vy: speedY,
+      oscOffset: Math.random() * Math.PI * 2,
+      reventado: false
+    };
+
+    btn.style.transform = `translate(${obj.x}px, ${obj.y}px)`;
+    if (globosAreaJuego) globosAreaJuego.appendChild(btn);
+
+    const reventarHandler = (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      reventarGlobo(obj);
+    };
+    btn.addEventListener("pointerdown", reventarHandler);
+    globosObjetos.push(obj);
+  });
+
+  iniciarGlobosAnimacion();
+}
+
+function iniciarGlobosAnimacion() {
+  if (globosAnimFrameId) cancelAnimationFrame(globosAnimFrameId);
+
+  const loop = () => {
+    if (!globosActivo) return;
+    const W = globosAreaJuego ? (globosAreaJuego.clientWidth || 360) : 360;
+    const H = globosAreaJuego ? (globosAreaJuego.clientHeight || 340) : 340;
+    const now = performance.now() * 0.003;
+    let correctaEscapo = false;
+
+    globosObjetos.forEach(g => {
+      if (g.reventado) return;
+      g.y += g.vy;
+      const xOscilado = g.x + Math.sin(now + g.oscOffset) * 6;
+      g.elem.style.transform = `translate(${xOscilado}px, ${g.y}px)`;
+
+      if (g.y < -95) {
+        g.reventado = true;
+        g.elem.remove();
+        if (g.val === globosCorrecta && !globosRondaResuelta) {
+          correctaEscapo = true;
+        }
+      }
+    });
+
+    for (let i = globosParticulas.length - 1; i >= 0; i--) {
+      const p = globosParticulas[i];
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += 0.25;
+      p.vida -= 0.035;
+      p.elem.style.transform = `translate(${p.x}px, ${p.y}px)`;
+      p.elem.style.opacity = Math.max(0, p.vida);
+      if (p.vida <= 0) {
+        p.elem.remove();
+        globosParticulas.splice(i, 1);
+      }
+    }
+
+    if (correctaEscapo && !globosRondaResuelta) {
+      globosRondaResuelta = true;
+      perderVidaGlobos(idiomaActual === "es" ? "🎈 ¡Se escapó el correcto!" : "🎈 The correct balloon escaped!");
+      return;
+    }
+
+    globosAnimFrameId = requestAnimationFrame(loop);
+  };
+
+  globosAnimFrameId = requestAnimationFrame(loop);
+}
+
+function reventarGlobo(obj) {
+  if (!globosActivo || obj.reventado || globosRondaResuelta) return;
+
+  if (obj.val === globosCorrecta) {
+    globosRondaResuelta = true;
+    obj.reventado = true;
+    obj.elem.style.display = "none";
+
+    reproducirSonido("popGlobo");
+    reproducirSonido("acierto");
+    vibrar([40, 25, 50]);
+
+    crearParticulasGlobo(obj.x + 34, obj.y + 42, obj.elem.style.background);
+
+    const pts = 25 * globosCombo;
+    globosPuntos += pts;
+    puntos += pts;
+    if (lblGlobosPuntos) lblGlobosPuntos.textContent = `⭐ Puntos: ${globosPuntos}`;
+    globosCombo++;
+    if (lblGlobosCombo) lblGlobosCombo.textContent = `🔥 Combo: x${globosCombo}`;
+
+    mostrarTextoFlotante(`🎈 ¡POOOP! +${pts} ⭐`, true, "35%");
+    actualizarEstadisticas();
+    guardarPuntajes();
+
+    globosObjetos.forEach(g => {
+      if (g !== obj && !g.reventado) {
+        g.reventado = true;
+        g.elem.style.transition = "opacity 0.2s ease";
+        g.elem.style.opacity = "0.2";
+      }
+    });
+
+    const tId = setTimeout(() => {
+      if (globosActivo && globosVidas > 0) {
+        siguienteRondaGlobos();
+      }
+    }, 550);
+    globosTimeouts.push(tId);
+  } else {
+    reproducirSonido("error");
+    vibrar(90);
+    obj.reventado = true;
+    obj.elem.style.background = "linear-gradient(135deg, #64748b, #334155)";
+    obj.elem.style.transform = `translate(${obj.x}px, ${obj.y}px) scale(0.85)`;
+    obj.elem.textContent = "💨";
+    setTimeout(() => obj.elem.remove(), 250);
+
+    globosCombo = 1;
+    if (lblGlobosCombo) lblGlobosCombo.textContent = `🔥 Combo: x1`;
+    perderVidaGlobos(idiomaActual === "es" ? "❌ ¡Globo equivocado!" : "❌ Wrong balloon!");
+  }
+}
+
+function crearParticulasGlobo(x, y, colorBg) {
+  if (!globosAreaJuego) return;
+  for (let i = 0; i < 10; i++) {
+    const p = document.createElement("div");
+    p.className = "particula-globo";
+    p.style.background = colorBg || "#ef4444";
+    const ang = Math.random() * Math.PI * 2;
+    const vel = 2.5 + Math.random() * 4.5;
+    const pObj = {
+      elem: p,
+      x: x,
+      y: y,
+      vx: Math.cos(ang) * vel,
+      vy: Math.sin(ang) * vel,
+      vida: 1.0
+    };
+    p.style.transform = `translate(${x}px, ${y}px)`;
+    globosAreaJuego.appendChild(p);
+    globosParticulas.push(pObj);
+  }
+}
+
+function perderVidaGlobos(motivo = "") {
+  globosVidas--;
+  vibrar(120);
+  const t = i18n[idiomaActual];
+  if (lblGlobosVidas) lblGlobosVidas.textContent = t.globosVidasTexto ? t.globosVidasTexto(Math.max(0, globosVidas)) : `Vidas: ${globosVidas}`;
+
+  if (globosVidas <= 0) {
+    finalizarRompeGlobos();
+  } else {
+    mostrarTextoFlotante(motivo || (idiomaActual === "es" ? "❌ -1 Vida" : "❌ -1 Life"), false, "40%");
+    const tId = setTimeout(() => {
+      if (globosActivo) siguienteRondaGlobos();
+    }, 600);
+    globosTimeouts.push(tId);
+  }
+}
+
+function finalizarRompeGlobos() {
+  detenerGlobosLoop();
+  limpiarAreaGlobos();
+  const t = i18n[idiomaActual];
+  if (globosOperacion) globosOperacion.textContent = t.globosFinPartida || (idiomaActual === "es" ? "🏁 ¡FIN DE PARTIDA!" : "🏁 GAME OVER!");
+  reproducirSonido("victoria");
+  dispararConfetiVictoria();
+  mostrarTextoFlotante(idiomaActual === "es" ? `🏆 ¡Obtuviste ${globosPuntos} Puntos! ⭐` : `🏆 You got ${globosPuntos} Points! ⭐`, true, "35%");
+
+  if (btnIniciarGlobos) {
+    btnIniciarGlobos.style.display = "block";
+    btnIniciarGlobos.textContent = t.globosBtnReintentar || (idiomaActual === "es" ? "🔄 ¡Jugar de Nuevo!" : "🔄 Play Again!");
+  }
+}
+
+// ===========================================================================
+// LÓGICA DEL MINIJUEGO: MARTILLAZO AL TOPO (WHACK-A-MOLE ARCADE)
+// ===========================================================================
+let toposVidas = 3;
+let toposPuntos = 0;
+let toposRacha = 0;
+let toposActivo = false;
+let toposTablaActual = 4;
+let toposFactorActual = 5;
+let toposCorrecta = 20;
+let toposTimerEsconder = null;
+let toposTimeouts = [];
+let toposRondaResuelta = false;
+let toposCasillas = [];
+
+const modalTopos = document.getElementById("modalTopos");
+const cerrarTopos = document.getElementById("cerrarTopos");
+const btnIniciarTopos = document.getElementById("btnIniciarTopos");
+const btnTopos = document.getElementById("btnTopos");
+const lblToposVidas = document.getElementById("lblToposVidas");
+const lblToposRacha = document.getElementById("lblToposRacha");
+const lblToposPuntos = document.getElementById("lblToposPuntos");
+const toposOperacion = document.getElementById("toposOperacion");
+const toposGridContainer = document.getElementById("toposGridContainer");
+const toposAreaJuego = document.getElementById("toposAreaJuego");
+
+function abrirMartillazoTopos() {
+  reproducirSonido("click");
+  if (modalTopos) modalTopos.hidden = false;
+  inicializarGridTopos();
+  reiniciarToposUI();
+}
+
+function inicializarGridTopos() {
+  if (!toposGridContainer) return;
+  toposGridContainer.replaceChildren();
+  toposCasillas = [];
+
+  for (let i = 0; i < 6; i++) {
+    const wrap = document.createElement("div");
+    wrap.className = "topo-hoyo-wrap";
+
+    const cueva = document.createElement("div");
+    cueva.className = "topo-cueva-base";
+    wrap.appendChild(cueva);
+
+    const hierba = document.createElement("div");
+    hierba.className = "topo-hierba-frente";
+    hierba.innerHTML = `<span style="font-size:10px;">🌱</span><span style="font-size:10px;">🌿</span><span style="font-size:10px;">🌱</span>`;
+    wrap.appendChild(hierba);
+
+    const topo = document.createElement("div");
+    topo.className = "topo-criatura";
+    topo.innerHTML = `
+      <div class="topo-cartel-numero" id="cartelTopo_${i}">?</div>
+      <div class="topo-cara">
+        <div class="topo-ojos">
+          <div class="topo-ojo" id="ojoL_${i}"></div>
+          <div class="topo-ojo" id="ojoR_${i}"></div>
+        </div>
+        <div class="topo-hocico"></div>
+      </div>
+    `;
+
+    wrap.appendChild(topo);
+    toposGridContainer.appendChild(wrap);
+
+    const casillaObj = {
+      wrap: wrap,
+      topoElem: topo,
+      cartel: topo.querySelector(".topo-cartel-numero"),
+      valor: 0,
+      arriba: false
+    };
+
+    wrap.addEventListener("pointerdown", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      martillarCasilla(casillaObj, e.clientX, e.clientY);
+    });
+
+    toposCasillas.push(casillaObj);
+  }
+}
+
+function detenerToposLoop() {
+  toposActivo = false;
+  if (toposTimerEsconder) {
+    clearTimeout(toposTimerEsconder);
+    toposTimerEsconder = null;
+  }
+  toposTimeouts.forEach(id => clearTimeout(id));
+  toposTimeouts = [];
+}
+
+function reiniciarToposUI() {
+  detenerToposLoop();
+  toposVidas = 3;
+  toposPuntos = 0;
+  toposRacha = 0;
+  toposRondaResuelta = false;
+  const t = i18n[idiomaActual];
+  if (lblToposVidas) lblToposVidas.textContent = t.toposVidasTexto ? t.toposVidasTexto(3) : `❤️❤️❤️ Vidas: 3`;
+  if (lblToposRacha) lblToposRacha.textContent = t.toposRachaTexto ? t.toposRachaTexto(0) : `🔨 Racha: x0`;
+  if (lblToposPuntos) lblToposPuntos.textContent = t.toposPuntosTexto ? t.toposPuntosTexto(0) : `⭐ Puntos: 0`;
+  if (toposOperacion) toposOperacion.textContent = idiomaActual === "es" ? `🔨 ¡Prepárate!` : `🔨 Get Ready!`;
+  if (btnIniciarTopos) {
+    btnIniciarTopos.style.display = "block";
+    btnIniciarTopos.textContent = t.toposBtnIniciar || (idiomaActual === "es" ? "🔨 ¡Comenzar Martillazos!" : "🔨 Start Whacking!");
+  }
+  bajarTodosLosTopos();
+}
+
+function bajarTodosLosTopos() {
+  toposCasillas.forEach(c => {
+    c.arriba = false;
+    c.topoElem.classList.remove("arriba", "golpeado");
+  });
+}
+
+function iniciarMartillazoTopos() {
+  reproducirSonido("click");
+  if (btnIniciarTopos) btnIniciarTopos.style.display = "none";
+  toposVidas = 3;
+  toposPuntos = 0;
+  toposRacha = 0;
+  toposActivo = true;
+  const t = i18n[idiomaActual];
+  if (lblToposVidas) lblToposVidas.textContent = t.toposVidasTexto ? t.toposVidasTexto(3) : `❤️❤️❤️ Vidas: 3`;
+  if (lblToposRacha) lblToposRacha.textContent = t.toposRachaTexto ? t.toposRachaTexto(0) : `🔨 Racha: x0`;
+  if (lblToposPuntos) lblToposPuntos.textContent = t.toposPuntosTexto ? t.toposPuntosTexto(0) : `⭐ Puntos: 0`;
+  siguienteRondaTopos();
+}
+
+function siguienteRondaTopos() {
+  if (!toposActivo || toposVidas <= 0) return;
+  bajarTodosLosTopos();
+  toposRondaResuelta = false;
+
+  const tSel = selectorTabla ? selectorTabla.value : "mixto";
+  toposTablaActual = (tSel === "mixto" || !tSel) ? (Math.floor(Math.random() * 11) + 2) : Number(tSel);
+  toposFactorActual = Math.floor(Math.random() * 12) + 1;
+  toposCorrecta = toposTablaActual * toposFactorActual;
+
+  if (toposOperacion) toposOperacion.textContent = `${toposTablaActual} × ${toposFactorActual} = ?`;
+
+  const indicesHoyos = mezclar([0, 1, 2, 3, 4, 5]);
+  const cantTopos = Math.random() < 0.5 ? 3 : 4;
+  const hoyosSeleccionados = indicesHoyos.slice(0, cantTopos);
+
+  const hoyoCorrectoIdx = hoyosSeleccionados[0];
+  const conjuntoOpciones = new Set([toposCorrecta]);
+  while (conjuntoOpciones.size < cantTopos) {
+    const delta = (Math.floor(Math.random() * 7) - 3) * toposTablaActual;
+    const opc = toposCorrecta + (delta !== 0 ? delta : (Math.random() < 0.5 ? 4 : -4));
+    if (opc > 0 && opc <= 144 && opc !== toposCorrecta) conjuntoOpciones.add(opc);
+    else conjuntoOpciones.add(Math.floor(Math.random() * 99) + 1);
+  }
+
+  const distractores = mezclar([...conjuntoOpciones].filter(v => v !== toposCorrecta));
+
+  hoyosSeleccionados.forEach((hoyoIdx, i) => {
+    const c = toposCasillas[hoyoIdx];
+    const val = (hoyoIdx === hoyoCorrectoIdx) ? toposCorrecta : distractores.pop();
+    c.valor = val;
+    c.cartel.textContent = String(val);
+    c.arriba = true;
+    c.topoElem.classList.remove("golpeado");
+    setTimeout(() => {
+      if (toposActivo && !toposRondaResuelta) {
+        c.topoElem.classList.add("arriba");
+      }
+    }, 60 + i * 40);
+  });
+
+  reproducirSonido("click");
+
+  const tiempoAsomado = Math.max(1800, 3600 - toposRacha * 140);
+  if (toposTimerEsconder) clearTimeout(toposTimerEsconder);
+  toposTimerEsconder = setTimeout(() => {
+    if (toposActivo && !toposRondaResuelta) {
+      toposRondaResuelta = true;
+      bajarTodosLosTopos();
+      perderVidaTopos(idiomaActual === "es" ? "🕳️ ¡Se escondieron a tiempo!" : "🕳️ They hid in time!");
+    }
+  }, tiempoAsomado);
+}
+
+function martillarCasilla(casillaObj, clickX, clickY) {
+  if (!toposActivo || toposRondaResuelta) return;
+
+  mostrarMartilloGolpe(casillaObj.wrap, clickX, clickY);
+
+  if (!casillaObj.arriba) {
+    reproducirSonido("martillazo");
+    return;
+  }
+
+  if (casillaObj.valor === toposCorrecta) {
+    toposRondaResuelta = true;
+    if (toposTimerEsconder) clearTimeout(toposTimerEsconder);
+
+    reproducirSonido("martillazo");
+    reproducirSonido("acierto");
+    vibrar([50, 30, 70]);
+
+    casillaObj.topoElem.classList.add("golpeado");
+    casillaObj.cartel.textContent = "⭐";
+
+    toposRacha++;
+    const pts = 25 + toposRacha * 5;
+    toposPuntos += pts;
+    puntos += pts;
+    if (lblToposPuntos) lblToposPuntos.textContent = `⭐ Puntos: ${toposPuntos}`;
+    if (lblToposRacha) lblToposRacha.textContent = `🔨 Racha: x${toposRacha}`;
+
+    mostrarTextoFlotante(`🔨 ¡MARTILLAZO! +${pts} ⭐`, true, "35%");
+    actualizarEstadisticas();
+    guardarPuntajes();
+
+    const tId = setTimeout(() => {
+      if (toposActivo && toposVidas > 0) {
+        siguienteRondaTopos();
+      }
+    }, 650);
+    toposTimeouts.push(tId);
+  } else {
+    reproducirSonido("martillazo");
+    setTimeout(() => reproducirSonido("error"), 60);
+    vibrar(90);
+
+    casillaObj.cartel.textContent = "😜";
+    toposRacha = 0;
+    if (lblToposRacha) lblToposRacha.textContent = `🔨 Racha: x0`;
+
+    perderVidaTopos(idiomaActual === "es" ? "❌ ¡Topo equivocado!" : "❌ Wrong mole!");
+  }
+}
+
+function mostrarMartilloGolpe(container, clientX, clientY) {
+  const m = document.createElement("div");
+  m.className = "martillo-animado";
+  m.textContent = "🔨";
+  const rect = container.getBoundingClientRect();
+  const relX = clientX ? (clientX - rect.left) : (rect.width / 2);
+  const relY = clientY ? (clientY - rect.top) : (rect.height / 2);
+  m.style.left = `${relX - 15}px`;
+  m.style.top = `${relY - 30}px`;
+  container.appendChild(m);
+  setTimeout(() => m.remove(), 320);
+}
+
+function perderVidaTopos(motivo = "") {
+  toposVidas--;
+  vibrar(120);
+  const t = i18n[idiomaActual];
+  if (lblToposVidas) lblToposVidas.textContent = t.toposVidasTexto ? t.toposVidasTexto(Math.max(0, toposVidas)) : `Vidas: ${toposVidas}`;
+
+  if (toposVidas <= 0) {
+    finalizarMartillazoTopos();
+  } else {
+    mostrarTextoFlotante(motivo || (idiomaActual === "es" ? "❌ -1 Vida" : "❌ -1 Life"), false, "40%");
+    const tId = setTimeout(() => {
+      if (toposActivo) siguienteRondaTopos();
+    }, 650);
+    toposTimeouts.push(tId);
+  }
+}
+
+function finalizarMartillazoTopos() {
+  detenerToposLoop();
+  bajarTodosLosTopos();
+  const t = i18n[idiomaActual];
+  if (toposOperacion) toposOperacion.textContent = t.toposFinPartida || (idiomaActual === "es" ? "🏁 ¡FIN DE PARTIDA!" : "🏁 GAME OVER!");
+  reproducirSonido("victoria");
+  dispararConfetiVictoria();
+  mostrarTextoFlotante(idiomaActual === "es" ? `🏆 ¡Lograste ${toposPuntos} Puntos! ⭐` : `🏆 You got ${toposPuntos} Points! ⭐`, true, "35%");
+
+  if (btnIniciarTopos) {
+    btnIniciarTopos.style.display = "block";
+    btnIniciarTopos.textContent = t.toposBtnReintentar || (idiomaActual === "es" ? "🔄 ¡Jugar de Nuevo!" : "🔄 Play Again!");
+  }
+}
+
+// Listeners de apertura y cierre para Rompe-Globos y Martillazo al Topo
+if (btnGlobos) btnGlobos.addEventListener("click", abrirRompeGlobos);
+if (cerrarGlobos) cerrarGlobos.addEventListener("click", () => { if (modalGlobos) modalGlobos.hidden = true; detenerGlobosLoop(); });
+if (btnIniciarGlobos) btnIniciarGlobos.addEventListener("click", iniciarRompeGlobos);
+
+if (btnTopos) btnTopos.addEventListener("click", abrirMartillazoTopos);
+if (cerrarTopos) cerrarTopos.addEventListener("click", () => { if (modalTopos) modalTopos.hidden = true; detenerToposLoop(); });
+if (btnIniciarTopos) btnIniciarTopos.addEventListener("click", iniciarMartillazoTopos);
+
+// ===========================================================================
+// LÓGICA DEL MINIJUEGO: CARRERA DE NITRO (NITRO RACING RUSH)
+// ===========================================================================
+let nitroVidas = 3;
+let nitroPuntos = 0;
+let nitroVelocidad = 120;
+let nitroRacha = 0;
+let nitroCarrilActual = 1; // 0: Izq, 1: Centro, 2: Der
+let nitroActivo = false;
+let nitroTablaActual = 3;
+let nitroFactorActual = 4;
+let nitroCorrecta = 12;
+let nitroRondaResuelta = false;
+let nitroTimeouts = [];
+let nitroAnimFrameId = null;
+let nitroOpciones = [];
+
+// Estado exclusivo de Modo Enduro Atari 1983
+let carreraModoActual = "nitro"; // "nitro" | "enduro"
+let enduroDia = 1;
+let enduroAutosRestantes = 10;
+let enduroAutosTotal = 0;
+let enduroTiempoSegundos = 60;
+let enduroRelojInterval = null;
+let enduroFrenado = false;
+let enduroVelocidad = 120;
+
+const modalNitro = document.getElementById("modalNitro");
+const cerrarNitro = document.getElementById("cerrarNitro");
+const btnIniciarNitro = document.getElementById("btnIniciarNitro");
+const btnNitro = document.getElementById("btnNitro");
+const lblNitroVidas = document.getElementById("lblNitroVidas");
+const lblNitroVelocidad = document.getElementById("lblNitroVelocidad");
+const lblNitroPuntos = document.getElementById("lblNitroPuntos");
+const nitroOperacion = document.getElementById("nitroOperacion");
+const nitroAreaJuego = document.getElementById("nitroAreaJuego");
+const nitroCarrilesWrap = document.getElementById("nitroCarrilesWrap");
+const nitroAutoPlayer = document.getElementById("nitroAutoPlayer");
+const btnNitroCarril0 = document.getElementById("btnNitroCarril0");
+const btnNitroCarril1 = document.getElementById("btnNitroCarril1");
+const btnNitroCarril2 = document.getElementById("btnNitroCarril2");
+
+// Elementos de la interfaz de Enduro Atari
+const tabModoNitro = document.getElementById("tabModoNitro");
+const tabModoEnduro = document.getElementById("tabModoEnduro");
+const nitroBarraEstado = document.getElementById("nitroBarraEstado");
+const enduroBarraEstado = document.getElementById("enduroBarraEstado");
+const lblEnduroDia = document.getElementById("lblEnduroDia");
+const lblEnduroRestan = document.getElementById("lblEnduroRestan");
+const lblEnduroTiempo = document.getElementById("lblEnduroTiempo");
+const lblEnduroKm = document.getElementById("lblEnduroKm");
+const enduroHorizonte = document.getElementById("enduroHorizonte");
+const lblEnduroClimaTexto = document.getElementById("lblEnduroClimaTexto");
+const enduroCapaNiebla = document.getElementById("enduroCapaNiebla");
+const enduroHazLuces = document.getElementById("enduroHazLuces");
+const lblAutoBadge = document.getElementById("lblAutoBadge");
+
+let nitroArrastrando = false;
+let nitroUltimoPointerX = null;
+
+function abrirCarreraNitro() {
+  reproducirSonido("click");
+  if (modalNitro) modalNitro.hidden = false;
+  cambiarModoCarrera(carreraModoActual || "nitro");
+}
+
+function cambiarModoCarrera(modo) {
+  detenerNitroLoop();
+  carreraModoActual = modo;
+
+  if (tabModoNitro) {
+    if (modo === "nitro") {
+      tabModoNitro.classList.add("activo");
+      tabModoNitro.style.background = "#ea580c";
+      tabModoNitro.style.color = "#fff";
+    } else {
+      tabModoNitro.classList.remove("activo");
+      tabModoNitro.style.background = "transparent";
+      tabModoNitro.style.color = "#7c2d12";
+    }
+  }
+
+  if (tabModoEnduro) {
+    if (modo === "enduro") {
+      tabModoEnduro.classList.add("activo");
+      tabModoEnduro.style.background = "#ea580c";
+      tabModoEnduro.style.color = "#fff";
+    } else {
+      tabModoEnduro.classList.remove("activo");
+      tabModoEnduro.style.background = "transparent";
+      tabModoEnduro.style.color = "#7c2d12";
+    }
+  }
+
+  const t = i18n[idiomaActual];
+  const txtNitroConsejo = document.getElementById("txtNitroConsejo");
+
+  if (modo === "enduro") {
+    if (nitroBarraEstado) nitroBarraEstado.style.display = "none";
+    if (enduroBarraEstado) enduroBarraEstado.style.display = "flex";
+    if (enduroHorizonte) enduroHorizonte.classList.add("visible");
+    if (lblAutoBadge) {
+      lblAutoBadge.textContent = "ATARI";
+      lblAutoBadge.style.background = "#0284c7";
+    }
+    if (txtNitroConsejo) txtNitroConsejo.textContent = t.enduroConsejo || "¡Adelanta los autos correctos antes de que caiga la noche!";
+    if (btnIniciarNitro) {
+      btnIniciarNitro.style.display = "block";
+      btnIniciarNitro.textContent = t.enduroBtnIniciar || (idiomaActual === "es" ? "🕹️ ¡Arrancar Enduro Atari!" : "🕹️ Start Enduro Atari!");
+    }
+    enduroDia = 1;
+    enduroAutosRestantes = 10;
+    enduroAutosTotal = 0;
+    enduroTiempoSegundos = 60;
+    enduroVelocidad = 120;
+    aplicarClimaEnduro(enduroDia);
+    actualizarHUDEnduro();
+  } else {
+    if (nitroBarraEstado) nitroBarraEstado.style.display = "flex";
+    if (enduroBarraEstado) enduroBarraEstado.style.display = "none";
+    if (enduroHorizonte) {
+      enduroHorizonte.classList.remove("visible");
+      enduroHorizonte.className = "enduro-horizonte dia";
+    }
+    if (enduroCapaNiebla) enduroCapaNiebla.classList.remove("visible");
+    if (enduroHazLuces) enduroHazLuces.classList.remove("visible");
+    if (nitroAreaJuego) nitroAreaJuego.className = "nitro-pista";
+    if (lblAutoBadge) {
+      lblAutoBadge.textContent = "NITRO";
+      lblAutoBadge.style.background = "#991b1b";
+    }
+    if (txtNitroConsejo) txtNitroConsejo.textContent = t.nitroConsejo || "¡Desliza tu dedo o haz clic en la pista para conducir a toda velocidad!";
+    if (btnIniciarNitro) {
+      btnIniciarNitro.style.display = "block";
+      btnIniciarNitro.textContent = t.nitroBtnIniciar || (idiomaActual === "es" ? "🏁 ¡Arrancar Carrera de Nitro!" : "🏁 Start Nitro Race!");
+    }
+    reiniciarNitroUI();
+  }
+
+  ajustarAutoACarril(1);
+  limpiarMetasNitro();
+  if (nitroOperacion) {
+    nitroOperacion.textContent = (modo === "enduro")
+      ? (idiomaActual === "es" ? "🕹️ ENDURO 1983" : "🕹️ ENDURO 1983")
+      : (idiomaActual === "es" ? "🏎️ ¡Enciende motores!" : "🏎️ Start your engines!");
+  }
+}
+
+function aplicarClimaEnduro(dia) {
+  if (!nitroAreaJuego) return;
+  const ciclo = ((dia - 1) % 4) + 1; // 1: Día, 2: Atardecer, 3: Noche, 4: Niebla y Nieve
+  let climaNombre = "dia";
+  let climaLabel = idiomaActual === "es" ? "☀️ DÍA SOLEADO" : "☀️ SUNNY DAY";
+
+  if (ciclo === 1) {
+    climaNombre = "dia";
+    climaLabel = idiomaActual === "es" ? "☀️ DÍA SOLEADO" : "☀️ SUNNY DAY";
+  } else if (ciclo === 2) {
+    climaNombre = "atardecer";
+    climaLabel = idiomaActual === "es" ? "🌅 ATARDECER RETRO" : "🌅 RETRO SUNSET";
+  } else if (ciclo === 3) {
+    climaNombre = "noche";
+    climaLabel = idiomaActual === "es" ? "🌙 NOCHE TOTAL" : "🌙 PITCH NIGHT";
+  } else if (ciclo === 4) {
+    climaNombre = "niebla";
+    climaLabel = idiomaActual === "es" ? "🌫️ NIEBLA & HIELO" : "🌫️ FOG & ICE";
+  }
+
+  if (enduroHorizonte) {
+    enduroHorizonte.className = `enduro-horizonte visible ${climaNombre}`;
+  }
+  if (lblEnduroClimaTexto) {
+    lblEnduroClimaTexto.textContent = climaLabel;
+  }
+  if (enduroHazLuces) {
+    if (climaNombre === "noche") {
+      enduroHazLuces.classList.add("visible");
+    } else {
+      enduroHazLuces.classList.remove("visible");
+    }
+  }
+  if (enduroCapaNiebla) {
+    if (climaNombre === "niebla") {
+      enduroCapaNiebla.classList.add("visible");
+    } else {
+      enduroCapaNiebla.classList.remove("visible");
+    }
+  }
+
+  nitroAreaJuego.className = `nitro-pista enduro-pista-${climaNombre}`;
+}
+
+function actualizarHUDEnduro() {
+  const t = i18n[idiomaActual];
+  const iconosClima = ["☀️", "🌅", "🌙", "🌫️"];
+  const icono = iconosClima[(enduroDia - 1) % 4] || "☀️";
+
+  if (lblEnduroDia) {
+    lblEnduroDia.textContent = t.enduroDiaTexto ? t.enduroDiaTexto(enduroDia, icono) : `📅 Día ${enduroDia} ${icono}`;
+  }
+  if (lblEnduroRestan) {
+    lblEnduroRestan.textContent = t.enduroRestanTexto ? t.enduroRestanTexto(Math.max(0, enduroAutosRestantes)) : `🎯 Restan: ${enduroAutosRestantes} 🚗`;
+  }
+  if (lblEnduroTiempo) {
+    lblEnduroTiempo.textContent = t.enduroTiempoTexto ? t.enduroTiempoTexto(Math.max(0, enduroTiempoSegundos)) : `⏳ ${enduroTiempoSegundos}s`;
+    lblEnduroTiempo.style.color = enduroTiempoSegundos <= 10 ? "#ef4444" : "#4ade80";
+  }
+  if (lblEnduroKm) {
+    lblEnduroKm.textContent = `⚡ ${enduroVelocidad} km/h`;
+  }
+}
+
+function detenerNitroLoop() {
+  nitroActivo = false;
+  nitroArrastrando = false;
+  nitroUltimoPointerX = null;
+  if (enduroRelojInterval) {
+    clearInterval(enduroRelojInterval);
+    enduroRelojInterval = null;
+  }
+  if (nitroAutoPlayer) {
+    nitroAutoPlayer.classList.remove("arrastrando");
+    nitroAutoPlayer.style.transform = "rotate(0deg)";
+  }
+  if (nitroAnimFrameId) {
+    cancelAnimationFrame(nitroAnimFrameId);
+    nitroAnimFrameId = null;
+  }
+  nitroTimeouts.forEach(id => clearTimeout(id));
+  nitroTimeouts = [];
+}
+
+function reiniciarNitroUI() {
+  detenerNitroLoop();
+  nitroVidas = 3;
+  nitroPuntos = 0;
+  nitroVelocidad = 120;
+  nitroRacha = 0;
+  nitroRondaResuelta = false;
+  ajustarAutoACarril(1);
+  const t = i18n[idiomaActual];
+  if (lblNitroVidas) lblNitroVidas.textContent = t.nitroVidasTexto ? t.nitroVidasTexto(3) : `❤️❤️❤️ Vidas: 3`;
+  if (lblNitroVelocidad) lblNitroVelocidad.textContent = t.nitroVelocidadTexto ? t.nitroVelocidadTexto(120) : `⚡ 120 km/h`;
+  if (lblNitroPuntos) lblNitroPuntos.textContent = t.nitroPuntosTexto ? t.nitroPuntosTexto(0) : `⭐ Puntos: 0`;
+  if (nitroOperacion) nitroOperacion.textContent = idiomaActual === "es" ? "🏎️ ¡Enciende motores!" : "🏎️ Start your engines!";
+  const txtNitroConsejo = document.getElementById("txtNitroConsejo");
+  if (txtNitroConsejo && t.nitroConsejo) txtNitroConsejo.textContent = t.nitroConsejo;
+  if (btnIniciarNitro) {
+    btnIniciarNitro.style.display = "block";
+    btnIniciarNitro.textContent = t.nitroBtnIniciar || (idiomaActual === "es" ? "🏁 ¡Arrancar Carrera de Nitro!" : "🏁 Start Nitro Race!");
+  }
+  limpiarMetasNitro();
+}
+
+function limpiarMetasNitro() {
+  if (!nitroCarrilesWrap) return;
+  for (let i = 0; i < 3; i++) {
+    const carrilElem = document.getElementById(`carrilNitro_${i}`);
+    if (carrilElem) carrilElem.replaceChildren();
+  }
+  nitroOpciones = [];
+}
+
+function ajustarAutoACarril(carrilIdx) {
+  nitroCarrilActual = Math.max(0, Math.min(2, carrilIdx));
+  if (!nitroAutoPlayer) return;
+  const posiciones = ["calc(16.6% - 31px)", "calc(50% - 31px)", "calc(83.3% - 31px)"];
+  nitroAutoPlayer.style.left = posiciones[nitroCarrilActual];
+  nitroAutoPlayer.style.transform = "rotate(0deg)";
+  if (enduroHazLuces) {
+    const posLuces = ["calc(16.6% - 45px)", "calc(50% - 45px)", "calc(83.3% - 45px)"];
+    enduroHazLuces.style.left = posLuces[nitroCarrilActual];
+  }
+}
+
+function moverAutoNitro(carrilIdx) {
+  const anterior = nitroCarrilActual;
+  ajustarAutoACarril(carrilIdx);
+  if (nitroAutoPlayer && carrilIdx !== anterior) {
+    const rot = carrilIdx > anterior ? 14 : -14;
+    nitroAutoPlayer.style.transform = `rotate(${rot}deg)`;
+    setTimeout(() => {
+      if (nitroAutoPlayer && !nitroArrastrando) {
+        nitroAutoPlayer.style.transform = "rotate(0deg)";
+      }
+    }, 160);
+  }
+  reproducirSonido("click");
+}
+
+function actualizarAutoDesdePointer(clientX, esArrastre = false) {
+  if (!nitroAreaJuego || !nitroAutoPlayer) return;
+  const rect = nitroAreaJuego.getBoundingClientRect();
+  const relX = clientX - rect.left;
+  const W = rect.width || 360;
+  const carWidth = 62;
+
+  // Delimitar dentro de la pista
+  const minX = 6;
+  const maxX = W - carWidth - 6;
+  const clampedX = Math.max(minX, Math.min(maxX, relX - (carWidth / 2)));
+
+  // Determinar carril actual según la posición del centro del auto
+  const carCenter = clampedX + (carWidth / 2);
+  let nuevoCarril = 1;
+  if (carCenter < W * 0.38) {
+    nuevoCarril = 0;
+  } else if (carCenter > W * 0.62) {
+    nuevoCarril = 2;
+  } else {
+    nuevoCarril = 1;
+  }
+
+  // Inclinación dinámica de drift según la velocidad de arrastre horizontal
+  let rot = 0;
+  if (esArrastre && nitroUltimoPointerX !== null) {
+    const dx = clientX - nitroUltimoPointerX;
+    rot = Math.max(-16, Math.min(16, dx * 3.2));
+  } else if (nuevoCarril !== nitroCarrilActual) {
+    rot = nuevoCarril > nitroCarrilActual ? 14 : -14;
+  }
+  nitroUltimoPointerX = clientX;
+
+  if (nuevoCarril !== nitroCarrilActual) {
+    nitroCarrilActual = nuevoCarril;
+    reproducirSonido("click");
+    vibrar(20);
+  }
+
+  nitroAutoPlayer.style.left = `${clampedX}px`;
+  nitroAutoPlayer.style.transform = `rotate(${rot}deg)`;
+  if (enduroHazLuces) {
+    enduroHazLuces.style.left = `${clampedX - 14}px`;
+  }
+
+  if (!esArrastre) {
+    setTimeout(() => {
+      if (nitroAutoPlayer && !nitroArrastrando) {
+        nitroAutoPlayer.style.transform = "rotate(0deg)";
+      }
+    }, 160);
+  }
+}
+
+function iniciarCarreraNitro() {
+  if (carreraModoActual === "enduro") {
+    iniciarEnduroAtari();
+    return;
+  }
+  reproducirSonido("nitro");
+  if (btnIniciarNitro) btnIniciarNitro.style.display = "none";
+  nitroVidas = 3;
+  nitroPuntos = 0;
+  nitroVelocidad = 120;
+  nitroRacha = 0;
+  nitroActivo = true;
+  nitroArrastrando = false;
+  const t = i18n[idiomaActual];
+  if (lblNitroVidas) lblNitroVidas.textContent = t.nitroVidasTexto ? t.nitroVidasTexto(3) : `❤️❤️❤️ Vidas: 3`;
+  if (lblNitroVelocidad) lblNitroVelocidad.textContent = t.nitroVelocidadTexto ? t.nitroVelocidadTexto(120) : `⚡ 120 km/h`;
+  if (lblNitroPuntos) lblNitroPuntos.textContent = t.nitroPuntosTexto ? t.nitroPuntosTexto(0) : `⭐ Puntos: 0`;
+  siguienteRondaNitro();
+}
+
+function iniciarEnduroAtari() {
+  reproducirSonido("nitro");
+  if (btnIniciarNitro) btnIniciarNitro.style.display = "none";
+  enduroDia = 1;
+  enduroAutosRestantes = 10;
+  enduroAutosTotal = 0;
+  enduroTiempoSegundos = 60;
+  enduroVelocidad = 120;
+  nitroVelocidad = 120;
+  nitroPuntos = 0;
+  nitroActivo = true;
+  nitroArrastrando = false;
+  enduroFrenado = false;
+
+  aplicarClimaEnduro(enduroDia);
+  actualizarHUDEnduro();
+
+  if (enduroRelojInterval) clearInterval(enduroRelojInterval);
+  enduroRelojInterval = setInterval(() => {
+    if (!nitroActivo || carreraModoActual !== "enduro") return;
+    enduroTiempoSegundos--;
+    actualizarHUDEnduro();
+    if (enduroTiempoSegundos <= 0) {
+      finalizarEnduroAtari(false);
+    }
+  }, 1000);
+
+  siguienteRondaNitro();
+}
+
+function siguienteRondaNitro() {
+  if (!nitroActivo) return;
+  if (carreraModoActual === "nitro" && nitroVidas <= 0) return;
+  if (carreraModoActual === "enduro" && enduroTiempoSegundos <= 0) return;
+
+  limpiarMetasNitro();
+  nitroRondaResuelta = false;
+
+  const tSel = selectorTabla ? selectorTabla.value : "mixto";
+  nitroTablaActual = (tSel === "mixto" || !tSel) ? (Math.floor(Math.random() * 11) + 2) : Number(tSel);
+  nitroFactorActual = Math.floor(Math.random() * 12) + 1;
+  nitroCorrecta = nitroTablaActual * nitroFactorActual;
+
+  if (nitroOperacion) nitroOperacion.textContent = `${nitroTablaActual} × ${nitroFactorActual} = ?`;
+
+  const conjuntoValores = new Set([nitroCorrecta]);
+  while (conjuntoValores.size < 3) {
+    const delta = (Math.floor(Math.random() * 5) - 2) * nitroTablaActual;
+    const opc = nitroCorrecta + (delta !== 0 ? delta : (Math.random() < 0.5 ? 3 : -3));
+    if (opc > 0 && opc <= 144 && opc !== nitroCorrecta) conjuntoValores.add(opc);
+    else conjuntoValores.add(Math.floor(Math.random() * 90) + 1);
+  }
+
+  const carrilesBarajados = mezclar([0, 1, 2]);
+  const valoresDistractores = mezclar([...conjuntoValores].filter(v => v !== nitroCorrecta));
+  const carrilGanador = carrilesBarajados[0];
+
+  // Modelos y colores temáticos de autos rivales estilo Atari/Retro
+  const estilosRival = [
+    { bg: "linear-gradient(180deg, #facc15 0%, #ca8a04 100%)", border: "#fef08a", icono: "🏎️" },
+    { bg: "linear-gradient(180deg, #38bdf8 0%, #0284c7 100%)", border: "#bae6fd", icono: "🚙" },
+    { bg: "linear-gradient(180deg, #34d399 0%, #059669 100%)", border: "#a7f3d0", icono: "🚗" },
+    { bg: "linear-gradient(180deg, #c084fc 0%, #7e22ce 100%)", border: "#f3e8ff", icono: "🏎️" }
+  ];
+  const estilosBarajados = mezclar(estilosRival);
+
+  // Escalonar profundidades Y iniciales para que NO vengan en la misma fila:
+  const desfasesY = mezclar([-70, -160, -250]);
+
+  for (let c = 0; c < 3; c++) {
+    const val = (c === carrilGanador) ? nitroCorrecta : valoresDistractores.pop();
+    const estilo = estilosBarajados[c];
+    const startY = desfasesY[c] - Math.floor(Math.random() * 25);
+    const factorVy = 0.94 + Math.random() * 0.12;
+
+    const metaDiv = document.createElement("div");
+    metaDiv.className = "nitro-meta-item";
+    metaDiv.style.background = estilo.bg;
+    metaDiv.style.borderColor = estilo.border;
+    metaDiv.style.top = `${startY}px`;
+
+    // Efecto retro de luces traseras brillantes para la etapa nocturna de Enduro
+    if (carreraModoActual === "enduro" && ((enduroDia - 1) % 4 === 2)) {
+      metaDiv.style.boxShadow = "0 0 10px rgba(239, 68, 68, 0.9), inset 0 -4px 0 #ef4444";
+    }
+
+    metaDiv.innerHTML = `
+      <span class="nitro-auto-rival-icono">${estilo.icono}</span>
+      <span class="nitro-auto-rival-numero">${val}</span>
+    `;
+
+    const carrilElem = document.getElementById(`carrilNitro_${c}`);
+    if (carrilElem) carrilElem.appendChild(metaDiv);
+
+    const objMeta = {
+      elem: metaDiv,
+      carril: c,
+      val: val,
+      y: startY,
+      factorVy: factorVy,
+      recogida: false
+    };
+
+    metaDiv.addEventListener("pointerdown", (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      moverAutoNitro(c);
+    });
+
+    nitroOpciones.push(objMeta);
+  }
+
+  iniciarNitroAnimacion();
+}
+
+function iniciarNitroAnimacion() {
+  if (nitroAnimFrameId) cancelAnimationFrame(nitroAnimFrameId);
+
+  const loop = () => {
+    if (!nitroActivo) return;
+    const H = nitroCarrilesWrap ? (nitroCarrilesWrap.clientHeight || 330) : 330;
+    const velocidadBase = (carreraModoActual === "enduro")
+      ? (enduroFrenado ? 0.4 : (2.4 + (enduroVelocidad - 120) * 0.022))
+      : (2.4 + (nitroVelocidad - 120) * 0.022);
+
+    let impactoDetectado = false;
+    let pasadaCompleta = false;
+
+    const W = nitroAreaJuego ? (nitroAreaJuego.clientWidth || 360) : 360;
+    const autoRect = nitroAutoPlayer ? nitroAutoPlayer.getBoundingClientRect() : null;
+    const areaRect = nitroAreaJuego ? nitroAreaJuego.getBoundingClientRect() : null;
+    const autoCenterX = (autoRect && areaRect) ? ((autoRect.left + autoRect.right) / 2 - areaRect.left) : (nitroCarrilActual + 0.5) * (W / 3);
+
+    nitroOpciones.forEach(obj => {
+      if (obj.recogida) return;
+      obj.y += velocidadBase * (obj.factorVy || 1);
+      obj.elem.style.top = `${obj.y}px`;
+
+      // Zona de colisión del auto del jugador (cerca del fondo)
+      const zonaAutoY = H - 95;
+      const targetCenterX = (obj.carril + 0.5) * (W / 3);
+      const cercaHorizontal = Math.abs(autoCenterX - targetCenterX) < (W / 5.2);
+
+      if (obj.y >= zonaAutoY && obj.y <= zonaAutoY + 48 && (obj.carril === nitroCarrilActual || cercaHorizontal) && !nitroRondaResuelta) {
+        impactoDetectado = true;
+        resolverImpactoNitro(obj);
+      } else if (obj.y > H + 12) {
+        obj.recogida = true;
+        if (obj.elem) obj.elem.remove();
+        if (obj.val === nitroCorrecta && !nitroRondaResuelta) {
+          pasadaCompleta = true;
+        }
+      }
+    });
+
+    if (!impactoDetectado && pasadaCompleta && !nitroRondaResuelta) {
+      nitroRondaResuelta = true;
+      if (carreraModoActual === "enduro") {
+        // En Enduro: dejar escapar el auto resta segundos del reloj
+        enduroTiempoSegundos = Math.max(0, enduroTiempoSegundos - 3);
+        reproducirSonido("choqueEnduro");
+        mostrarTextoFlotante(idiomaActual === "es" ? "💨 ¡Dejaste escapar el auto correcto! (-3s)" : "💨 Missed the target car! (-3s)", false, "40%");
+        actualizarHUDEnduro();
+        if (enduroTiempoSegundos <= 0) {
+          finalizarEnduroAtari(false);
+          return;
+        }
+        const tId = setTimeout(() => {
+          if (nitroActivo && enduroTiempoSegundos > 0) siguienteRondaNitro();
+        }, 600);
+        nitroTimeouts.push(tId);
+      } else {
+        const t = i18n[idiomaActual];
+        perderVidaNitro(t.nitroMsjPasaste || (idiomaActual === "es" ? "💨 ¡Pasaste de largo la meta correcta!" : "💨 Missed the finish line!"));
+      }
+      return;
+    }
+
+    if (!impactoDetectado) {
+      nitroAnimFrameId = requestAnimationFrame(loop);
+    }
+  };
+
+  nitroAnimFrameId = requestAnimationFrame(loop);
+}
+
+function resolverImpactoNitro(obj) {
+  nitroRondaResuelta = true;
+  obj.recogida = true;
+
+  if (carreraModoActual === "enduro") {
+    resolverImpactoEnduro(obj);
+    return;
+  }
+
+  if (obj.val === nitroCorrecta) {
+    // 🏎️ ¡TURBO NITRO PERFECTO!
+    reproducirSonido("nitro");
+    reproducirSonido("acierto");
+    vibrar([50, 30, 80]);
+
+    nitroRacha++;
+    nitroVelocidad = Math.min(320, nitroVelocidad + 20);
+    const pts = 30 + nitroRacha * 10;
+    nitroPuntos += pts;
+    puntos += pts;
+
+    const t = i18n[idiomaActual];
+    if (lblNitroPuntos) lblNitroPuntos.textContent = t.nitroPuntosTexto ? t.nitroPuntosTexto(nitroPuntos) : `⭐ Puntos: ${nitroPuntos}`;
+    if (lblNitroVelocidad) lblNitroVelocidad.textContent = t.nitroVelocidadTexto ? t.nitroVelocidadTexto(nitroVelocidad) : `⚡ ${nitroVelocidad} km/h`;
+
+    obj.elem.style.background = "#22c55e";
+    obj.elem.style.color = "#fff";
+    obj.elem.style.transform = "scale(1.15)";
+
+    mostrarTextoFlotante(`⚡ ¡NITRO BOOST! +${pts} ⭐`, true, "35%");
+    actualizarEstadisticas();
+    guardarPuntajes();
+
+    const tId = setTimeout(() => {
+      if (nitroActivo && nitroVidas > 0) siguienteRondaNitro();
+    }, 600);
+    nitroTimeouts.push(tId);
+  } else {
+    // 💥 Choque contra respuesta incorrecta en Sprint Nitro
+    reproducirSonido("explosion");
+    reproducirSonido("error");
+    vibrar(120);
+
+    nitroRacha = 0;
+    nitroVelocidad = Math.max(100, nitroVelocidad - 40);
+    const t = i18n[idiomaActual];
+    if (lblNitroVelocidad) lblNitroVelocidad.textContent = t.nitroVelocidadTexto ? t.nitroVelocidadTexto(nitroVelocidad) : `⚡ ${nitroVelocidad} km/h`;
+
+    obj.elem.style.background = "#ef4444";
+    obj.elem.style.color = "#fff";
+    obj.elem.style.transform = "scale(0.9)";
+
+    perderVidaNitro(t.nitroMsjEquivocado || (idiomaActual === "es" ? "💥 ¡Choque! Respuesta incorrecta" : "💥 Crash! Wrong answer"));
+  }
+}
+
+function resolverImpactoEnduro(obj) {
+  const t = i18n[idiomaActual];
+  if (obj.val === nitroCorrecta) {
+    // 🏎️ ¡Adelantamiento exitoso en Atari Enduro!
+    reproducirSonido("nitro");
+    reproducirSonido("acierto");
+    vibrar([40, 20, 60]);
+
+    enduroAutosRestantes--;
+    enduroAutosTotal++;
+    enduroTiempoSegundos += 4;
+    enduroVelocidad = Math.min(320, enduroVelocidad + 15);
+    nitroVelocidad = enduroVelocidad;
+
+    const pts = 35;
+    nitroPuntos += pts;
+    puntos += pts;
+
+    obj.elem.style.background = "#22c55e";
+    obj.elem.style.color = "#fff";
+    obj.elem.style.transform = "scale(1.15)";
+
+    if (enduroAutosRestantes <= 0) {
+      // 🏆 ¡ETAPA / DÍA DE ATARI COMPLETADO!
+      reproducirSonido("etapaEnduro");
+      dispararConfetiVictoria();
+      enduroDia++;
+      enduroTiempoSegundos += 25; // Bono de tiempo por superar el día
+      enduroAutosRestantes = 10 + (enduroDia - 1) * 2;
+      aplicarClimaEnduro(enduroDia);
+      const msj = t.enduroMsjEtapa ? t.enduroMsjEtapa(enduroDia - 1) : `🏁 ¡DÍA ${enduroDia - 1} COMPLETADO! +25s`;
+      mostrarTextoFlotante(msj, true, "28%");
+    } else {
+      mostrarTextoFlotante(`⚡ ¡ADELANTADO! +4s 🚗⭐`, true, "35%");
+    }
+
+    actualizarHUDEnduro();
+    actualizarEstadisticas();
+    guardarPuntajes();
+
+    const tId = setTimeout(() => {
+      if (nitroActivo && enduroTiempoSegundos > 0) siguienteRondaNitro();
+    }, 550);
+    nitroTimeouts.push(tId);
+  } else {
+    // 💥 Choque con derrape Atari Enduro
+    reproducirSonido("choqueEnduro");
+    vibrar(150);
+
+    enduroFrenado = true;
+    enduroTiempoSegundos = Math.max(0, enduroTiempoSegundos - 3);
+    enduroVelocidad = 0; // Se frena en seco al estilo Atari 2600
+    nitroVelocidad = 60;
+
+    obj.elem.style.background = "#ef4444";
+    obj.elem.style.color = "#fff";
+    obj.elem.style.transform = "scale(0.85)";
+
+    if (nitroAutoPlayer) {
+      nitroAutoPlayer.style.transform = "rotate(360deg) scale(0.9)";
+    }
+
+    mostrarTextoFlotante(t.enduroMsjChoque || "💥 ¡Choque! Auto frenado (-3s)", false, "38%");
+    actualizarHUDEnduro();
+
+    if (enduroTiempoSegundos <= 0) {
+      finalizarEnduroAtari(false);
+      return;
+    }
+
+    const tId = setTimeout(() => {
+      enduroVelocidad = 120;
+      nitroVelocidad = 120;
+      enduroFrenado = false;
+      if (nitroAutoPlayer && !nitroArrastrando) {
+        nitroAutoPlayer.style.transform = "rotate(0deg)";
+      }
+      actualizarHUDEnduro();
+      if (nitroActivo && enduroTiempoSegundos > 0) siguienteRondaNitro();
+    }, 700);
+    nitroTimeouts.push(tId);
+  }
+}
+
+function perderVidaNitro(motivo = "") {
+  nitroVidas--;
+  vibrar(120);
+  const t = i18n[idiomaActual];
+  if (lblNitroVidas) lblNitroVidas.textContent = t.nitroVidasTexto ? t.nitroVidasTexto(Math.max(0, nitroVidas)) : `Vidas: ${nitroVidas}`;
+
+  if (nitroVidas <= 0) {
+    finalizarCarreraNitro();
+  } else {
+    mostrarTextoFlotante(motivo || (idiomaActual === "es" ? "❌ -1 Vida" : "❌ -1 Life"), false, "40%");
+    const tId = setTimeout(() => {
+      if (nitroActivo) siguienteRondaNitro();
+    }, 650);
+    nitroTimeouts.push(tId);
+  }
+}
+
+function finalizarCarreraNitro() {
+  detenerNitroLoop();
+  limpiarMetasNitro();
+  const t = i18n[idiomaActual];
+  if (nitroOperacion) nitroOperacion.textContent = t.nitroFinPartida || (idiomaActual === "es" ? "🏁 ¡CARRERA TERMINADA!" : "🏁 RACE FINISHED!");
+  reproducirSonido("victoria");
+  dispararConfetiVictoria();
+  mostrarTextoFlotante(idiomaActual === "es" ? `🏆 ¡Gran Carrera! ${nitroPuntos} Puntos ⭐` : `🏆 Great Race! ${nitroPuntos} Points ⭐`, true, "35%");
+
+  if (btnIniciarNitro) {
+    btnIniciarNitro.style.display = "block";
+    btnIniciarNitro.textContent = t.nitroBtnReintentar || (idiomaActual === "es" ? "🔄 ¡Correr de Nuevo!" : "🔄 Race Again!");
+  }
+}
+
+function finalizarEnduroAtari(victoria = false) {
+  detenerNitroLoop();
+  limpiarMetasNitro();
+  reproducirSonido("victoria");
+  dispararConfetiVictoria();
+  const t = i18n[idiomaActual];
+  if (nitroOperacion) {
+    nitroOperacion.textContent = t.enduroMsjTiempoAgotado || (idiomaActual === "es" ? "⏱️ ¡TIEMPO AGOTADO!" : "⏱️ TIME'S UP!");
+  }
+  const mensajeFinal = t.enduroFinVictoria
+    ? t.enduroFinVictoria(enduroDia, enduroAutosTotal, nitroPuntos)
+    : (idiomaActual === "es"
+      ? `🏆 ¡Piloto Enduro! ${enduroDia} Días, ${enduroAutosTotal} Autos, ${nitroPuntos} Pts ⭐`
+      : `🏆 Enduro Pilot! ${enduroDia} Days, ${enduroAutosTotal} Cars, ${nitroPuntos} Pts ⭐`);
+  mostrarTextoFlotante(mensajeFinal, true, "32%");
+  actualizarEstadisticas();
+  guardarPuntajes();
+
+  if (btnIniciarNitro) {
+    btnIniciarNitro.style.display = "block";
+    btnIniciarNitro.textContent = t.enduroBtnReintentar || (idiomaActual === "es" ? "🔄 ¡Reintentar Enduro!" : "🔄 Retry Enduro!");
+  }
+}
+
+// Control interactivo por clic directo o deslizamiento con dedo/ratón
+if (nitroAreaJuego) {
+  nitroAreaJuego.addEventListener("pointerdown", (e) => {
+    if (!nitroActivo) return;
+    nitroArrastrando = true;
+    nitroUltimoPointerX = e.clientX;
+    if (nitroAutoPlayer) nitroAutoPlayer.classList.add("arrastrando");
+    try { nitroAreaJuego.setPointerCapture(e.pointerId); } catch (_) {}
+    actualizarAutoDesdePointer(e.clientX, false);
+  });
+
+  nitroAreaJuego.addEventListener("pointermove", (e) => {
+    if (!nitroArrastrando || !nitroActivo) return;
+    actualizarAutoDesdePointer(e.clientX, true);
+  });
+
+  const finalizarArrastreNitro = (e) => {
+    if (!nitroArrastrando) return;
+    nitroArrastrando = false;
+    nitroUltimoPointerX = null;
+    if (nitroAutoPlayer) {
+      nitroAutoPlayer.classList.remove("arrastrando");
+      ajustarAutoACarril(nitroCarrilActual);
+    }
+    try { if (e && e.pointerId) nitroAreaJuego.releasePointerCapture(e.pointerId); } catch (_) {}
+  };
+
+  nitroAreaJuego.addEventListener("pointerup", finalizarArrastreNitro);
+  nitroAreaJuego.addEventListener("pointercancel", finalizarArrastreNitro);
+}
+
+// Clics directos en las líneas de carril
+for (let c = 0; c < 3; c++) {
+  const cElem = document.getElementById(`carrilNitro_${c}`);
+  if (cElem) {
+    cElem.addEventListener("pointerdown", (e) => {
+      if (nitroActivo) {
+        e.stopPropagation();
+        moverAutoNitro(c);
+      }
+    });
+  }
+}
+
+// Botones táctiles de cambio de carril en Nitro
+if (btnNitroCarril0) btnNitroCarril0.addEventListener("click", () => moverAutoNitro(0));
+if (btnNitroCarril1) btnNitroCarril1.addEventListener("click", () => moverAutoNitro(1));
+if (btnNitroCarril2) btnNitroCarril2.addEventListener("click", () => moverAutoNitro(2));
+
+// Conmutadores de pestañas entre Sprint y Enduro
+if (tabModoNitro) tabModoNitro.addEventListener("click", () => cambiarModoCarrera("nitro"));
+if (tabModoEnduro) tabModoEnduro.addEventListener("click", () => cambiarModoCarrera("enduro"));
+
+if (btnNitro) btnNitro.addEventListener("click", abrirCarreraNitro);
+if (cerrarNitro) cerrarNitro.addEventListener("click", () => { if (modalNitro) modalNitro.hidden = true; detenerNitroLoop(); });
+if (btnIniciarNitro) btnIniciarNitro.addEventListener("click", iniciarCarreraNitro);
+
+
+// ===========================================================================
+// LÓGICA DEL MINIJUEGO: DEFENSA GALÁCTICA (GALACTIC MATH DEFENDER)
+// ===========================================================================
+let galacticaVidas = 3;
+let galacticaPuntos = 0;
+let galacticaOleada = 1;
+let galacticaActivo = false;
+let galacticaTablaActual = 5;
+let galacticaFactorActual = 6;
+let galacticaCorrecta = 30;
+let galacticaRondaResuelta = false;
+let galacticaTimeouts = [];
+let galacticaAnimFrameId = null;
+let galacticaInvasores = [];
+
+const modalGalactica = document.getElementById("modalGalactica");
+const cerrarGalactica = document.getElementById("cerrarGalactica");
+const btnIniciarGalactica = document.getElementById("btnIniciarGalactica");
+const btnGalactica = document.getElementById("btnGalactica");
+const lblGalacticaVidas = document.getElementById("lblGalacticaVidas");
+const lblGalacticaOleada = document.getElementById("lblGalacticaOleada");
+const lblGalacticaPuntos = document.getElementById("lblGalacticaPuntos");
+const galacticaOperacion = document.getElementById("galacticaOperacion");
+const galacticaAreaJuego = document.getElementById("galacticaAreaJuego");
+const galacticaCanon = document.getElementById("galacticaCanon");
+
+function abrirDefensaGalactica() {
+  reproducirSonido("click");
+  if (modalGalactica) modalGalactica.hidden = false;
+  crearFondoEstrellasGalactica();
+  reiniciarGalacticaUI();
+}
+
+function crearFondoEstrellasGalactica() {
+  if (!galacticaAreaJuego) return;
+  // Limpiar estrellas previas si existen
+  Array.from(galacticaAreaJuego.querySelectorAll(".galactica-estrella-fondo")).forEach(e => e.remove());
+  for (let i = 0; i < 28; i++) {
+    const s = document.createElement("div");
+    s.className = "galactica-estrella-fondo";
+    const size = Math.random() < 0.2 ? 3 : 2;
+    s.style.width = `${size}px`;
+    s.style.height = `${size}px`;
+    s.style.left = `${Math.random() * 96}%`;
+    s.style.top = `${Math.random() * 90}%`;
+    s.style.animationDelay = `${Math.random() * 2}s`;
+    galacticaAreaJuego.appendChild(s);
+  }
+}
+
+function detenerGalacticaLoop() {
+  galacticaActivo = false;
+  if (galacticaAnimFrameId) {
+    cancelAnimationFrame(galacticaAnimFrameId);
+    galacticaAnimFrameId = null;
+  }
+  galacticaTimeouts.forEach(id => clearTimeout(id));
+  galacticaTimeouts = [];
+}
+
+function reiniciarGalacticaUI() {
+  detenerGalacticaLoop();
+  galacticaVidas = 3;
+  galacticaPuntos = 0;
+  galacticaOleada = 1;
+  galacticaRondaResuelta = false;
+  if (galacticaCanon) galacticaCanon.style.transform = "translateX(-50%) rotate(0deg)";
+  const t = i18n[idiomaActual];
+  if (lblGalacticaVidas) lblGalacticaVidas.textContent = t.galacticaEscudosTexto ? t.galacticaEscudosTexto(3) : `🛡️ Escudos: 3`;
+  if (lblGalacticaOleada) lblGalacticaOleada.textContent = t.galacticaOleadaTexto ? t.galacticaOleadaTexto(1) : `👾 Oleada: 1`;
+  if (lblGalacticaPuntos) lblGalacticaPuntos.textContent = t.galacticaPuntosTexto ? t.galacticaPuntosTexto(0) : `⭐ Puntos: 0`;
+  if (galacticaOperacion) galacticaOperacion.textContent = idiomaActual === "es" ? "🚀 ¡Invasores en radar!" : "🚀 Invaders on radar!";
+  if (btnIniciarGalactica) {
+    btnIniciarGalactica.style.display = "block";
+    btnIniciarGalactica.textContent = t.galacticaBtnIniciar || (idiomaActual === "es" ? "🚀 ¡Iniciar Defensa Planetaria!" : "🚀 Launch Planetary Defense!");
+  }
+  limpiarInvasoresGalactica();
+}
+
+function limpiarInvasoresGalactica() {
+  if (!galacticaAreaJuego) return;
+  Array.from(galacticaAreaJuego.querySelectorAll(".galactica-enemigo, .galactica-rayo-laser")).forEach(e => e.remove());
+  const overlay = document.getElementById("galacticaLaserOverlay");
+  if (overlay) overlay.replaceChildren();
+  galacticaInvasores = [];
+}
+
+function iniciarDefensaGalactica() {
+  reproducirSonido("laser");
+  if (btnIniciarGalactica) btnIniciarGalactica.style.display = "none";
+  galacticaVidas = 3;
+  galacticaPuntos = 0;
+  galacticaOleada = 1;
+  galacticaActivo = true;
+  const t = i18n[idiomaActual];
+  if (lblGalacticaVidas) lblGalacticaVidas.textContent = t.galacticaEscudosTexto ? t.galacticaEscudosTexto(3) : `🛡️ Escudos: 3`;
+  if (lblGalacticaOleada) lblGalacticaOleada.textContent = t.galacticaOleadaTexto ? t.galacticaOleadaTexto(1) : `👾 Oleada: 1`;
+  if (lblGalacticaPuntos) lblGalacticaPuntos.textContent = t.galacticaPuntosTexto ? t.galacticaPuntosTexto(0) : `⭐ Puntos: 0`;
+  siguienteRondaGalactica();
+}
+
+function siguienteRondaGalactica() {
+  if (!galacticaActivo || galacticaVidas <= 0) return;
+  limpiarInvasoresGalactica();
+  galacticaRondaResuelta = false;
+
+  const tSel = selectorTabla ? selectorTabla.value : "mixto";
+  galacticaTablaActual = (tSel === "mixto" || !tSel) ? (Math.floor(Math.random() * 11) + 2) : Number(tSel);
+  galacticaFactorActual = Math.floor(Math.random() * 12) + 1;
+  galacticaCorrecta = galacticaTablaActual * galacticaFactorActual;
+
+  if (galacticaOperacion) galacticaOperacion.textContent = `${galacticaTablaActual} × ${galacticaFactorActual} = ?`;
+
+  const conjuntoResp = new Set([galacticaCorrecta]);
+  while (conjuntoResp.size < 3) {
+    const delta = (Math.floor(Math.random() * 5) - 2) * galacticaTablaActual;
+    const opc = galacticaCorrecta + (delta !== 0 ? delta : (Math.random() < 0.5 ? 5 : -5));
+    if (opc > 0 && opc <= 144 && opc !== galacticaCorrecta) conjuntoResp.add(opc);
+    else conjuntoResp.add(Math.floor(Math.random() * 95) + 1);
+  }
+
+  const valores = mezclar([...conjuntoResp]);
+  const W = galacticaAreaJuego ? (galacticaAreaJuego.clientWidth || 360) : 360;
+  const anchoZona = W / 3;
+
+  // Iconos y formas irregulares de asteroides espaciales
+  const iconosAsteroide = ["☄️", "🪨", "🌑", "👾"];
+  const temasAsteroide = [
+    { bg: "radial-gradient(circle at 35% 35%, #78716c 0%, #44403c 55%, #1c1917 100%)", border: "#d97706", shadow: "0 0 14px rgba(245, 158, 11, 0.6)" },
+    { bg: "radial-gradient(circle at 30% 30%, #57534e 0%, #292524 60%, #0c0a09 100%)", border: "#ea580c", shadow: "0 0 14px rgba(234, 88, 12, 0.6)" },
+    { bg: "radial-gradient(circle at 40% 30%, #475569 0%, #1e293b 60%, #0f172a 100%)", border: "#38bdf8", shadow: "0 0 14px rgba(56, 189, 248, 0.5)" }
+  ];
+  const formasAsteroide = [
+    "46% 54% 50% 50% / 52% 48% 52% 48%",
+    "55% 45% 48% 52% / 47% 53% 49% 51%",
+    "48% 52% 54% 46% / 51% 49% 52% 48%"
+  ];
+
+  valores.forEach((val, idx) => {
+    const invDiv = document.createElement("div");
+    invDiv.className = "galactica-enemigo";
+    const icono = iconosAsteroide[idx % iconosAsteroide.length];
+    const tema = temasAsteroide[idx % temasAsteroide.length];
+    const forma = formasAsteroide[idx % formasAsteroide.length];
+
+    invDiv.style.borderRadius = forma;
+    invDiv.style.background = tema.bg;
+    invDiv.style.borderColor = tema.border;
+    invDiv.style.boxShadow = tema.shadow;
+
+    invDiv.innerHTML = `
+      <span class="galactica-enemigo-icono">${icono}</span>
+      <span class="galactica-enemigo-numero">${val}</span>
+    `;
+
+    // Posición inicial y física no lineal (balanceo sinusoidal y rotación)
+    const baseX = idx * anchoZona + (anchoZona - 66) / 2 + (Math.random() * 12 - 6);
+    const startY = -65 - (idx * 28) - (Math.random() * 30);
+    const speedY = 1.05 + (galacticaOleada * 0.11) + Math.random() * 0.25;
+    const speedX = (Math.random() * 0.6 - 0.3) * (1 + galacticaOleada * 0.04);
+    const rot = Math.random() * 360;
+    const vRot = (Math.random() < 0.5 ? -1 : 1) * (0.8 + Math.random() * 1.2);
+    const wobbleAmp = 9 + Math.random() * 10;
+    const wobbleFreq = 0.024 + Math.random() * 0.018;
+    const wobblePhase = Math.random() * Math.PI * 2;
+
+    invDiv.style.transform = `translate(${baseX.toFixed(1)}px, ${startY.toFixed(1)}px) rotate(${rot.toFixed(1)}deg)`;
+    galacticaAreaJuego.appendChild(invDiv);
+
+    const objInv = {
+      elem: invDiv,
+      val: val,
+      baseX: baseX,
+      currentX: baseX,
+      y: startY,
+      vx: speedX,
+      vy: speedY,
+      rotacion: rot,
+      vRot: vRot,
+      wobbleAmp: wobbleAmp,
+      wobbleFreq: wobbleFreq,
+      wobblePhase: wobblePhase,
+      tiempo: 0,
+      destruido: false
+    };
+
+    invDiv.addEventListener("pointerdown", (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      dispararLaserAInvasor(objInv);
+    });
+
+    galacticaInvasores.push(objInv);
+  });
+
+  iniciarGalacticaAnimacion();
+}
+
+function iniciarGalacticaAnimacion() {
+  if (galacticaAnimFrameId) cancelAnimationFrame(galacticaAnimFrameId);
+
+  const loop = () => {
+    if (!galacticaActivo) return;
+    const H = galacticaAreaJuego ? (galacticaAreaJuego.clientHeight || 330) : 330;
+    const W = galacticaAreaJuego ? (galacticaAreaJuego.clientWidth || 360) : 360;
+    let invasorLlegoAlFondo = false;
+
+    galacticaInvasores.forEach(inv => {
+      if (inv.destruido) return;
+
+      // 1. Movimiento vertical
+      inv.y += inv.vy;
+
+      // 2. Trayectoria no-lineal: deriva lateral y balanceo sinusoidal orbital
+      inv.tiempo += 1;
+      inv.baseX += inv.vx;
+      if (inv.baseX < 6) {
+        inv.baseX = 6;
+        inv.vx = Math.abs(inv.vx);
+      } else if (inv.baseX > W - 72) {
+        inv.baseX = W - 72;
+        inv.vx = -Math.abs(inv.vx);
+      }
+      const sway = Math.sin(inv.tiempo * inv.wobbleFreq + inv.wobblePhase) * inv.wobbleAmp;
+      inv.currentX = Math.max(4, Math.min(W - 70, inv.baseX + sway));
+
+      // 3. Rotación continua de cuerpo celeste en el espacio
+      inv.rotacion += inv.vRot;
+
+      inv.elem.style.transform = `translate(${inv.currentX.toFixed(1)}px, ${inv.y.toFixed(1)}px) rotate(${inv.rotacion.toFixed(1)}deg)`;
+
+      // Si el asteroide penetra la base/escudo planetario
+      if (inv.y > H - 85) {
+        inv.destruido = true;
+        if (inv.val === galacticaCorrecta && !galacticaRondaResuelta) {
+          invasorLlegoAlFondo = true;
+        } else {
+          // Si es un asteroide distractor, se desintegra en la atmósfera
+          inv.elem.style.opacity = "0";
+          setTimeout(() => { if (inv.elem) inv.elem.remove(); }, 200);
+        }
+      }
+    });
+
+    if (invasorLlegoAlFondo && !galacticaRondaResuelta) {
+      galacticaRondaResuelta = true;
+      const t = i18n[idiomaActual];
+      perderVidaGalactica(t.galacticaMsjInvasion || (idiomaActual === "es" ? "☄️ ¡Un asteroide penetró la atmósfera!" : "☄️ An asteroid penetrated atmosphere!"));
+      return;
+    }
+
+    galacticaAnimFrameId = requestAnimationFrame(loop);
+  };
+
+  galacticaAnimFrameId = requestAnimationFrame(loop);
+}
+
+function dispararLaserAInvasor(obj) {
+  if (!galacticaActivo || obj.destruido || galacticaRondaResuelta) return;
+
+  // 1. Coordenadas relativas exactas del invasor seleccionado dentro del escenario
+  const areaRect = galacticaAreaJuego ? galacticaAreaJuego.getBoundingClientRect() : { left: 0, top: 0, width: 360, height: 330 };
+  const alienRect = obj.elem.getBoundingClientRect();
+  const targetX = (alienRect.left + alienRect.right) / 2 - areaRect.left;
+  const targetY = (alienRect.top + alienRect.bottom) / 2 - areaRect.top;
+
+  // 2. Coordenadas del cañón y su eje de giro (base de la torreta)
+  const canonRect = galacticaCanon ? galacticaCanon.getBoundingClientRect() : { left: areaRect.left + 150, top: areaRect.top + 260, width: 58, height: 64 };
+  const canonCenterX = (canonRect.left + canonRect.right) / 2 - areaRect.left;
+  const canonPivotY = (canonRect.top + canonRect.height * 0.86) - areaRect.top;
+
+  // 3. Ángulo de puntería hacia el número elegido por el niño (0° = vertical arriba)
+  const dx = targetX - canonCenterX;
+  const dy = targetY - canonPivotY;
+  const angRad = Math.atan2(dy, dx);
+  const angDeg = angRad * (180 / Math.PI) + 90;
+
+  // 4. Girar el cañón en la dirección exacta de la respuesta escogida con retroceso visual
+  if (galacticaCanon) {
+    galacticaCanon.style.transform = `translateX(-50%) rotate(${angDeg.toFixed(1)}deg) scale(0.92)`;
+    setTimeout(() => {
+      if (galacticaCanon) {
+        galacticaCanon.style.transform = `translateX(-50%) rotate(${angDeg.toFixed(1)}deg) scale(1)`;
+      }
+    }, 80);
+  }
+
+  // 5. Origen del rayo: boca de los cañones orientados
+  const barrelLength = 32;
+  const muzzleX = canonCenterX + Math.sin(angDeg * (Math.PI / 180)) * barrelLength;
+  const muzzleY = canonPivotY - Math.cos(angDeg * (Math.PI / 180)) * barrelLength;
+
+  // 6. Haz láser directo conectando el cañón orientado con el número elegido
+  crearHazLaser(muzzleX, muzzleY, targetX, targetY);
+  reproducirSonido("laser");
+
+  if (obj.val === galacticaCorrecta) {
+    // 💥 ¡IMPACTO LÁSER EXACTO!
+    galacticaRondaResuelta = true;
+    obj.destruido = true;
+
+    setTimeout(() => {
+      reproducirSonido("explosionLaser");
+      reproducirSonido("acierto");
+    }, 60);
+    vibrar([40, 30, 70]);
+
+    obj.elem.style.background = "linear-gradient(135deg, #059669, #10b981)";
+    obj.elem.style.borderColor = "#6ee7b7";
+    obj.elem.innerHTML = `<span style="font-size:26px;">💥</span>`;
+
+    galacticaOleada++;
+    const pts = 30 + galacticaOleada * 5;
+    galacticaPuntos += pts;
+    puntos += pts;
+
+    const t = i18n[idiomaActual];
+    if (lblGalacticaPuntos) lblGalacticaPuntos.textContent = t.galacticaPuntosTexto ? t.galacticaPuntosTexto(galacticaPuntos) : `⭐ Puntos: ${galacticaPuntos}`;
+    if (lblGalacticaOleada) lblGalacticaOleada.textContent = t.galacticaOleadaTexto ? t.galacticaOleadaTexto(galacticaOleada) : `👾 Oleada: ${galacticaOleada}`;
+
+    mostrarTextoFlotante(`🚀 ¡PULVERIZADO! +${pts} ⭐`, true, "35%");
+    actualizarEstadisticas();
+    guardarPuntajes();
+
+    setTimeout(() => {
+      if (obj.elem) obj.elem.remove();
+    }, 250);
+
+    const tId = setTimeout(() => {
+      if (galacticaActivo && galacticaVidas > 0) {
+        if (galacticaCanon) galacticaCanon.style.transform = "translateX(-50%) rotate(0deg)";
+        siguienteRondaGalactica();
+      }
+    }, 650);
+    galacticaTimeouts.push(tId);
+  } else {
+    // ❌ Disparo a nave o asteroide equivocado
+    obj.destruido = true;
+    reproducirSonido("error");
+    vibrar(90);
+
+    obj.elem.style.background = "linear-gradient(135deg, #ef4444, #b91c1c)";
+    obj.elem.innerHTML = `<span style="font-size:22px;">🛡️❌</span>`;
+
+    const t = i18n[idiomaActual];
+    perderVidaGalactica(t.galacticaMsjEquivocado || (idiomaActual === "es" ? "❌ ¡Blanco incorrecto!" : "❌ Wrong target!"));
+  }
+}
+
+function crearHazLaser(x1, y1, x2, y2) {
+  const overlay = document.getElementById("galacticaLaserOverlay");
+  if (!overlay) return;
+
+  const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+  g.setAttribute("class", "galactica-laser-grupo");
+
+  // Haz externo de dispersión de plasma neón
+  const aura = document.createElementNS("http://www.w3.org/2000/svg", "line");
+  aura.setAttribute("x1", x1.toFixed(1));
+  aura.setAttribute("y1", y1.toFixed(1));
+  aura.setAttribute("x2", x2.toFixed(1));
+  aura.setAttribute("y2", y2.toFixed(1));
+  aura.setAttribute("stroke", "#818cf8");
+  aura.setAttribute("stroke-width", "8");
+  aura.setAttribute("stroke-linecap", "round");
+  aura.setAttribute("opacity", "0.6");
+  g.appendChild(aura);
+
+  // Haz intermedio celeste brillante
+  const core = document.createElementNS("http://www.w3.org/2000/svg", "line");
+  core.setAttribute("x1", x1.toFixed(1));
+  core.setAttribute("y1", y1.toFixed(1));
+  core.setAttribute("x2", x2.toFixed(1));
+  core.setAttribute("y2", y2.toFixed(1));
+  core.setAttribute("stroke", "#38bdf8");
+  core.setAttribute("stroke-width", "4.5");
+  core.setAttribute("stroke-linecap", "round");
+  g.appendChild(core);
+
+  // Filamento central blanco ardiente
+  const white = document.createElementNS("http://www.w3.org/2000/svg", "line");
+  white.setAttribute("x1", x1.toFixed(1));
+  white.setAttribute("y1", y1.toFixed(1));
+  white.setAttribute("x2", x2.toFixed(1));
+  white.setAttribute("y2", y2.toFixed(1));
+  white.setAttribute("stroke", "#ffffff");
+  white.setAttribute("stroke-width", "2");
+  white.setAttribute("stroke-linecap", "round");
+  g.appendChild(white);
+
+  // Destello en la boca del cañón
+  const flash = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+  flash.setAttribute("cx", x1.toFixed(1));
+  flash.setAttribute("cy", y1.toFixed(1));
+  flash.setAttribute("r", "8");
+  flash.setAttribute("fill", "#ffffff");
+  flash.setAttribute("filter", "drop-shadow(0 0 6px #38bdf8)");
+  g.appendChild(flash);
+
+  // Impacto en el blanco
+  const impact = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+  impact.setAttribute("cx", x2.toFixed(1));
+  impact.setAttribute("cy", y2.toFixed(1));
+  impact.setAttribute("r", "14");
+  impact.setAttribute("fill", "none");
+  impact.setAttribute("stroke", "#67e8f9");
+  impact.setAttribute("stroke-width", "3");
+  impact.setAttribute("filter", "drop-shadow(0 0 8px #67e8f9)");
+  g.appendChild(impact);
+
+  overlay.appendChild(g);
+  setTimeout(() => g.remove(), 230);
+}
+
+function perderVidaGalactica(motivo = "") {
+  galacticaVidas--;
+  vibrar(120);
+  const t = i18n[idiomaActual];
+  if (lblGalacticaVidas) lblGalacticaVidas.textContent = t.galacticaEscudosTexto ? t.galacticaEscudosTexto(Math.max(0, galacticaVidas)) : `Escudos: ${galacticaVidas}`;
+
+  if (galacticaVidas <= 0) {
+    finalizarDefensaGalactica();
+  } else {
+    mostrarTextoFlotante(motivo || (idiomaActual === "es" ? "❌ -1 Escudo" : "❌ -1 Shield"), false, "40%");
+    const tId = setTimeout(() => {
+      if (galacticaActivo) siguienteRondaGalactica();
+    }, 650);
+    galacticaTimeouts.push(tId);
+  }
+}
+
+function finalizarDefensaGalactica() {
+  detenerGalacticaLoop();
+  limpiarInvasoresGalactica();
+  const t = i18n[idiomaActual];
+  if (galacticaOperacion) galacticaOperacion.textContent = t.galacticaFinPartida || (idiomaActual === "es" ? "🏁 ¡DEFENSA FINALIZADA!" : "🏁 DEFENSE COMPLETED!");
+  reproducirSonido("victoria");
+  dispararConfetiVictoria();
+  mostrarTextoFlotante(idiomaActual === "es" ? `🏆 ¡Gran Defensa! ${galacticaPuntos} Puntos ⭐` : `🏆 Heroic Defense! ${galacticaPuntos} Points ⭐`, true, "35%");
+
+  if (btnIniciarGalactica) {
+    btnIniciarGalactica.style.display = "block";
+    btnIniciarGalactica.textContent = t.galacticaBtnReintentar || (idiomaActual === "es" ? "🔄 ¡Defender de Nuevo!" : "🔄 Defend Again!");
+  }
+}
+
+if (btnGalactica) btnGalactica.addEventListener("click", abrirDefensaGalactica);
+if (cerrarGalactica) cerrarGalactica.addEventListener("click", () => { if (modalGalactica) modalGalactica.hidden = true; detenerGalacticaLoop(); });
+if (btnIniciarGalactica) btnIniciarGalactica.addEventListener("click", iniciarDefensaGalactica);
 
 // Event Listeners principales
 botonSonido.addEventListener("click", toggleSonido);
@@ -10576,6 +13722,10 @@ modalInsignias.hidden = true;
 modalAvatares.hidden = true;
 modalMinijuego.hidden = true;
 modalDesafio.hidden = true;
+if (typeof modalGlobos !== "undefined" && modalGlobos) modalGlobos.hidden = true;
+if (typeof modalTopos !== "undefined" && modalTopos) modalTopos.hidden = true;
+if (typeof modalNitro !== "undefined" && modalNitro) modalNitro.hidden = true;
+if (typeof modalGalactica !== "undefined" && modalGalactica) modalGalactica.hidden = true;
 
 actualizarSelectorTablas();
 cargarPuntajes();
@@ -10781,8 +13931,12 @@ const textosCentroMinijuegos = {
     laberintoDesc: "Navega resolviendo operaciones correctas.",
     desafioTitulo: "Desafío Relámpago (60s)",
     desafioDesc: "Velocidad y cálculo contra el reloj.",
-    lluviaTitulo: "Lluvia de Estrellas",
-    lluviaDesc: "Atrapa los resultados correctos al vuelo.",
+    lluviaTitulo: "Salto Ninja (Lluvia de Estrellas)",
+    lluviaDesc: "Corta las estrellas correctas con katana.",
+    globosTitulo: "Rompe-Globos a Toda Presión",
+    globosDesc: "Revienta el globo correcto antes de que vuele al cielo.",
+    toposTitulo: "Martillazo al Topo Travieso",
+    toposDesc: "¡PUM! Martilla al topo con el resultado correcto.",
     trampaTitulo: "¿Correcto o Trampa?",
     trampaDesc: "Descubre al impostor matemático."
   },
@@ -10795,8 +13949,12 @@ const textosCentroMinijuegos = {
     laberintoDesc: "Navigate by solving correct math operations.",
     desafioTitulo: "Lightning Challenge (60s)",
     desafioDesc: "Speed and calculation against the clock.",
-    lluviaTitulo: "Star Rain",
-    lluviaDesc: "Catch the correct results on the fly.",
+    lluviaTitulo: "Ninja Leap (Star Rain)",
+    lluviaDesc: "Slice correct stars with your katana.",
+    globosTitulo: "Balloon Pop Frenzy",
+    globosDesc: "Pop the correct balloon before it flies away.",
+    toposTitulo: "Whack-a-Mole Arcade",
+    toposDesc: "WHACK! Hammer the mole with the correct answer.",
     trampaTitulo: "Correct or Trap?",
     trampaDesc: "Spot the math impostor."
   }
@@ -10831,10 +13989,22 @@ function actualizarIdiomaCentroMinijuegos() {
   if (desafioD) desafioD.textContent = t.desafioDesc;
 
   // Actualizar Lluvia
-  const lluviaT = document.getElementById("lblLluviaTitulo");
+  const lluviaT = document.getElementById("lblLluviaTituloHub");
   const lluviaD = document.getElementById("lblLluviaDesc");
   if (lluviaT) lluviaT.textContent = t.lluviaTitulo;
   if (lluviaD) lluviaD.textContent = t.lluviaDesc;
+
+  // Actualizar Rompe-Globos
+  const globosT = document.getElementById("lblGlobosTituloHub");
+  const globosD = document.getElementById("lblGlobosDesc");
+  if (globosT) globosT.textContent = t.globosTitulo;
+  if (globosD) globosD.textContent = t.globosDesc;
+
+  // Actualizar Martillazo al Topo
+  const toposT = document.getElementById("lblToposTituloHub");
+  const toposD = document.getElementById("lblToposDesc");
+  if (toposT) toposT.textContent = t.toposTitulo;
+  if (toposD) toposD.textContent = t.toposDesc;
 
   // Actualizar Correcto o Trampa
   const trampaT = document.getElementById("lblTrampaTitulo");
@@ -12196,6 +15366,22 @@ document.getElementById("cardHubLluvia")?.addEventListener("click", () => {
 document.getElementById("cardHubTrampa")?.addEventListener("click", () => {
   modalHubMinijuegos.hidden = true;
   abrirMinijuego();
+});
+document.getElementById("cardHubGlobos")?.addEventListener("click", () => {
+  modalHubMinijuegos.hidden = true;
+  abrirRompeGlobos();
+});
+document.getElementById("cardHubTopos")?.addEventListener("click", () => {
+  modalHubMinijuegos.hidden = true;
+  abrirMartillazoTopos();
+});
+document.getElementById("cardHubNitro")?.addEventListener("click", () => {
+  modalHubMinijuegos.hidden = true;
+  abrirCarreraNitro();
+});
+document.getElementById("cardHubGalactica")?.addEventListener("click", () => {
+  modalHubMinijuegos.hidden = true;
+  abrirDefensaGalactica();
 });
 
 // ===========================================================================
