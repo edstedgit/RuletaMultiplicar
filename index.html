@@ -13136,6 +13136,78 @@ if (btnNitro) btnNitro.addEventListener("click", abrirCarreraNitro);
 if (cerrarNitro) cerrarNitro.addEventListener("click", () => { if (modalNitro) modalNitro.hidden = true; detenerNitroLoop(); });
 if (btnIniciarNitro) btnIniciarNitro.addEventListener("click", iniciarCarreraNitro);
 
+// Atajos de teclado para PC en Carrera de Nitro & Enduro Atari (Flechas, A/D, W, 1/2/3, Espacio)
+window.addEventListener("keydown", (e) => {
+  if (!modalNitro || modalNitro.hidden) return;
+  if (e.target && (e.target.tagName === "INPUT" || e.target.tagName === "SELECT" || e.target.tagName === "TEXTAREA")) return;
+
+  // Flecha Izquierda o tecla A
+  if (e.key === "ArrowLeft" || e.code === "KeyA") {
+    e.preventDefault();
+    if (nitroCarrilActual > 0) {
+      moverAutoNitro(nitroCarrilActual - 1);
+    } else if (nitroAutoPlayer) {
+      nitroAutoPlayer.style.transform = "rotate(-14deg)";
+      setTimeout(() => { if (nitroAutoPlayer && !nitroArrastrando) nitroAutoPlayer.style.transform = "rotate(0deg)"; }, 150);
+    }
+    return;
+  }
+
+  // Flecha Derecha o tecla D
+  if (e.key === "ArrowRight" || e.code === "KeyD") {
+    e.preventDefault();
+    if (nitroCarrilActual < 2) {
+      moverAutoNitro(nitroCarrilActual + 1);
+    } else if (nitroAutoPlayer) {
+      nitroAutoPlayer.style.transform = "rotate(14deg)";
+      setTimeout(() => { if (nitroAutoPlayer && !nitroArrastrando) nitroAutoPlayer.style.transform = "rotate(0deg)"; }, 150);
+    }
+    return;
+  }
+
+  // Flecha Arriba o tecla W (Carril central)
+  if (e.key === "ArrowUp" || e.code === "KeyW") {
+    e.preventDefault();
+    moverAutoNitro(1);
+    return;
+  }
+
+  // Teclas numéricas directas para carriles 1, 2, 3
+  if (e.key === "1" || e.code === "Numpad1") {
+    e.preventDefault();
+    moverAutoNitro(0);
+    return;
+  }
+  if (e.key === "2" || e.code === "Numpad2") {
+    e.preventDefault();
+    moverAutoNitro(1);
+    return;
+  }
+  if (e.key === "3" || e.code === "Numpad3") {
+    e.preventDefault();
+    moverAutoNitro(2);
+    return;
+  }
+
+  // Barra espaciadora o Enter para arrancar la carrera si no está activa
+  if ((e.code === "Space" || e.code === "Enter") && !nitroActivo) {
+    if (btnIniciarNitro && btnIniciarNitro.style.display !== "none") {
+      e.preventDefault();
+      iniciarCarreraNitro();
+      return;
+    }
+  }
+
+  // Tecla Escape para salir y detener la carrera
+  if (e.key === "Escape") {
+    e.preventDefault();
+    modalNitro.hidden = true;
+    detenerNitroLoop();
+    return;
+  }
+});
+
+
 
 // ===========================================================================
 // LÓGICA DEL MINIJUEGO: DEFENSA GALÁCTICA (GALACTIC MATH DEFENDER)
@@ -16263,6 +16335,10 @@ btnCompartirDiploma?.addEventListener("click", () => {
 window.addEventListener("keydown", (e) => {
   // Ignorar si el foco está en un campo de texto
   if (e.target && (e.target.tagName === "INPUT" || e.target.tagName === "SELECT")) return;
+
+  // Si el modal de Nitro / Enduro está abierto, delegar a su listener exclusivo
+  const mNitro = document.getElementById("modalNitro");
+  if (mNitro && !mNitro.hidden) return;
 
   if (e.code === "Space" || e.code === "Enter") {
     e.preventDefault();
