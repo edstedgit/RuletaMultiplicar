@@ -470,6 +470,17 @@
       position: relative;
       box-shadow: 0 3px 9px rgba(79, 70, 229, 0.36) !important;
     }
+    .btn-avatar-dock {
+      width: 44px !important;
+      height: 44px !important;
+      font-size: 21px !important;
+      border-radius: 14px !important;
+      background: linear-gradient(135deg, #fffbeb 0%, #fde68a 100%) !important;
+      border: 2px solid #f59e0b !important;
+      color: #1e293b !important;
+      position: relative;
+      box-shadow: 0 3px 9px rgba(245, 158, 11, 0.28) !important;
+    }
     .btn-hub-dock-badge {
       position: absolute;
       bottom: -4px;
@@ -482,6 +493,11 @@
       padding: 2px 4px;
       border-radius: 999px;
       border: 1.5px solid #fff;
+    }
+    .btn-avatar-dock-badge {
+      background: #2563eb !important;
+      font-size: 8.5px !important;
+      padding: 2px 3.5px !important;
     }
 
     .btn-minijuego-compacto {
@@ -4178,6 +4194,15 @@
       border-color: #38bdf8 !important;
       color: #ffffff !important;
     }
+    body[data-tema="galaxia"] .btn-avatar-dock {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%) !important;
+      border-color: #38bdf8 !important;
+      box-shadow: 0 3px 10px rgba(56, 189, 248, 0.28) !important;
+    }
+    body[data-tema="galaxia"] .btn-avatar-dock-badge {
+      background: #0284c7 !important;
+      border-color: #0f172a !important;
+    }
     body[data-tema="galaxia"] .btn-hub-discreto {
       background: #1e1b4b !important;
       border-color: #4f46e5 !important;
@@ -4317,6 +4342,19 @@
       background: linear-gradient(180deg, #ffffff 0%, #f0fdf4 100%) !important;
       border-color: #86efac !important;
       color: #047857 !important;
+    }
+    body[data-tema="esmeralda"] .btn-hub-dock {
+      background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+      border-color: #86efac !important;
+      box-shadow: 0 3px 9px rgba(5, 150, 105, 0.3) !important;
+    }
+    body[data-tema="esmeralda"] .btn-avatar-dock {
+      background: linear-gradient(135deg, #ffffff 0%, #dcfce7 100%) !important;
+      border-color: #4ade80 !important;
+      box-shadow: 0 3px 9px rgba(22, 163, 74, 0.22) !important;
+    }
+    body[data-tema="esmeralda"] .btn-avatar-dock-badge {
+      background: #059669 !important;
     }
     body[data-tema="esmeralda"] .btn-hub-discreto {
       background: #ecfdf5 !important;
@@ -4481,6 +4519,24 @@
       background: #f3e8fd !important;
       border-color: #9334e6 !important;
       color: #7627bb !important;
+    }
+    body[data-tema="google"] .btn-hub-dock {
+      background: #1a73e8 !important;
+      border-color: #d2e3fc !important;
+      box-shadow: 0 2px 6px rgba(26, 115, 232, 0.28) !important;
+    }
+    body[data-tema="google"] .btn-avatar-dock {
+      background: #ffffff !important;
+      border: 1.5px solid #dadce0 !important;
+      box-shadow: 0 1px 3px rgba(60, 64, 67, 0.14) !important;
+    }
+    body[data-tema="google"] .btn-avatar-dock:hover {
+      background: #f8f9fa !important;
+      border-color: #1a73e8 !important;
+    }
+    body[data-tema="google"] .btn-avatar-dock-badge {
+      background: #fbbc05 !important;
+      border-color: #ffffff !important;
     }
     body[data-tema="google"] .btn-hub-discreto {
       background: #f1f3f4 !important;
@@ -5390,7 +5446,6 @@
     </div>
     
     <div class="titulo-contenedor">
-      <span id="btnAbrirAvatares" class="avatar-actual-header" title="Cambiar avatar">🦖</span>
       <h1 id="txtTitulo">🎡 Ruleta de Multiplicar</h1>
     </div>
 
@@ -5485,16 +5540,13 @@
       </div>
     </div>
 
-    <!-- Dock Flex Derecho (Hub destacado más grande + 2 accesos directos) -->
-    <div class="dock-lateral-ruleta" aria-label="Minijuegos">
+    <!-- Dock Flex Derecho (Centro de Minijuegos + Tienda / Cambiar Avatar) -->
+    <div class="dock-lateral-ruleta" aria-label="Minijuegos y Tienda">
       <button id="btnAbrirHubDock" class="btn-minijuego-compacto btn-hub-dock" type="button" aria-label="Centro de Minijuegos (14 juegos)" title="Centro de Minijuegos (14 juegos)">
         🎮<span class="btn-hub-dock-badge">14</span>
       </button>
-      <button id="btnNitro" class="btn-minijuego-compacto" type="button" title="Minijuego: Carrera de Nitro y Enduro" style="background:#ea580c; border-color:#fed7aa; color:white;">
-        🏎️
-      </button>
-      <button id="btnDino" class="btn-minijuego-compacto" type="button" title="Minijuego: Dino Runner Matemático" style="background:#16a34a; border-color:#bbf7d0; color:white;">
-        🦖
+      <button id="btnAbrirAvatares" class="btn-minijuego-compacto btn-avatar-dock" type="button" aria-label="Tienda y cambiar avatar" title="Tienda y cambiar avatar">
+        <span id="avatarActualIcono">🦖</span><span class="btn-hub-dock-badge btn-avatar-dock-badge">🛍️</span>
       </button>
     </div>
 
@@ -8467,55 +8519,9 @@ function actualizarTextosUI() {
     actualizarBotonSonido();
   }
   if (btnAbrirAvatares) {
-    btnAbrirAvatares.setAttribute("title", t.tooltipAvatar || (idiomaActual === "es" ? "Cambiar avatar" : "Change avatar"));
-  }
-
-  // 4. Tooltips de botones laterales de minijuegos
-  if (btnMinijuego) {
-    btnMinijuego.setAttribute("title", idiomaActual === "es" ? "Minijuego: ¿Correcto o Trampa?" : "Minigame: Correct or Trap?");
-  }
-  const btnLluvia = document.getElementById("btnLluvia");
-  if (btnLluvia) {
-    btnLluvia.setAttribute("title", idiomaActual === "es" ? "Minijuego: Lluvia de Estrellas" : "Minigame: Star Rain");
-  }
-  if (btnModoDesafio) {
-    btnModoDesafio.setAttribute("title", idiomaActual === "es" ? "Desafío Relámpago (60s)" : "Lightning Challenge (60s)");
-  }
-  const btnTableroMagico = document.getElementById("btnTableroMagico");
-  if (btnTableroMagico) {
-    btnTableroMagico.setAttribute("title", idiomaActual === "es" ? "Minijuego: Ajedrez Táctico" : "Minigame: Tactical Chess");
-  }
-  const btnLaberinto = document.getElementById("btnLaberinto");
-  if (btnLaberinto) {
-    btnLaberinto.setAttribute("title", idiomaActual === "es" ? "Minijuego: Laberinto Numérico" : "Minigame: Number Maze");
-  }
-  const btnCaraACaraEl = document.getElementById("btnCaraACara");
-  if (btnCaraACaraEl) {
-    btnCaraACaraEl.setAttribute("title", t.tooltipDuelo || (idiomaActual === "es" ? "Minijuego: Duelo Cara a Cara" : "Minigame: Face-to-Face Duel"));
-  }
-  const btnGlobosEl = document.getElementById("btnGlobos");
-  if (btnGlobosEl) {
-    btnGlobosEl.setAttribute("title", idiomaActual === "es" ? "Minijuego: Rompe-Globos a Toda Presión" : "Minigame: Balloon Pop Frenzy");
-  }
-  const btnToposEl = document.getElementById("btnTopos");
-  if (btnToposEl) {
-    btnToposEl.setAttribute("title", idiomaActual === "es" ? "Minijuego: Martillazo al Topo Travieso" : "Minigame: Whack-a-Mole Arcade");
-  }
-  const btnNitroEl = document.getElementById("btnNitro");
-  if (btnNitroEl) {
-    btnNitroEl.setAttribute("title", t.tooltipNitro || (idiomaActual === "es" ? "Minijuego: Carrera de Nitro" : "Minigame: Nitro Racing Rush"));
-  }
-  const btnGalacticaEl = document.getElementById("btnGalactica");
-  if (btnGalacticaEl) {
-    btnGalacticaEl.setAttribute("title", t.tooltipGalactica || (idiomaActual === "es" ? "Minijuego: Defensa Galáctica" : "Minigame: Galactic Math Defender"));
-  }
-  const btnFeriaEl = document.getElementById("btnFeria");
-  if (btnFeriaEl) {
-    btnFeriaEl.setAttribute("title", t.tooltipFeria || (idiomaActual === "es" ? "Minijuego: Tiro al Blanco y Garra Arcade" : "Minigame: Math Carnival & Arcade Claw"));
-  }
-  const btnDinoEl = document.getElementById("btnDino");
-  if (btnDinoEl) {
-    btnDinoEl.setAttribute("title", t.tooltipDino || (idiomaActual === "es" ? "Minijuego: Dino Runner Matemático" : "Minigame: Math Dino Runner"));
+    const labelAvatar = idiomaActual === "es" ? "Tienda y cambiar avatar" : "Avatar shop & change avatar";
+    btnAbrirAvatares.setAttribute("title", labelAvatar);
+    btnAbrirAvatares.setAttribute("aria-label", labelAvatar);
   }
 
   // 5. Centro de Minijuegos (Game Hub)
@@ -9001,7 +9007,7 @@ function actualizarTextosUI() {
   }
 
   botonIdioma.textContent = idiomaActual === "es" ? "🇪🇸" : "🇺🇸";
-  if (btnAbrirAvatares) btnAbrirAvatares.textContent = avatarActual;
+  actualizarIconoAvatarUI();
   if (typeof modalHistorial !== "undefined" && modalHistorial && !modalHistorial.hidden && typeof abrirModalHistorial === "function") {
     abrirModalHistorial(typeof vistaHistorialActual !== "undefined" ? vistaHistorialActual : "todo");
   }
@@ -9998,7 +10004,7 @@ function renderizarTiendaAvatares() {
           puntos -= item.costo;
           avataresDesbloqueados.push(item.avatar);
           avatarActual = item.avatar;
-          btnAbrirAvatares.textContent = avatarActual;
+          actualizarIconoAvatarUI();
           actualizarEstadisticas();
           guardarPuntajes();
           renderizarTiendaAvatares();
@@ -10081,6 +10087,15 @@ function renderizarTiendaAvatares() {
     gridTienda.appendChild(div);
   });
 }
+function actualizarIconoAvatarUI() {
+  const ico = document.getElementById("avatarActualIcono");
+  if (ico) {
+    ico.textContent = avatarActual;
+  } else if (btnAbrirAvatares) {
+    btnAbrirAvatares.textContent = avatarActual;
+  }
+}
+
 function renderizarAvataresDisponibles() {
 
   const inputNombreModal = document.getElementById("inputNombreModal");
@@ -10103,7 +10118,7 @@ function renderizarAvataresDisponibles() {
     el.setAttribute("data-avatar", av);
     el.addEventListener("click", () => {
       avatarActual = av;
-      btnAbrirAvatares.textContent = avatarActual;
+      actualizarIconoAvatarUI();
       modalAvatares.hidden = true;
       guardarPuntajes();
     });
@@ -10483,7 +10498,7 @@ function aplicarDatosRespaldo(datos) {
   if (!avataresDesbloqueados.includes(avatarActual)) {
     avataresDesbloqueados.push(avatarActual);
   }
-  if (btnAbrirAvatares) btnAbrirAvatares.textContent = avatarActual;
+  actualizarIconoAvatarUI();
 
   // 4. Historial de partidas (limpia previo si el respaldo no trae historial)
   const h = datos.h !== undefined ? datos.h : datos.historialPartidas;
@@ -11087,7 +11102,7 @@ function cargarPuntajes() {
   sincronizarAciertosPorTabla();
   inputNombre.value = nombre;
   if (inputNombreModal) inputNombreModal.value = nombre;
-  btnAbrirAvatares.textContent = avatarActual;
+  actualizarIconoAvatarUI();
   aplicarTemaGlobal(temaGlobalActual);
   actualizarSelectorTablas();
   if (selectorTabla && selectorTabla.dataset?.savedTablaSel) {
