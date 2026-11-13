@@ -9153,6 +9153,7 @@ function cambiarTemaGlobal() {
 }
 
 let audioCtx = null;
+let audioMediaIOSDesbloqueado = false;
 
 function activarCanalMultimediaIOS() {
   // Safari 16.4+ / iOS 17 / iOS 18: Activar canal oficial 'playback' para efectos de sonido
@@ -9163,18 +9164,38 @@ function activarCanalMultimediaIOS() {
   }
 }
 
+function desbloquearCanalMediaIOS() {
+  if (!esDispositivoIOS || audioMediaIOSDesbloqueado) return;
+  try {
+    // Micro-WAV silencioso para abrir el canal físico de audio multimedia en iOS Safari / PWA
+    const silAudio = document.createElement('audio');
+    silAudio.setAttribute('playsinline', '');
+    silAudio.setAttribute('webkit-playsinline', '');
+    silAudio.preload = 'auto';
+    silAudio.src = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA';
+    silAudio.volume = 0.01;
+    const prom = silAudio.play();
+    if (prom && typeof prom.then === 'function') {
+      prom.then(() => {
+        audioMediaIOSDesbloqueado = true;
+      }).catch(() => {});
+    } else {
+      audioMediaIOSDesbloqueado = true;
+    }
+  } catch (e) {}
+}
+
 function obtenerAudioContext() {
   if (!audioCtx) {
     const AudioContextClass = window.AudioContext || window.webkitAudioContext;
     if (AudioContextClass) audioCtx = new AudioContextClass();
-    if ('audioSession' in navigator && navigator.audioSession) {
-      try {
-        navigator.audioSession.type = 'playback';
-      } catch (e) {}
-    }
+    activarCanalMultimediaIOS();
   }
-  if (audioCtx && audioCtx.state === 'suspended') {
-    audioCtx.resume().catch(() => {});
+  if (audioCtx && audioCtx.state !== 'running') {
+    try {
+      const res = audioCtx.resume();
+      if (res && typeof res.catch === 'function') res.catch(() => {});
+    } catch (e) {}
   }
   return audioCtx;
 }
@@ -9637,7 +9658,7 @@ function reproducirSonido(tipo, extra = 1) {
 
     if (tipo === "explosion") {
       // 🌟 Efecto de explosión épica para avatares de élite/legendarios
-      const bufferSize = ctxAudio.sampleRate * 0.4; // Duración: 0.4 segundos
+      const bufferSize = Math.max(1, Math.floor(ctxAudio.sampleRate * 0.4)); // Duración: 0.4 segundos
       const buffer = ctxAudio.createBuffer(1, bufferSize, ctxAudio.sampleRate);
       const data = buffer.getChannelData(0);
       
@@ -9761,12 +9782,33 @@ function reproducirSonido(tipo, extra = 1) {
     }
     };
 
-    if (ctxAudio.state === "suspended") {
-      ctxAudio.resume().then(() => {
-        if (ctxAudio.state === "running") ejecutarSintesis();
-      }).catch(() => {});
-    } else {
+    let yaReproducido = false;
+    const intentarReproducir = () => {
+      if (yaReproducido || !sonidoActivo) return;
+      yaReproducido = true;
       ejecutarSintesis();
+    };
+
+    if (ctxAudio.state === "running") {
+      intentarReproducir();
+    } else {
+      let pResume = null;
+      try {
+        pResume = ctxAudio.resume();
+      } catch (e) {}
+
+      if (ctxAudio.state === "running") {
+        intentarReproducir();
+      } else if (esDispositivoIOS) {
+        // En iOS WebKit, iniciar el oscilador síncronamente dentro del gesto ayuda a despertar el hardware
+        intentarReproducir();
+      } else if (pResume && typeof pResume.then === "function") {
+        pResume.then(() => {
+          if (ctxAudio.state === "running") intentarReproducir();
+        }).catch(() => {});
+      } else {
+        intentarReproducir();
+      }
     }
   } catch (e) {}
 }
@@ -18803,12 +18845,22 @@ function tocarNotaDeslizPitagoras(f, c, esCuadrado = false) {
       }
     };
 
-    if (ctxAudio.state === "suspended") {
-      ctxAudio.resume().then(() => {
-        if (ctxAudio.state === "running") tocarNota();
-      }).catch(() => {});
-    } else {
+    if (ctxAudio.state === "running") {
       tocarNota();
+    } else {
+      let yaTocado = false;
+      const pResume = ctxAudio.resume();
+      if (ctxAudio.state === "running" || esDispositivoIOS) {
+        yaTocado = true;
+        tocarNota();
+      } else if (pResume && typeof pResume.then === "function") {
+        pResume.then(() => {
+          if (!yaTocado && ctxAudio.state === "running") {
+            yaTocado = true;
+            tocarNota();
+          }
+        }).catch(() => {});
+      }
     }
   } catch (e) {}
 }
@@ -20408,20 +20460,29 @@ actualizarEstadoConexion();
 // DESBLOQUEO UNIVERSAL DEL MOTOR DE AUDIO WEB (IOS / ANDROID / DESKTOP)
 // ===========================================================================
 let audioDesbloqueadoIOS = false;
+let vozDesbloqueadaIOS = false;
 
-function desbloquearAudioGlobal() {
-  if (esDispositivoIOS && !audioDesbloqueadoIOS) {
+function desbloquearAudioGlobal(e) {
+  const esGestoActivacionIOS = !e || e.type === 'touchend' || e.type === 'click' || e.type === 'pointerup' || e.type === 'keydown';
+
+  if (esDispositivoIOS) {
     activarCanalMultimediaIOS();
+    if (esGestoActivacionIOS) {
+      desbloquearCanalMediaIOS();
+    }
   }
 
   try {
     const ctx = obtenerAudioContext();
     if (ctx) {
-      const necesitaDesbloqueo = !audioDesbloqueadoIOS || ctx.state === 'suspended';
-      if (ctx.state === 'suspended') {
-        ctx.resume().catch(() => {});
+      const noActivo = ctx.state !== 'running';
+      if (noActivo) {
+        try {
+          const r = ctx.resume();
+          if (r && typeof r.catch === 'function') r.catch(() => {});
+        } catch (_) {}
       }
-      if (necesitaDesbloqueo) {
+      if (!audioDesbloqueadoIOS || noActivo) {
         // Tocar un micro-buffer silencioso para despertar el hardware de audio tras gesto
         const buffer = ctx.createBuffer(1, 1, 22050);
         const source = ctx.createBufferSource();
@@ -20429,32 +20490,38 @@ function desbloquearAudioGlobal() {
         source.connect(ctx.destination);
         source.start(0);
       }
+      if (ctx.state === 'running') {
+        audioDesbloqueadoIOS = true;
+      }
     }
-  } catch (e) {}
+  } catch (err) {}
 
-  // Calentamiento previo del sintetizador de voz (solo la primera vez en iOS Safari)
-  if (esDispositivoIOS && !audioDesbloqueadoIOS && 'speechSynthesis' in window) {
+  // Calentamiento previo del sintetizador de voz en iOS Safari durante gesto válido (touchend / click)
+  if (esDispositivoIOS && esGestoActivacionIOS && !vozDesbloqueadaIOS && 'speechSynthesis' in window) {
+    vozDesbloqueadaIOS = true;
     try {
       if (window.speechSynthesis.paused) window.speechSynthesis.resume();
       const dummyUtterance = new SpeechSynthesisUtterance("");
       dummyUtterance.volume = 0;
       window.speechSynthesis.speak(dummyUtterance);
-    } catch (e) {}
+    } catch (err) {}
   }
-
-  audioDesbloqueadoIOS = true;
 }
 const desbloquearAudioIOS = desbloquearAudioGlobal;
 
-// Escuchar gestos de interacción para desbloquear o reanudar Web Audio si el navegador lo suspende
-['pointerdown', 'touchstart', 'mousedown', 'keydown'].forEach(evt => {
-  document.addEventListener(evt, desbloquearAudioGlobal, { passive: true });
+// Usar capture:true garantiza desbloquear antes de cualquier e.stopPropagation() en minijuegos,
+// e incluir touchend/click es indispensable para iOS Safari / iPhone.
+['touchend', 'click', 'pointerup', 'touchstart', 'pointerdown', 'mousedown', 'keydown'].forEach(evt => {
+  document.addEventListener(evt, desbloquearAudioGlobal, { passive: true, capture: true });
 });
 
-document.addEventListener('visibilitychange', () => {
-  if (!document.hidden && audioCtx && audioCtx.state === 'suspended' && sonidoActivo) {
-    audioCtx.resume().catch(() => {});
-  }
+['visibilitychange', 'pageshow', 'focus'].forEach(evt => {
+  window.addEventListener(evt, () => {
+    if (!document.hidden && audioCtx && audioCtx.state !== 'running' && sonidoActivo) {
+      activarCanalMultimediaIOS();
+      audioCtx.resume().catch(() => {});
+    }
+  });
 });
 
 appInicializada = true;
