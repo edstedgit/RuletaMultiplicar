@@ -3442,6 +3442,546 @@
       border-color: #bbf7d0;
     }
 
+    /* ==========================================================================
+       ESTILOS DEL MINIJUEGO 15: CRUZA EL RÍO COCODRILO
+       ========================================================================== */
+    .modal-cocodrilo-card {
+      text-align: center;
+      position: relative;
+      max-width: 440px !important;
+      width: 95% !important;
+      height: min(680px, calc(100dvh - 20px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)));
+      max-height: calc(100dvh - 20px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+      min-height: 0 !important;
+      padding: 11px 12px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+    }
+    .modal-cocodrilo-card > :not(.coco-rio) {
+      flex-shrink: 0;
+    }
+    .coco-hud {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #ecfeff;
+      padding: 5px 10px;
+      border-radius: 10px;
+      margin-bottom: 5px;
+      border: 1.5px solid #a5f3fc;
+      gap: 6px;
+      font-variant-numeric: tabular-nums;
+    }
+    .coco-hud-pill {
+      font-size: 11px;
+      font-weight: 800;
+      color: #0e7490;
+      background: #ffffff;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid #67e8f9;
+      white-space: nowrap;
+    }
+    .coco-peligro-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+    .coco-peligro-txt {
+      font-size: 10.5px;
+      font-weight: 800;
+      color: #0f766e;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+    .coco-peligro-track {
+      flex: 1;
+      height: 7px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid #cbd5e1;
+    }
+    .coco-peligro-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #10b981, #f59e0b, #ef4444);
+      border-radius: 999px;
+      transition: width 0.08s linear;
+    }
+    .coco-operacion {
+      font-size: clamp(22px, 6vw, 27px);
+      font-weight: 900;
+      color: #0f766e;
+      min-height: 32px;
+      margin: 2px 0 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-variant-numeric: tabular-nums;
+    }
+    .coco-rio {
+      position: relative;
+      width: 100%;
+      flex: 1 1 0;
+      min-height: 190px;
+      border-radius: 14px;
+      overflow: hidden;
+      background:
+        repeating-linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.08) 0 18px,
+          transparent 18px 46px
+        ),
+        linear-gradient(180deg, #0284c7 0%, #0369a1 50%, #0e7490 100%);
+      background-size: 200% 100%, 100% 100%;
+      animation: cocoAguaMover 5s linear infinite;
+      border: 2.5px solid #0284c7;
+      box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.25);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    @keyframes cocoAguaMover {
+      0% { background-position: 0 0, 0 0; }
+      100% { background-position: 92px 0, 0 0; }
+    }
+    .coco-orilla {
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      z-index: 3;
+      flex-shrink: 0;
+    }
+    .coco-orilla-meta {
+      background: linear-gradient(180deg, #fde68a 0%, #facc15 100%);
+      color: #713f12;
+      border-bottom: 2px solid #ca8a04;
+    }
+    .coco-orilla-inicio {
+      background: linear-gradient(180deg, #86efac 0%, #22c55e 100%);
+      color: #052e16;
+      border-top: 2px solid #15803d;
+      min-height: 24px;
+    }
+    .coco-filas-wrap {
+      flex: 1 1 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column-reverse;
+      justify-content: space-around;
+      padding: 4px 8px;
+      gap: 3px;
+      position: relative;
+      z-index: 2;
+    }
+    .coco-carril {
+      position: relative;
+      flex: 1 1 0;
+      min-height: 30px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      align-items: center;
+      border-radius: 10px;
+      padding: 2px 4px;
+      transition: background-color 0.2s ease;
+    }
+    .coco-carril.actual {
+      background: rgba(255, 255, 255, 0.16);
+      box-shadow: inset 0 0 0 1.5px rgba(254, 240, 138, 0.65);
+    }
+    .coco-carril.superada {
+      opacity: 0.72;
+    }
+    .coco-piedra {
+      height: 100%;
+      min-height: 30px;
+      max-height: 46px;
+      border-radius: 12px;
+      border: 2px solid rgba(255, 255, 255, 0.45);
+      background: rgba(15, 23, 42, 0.35);
+      color: #e0f2fe;
+      font-size: 13px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      cursor: default;
+      transition: transform 0.12s ease, background-color 0.15s ease, border-color 0.15s ease;
+      font-variant-numeric: tabular-nums;
+      position: relative;
+    }
+    .coco-carril.actual .coco-piedra {
+      background: linear-gradient(180deg, #fef08a 0%, #f59e0b 100%);
+      color: #451a03;
+      border-color: #ffffff;
+      box-shadow: 0 3px 0 #b45309, 0 4px 10px rgba(0, 0, 0, 0.28);
+      font-size: 17px;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+    .coco-carril.actual .coco-piedra:hover {
+      transform: translateY(-1px);
+    }
+    .coco-carril.actual .coco-piedra:active {
+      transform: translateY(1px) scale(0.96);
+    }
+    .coco-piedra.elegida-ok {
+      background: linear-gradient(180deg, #4ade80 0%, #16a34a 100%) !important;
+      color: #ffffff !important;
+      border-color: #dcfce7 !important;
+      box-shadow: 0 2px 0 #14532d !important;
+    }
+    .coco-piedra.elegida-err {
+      background: linear-gradient(180deg, #f87171 0%, #dc2626 100%) !important;
+      color: #ffffff !important;
+      border-color: #fee2e2 !important;
+      animation: cocoSacudida 0.3s ease;
+    }
+    @keyframes cocoSacudida {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-4px); }
+      75% { transform: translateX(4px); }
+    }
+    .coco-croc-patrulla {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 18px;
+      pointer-events: none;
+      opacity: 0.9;
+      filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.4));
+      animation: cocoNada 1.8s ease-in-out infinite alternate;
+    }
+    @keyframes cocoNada {
+      0% { transform: translate(0, -50%) scaleX(1); }
+      100% { transform: translate(-18px, -50%) scaleX(1); }
+    }
+    .coco-jugador-ficha {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      line-height: 1;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.35));
+      animation: cocoSalto 0.45s ease-in-out infinite alternate;
+    }
+    @keyframes cocoSalto {
+      0% { transform: translateY(0) scale(1); }
+      100% { transform: translateY(-3px) scale(1.07); }
+    }
+    .coco-controles {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+      margin-bottom: 5px;
+    }
+    .coco-btn-opc {
+      min-height: 44px;
+      padding: 6px 4px;
+      border-radius: 11px;
+      border: 2px solid #0284c7;
+      background: linear-gradient(180deg, #ffffff 0%, #e0f2fe 100%);
+      color: #0c4a6e;
+      font-size: 16px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 2px 0 #0369a1;
+      font-variant-numeric: tabular-nums;
+      transition: transform 0.1s ease;
+    }
+    .coco-btn-opc:active {
+      transform: translateY(1px) scale(0.97);
+    }
+    .coco-btn-opc:disabled {
+      opacity: 0.55;
+      cursor: default;
+    }
+
+    /* ==========================================================================
+       ESTILOS DEL MINIJUEGO 16: BATALLA CONTRA EL JEFE FINAL
+       ========================================================================== */
+    .modal-jefe-card {
+      text-align: center;
+      position: relative;
+      max-width: 440px !important;
+      width: 95% !important;
+      height: min(690px, calc(100dvh - 20px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)));
+      max-height: calc(100dvh - 20px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+      min-height: 0 !important;
+      padding: 11px 12px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+    }
+    .modal-jefe-card > :not(.jefe-arena) {
+      flex-shrink: 0;
+    }
+    .jefe-hud {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fef2f2;
+      padding: 5px 10px;
+      border-radius: 10px;
+      margin-bottom: 5px;
+      border: 1.5px solid #fecaca;
+      gap: 6px;
+      font-variant-numeric: tabular-nums;
+    }
+    .jefe-hud-pill {
+      font-size: 11px;
+      font-weight: 800;
+      color: #991b1b;
+      background: #ffffff;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid #fca5a5;
+      white-space: nowrap;
+    }
+    .jefe-arena {
+      position: relative;
+      width: 100%;
+      flex: 1 1 0;
+      min-height: 175px;
+      border-radius: 14px;
+      overflow: hidden;
+      background: radial-gradient(circle at 50% 25%, #312e81 0%, #1e1b4b 55%, #0f172a 100%);
+      border: 2.5px solid #7c3aed;
+      box-shadow: inset 0 0 22px rgba(0, 0, 0, 0.45);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 8px 10px;
+      box-sizing: border-box;
+      margin-bottom: 6px;
+      color: #f8fafc;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .jefe-arena.furia {
+      background: radial-gradient(circle at 50% 25%, #7f1d1d 0%, #450a0a 58%, #0f172a 100%);
+      border-color: #ef4444;
+    }
+    .jefe-arena.sacudir {
+      animation: cocoSacudida 0.28s ease;
+    }
+    .jefe-boss-top {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      z-index: 2;
+    }
+    .jefe-boss-fila {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11.5px;
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+    }
+    .jefe-hp-track {
+      width: 100%;
+      height: 10px;
+      background: rgba(15, 23, 42, 0.85);
+      border-radius: 999px;
+      border: 1.5px solid rgba(255, 255, 255, 0.35);
+      overflow: hidden;
+    }
+    .jefe-hp-fill {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, #ef4444, #f97316, #facc15);
+      border-radius: 999px;
+      transition: width 0.22s ease;
+    }
+    .jefe-carga-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      font-weight: 800;
+      color: #fde68a;
+    }
+    .jefe-carga-track {
+      flex: 1;
+      height: 6px;
+      background: rgba(15, 23, 42, 0.8);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .jefe-carga-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #38bdf8, #f59e0b, #ef4444);
+      transition: width 0.08s linear;
+    }
+    .jefe-centro-visual {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      gap: 10px;
+      position: relative;
+      min-height: 0;
+    }
+    .jefe-combatiente {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+    }
+    .jefe-sprite {
+      font-size: clamp(46px, 11vw, 60px);
+      line-height: 1;
+      filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.55));
+      animation: jefeRespira 1.4s ease-in-out infinite alternate;
+      transition: transform 0.14s ease, filter 0.14s ease;
+    }
+    .jefe-sprite.herido {
+      transform: scale(0.86) rotate(10deg);
+      filter: brightness(1.8) drop-shadow(0 0 12px #fde047);
+    }
+    .jefe-heroe-sprite {
+      font-size: clamp(36px, 8.5vw, 46px);
+      line-height: 1;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
+      transition: transform 0.15s ease;
+    }
+    .jefe-heroe-sprite.atacando {
+      transform: translateX(18px) scale(1.15);
+    }
+    @keyframes jefeRespira {
+      0% { transform: translateY(0) scale(1); }
+      100% { transform: translateY(-5px) scale(1.04); }
+    }
+    .jefe-super-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 900;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.32);
+      color: #fde047;
+    }
+    .jefe-super-badge.listo {
+      background: linear-gradient(135deg, #f59e0b, #ef4444);
+      color: #ffffff;
+      border-color: #fef08a;
+      box-shadow: 0 0 12px rgba(250, 204, 21, 0.7);
+    }
+    .jefe-dmg-float {
+      position: absolute;
+      font-size: 16px;
+      font-weight: 900;
+      color: #fde047;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.85);
+      pointer-events: none;
+      z-index: 10;
+      animation: jefeDmgSube 0.75s ease-out forwards;
+    }
+    @keyframes jefeDmgSube {
+      0% { opacity: 1; transform: translate(-50%, 0) scale(0.9); }
+      40% { opacity: 1; transform: translate(-50%, -18px) scale(1.15); }
+      100% { opacity: 0; transform: translate(-50%, -36px) scale(0.95); }
+    }
+    .jefe-operacion {
+      font-size: clamp(22px, 6vw, 27px);
+      font-weight: 900;
+      color: #7c3aed;
+      min-height: 32px;
+      margin: 2px 0 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-variant-numeric: tabular-nums;
+    }
+    .jefe-opciones-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 7px;
+      margin-bottom: 5px;
+    }
+    .jefe-btn-ataque {
+      min-height: 46px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 2px solid #8b5cf6;
+      background: linear-gradient(180deg, #ffffff 0%, #f3e8ff 100%);
+      color: #4c1d95;
+      font-size: 18px;
+      font-weight: 900;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      box-shadow: 0 2.5px 0 #6d28d9;
+      font-variant-numeric: tabular-nums;
+      transition: transform 0.1s ease, background-color 0.12s ease;
+      touch-action: manipulation;
+    }
+    .jefe-btn-ataque:active {
+      transform: translateY(1.5px) scale(0.97);
+    }
+    .jefe-btn-ataque:disabled {
+      opacity: 0.55;
+      cursor: default;
+    }
+    .jefe-tecla-num {
+      font-size: 10px;
+      font-weight: 800;
+      background: rgba(109, 40, 217, 0.14);
+      color: #5b21b6;
+      padding: 1px 5px;
+      border-radius: 5px;
+    }
+    @media (hover: none) and (pointer: coarse) {
+      .modal-cocodrilo-card #lblCocoPcGuia,
+      .modal-jefe-card #lblJefePcGuia,
+      .modal-jefe-card .jefe-tecla-num {
+        display: none !important;
+      }
+    }
+    @media (max-width: 480px), (max-height: 760px) {
+      .modal-cocodrilo-card,
+      .modal-jefe-card {
+        padding: 9px 10px !important;
+      }
+      .coco-operacion,
+      .jefe-operacion {
+        font-size: 23px !important;
+        min-height: 28px !important;
+        margin: 1px 0 4px !important;
+      }
+      .jefe-btn-ataque,
+      .coco-btn-opc {
+        min-height: 44px;
+      }
+    }
+
     /* Estilos del Diploma de Honor */
     .diploma-marco {
       background: #fffdf5;
@@ -4511,6 +5051,48 @@
       color: #ffffff !important;
       box-shadow: 0 2px 0 #065f46 !important;
     }
+    body[data-tema="galaxia"] .coco-hud,
+    body[data-tema="galaxia"] .jefe-hud {
+      background: #1e293b !important;
+      border-color: #334155 !important;
+      color: #f8fafc !important;
+    }
+    body[data-tema="galaxia"] .coco-hud-pill,
+    body[data-tema="galaxia"] .jefe-hud-pill {
+      background: #0f172a !important;
+      border-color: #475569 !important;
+      color: #e2e8f0 !important;
+    }
+    body[data-tema="galaxia"] .coco-operacion,
+    body[data-tema="galaxia"] .jefe-operacion {
+      color: #38bdf8 !important;
+    }
+    body[data-tema="galaxia"] .coco-btn-opc,
+    body[data-tema="galaxia"] .jefe-btn-ataque {
+      background: #1e293b !important;
+      color: #f8fafc !important;
+      border-color: #38bdf8 !important;
+      box-shadow: 0 2px 0 #0369a1 !important;
+    }
+    body[data-tema="galaxia"] .jefe-tecla-num {
+      background: rgba(56, 189, 248, 0.2) !important;
+      color: #7dd3fc !important;
+    }
+    body[data-tema="esmeralda"] .coco-operacion,
+    body[data-tema="esmeralda"] .jefe-operacion {
+      color: #065f46 !important;
+    }
+    body[data-tema="esmeralda"] .coco-btn-opc,
+    body[data-tema="esmeralda"] .jefe-btn-ataque {
+      background: #ffffff !important;
+      color: #065f46 !important;
+      border-color: #10b981 !important;
+      box-shadow: 0 2px 0 #047857 !important;
+    }
+    body[data-tema="esmeralda"] .jefe-tecla-num {
+      background: rgba(16, 185, 129, 0.16) !important;
+      color: #047857 !important;
+    }
 
     /* 🔍 Tema 4: Estilo Google Limpio (Material You / Google Workspace & Search) */
     body[data-tema="google"] {
@@ -5175,6 +5757,32 @@
     body[data-tema="google"] #scoreCentroP4 {
       color: #34a853 !important;
     }
+    body[data-tema="google"] .coco-hud,
+    body[data-tema="google"] .jefe-hud {
+      background: #f8f9fa !important;
+      border-color: #dadce0 !important;
+    }
+    body[data-tema="google"] .coco-hud-pill,
+    body[data-tema="google"] .jefe-hud-pill {
+      background: #ffffff !important;
+      border-color: #dadce0 !important;
+      color: #3c4043 !important;
+    }
+    body[data-tema="google"] .coco-operacion,
+    body[data-tema="google"] .jefe-operacion {
+      color: #1a73e8 !important;
+    }
+    body[data-tema="google"] .coco-btn-opc,
+    body[data-tema="google"] .jefe-btn-ataque {
+      background: #ffffff !important;
+      color: #1a73e8 !important;
+      border-color: #dadce0 !important;
+      box-shadow: 0 1px 2px rgba(60, 64, 67, 0.12) !important;
+    }
+    body[data-tema="google"] .jefe-tecla-num {
+      background: #e8f0fe !important;
+      color: #1967d2 !important;
+    }
 
     /* Tabla Pitagórica, Insignias, Historial y Modales Auxiliares bajo Tema Google, Galaxia y Esmeralda */
     body[data-tema="google"] #pitagorasDetalle {
@@ -5628,8 +6236,8 @@
 
     <!-- Dock Flex Derecho (Centro de Minijuegos + Tienda / Cambiar Avatar + Duelo Cara a Cara) -->
     <div class="dock-lateral-ruleta" aria-label="Minijuegos y Tienda">
-      <button id="btnAbrirHubDock" class="btn-minijuego-compacto btn-hub-dock" type="button" aria-label="Centro de Minijuegos (14 juegos)" title="Centro de Minijuegos (14 juegos)">
-        🎮<span class="btn-hub-dock-badge">14</span>
+      <button id="btnAbrirHubDock" class="btn-minijuego-compacto btn-hub-dock" type="button" aria-label="Centro de Minijuegos (16 juegos)" title="Centro de Minijuegos (16 juegos)">
+        🎮<span class="btn-hub-dock-badge">16</span>
       </button>
       <button id="btnAbrirAvatares" class="btn-minijuego-compacto btn-avatar-dock" type="button" aria-label="Tienda y cambiar avatar" title="Tienda y cambiar avatar">
         <span id="avatarActualIcono">🦖</span><span class="btn-hub-dock-badge btn-avatar-dock-badge">🛍️</span>
@@ -6203,6 +6811,117 @@
 	  </div>
 	</div>
 
+	<!-- Modal de Minijuego 15: Cruza el Río Cocodrilo -->
+	<div id="modalCocodrilo" class="modal-historial" hidden>
+	  <div class="modal-contenido modal-cocodrilo-card">
+		<div class="modal-header">
+		  <span id="lblCocodriloTitulo" style="color:#0f766e; font-weight:900;">🐊 Cruza el Río Cocodrilo</span>
+		  <button id="cerrarCocodrilo" type="button" style="background:#e2e8f0; border-radius:50%; width:28px; height:28px; font-size:12px; font-weight:bold; border:none; cursor:pointer;">✕</button>
+		</div>
+
+		<div class="coco-hud">
+		  <span id="lblCocodriloVidas" style="font-size:12px; font-weight:bold; color:#0f766e;">❤️❤️❤️ Vidas: 3</span>
+		  <span id="lblCocodriloNivel" class="coco-hud-pill">🐊 Río 1 · 1/5</span>
+		  <span id="lblCocodriloPuntos" style="font-size:12px; font-weight:bold; color:#0f766e;">⭐ Puntos: 0</span>
+		</div>
+
+		<div class="coco-peligro-wrap">
+		  <span id="cocoPeligroTexto" class="coco-peligro-txt">🐊 Cocodrilo:</span>
+		  <div class="coco-peligro-track">
+			<div id="cocoPeligroBar" class="coco-peligro-fill"></div>
+		  </div>
+		</div>
+
+		<div id="cocoOperacion" class="coco-operacion">? × ? = ?</div>
+
+		<div id="cocoRioArea" class="coco-rio">
+		  <div id="cocoOrillaMeta" class="coco-orilla coco-orilla-meta">🏝️ ¡Orilla del Tesoro! 🏁</div>
+		  <div id="cocoFilasWrap" class="coco-filas-wrap"></div>
+		  <div id="cocoOrillaInicio" class="coco-orilla coco-orilla-inicio">
+			<span id="cocoJugadorSprite" class="coco-jugador-ficha">🦖</span>
+			<span id="lblCocoOrillaInicioTxt">Orilla Sur</span>
+		  </div>
+		</div>
+
+		<div class="coco-controles">
+		  <button id="btnCocoOpc0" class="coco-btn-opc" type="button" disabled>1️⃣ —</button>
+		  <button id="btnCocoOpc1" class="coco-btn-opc" type="button" disabled>2️⃣ —</button>
+		  <button id="btnCocoOpc2" class="coco-btn-opc" type="button" disabled>3️⃣ —</button>
+		</div>
+
+		<div id="lblCocoPcGuia" style="font-size:10px; color:#64748b; margin-bottom:4px; font-weight:700;">
+		  ⌨️ PC: Teclas [1] [2] [3] o ⬅️ ⬇️ ➡️ • [Espacio] Iniciar
+		</div>
+
+		<button id="btnIniciarCocodrilo" class="principal btn-modal-accion" type="button" style="background: linear-gradient(135deg, #0d9488, #0f766e); padding: 10px; font-size: 13px; font-weight: bold;">
+		  🐊 ¡Cruzar el Río!
+		</button>
+	  </div>
+	</div>
+
+	<!-- Modal de Minijuego 16: Batalla contra el Jefe Final -->
+	<div id="modalJefeFinal" class="modal-historial" hidden>
+	  <div class="modal-contenido modal-jefe-card">
+		<div class="modal-header">
+		  <span id="lblJefeTitulo" style="color:#b91c1c; font-weight:900;">🐉 Batalla contra el Jefe Final</span>
+		  <button id="cerrarJefeFinal" type="button" style="background:#e2e8f0; border-radius:50%; width:28px; height:28px; font-size:12px; font-weight:bold; border:none; cursor:pointer;">✕</button>
+		</div>
+
+		<div class="jefe-hud">
+		  <span id="lblJefeVidas" style="font-size:12px; font-weight:bold; color:#991b1b;">❤️❤️❤️ Vidas: 3</span>
+		  <span id="lblJefeEtapa" class="jefe-hud-pill">⚔️ Jefe 1/3</span>
+		  <span id="lblJefePuntos" style="font-size:12px; font-weight:bold; color:#991b1b;">⭐ Puntos: 0</span>
+		</div>
+
+		<div id="jefeArena" class="jefe-arena">
+		  <div class="jefe-boss-top">
+			<div class="jefe-boss-fila">
+			  <span id="jefeNombreTag">🐉 Dragón Numérico</span>
+			  <span id="jefeHpTexto">HP: 100/100</span>
+			</div>
+			<div class="jefe-hp-track">
+			  <div id="jefeHpFill" class="jefe-hp-fill"></div>
+			</div>
+			<div class="jefe-carga-wrap">
+			  <span id="jefeCargaTexto">⚡ Ataque Jefe:</span>
+			  <div class="jefe-carga-track">
+				<div id="jefeCargaFill" class="jefe-carga-fill"></div>
+			  </div>
+			</div>
+		  </div>
+
+		  <div class="jefe-centro-visual">
+			<div class="jefe-combatiente">
+			  <div id="jefeHeroeSprite" class="jefe-heroe-sprite">🦖</div>
+			  <span id="jefeSuperBadge" class="jefe-super-badge">⚡ 0/3</span>
+			</div>
+			<div style="font-size: 20px; font-weight: 900; color: #f87171;">VS</div>
+			<div class="jefe-combatiente">
+			  <div id="jefeSprite" class="jefe-sprite">🐉</div>
+			  <span id="jefeEstadoBadge" class="jefe-super-badge">🛡️ NORMAL</span>
+			</div>
+		  </div>
+		</div>
+
+		<div id="jefeOperacion" class="jefe-operacion">? × ? = ?</div>
+
+		<div id="jefeOpcionesGrid" class="jefe-opciones-grid">
+		  <button id="btnJefeOpc0" class="jefe-btn-ataque" type="button" disabled><span class="jefe-tecla-num">1</span><span class="jefe-opc-val">—</span></button>
+		  <button id="btnJefeOpc1" class="jefe-btn-ataque" type="button" disabled><span class="jefe-tecla-num">2</span><span class="jefe-opc-val">—</span></button>
+		  <button id="btnJefeOpc2" class="jefe-btn-ataque" type="button" disabled><span class="jefe-tecla-num">3</span><span class="jefe-opc-val">—</span></button>
+		  <button id="btnJefeOpc3" class="jefe-btn-ataque" type="button" disabled><span class="jefe-tecla-num">4</span><span class="jefe-opc-val">—</span></button>
+		</div>
+
+		<div id="lblJefePcGuia" style="font-size:10px; color:#64748b; margin-bottom:4px; font-weight:700;">
+		  ⌨️ PC: Teclas [1] [2] [3] [4] para atacar • [Espacio] Iniciar
+		</div>
+
+		<button id="btnIniciarJefeFinal" class="principal btn-modal-accion" type="button" style="background: linear-gradient(135deg, #dc2626, #7c3aed); padding: 10px; font-size: 13px; font-weight: bold;">
+		  ⚔️ ¡Desafiar al Jefe Final!
+		</button>
+	  </div>
+	</div>
+
 	<!-- Modal de Minijuego: Ajedrez Táctico 8x8 (Modular / Bot o 2P) -->
 	<div id="modalTableroMagico" class="modal-historial" hidden>
 	  <div class="modal-contenido modal-ajedrez-card" style="text-align: center; position: relative; overflow: hidden;">
@@ -6426,12 +7145,12 @@
   <div id="modalHubMinijuegos" class="modal-historial" hidden>
     <div class="modal-contenido hub-modal-card">
       <div class="modal-header" style="flex-shrink:0;">
-        <span id="lblHubTitulo">🎮 Centro Arcade (14)</span>
+        <span id="lblHubTitulo">🎮 Centro Arcade (16)</span>
         <button id="cerrarHubMinijuegos" type="button" style="background:#e2e8f0; border-radius:50%; width:28px; height:28px; font-size:12px; font-weight:bold; border:none; cursor:pointer;">✕</button>
       </div>
       <div class="hub-hero-banner">
         <span id="lblHubSubtitulo" class="hub-hero-banner-txt">🕹️ ¡Elige tu aventura matemática y bate récords!</span>
-        <span id="lblHubHeroBadge" class="hub-hero-badge">14 JUEGOS</span>
+        <span id="lblHubHeroBadge" class="hub-hero-badge">16 JUEGOS</span>
       </div>
 
       <!-- Sección Superior: Todos los botones visibles organizados por tipo de juego -->
@@ -6439,9 +7158,9 @@
         <div class="hub-cat-bloque cat-accion">
           <div class="hub-cat-titulo">
             <span id="lblHubCatAccionRapido">🕹️ Acción y Velocidad Arcade</span>
-            <span class="hub-cat-count">6</span>
+            <span class="hub-cat-count">8</span>
           </div>
-          <div class="hub-cat-grid-3">
+          <div class="hub-cat-grid-4">
             <button type="button" class="btn-hub-rapido" id="btnHubRapidoNitro">
               <span class="hub-rapido-ico">🏎️</span><span class="hub-rapido-txt">Nitro</span>
             </button>
@@ -6459,6 +7178,12 @@
             </button>
             <button type="button" class="btn-hub-rapido" id="btnHubRapidoLluvia">
               <span class="hub-rapido-ico">⭐</span><span class="hub-rapido-txt">Ninja</span>
+            </button>
+            <button type="button" class="btn-hub-rapido" id="btnHubRapidoCocodrilo">
+              <span class="hub-rapido-ico">🐊</span><span class="hub-rapido-txt">Río</span>
+            </button>
+            <button type="button" class="btn-hub-rapido" id="btnHubRapidoJefe">
+              <span class="hub-rapido-ico">🐉</span><span class="hub-rapido-txt">Jefe</span>
             </button>
           </div>
         </div>
@@ -6562,6 +7287,24 @@
           <div>
             <strong id="lblLluviaTituloHub">Salto Ninja (Lluvia de Estrellas)</strong>
             <span id="lblLluviaDesc">Corta las estrellas correctas con katana.</span>
+          </div>
+          <button type="button" class="hub-card-btn-cta">▶ Jugar</button>
+        </div>
+        <!-- Ficha Cruza el Río Cocodrilo -->
+        <div class="card-hub-juego" id="cardHubCocodrilo">
+          <div class="hub-card-icono-box" style="background:linear-gradient(135deg,#2dd4bf,#0f766e);">🐊</div>
+          <div>
+            <strong id="lblCocodriloTituloHub">Cruza el Río Cocodrilo</strong>
+            <span id="lblCocodriloDesc">Salta entre piedras flotantes antes de que el cocodrilo te alcance.</span>
+          </div>
+          <button type="button" class="hub-card-btn-cta">▶ Jugar</button>
+        </div>
+        <!-- Ficha Batalla contra el Jefe Final -->
+        <div class="card-hub-juego" id="cardHubJefeFinal">
+          <div class="hub-card-icono-box" style="background:linear-gradient(135deg,#f87171,#7c3aed);">🐉</div>
+          <div>
+            <strong id="lblJefeTituloHub">Batalla contra el Jefe Final</strong>
+            <span id="lblJefeDesc">Lanza ataques críticos multiplicando rápido para derrotar jefes épicos.</span>
           </div>
           <button type="button" class="hub-card-btn-cta">▶ Jugar</button>
         </div>
@@ -7308,7 +8051,7 @@ const i18n = {
     progresoTablaTexto: (t, n, dom) => dom ? `👑 Tabla ${t} dominada (${n}/12)` : `Tabla ${t}: ${n}/12 ⭐`,
     progresoMixtoTexto: (dom) => `✨ Mixto: ${dom}/12 tablas 👑`,
     alertaNombreFaltante: "👋 ¡Escribe tu nombre primero para girar!",
-    tooltipHubDock: "Centro de Minijuegos (12 juegos)",
+    tooltipHubDock: "Centro de Minijuegos (16 juegos)",
     confirmarReiniciar: "¿Quieres borrar los puntos, los aciertos, la racha y cambiar el nombre?",
     promptPegarCodigo: "Pega aquí tu código de texto de respaldo:",
     msjReiniciado: "Puntajes y historial reiniciados.",
@@ -7388,6 +8131,10 @@ const i18n = {
     hubFeriaDesc: "Tiro al blanco móvil o atrapa cápsulas premio con la garra.",
     hubDinoTitulo: "Dino Runner Matemático",
     hubDinoDesc: "Salta entre alturas, activa escudos y supera biomas épicos.",
+    hubCocodriloTitulo: "Cruza el Río Cocodrilo",
+    hubCocodriloDesc: "Salta entre piedras flotantes antes de que el cocodrilo te alcance.",
+    hubJefeTitulo: "Batalla contra el Jefe Final",
+    hubJefeDesc: "Lanza ataques críticos multiplicando rápido para derrotar jefes épicos.",
     hubBtnJugar: "Jugar",
     hubBtnDuelo: "Duelo",
 
@@ -7489,6 +8236,45 @@ const i18n = {
     dinoMsjChoque: "☄️ ¡Meteorito! Respuesta incorrecta",
     dinoMsjNuevoBioma: (bIdx) => bIdx === 1 ? "🌋 ¡Entraste al Valle Volcánico!" : "🌆 ¡Entraste a Ciudad Cyber-Neón!",
     dinoFinPartida: "🦖 ¡CARRERA DE DINO FINALIZADA!",
+
+    // 🐊 Cruza el Río Cocodrilo
+    cocodriloTitulo: "🐊 Cruza el Río Cocodrilo",
+    cocodriloBtnIniciar: "🐊 ¡Cruzar el Río!",
+    cocodriloBtnReintentar: "🔄 ¡Cruzar de Nuevo!",
+    cocodriloVidasTexto: (v) => `${'❤️'.repeat(v)}${'💔'.repeat(Math.max(0, 3 - v))} Vidas: ${v}`,
+    cocodriloNivelTexto: (rio, paso, total) => `🐊 Río ${rio} · ${paso}/${total}`,
+    cocodriloPuntosTexto: (p) => `⭐ Puntos: ${p}`,
+    cocodriloPeligroLabel: "🐊 Cocodrilo:",
+    cocodriloOrillaMeta: "🏝️ ¡Orilla del Tesoro! 🏁",
+    cocodriloOrillaInicio: "Orilla Sur",
+    cocodriloListo: "🐊 ¡Salta hacia el tesoro!",
+    cocodriloPcGuia: "⌨️ PC: Teclas [1] [2] [3] o ⬅️ ⬇️ ➡️ • [Espacio] Iniciar",
+    cocodriloMsjSalto: (pts) => `🪵 ¡Salto seguro! +${pts} ⭐`,
+    cocodriloMsjRioSuperado: (rio) => `🏝️ ¡RÍO ${rio} CRUZADO! +35 ⭐`,
+    cocodriloMsjMordida: "🐊 ¡Chomp! Piedra incorrecta",
+    cocodriloMsjTiempo: "🐊 ¡Te alcanzó el cocodrilo!",
+    cocodriloFinPartida: "🐊 ¡FIN DE LA TRAVESÍA!",
+
+    // 🐉 Batalla contra el Jefe Final
+    jefeTitulo: "🐉 Batalla contra el Jefe Final",
+    jefeBtnIniciar: "⚔️ ¡Desafiar al Jefe Final!",
+    jefeBtnReintentar: "🔄 ¡Batallar de Nuevo!",
+    jefeVidasTexto: (v) => `${'❤️'.repeat(v)}${'💔'.repeat(Math.max(0, 3 - v))} Vidas: ${v}`,
+    jefeEtapaTexto: (n) => `⚔️ Jefe ${n}`,
+    jefePuntosTexto: (p) => `⭐ Puntos: ${p}`,
+    jefeCargaLabel: "⚡ Ataque Jefe:",
+    jefeListo: "⚔️ ¡Prepárate para la batalla!",
+    jefePcGuia: "⌨️ PC: Teclas [1] [2] [3] [4] para atacar • [Espacio] Iniciar",
+    jefeNombres: ["🐉 Dragón Numérico", "🗿 Gólem de Hierro", "👾 Titán Galáctico"],
+    jefeEstadoNormal: "🛡️ NORMAL",
+    jefeEstadoFuria: "🔥 ¡FURIA!",
+    jefeSuperListo: "⚡ ¡SUPER x2!",
+    jefeMsjSuper: (dmg) => `⚡ ¡GOLPE CRÍTICO! -${dmg} HP`,
+    jefeMsjFuria: "🔥 ¡El Jefe entró en FURIA!",
+    jefeMsjEscudoRoto: "💥 ¡El Jefe te atacó! -1 ❤️",
+    jefeMsjFallo: "❌ ¡Ataque bloqueado! -1 ❤️",
+    jefeMsjDerrotado: (nom) => `🏆 ¡${nom} DERROTADO! +50 ⭐`,
+    jefeFinPartida: "🏁 ¡BATALLA FINALIZADA!",
 
     // 📊 Tabla Pitagórica
     pitagorasTitulo: "📊 Tabla Pitagórica Interactiva",
@@ -7596,8 +8382,8 @@ const i18n = {
 
     // Tooltips y accesibilidad
     tooltipHub: "Centro de Minijuegos",
-    tooltipHubDock: "Centro de Minijuegos (14 juegos)",
-    btnAbrirHubModal: "🎮 Centro de Minijuegos (14 juegos)",
+    tooltipHubDock: "Centro de Minijuegos (16 juegos)",
+    btnAbrirHubModal: "🎮 Centro de Minijuegos (16 juegos)",
     tooltipNitro: "Minijuego: Carrera de Nitro",
     tooltipGalactica: "Minijuego: Defensa Galáctica",
     tooltipFeria: "Minijuego: Tiro al Blanco y Garra Arcade",
@@ -7794,7 +8580,7 @@ const i18n = {
     progresoTablaTexto: (t, n, dom) => dom ? `👑 Table ${t} mastered (${n}/12)` : `Table ${t}: ${n}/12 ⭐`,
     progresoMixtoTexto: (dom) => `✨ Mixed: ${dom}/12 tables 👑`,
     alertaNombreFaltante: "👋 Please type your name before spinning!",
-    tooltipHubDock: "Minigames Hub (12 games)",
+    tooltipHubDock: "Minigames Hub (16 games)",
     confirmarReiniciar: "Do you want to clear scores, correct answers, streak and change name?",
     promptPegarCodigo: "Paste your text backup code here:",
     msjReiniciado: "Scores reset.",
@@ -7874,6 +8660,10 @@ const i18n = {
     hubFeriaDesc: "Pop moving booth targets or grab prize capsules with the claw.",
     hubDinoTitulo: "Math Dino Runner",
     hubDinoDesc: "Leap across 3 height lanes, activate shields, and conquer biomes.",
+    hubCocodriloTitulo: "Crocodile River Crossing",
+    hubCocodriloDesc: "Hop across floating stones before the crocodile catches up.",
+    hubJefeTitulo: "Final Boss Battle",
+    hubJefeDesc: "Unleash critical math strikes fast to defeat epic bosses.",
     hubBtnJugar: "Play",
     hubBtnDuelo: "Duel",
 
@@ -7975,6 +8765,45 @@ const i18n = {
     dinoMsjChoque: "☄️ Meteor hit! Wrong gate",
     dinoMsjNuevoBioma: (bIdx) => bIdx === 1 ? "🌋 Entered Volcanic Valley!" : "🌆 Entered Cyber Neon City!",
     dinoFinPartida: "🦖 DINO RUN FINISHED!",
+
+    // 🐊 Crocodile River Crossing
+    cocodriloTitulo: "🐊 Crocodile River Crossing",
+    cocodriloBtnIniciar: "🐊 Cross the River!",
+    cocodriloBtnReintentar: "🔄 Cross Again!",
+    cocodriloVidasTexto: (v) => `${'❤️'.repeat(v)}${'💔'.repeat(Math.max(0, 3 - v))} Lives: ${v}`,
+    cocodriloNivelTexto: (rio, paso, total) => `🐊 River ${rio} · ${paso}/${total}`,
+    cocodriloPuntosTexto: (p) => `⭐ Points: ${p}`,
+    cocodriloPeligroLabel: "🐊 Crocodile:",
+    cocodriloOrillaMeta: "🏝️ Treasure Shore! 🏁",
+    cocodriloOrillaInicio: "South Bank",
+    cocodriloListo: "🐊 Leap toward the treasure!",
+    cocodriloPcGuia: "⌨️ PC: Keys [1] [2] [3] or ⬅️ ⬇️ ➡️ • [Space] Start",
+    cocodriloMsjSalto: (pts) => `🪵 Safe hop! +${pts} ⭐`,
+    cocodriloMsjRioSuperado: (rio) => `🏝️ RIVER ${rio} CLEARED! +35 ⭐`,
+    cocodriloMsjMordida: "🐊 Chomp! Wrong stone",
+    cocodriloMsjTiempo: "🐊 Caught by the crocodile!",
+    cocodriloFinPartida: "🐊 CROSSING FINISHED!",
+
+    // 🐉 Final Boss Battle
+    jefeTitulo: "🐉 Final Boss Battle",
+    jefeBtnIniciar: "⚔️ Challenge Final Boss!",
+    jefeBtnReintentar: "🔄 Fight Again!",
+    jefeVidasTexto: (v) => `${'❤️'.repeat(v)}${'💔'.repeat(Math.max(0, 3 - v))} Lives: ${v}`,
+    jefeEtapaTexto: (n) => `⚔️ Boss ${n}`,
+    jefePuntosTexto: (p) => `⭐ Points: ${p}`,
+    jefeCargaLabel: "⚡ Boss Charge:",
+    jefeListo: "⚔️ Prepare for boss battle!",
+    jefePcGuia: "⌨️ PC: Keys [1] [2] [3] [4] to strike • [Space] Start",
+    jefeNombres: ["🐉 Number Dragon", "🗿 Iron Golem", "👾 Galactic Titan"],
+    jefeEstadoNormal: "🛡️ NORMAL",
+    jefeEstadoFuria: "🔥 RAGE!",
+    jefeSuperListo: "⚡ SUPER x2!",
+    jefeMsjSuper: (dmg) => `⚡ CRITICAL HIT! -${dmg} HP`,
+    jefeMsjFuria: "🔥 The Boss entered RAGE mode!",
+    jefeMsjEscudoRoto: "💥 Boss struck you! -1 ❤️",
+    jefeMsjFallo: "❌ Attack blocked! -1 ❤️",
+    jefeMsjDerrotado: (nom) => `🏆 ${nom} DEFEATED! +50 ⭐`,
+    jefeFinPartida: "🏁 BATTLE FINISHED!",
 
     // 📊 Pythagorean Table
     pitagorasTitulo: "📊 Interactive Pythagorean Table",
@@ -8082,8 +8911,8 @@ const i18n = {
 
     // Tooltips & Accessibility
     tooltipHub: "Minigames Hub",
-    tooltipHubDock: "Minigames Hub (14 games)",
-    btnAbrirHubModal: "🎮 Minigames Hub (14 games)",
+    tooltipHubDock: "Minigames Hub (16 games)",
+    btnAbrirHubModal: "🎮 Minigames Hub (16 games)",
     tooltipNitro: "Minigame: Nitro Racing Rush",
     tooltipGalactica: "Minigame: Galactic Math Defender",
     tooltipFeria: "Minigame: Math Carnival & Arcade Claw",
@@ -8544,8 +9373,8 @@ function actualizarControlesRapidosRuletaUI() {
   }
   const btnHubDock = document.getElementById("btnAbrirHubDock");
   if (btnHubDock) {
-    btnHubDock.setAttribute("title", t.tooltipHubDock || "Centro Arcade (14 juegos)");
-    btnHubDock.setAttribute("aria-label", t.tooltipHubDock || "Centro Arcade (14 juegos)");
+    btnHubDock.setAttribute("title", t.tooltipHubDock || "Centro Arcade (16 juegos)");
+    btnHubDock.setAttribute("aria-label", t.tooltipHubDock || "Centro Arcade (16 juegos)");
   }
   const btnDueloDock = document.getElementById("btnCaraACara");
   if (btnDueloDock) {
@@ -8600,7 +9429,7 @@ function actualizarTextosUI() {
   // 3. Tooltips de controles superiores
   const btnAbrirHubEl = document.getElementById("btnAbrirHub");
   if (btnAbrirHubEl) {
-    btnAbrirHubEl.textContent = t.btnAbrirHubModal || (idiomaActual === "es" ? "🎮 Centro de Minijuegos (10 juegos)" : "🎮 Minigames Hub (10 games)");
+    btnAbrirHubEl.textContent = t.btnAbrirHubModal || (idiomaActual === "es" ? "🎮 Centro de Minijuegos (16 juegos)" : "🎮 Minigames Hub (16 games)");
     btnAbrirHubEl.setAttribute("title", t.tooltipHub || (idiomaActual === "es" ? "Centro de Minijuegos" : "Minigames Hub"));
   }
   const btnAbrirPitagorasEl = document.getElementById("btnAbrirPitagoras");
@@ -8684,6 +9513,16 @@ function actualizarTextosUI() {
   if (lblDinoTituloHub) lblDinoTituloHub.textContent = t.hubDinoTitulo;
   const lblDinoDesc = document.getElementById("lblDinoDesc");
   if (lblDinoDesc) lblDinoDesc.textContent = t.hubDinoDesc;
+
+  const lblCocodriloTituloHub = document.getElementById("lblCocodriloTituloHub");
+  if (lblCocodriloTituloHub && t.hubCocodriloTitulo) lblCocodriloTituloHub.textContent = t.hubCocodriloTitulo;
+  const lblCocodriloDesc = document.getElementById("lblCocodriloDesc");
+  if (lblCocodriloDesc && t.hubCocodriloDesc) lblCocodriloDesc.textContent = t.hubCocodriloDesc;
+
+  const lblJefeTituloHub = document.getElementById("lblJefeTituloHub");
+  if (lblJefeTituloHub && t.hubJefeTitulo) lblJefeTituloHub.textContent = t.hubJefeTitulo;
+  const lblJefeDesc = document.getElementById("lblJefeDesc");
+  if (lblJefeDesc && t.hubJefeDesc) lblJefeDesc.textContent = t.hubJefeDesc;
 
   // Actualizar títulos de cabecera de los modales de minijuegos
   const lblGlobosTitulo = document.getElementById("lblGlobosTitulo");
@@ -8775,6 +9614,34 @@ function actualizarTextosUI() {
   if (btnIniciarDinoEl && (typeof dinoActivo === "undefined" || !dinoActivo)) {
     btnIniciarDinoEl.textContent = t.dinoBtnIniciar;
   }
+
+  const lblCocodriloTitulo = document.getElementById("lblCocodriloTitulo");
+  if (lblCocodriloTitulo && t.cocodriloTitulo) lblCocodriloTitulo.textContent = t.cocodriloTitulo;
+  const cocoPeligroTextoEl = document.getElementById("cocoPeligroTexto");
+  if (cocoPeligroTextoEl && t.cocodriloPeligroLabel) cocoPeligroTextoEl.textContent = t.cocodriloPeligroLabel;
+  const cocoOrillaMetaEl = document.getElementById("cocoOrillaMeta");
+  if (cocoOrillaMetaEl && t.cocodriloOrillaMeta) cocoOrillaMetaEl.textContent = t.cocodriloOrillaMeta;
+  const lblCocoOrillaInicioTxtEl = document.getElementById("lblCocoOrillaInicioTxt");
+  if (lblCocoOrillaInicioTxtEl && t.cocodriloOrillaInicio) lblCocoOrillaInicioTxtEl.textContent = t.cocodriloOrillaInicio;
+  const lblCocoPcGuiaEl = document.getElementById("lblCocoPcGuia");
+  if (lblCocoPcGuiaEl && t.cocodriloPcGuia) lblCocoPcGuiaEl.textContent = t.cocodriloPcGuia;
+  const btnIniciarCocodriloEl = document.getElementById("btnIniciarCocodrilo");
+  if (btnIniciarCocodriloEl && (typeof cocoActivo === "undefined" || !cocoActivo)) {
+    btnIniciarCocodriloEl.textContent = t.cocodriloBtnIniciar;
+  }
+  if (typeof actualizarHudCocodrilo === "function") actualizarHudCocodrilo();
+
+  const lblJefeTitulo = document.getElementById("lblJefeTitulo");
+  if (lblJefeTitulo && t.jefeTitulo) lblJefeTitulo.textContent = t.jefeTitulo;
+  const jefeCargaTextoEl = document.getElementById("jefeCargaTexto");
+  if (jefeCargaTextoEl && t.jefeCargaLabel) jefeCargaTextoEl.textContent = t.jefeCargaLabel;
+  const lblJefePcGuiaEl = document.getElementById("lblJefePcGuia");
+  if (lblJefePcGuiaEl && t.jefePcGuia) lblJefePcGuiaEl.textContent = t.jefePcGuia;
+  const btnIniciarJefeFinalEl = document.getElementById("btnIniciarJefeFinal");
+  if (btnIniciarJefeFinalEl && (typeof jefeActivo === "undefined" || !jefeActivo)) {
+    btnIniciarJefeFinalEl.textContent = t.jefeBtnIniciar;
+  }
+  if (typeof actualizarHudJefeFinal === "function") actualizarHudJefeFinal();
 
   const cardsHub = document.querySelectorAll("#modalHubMinijuegos .card-hub-juego button");
   cardsHub.forEach(btn => {
@@ -9689,6 +10556,144 @@ function reproducirSonido(tipo, extra = 1) {
       gainM.connect(ctxAudio.destination);
       oscM.start(now);
       oscM.stop(now + 0.34);
+      return;
+    }
+
+    if (tipo === "saltoAgua") {
+      // 🐊 Salto sobre piedra flotante con chapoteo limpio de agua
+      const oscW = ctxAudio.createOscillator();
+      const gainW = ctxAudio.createGain();
+      oscW.type = "sine";
+      oscW.frequency.setValueAtTime(320, now);
+      oscW.frequency.exponentialRampToValueAtTime(760, now + 0.13);
+      gainW.gain.setValueAtTime(0.28, now);
+      gainW.gain.exponentialRampToValueAtTime(0.005, now + 0.14);
+      oscW.connect(gainW);
+      gainW.connect(ctxAudio.destination);
+      oscW.start(now);
+      oscW.stop(now + 0.14);
+
+      const bSize = Math.floor(ctxAudio.sampleRate * 0.12);
+      const bBuff = ctxAudio.createBuffer(1, bSize, ctxAudio.sampleRate);
+      const bData = bBuff.getChannelData(0);
+      for (let i = 0; i < bSize; i++) bData[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bSize * 0.3));
+      const bSrc = ctxAudio.createBufferSource();
+      bSrc.buffer = bBuff;
+      const bFilt = ctxAudio.createBiquadFilter();
+      bFilt.type = "bandpass";
+      bFilt.frequency.setValueAtTime(1200, now + 0.04);
+      bFilt.frequency.exponentialRampToValueAtTime(2400, now + 0.14);
+      const bGain = ctxAudio.createGain();
+      bGain.gain.setValueAtTime(0.22, now + 0.04);
+      bGain.gain.exponentialRampToValueAtTime(0.005, now + 0.15);
+      bSrc.connect(bFilt);
+      bFilt.connect(bGain);
+      bGain.connect(ctxAudio.destination);
+      bSrc.start(now + 0.04);
+      bSrc.stop(now + 0.15);
+      return;
+    }
+
+    if (tipo === "mordidaCocodrilo") {
+      // 🐊 Mordida de cocodrilo y chapuzón fuerte
+      const oscC = ctxAudio.createOscillator();
+      const gainC = ctxAudio.createGain();
+      oscC.type = "square";
+      oscC.frequency.setValueAtTime(240, now);
+      oscC.frequency.exponentialRampToValueAtTime(55, now + 0.18);
+      gainC.gain.setValueAtTime(0.36, now);
+      gainC.gain.exponentialRampToValueAtTime(0.006, now + 0.2);
+      oscC.connect(gainC);
+      gainC.connect(ctxAudio.destination);
+      oscC.start(now);
+      oscC.stop(now + 0.2);
+
+      const bSize = Math.floor(ctxAudio.sampleRate * 0.24);
+      const bBuff = ctxAudio.createBuffer(1, bSize, ctxAudio.sampleRate);
+      const bData = bBuff.getChannelData(0);
+      for (let i = 0; i < bSize; i++) bData[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bSize * 0.35));
+      const bSrc = ctxAudio.createBufferSource();
+      bSrc.buffer = bBuff;
+      const bFilt = ctxAudio.createBiquadFilter();
+      bFilt.type = "lowpass";
+      bFilt.frequency.setValueAtTime(950, now);
+      bFilt.frequency.exponentialRampToValueAtTime(180, now + 0.24);
+      const bGain = ctxAudio.createGain();
+      bGain.gain.setValueAtTime(0.42, now);
+      bGain.gain.exponentialRampToValueAtTime(0.005, now + 0.24);
+      bSrc.connect(bFilt);
+      bFilt.connect(bGain);
+      bGain.connect(ctxAudio.destination);
+      bSrc.start(now);
+      bSrc.stop(now + 0.24);
+      return;
+    }
+
+    if (tipo === "orillaRio") {
+      // 🏝️ Fanfarria tropical al cruzar la orilla del río
+      [523.25, 659.25, 783.99, 1046.5].forEach((f, idx) => {
+        const oscR = ctxAudio.createOscillator();
+        const gainR = ctxAudio.createGain();
+        oscR.type = "triangle";
+        const tInicio = now + idx * 0.065;
+        oscR.frequency.setValueAtTime(f, tInicio);
+        gainR.gain.setValueAtTime(0.30, tInicio);
+        gainR.gain.exponentialRampToValueAtTime(0.006, tInicio + 0.24);
+        oscR.connect(gainR);
+        gainR.connect(ctxAudio.destination);
+        oscR.start(tInicio);
+        oscR.stop(tInicio + 0.24);
+      });
+      return;
+    }
+
+    if (tipo === "golpeJefe") {
+      // ⚔️ Impacto veloz de ataque contra el Jefe Final
+      const oscG = ctxAudio.createOscillator();
+      const gainG = ctxAudio.createGain();
+      oscG.type = "sawtooth";
+      oscG.frequency.setValueAtTime(660, now);
+      oscG.frequency.exponentialRampToValueAtTime(140, now + 0.14);
+      gainG.gain.setValueAtTime(0.36, now);
+      gainG.gain.exponentialRampToValueAtTime(0.006, now + 0.15);
+      oscG.connect(gainG);
+      gainG.connect(ctxAudio.destination);
+      oscG.start(now);
+      oscG.stop(now + 0.15);
+      return;
+    }
+
+    if (tipo === "superGolpeJefe") {
+      // ⚡ Súper golpe crítico x2 contra el Jefe Final
+      [440, 659.25, 880, 1318.51].forEach((f, idx) => {
+        const oscS = ctxAudio.createOscillator();
+        const gainS = ctxAudio.createGain();
+        oscS.type = idx % 2 === 0 ? "sawtooth" : "triangle";
+        const tInicio = now + idx * 0.035;
+        oscS.frequency.setValueAtTime(f, tInicio);
+        gainS.gain.setValueAtTime(0.34, tInicio);
+        gainS.gain.exponentialRampToValueAtTime(0.006, tInicio + 0.22);
+        oscS.connect(gainS);
+        gainS.connect(ctxAudio.destination);
+        oscS.start(tInicio);
+        oscS.stop(tInicio + 0.22);
+      });
+      return;
+    }
+
+    if (tipo === "rugidoJefe") {
+      // 🐉 Rugido / contraataque grave del Jefe Final
+      const oscJ = ctxAudio.createOscillator();
+      const gainJ = ctxAudio.createGain();
+      oscJ.type = "sawtooth";
+      oscJ.frequency.setValueAtTime(145, now);
+      oscJ.frequency.exponentialRampToValueAtTime(48, now + 0.36);
+      gainJ.gain.setValueAtTime(0.45, now);
+      gainJ.gain.exponentialRampToValueAtTime(0.008, now + 0.38);
+      oscJ.connect(gainJ);
+      gainJ.connect(ctxAudio.destination);
+      oscJ.start(now);
+      oscJ.stop(now + 0.38);
       return;
     }
 
@@ -16472,6 +17477,652 @@ window.addEventListener("keydown", (e) => {
   }
 });
 
+// ---------------------------------------------------------------------------
+// LÓGICA DEL MINIJUEGO 15: 🐊 CRUZA EL RÍO COCODRILO
+// ---------------------------------------------------------------------------
+const modalCocodrilo = document.getElementById("modalCocodrilo");
+const cerrarCocodrilo = document.getElementById("cerrarCocodrilo");
+const lblCocodriloVidas = document.getElementById("lblCocodriloVidas");
+const lblCocodriloNivel = document.getElementById("lblCocodriloNivel");
+const lblCocodriloPuntos = document.getElementById("lblCocodriloPuntos");
+const cocoPeligroBar = document.getElementById("cocoPeligroBar");
+const cocoOperacion = document.getElementById("cocoOperacion");
+const cocoFilasWrap = document.getElementById("cocoFilasWrap");
+const cocoJugadorSprite = document.getElementById("cocoJugadorSprite");
+const btnCocoOpc0 = document.getElementById("btnCocoOpc0");
+const btnCocoOpc1 = document.getElementById("btnCocoOpc1");
+const btnCocoOpc2 = document.getElementById("btnCocoOpc2");
+const btnIniciarCocodrilo = document.getElementById("btnIniciarCocodrilo");
+
+const COCO_PASOS_TOTAL = 5;
+let cocoActivo = false;
+let cocoVidas = 3;
+let cocoPuntos = 0;
+let cocoRio = 1;
+let cocoPaso = 0; // 0..4 (0 = primer carril, 5 = orilla meta)
+let cocoCorrecta = 0;
+let cocoOpcionesActuales = [];
+let cocoRondaBloqueada = false;
+let cocoPeligroPct = 0;
+let cocoAnimFrameId = null;
+let cocoUltimoTick = 0;
+let cocoTimeouts = [];
+
+function detenerCocodriloLoop() {
+  cocoActivo = false;
+  if (cocoAnimFrameId) {
+    cancelAnimationFrame(cocoAnimFrameId);
+    cocoAnimFrameId = null;
+  }
+  cocoTimeouts.forEach(id => clearTimeout(id));
+  cocoTimeouts = [];
+}
+
+function actualizarBotonesCocodrilo() {
+  const btns = [btnCocoOpc0, btnCocoOpc1, btnCocoOpc2];
+  const nums = ["1️⃣", "2️⃣", "3️⃣"];
+  btns.forEach((b, idx) => {
+    if (!b) return;
+    const val = cocoOpcionesActuales[idx];
+    b.textContent = typeof val === "number" ? `${nums[idx]} ${val}` : `${nums[idx]} —`;
+    b.disabled = !cocoActivo || cocoRondaBloqueada || typeof val !== "number";
+  });
+}
+
+function actualizarHudCocodrilo() {
+  const t = i18n[idiomaActual] || i18n.es;
+  if (lblCocodriloVidas) {
+    lblCocodriloVidas.textContent = t.cocodriloVidasTexto
+      ? t.cocodriloVidasTexto(Math.max(0, cocoVidas))
+      : `Vidas: ${cocoVidas}`;
+  }
+  if (lblCocodriloNivel) {
+    const pasoMostrar = Math.min(COCO_PASOS_TOTAL, cocoPaso + 1);
+    lblCocodriloNivel.textContent = t.cocodriloNivelTexto
+      ? t.cocodriloNivelTexto(cocoRio, pasoMostrar, COCO_PASOS_TOTAL)
+      : `🐊 ${cocoRio} · ${pasoMostrar}/${COCO_PASOS_TOTAL}`;
+  }
+  if (lblCocodriloPuntos) {
+    lblCocodriloPuntos.textContent = t.cocodriloPuntosTexto
+      ? t.cocodriloPuntosTexto(cocoPuntos)
+      : `⭐ ${cocoPuntos}`;
+  }
+  if (cocoPeligroBar) {
+    cocoPeligroBar.style.width = `${Math.max(0, Math.min(100, cocoPeligroPct)).toFixed(1)}%`;
+  }
+  if (cocoJugadorSprite) {
+    cocoJugadorSprite.textContent = avatarActual || "🦖";
+  }
+}
+
+function renderizarRioCocodrilo() {
+  if (!cocoFilasWrap) return;
+  cocoFilasWrap.replaceChildren();
+  for (let fila = 0; fila < COCO_PASOS_TOTAL; fila++) {
+    const carril = document.createElement("div");
+    carril.className = "coco-carril";
+    if (cocoActivo && fila === cocoPaso) carril.classList.add("actual");
+    else if (fila < cocoPaso) carril.classList.add("superada");
+
+    for (let col = 0; col < 3; col++) {
+      const piedra = document.createElement("button");
+      piedra.type = "button";
+      piedra.className = "coco-piedra";
+      if (cocoActivo && fila === cocoPaso) {
+        const val = cocoOpcionesActuales[col];
+        piedra.textContent = typeof val === "number" ? String(val) : "🪵";
+        piedra.addEventListener("click", () => elegirPiedraCocodrilo(col, piedra));
+      } else if (fila < cocoPaso) {
+        piedra.textContent = col === 1 ? (avatarActual && fila === cocoPaso - 1 ? avatarActual : "✅") : "🪷";
+        piedra.disabled = true;
+      } else {
+        piedra.textContent = "🪵";
+        piedra.disabled = true;
+      }
+      carril.appendChild(piedra);
+    }
+
+    if (fila !== cocoPaso || !cocoActivo) {
+      if ((fila + cocoRio) % 2 === 0) {
+        const croc = document.createElement("span");
+        croc.className = "coco-croc-patrulla";
+        croc.textContent = "🐊";
+        carril.appendChild(croc);
+      }
+    }
+    cocoFilasWrap.appendChild(carril);
+  }
+  if (cocoJugadorSprite) {
+    cocoJugadorSprite.style.visibility = (!cocoActivo || cocoPaso === 0) ? "visible" : "hidden";
+  }
+}
+
+function reiniciarCocodriloUI() {
+  detenerCocodriloLoop();
+  cocoVidas = 3;
+  cocoPuntos = 0;
+  cocoRio = 1;
+  cocoPaso = 0;
+  cocoOpcionesActuales = [];
+  cocoRondaBloqueada = false;
+  cocoPeligroPct = 0;
+  const t = i18n[idiomaActual] || i18n.es;
+  if (cocoOperacion) cocoOperacion.textContent = t.cocodriloListo || "🐊 ¡Salta hacia el tesoro!";
+  if (btnIniciarCocodrilo) {
+    btnIniciarCocodrilo.style.display = "block";
+    btnIniciarCocodrilo.textContent = t.cocodriloBtnIniciar || "🐊 ¡Cruzar el Río!";
+  }
+  renderizarRioCocodrilo();
+  actualizarBotonesCocodrilo();
+  actualizarHudCocodrilo();
+}
+
+function abrirCocodriloJuego() {
+  if (!modalCocodrilo) return;
+  reproducirSonido("click");
+  reiniciarCocodriloUI();
+  modalCocodrilo.hidden = false;
+}
+
+function siguienteSaltoCocodrilo() {
+  if (!cocoActivo || cocoVidas <= 0) return;
+  cocoRondaBloqueada = false;
+  cocoPeligroPct = 0;
+  const { tTabla, fFactor, resp, opciones } = generarOperacionYSetFeria(3);
+  cocoCorrecta = resp;
+  cocoOpcionesActuales = opciones;
+  if (cocoOperacion) cocoOperacion.textContent = `${tTabla} × ${fFactor} = ?`;
+  renderizarRioCocodrilo();
+  actualizarBotonesCocodrilo();
+  actualizarHudCocodrilo();
+}
+
+function elegirPiedraCocodrilo(colIdx, piedraEl) {
+  if (!cocoActivo || cocoRondaBloqueada) return;
+  const valor = cocoOpcionesActuales[colIdx];
+  if (typeof valor !== "number") return;
+  cocoRondaBloqueada = true;
+  actualizarBotonesCocodrilo();
+  const t = i18n[idiomaActual] || i18n.es;
+
+  const carrilActual = cocoFilasWrap ? cocoFilasWrap.children[cocoPaso] : null;
+  const piedraObjetivo = piedraEl || (carrilActual ? carrilActual.children[colIdx] : null);
+
+  if (valor === cocoCorrecta) {
+    const bonoRapidez = cocoPeligroPct < 45 ? 10 : (cocoPeligroPct < 75 ? 5 : 0);
+    const pts = 15 + bonoRapidez;
+    cocoPuntos += pts;
+    puntos += pts;
+    aciertos++;
+    if (piedraObjetivo) piedraObjetivo.classList.add("elegida-ok");
+    cocoPaso++;
+
+    if (cocoPaso >= COCO_PASOS_TOTAL) {
+      cocoPuntos += 35;
+      puntos += 35;
+      reproducirSonido("orillaRio");
+      vibrar([40, 30, 70]);
+      mostrarTextoFlotante(t.cocodriloMsjRioSuperado ? t.cocodriloMsjRioSuperado(cocoRio) : `🏝️ +35 ⭐`, true, "34%");
+      cocoRio++;
+      cocoPaso = 0;
+    } else {
+      reproducirSonido("saltoAgua");
+      vibrar(35);
+      mostrarTextoFlotante(t.cocodriloMsjSalto ? t.cocodriloMsjSalto(pts) : `🪵 +${pts} ⭐`, true, "36%");
+    }
+
+    actualizarHudCocodrilo();
+    actualizarEstadisticas();
+    guardarPuntajes();
+    verificarInsignias();
+
+    const tid = setTimeout(() => {
+      if (cocoActivo && cocoVidas > 0) siguienteSaltoCocodrilo();
+    }, 480);
+    cocoTimeouts.push(tid);
+  } else {
+    if (piedraObjetivo) piedraObjetivo.classList.add("elegida-err");
+    perderVidaCocodrilo(t.cocodriloMsjMordida);
+  }
+}
+
+function perderVidaCocodrilo(motivo) {
+  cocoVidas--;
+  reproducirSonido("mordidaCocodrilo");
+  vibrar(130);
+  actualizarHudCocodrilo();
+
+  if (cocoVidas <= 0) {
+    finalizarCocodriloJuego();
+    return;
+  }
+  mostrarTextoFlotante(motivo || "🐊 -1 ❤️", false, "36%");
+  const tid = setTimeout(() => {
+    if (cocoActivo && cocoVidas > 0) siguienteSaltoCocodrilo();
+  }, 560);
+  cocoTimeouts.push(tid);
+}
+
+function finalizarCocodriloJuego() {
+  detenerCocodriloLoop();
+  const t = i18n[idiomaActual] || i18n.es;
+  if (cocoOperacion) cocoOperacion.textContent = t.cocodriloFinPartida || "🐊 ¡FIN DE LA TRAVESÍA!";
+  actualizarBotonesCocodrilo();
+  reproducirSonido("victoria");
+  dispararConfetiVictoria();
+  mostrarTextoFlotante(`🐊 ${cocoPuntos} ⭐`, true, "34%");
+  if (btnIniciarCocodrilo) {
+    btnIniciarCocodrilo.style.display = "block";
+    btnIniciarCocodrilo.textContent = t.cocodriloBtnReintentar || "🔄 ¡Cruzar de Nuevo!";
+  }
+}
+
+function bucleCocodriloAnimacion(ts) {
+  if (!cocoActivo) return;
+  if (!cocoUltimoTick) cocoUltimoTick = ts;
+  const dt = Math.min(0.08, (ts - cocoUltimoTick) / 1000);
+  cocoUltimoTick = ts;
+
+  if (!cocoRondaBloqueada) {
+    const duracionSeg = Math.max(3.6, 8.5 - (cocoRio - 1) * 0.75);
+    cocoPeligroPct += (dt / duracionSeg) * 100;
+    if (cocoPeligroBar) {
+      cocoPeligroBar.style.width = `${Math.min(100, cocoPeligroPct).toFixed(1)}%`;
+    }
+    if (cocoPeligroPct >= 100) {
+      cocoRondaBloqueada = true;
+      actualizarBotonesCocodrilo();
+      const t = i18n[idiomaActual] || i18n.es;
+      perderVidaCocodrilo(t.cocodriloMsjTiempo);
+    }
+  }
+  cocoAnimFrameId = requestAnimationFrame(bucleCocodriloAnimacion);
+}
+
+function iniciarCocodriloJuego() {
+  reproducirSonido("saltoAgua");
+  if (btnIniciarCocodrilo) btnIniciarCocodrilo.style.display = "none";
+  cocoVidas = 3;
+  cocoPuntos = 0;
+  cocoRio = 1;
+  cocoPaso = 0;
+  cocoPeligroPct = 0;
+  cocoRondaBloqueada = false;
+  cocoUltimoTick = 0;
+  cocoActivo = true;
+  siguienteSaltoCocodrilo();
+  cocoAnimFrameId = requestAnimationFrame(bucleCocodriloAnimacion);
+}
+
+if (cerrarCocodrilo) cerrarCocodrilo.addEventListener("click", () => { if (modalCocodrilo) modalCocodrilo.hidden = true; detenerCocodriloLoop(); });
+if (btnIniciarCocodrilo) btnIniciarCocodrilo.addEventListener("click", iniciarCocodriloJuego);
+[btnCocoOpc0, btnCocoOpc1, btnCocoOpc2].forEach((b, idx) => {
+  if (b) b.addEventListener("click", () => elegirPiedraCocodrilo(idx, null));
+});
+
+window.addEventListener("keydown", (e) => {
+  if (!modalCocodrilo || modalCocodrilo.hidden) return;
+  if (["ArrowLeft", "ArrowDown", "ArrowRight", "Space"].includes(e.code) || e.key === " ") {
+    e.preventDefault();
+  }
+  if ((e.code === "Space" || e.key === "Enter") && !cocoActivo) {
+    iniciarCocodriloJuego();
+    return;
+  }
+  if (!cocoActivo || cocoRondaBloqueada) return;
+  if (e.key === "1" || e.key === "ArrowLeft") elegirPiedraCocodrilo(0, null);
+  if (e.key === "2" || e.key === "ArrowDown" || e.key === "ArrowUp") elegirPiedraCocodrilo(1, null);
+  if (e.key === "3" || e.key === "ArrowRight") elegirPiedraCocodrilo(2, null);
+});
+
+// ---------------------------------------------------------------------------
+// LÓGICA DEL MINIJUEGO 16: 🐉 BATALLA CONTRA EL JEFE FINAL
+// ---------------------------------------------------------------------------
+const modalJefeFinal = document.getElementById("modalJefeFinal");
+const cerrarJefeFinal = document.getElementById("cerrarJefeFinal");
+const lblJefeVidas = document.getElementById("lblJefeVidas");
+const lblJefeEtapa = document.getElementById("lblJefeEtapa");
+const lblJefePuntos = document.getElementById("lblJefePuntos");
+const jefeArena = document.getElementById("jefeArena");
+const jefeNombreTag = document.getElementById("jefeNombreTag");
+const jefeHpTexto = document.getElementById("jefeHpTexto");
+const jefeHpFill = document.getElementById("jefeHpFill");
+const jefeCargaFill = document.getElementById("jefeCargaFill");
+const jefeHeroeSprite = document.getElementById("jefeHeroeSprite");
+const jefeSuperBadge = document.getElementById("jefeSuperBadge");
+const jefeSprite = document.getElementById("jefeSprite");
+const jefeEstadoBadge = document.getElementById("jefeEstadoBadge");
+const jefeOperacion = document.getElementById("jefeOperacion");
+const btnJefeOpc0 = document.getElementById("btnJefeOpc0");
+const btnJefeOpc1 = document.getElementById("btnJefeOpc1");
+const btnJefeOpc2 = document.getElementById("btnJefeOpc2");
+const btnJefeOpc3 = document.getElementById("btnJefeOpc3");
+const btnIniciarJefeFinal = document.getElementById("btnIniciarJefeFinal");
+
+const JEFE_CONFIGS = [
+  { sprite: "🐉", hpMax: 100 },
+  { sprite: "🗿", hpMax: 140 },
+  { sprite: "👾", hpMax: 180 }
+];
+let jefeActivo = false;
+let jefeVidas = 3;
+let jefePuntos = 0;
+let jefeEtapa = 1;
+let jefeHp = 100;
+let jefeHpMax = 100;
+let jefeCargaPct = 0;
+let jefeComboSuper = 0;
+let jefeFuriaActiva = false;
+let jefeCorrecta = 0;
+let jefeOpcionesActuales = [];
+let jefeRondaBloqueada = false;
+let jefeAnimFrameId = null;
+let jefeUltimoTick = 0;
+let jefeTimeouts = [];
+
+function detenerJefeFinalLoop() {
+  jefeActivo = false;
+  if (jefeAnimFrameId) {
+    cancelAnimationFrame(jefeAnimFrameId);
+    jefeAnimFrameId = null;
+  }
+  jefeTimeouts.forEach(id => clearTimeout(id));
+  jefeTimeouts = [];
+}
+
+function lanzarDanioFlotanteJefe(texto, color = "#fde047") {
+  if (!jefeArena) return;
+  const el = document.createElement("div");
+  el.className = "jefe-dmg-float";
+  el.style.left = "70%";
+  el.style.top = "46%";
+  el.style.color = color;
+  el.textContent = texto;
+  jefeArena.appendChild(el);
+  setTimeout(() => el.remove(), 750);
+}
+
+function actualizarBotonesJefeFinal() {
+  const btns = [btnJefeOpc0, btnJefeOpc1, btnJefeOpc2, btnJefeOpc3];
+  btns.forEach((b, idx) => {
+    if (!b) return;
+    const val = jefeOpcionesActuales[idx];
+    const spanVal = b.querySelector(".jefe-opc-val");
+    if (spanVal) spanVal.textContent = typeof val === "number" ? String(val) : "—";
+    b.disabled = !jefeActivo || jefeRondaBloqueada || typeof val !== "number";
+  });
+}
+
+function actualizarHudJefeFinal() {
+  const t = i18n[idiomaActual] || i18n.es;
+  const cfgIdx = (jefeEtapa - 1) % JEFE_CONFIGS.length;
+  const cfg = JEFE_CONFIGS[cfgIdx];
+  const nombres = t.jefeNombres || ["🐉 Dragón Numérico", "🗿 Gólem de Hierro", "👾 Titán Galáctico"];
+  const nomBase = nombres[cfgIdx] || nombres[0];
+  const tierSuffix = jefeEtapa > JEFE_CONFIGS.length ? ` Nv.${jefeEtapa}` : "";
+
+  if (lblJefeVidas) {
+    lblJefeVidas.textContent = t.jefeVidasTexto
+      ? t.jefeVidasTexto(Math.max(0, jefeVidas))
+      : `Vidas: ${jefeVidas}`;
+  }
+  if (lblJefeEtapa) {
+    lblJefeEtapa.textContent = t.jefeEtapaTexto
+      ? t.jefeEtapaTexto(jefeEtapa)
+      : `⚔️ Jefe ${jefeEtapa}`;
+  }
+  if (lblJefePuntos) {
+    lblJefePuntos.textContent = t.jefePuntosTexto
+      ? t.jefePuntosTexto(jefePuntos)
+      : `⭐ ${jefePuntos}`;
+  }
+  if (jefeNombreTag) jefeNombreTag.textContent = `${nomBase}${tierSuffix}`;
+  if (jefeSprite) jefeSprite.textContent = cfg.sprite;
+  if (jefeHpTexto) jefeHpTexto.textContent = `HP: ${Math.max(0, jefeHp)}/${jefeHpMax}`;
+  if (jefeHpFill) jefeHpFill.style.width = `${Math.max(0, Math.min(100, (jefeHp / Math.max(1, jefeHpMax)) * 100)).toFixed(1)}%`;
+  if (jefeCargaFill) jefeCargaFill.style.width = `${Math.max(0, Math.min(100, jefeCargaPct)).toFixed(1)}%`;
+  if (jefeHeroeSprite) jefeHeroeSprite.textContent = avatarActual || "🦖";
+
+  if (jefeSuperBadge) {
+    const esSuper = jefeComboSuper >= 3;
+    jefeSuperBadge.classList.toggle("listo", esSuper);
+    jefeSuperBadge.textContent = esSuper
+      ? (t.jefeSuperListo || "⚡ ¡SUPER x2!")
+      : `⚡ ${jefeComboSuper}/3`;
+  }
+  if (jefeEstadoBadge) {
+    jefeEstadoBadge.textContent = jefeFuriaActiva
+      ? (t.jefeEstadoFuria || "🔥 ¡FURIA!")
+      : (t.jefeEstadoNormal || "🛡️ NORMAL");
+  }
+  if (jefeArena) jefeArena.classList.toggle("furia", jefeFuriaActiva);
+}
+
+function configurarEtapaJefe(etapa) {
+  jefeEtapa = etapa;
+  const cfgIdx = (etapa - 1) % JEFE_CONFIGS.length;
+  const vuelta = Math.floor((etapa - 1) / JEFE_CONFIGS.length);
+  jefeHpMax = JEFE_CONFIGS[cfgIdx].hpMax + vuelta * 40;
+  jefeHp = jefeHpMax;
+  jefeCargaPct = 0;
+  jefeFuriaActiva = false;
+  actualizarHudJefeFinal();
+}
+
+function reiniciarJefeFinalUI() {
+  detenerJefeFinalLoop();
+  jefeVidas = 3;
+  jefePuntos = 0;
+  jefeComboSuper = 0;
+  jefeOpcionesActuales = [];
+  jefeRondaBloqueada = false;
+  configurarEtapaJefe(1);
+  const t = i18n[idiomaActual] || i18n.es;
+  if (jefeOperacion) jefeOperacion.textContent = t.jefeListo || "⚔️ ¡Prepárate para la batalla!";
+  if (btnIniciarJefeFinal) {
+    btnIniciarJefeFinal.style.display = "block";
+    btnIniciarJefeFinal.textContent = t.jefeBtnIniciar || "⚔️ ¡Desafiar al Jefe Final!";
+  }
+  actualizarBotonesJefeFinal();
+  actualizarHudJefeFinal();
+}
+
+function abrirJefeFinalJuego() {
+  if (!modalJefeFinal) return;
+  reproducirSonido("click");
+  reiniciarJefeFinalUI();
+  modalJefeFinal.hidden = false;
+}
+
+function siguienteAtaqueJefe() {
+  if (!jefeActivo || jefeVidas <= 0) return;
+  jefeRondaBloqueada = false;
+  const { tTabla, fFactor, resp, opciones } = generarOperacionYSetFeria(4);
+  jefeCorrecta = resp;
+  jefeOpcionesActuales = opciones;
+  if (jefeOperacion) jefeOperacion.textContent = `${tTabla} × ${fFactor} = ?`;
+  actualizarBotonesJefeFinal();
+  actualizarHudJefeFinal();
+}
+
+function elegirAtaqueJefe(idx) {
+  if (!jefeActivo || jefeRondaBloqueada) return;
+  const valor = jefeOpcionesActuales[idx];
+  if (typeof valor !== "number") return;
+  jefeRondaBloqueada = true;
+  actualizarBotonesJefeFinal();
+  const t = i18n[idiomaActual] || i18n.es;
+
+  if (valor === jefeCorrecta) {
+    const esSuper = jefeComboSuper >= 3;
+    const dmg = esSuper ? 40 : 20;
+    const pts = esSuper ? 30 : 15;
+    jefeComboSuper = esSuper ? 0 : (jefeComboSuper + 1);
+    jefeHp = Math.max(0, jefeHp - dmg);
+    jefeCargaPct = Math.max(0, jefeCargaPct - (esSuper ? 45 : 28));
+    jefePuntos += pts;
+    puntos += pts;
+    aciertos++;
+
+    if (jefeHeroeSprite) {
+      jefeHeroeSprite.classList.add("atacando");
+      setTimeout(() => jefeHeroeSprite.classList.remove("atacando"), 180);
+    }
+    if (jefeSprite) {
+      jefeSprite.classList.add("herido");
+      setTimeout(() => jefeSprite.classList.remove("herido"), 220);
+    }
+
+    if (esSuper) {
+      reproducirSonido("superGolpeJefe");
+      vibrar([45, 25, 80]);
+      lanzarDanioFlotanteJefe(`-${dmg} ⚡`, "#facc15");
+      mostrarTextoFlotante(t.jefeMsjSuper ? t.jefeMsjSuper(dmg) : `⚡ -${dmg} HP!`, true, "34%");
+    } else {
+      reproducirSonido("golpeJefe");
+      vibrar(40);
+      lanzarDanioFlotanteJefe(`-${dmg} 💥`, "#fb923c");
+      mostrarTextoFlotante(`⚔️ +${pts} ⭐`, true, "36%");
+    }
+
+    if (jefeHp > 0 && jefeHp <= jefeHpMax * 0.5 && !jefeFuriaActiva) {
+      jefeFuriaActiva = true;
+      reproducirSonido("rugidoJefe");
+      mostrarTextoFlotante(t.jefeMsjFuria || "🔥 ¡FURIA!", false, "28%");
+    }
+
+    if (jefeHp <= 0) {
+      const cfgIdx = (jefeEtapa - 1) % JEFE_CONFIGS.length;
+      const nombres = t.jefeNombres || ["🐉 Dragón Numérico", "🗿 Gólem de Hierro", "👾 Titán Galáctico"];
+      const nomJefe = nombres[cfgIdx] || nombres[0];
+      jefePuntos += 50;
+      puntos += 50;
+      reproducirSonido("victoria");
+      if (jefeEtapa >= 3) dispararConfetiVictoria();
+      mostrarTextoFlotante(t.jefeMsjDerrotado ? t.jefeMsjDerrotado(nomJefe) : `🏆 +50 ⭐`, true, "32%");
+
+      actualizarHudJefeFinal();
+      actualizarEstadisticas();
+      guardarPuntajes();
+      verificarInsignias();
+
+      const tid = setTimeout(() => {
+        if (!jefeActivo || jefeVidas <= 0) return;
+        configurarEtapaJefe(jefeEtapa + 1);
+        siguienteAtaqueJefe();
+      }, 900);
+      jefeTimeouts.push(tid);
+      return;
+    }
+
+    actualizarHudJefeFinal();
+    actualizarEstadisticas();
+    guardarPuntajes();
+    verificarInsignias();
+
+    const tid = setTimeout(() => {
+      if (jefeActivo && jefeVidas > 0) siguienteAtaqueJefe();
+    }, 340);
+    jefeTimeouts.push(tid);
+  } else {
+    jefeComboSuper = 0;
+    recibirGolpeJefeFinal(t.jefeMsjFallo);
+  }
+}
+
+function recibirGolpeJefeFinal(motivo) {
+  jefeVidas--;
+  jefeCargaPct = 0;
+  reproducirSonido("rugidoJefe");
+  vibrar(140);
+  if (jefeArena) {
+    jefeArena.classList.add("sacudir");
+    setTimeout(() => jefeArena.classList.remove("sacudir"), 300);
+  }
+  actualizarHudJefeFinal();
+
+  if (jefeVidas <= 0) {
+    finalizarJefeFinalJuego();
+    return;
+  }
+  mostrarTextoFlotante(motivo || "💥 -1 ❤️", false, "36%");
+  const tid = setTimeout(() => {
+    if (jefeActivo && jefeVidas > 0) siguienteAtaqueJefe();
+  }, 520);
+  jefeTimeouts.push(tid);
+}
+
+function finalizarJefeFinalJuego() {
+  detenerJefeFinalLoop();
+  const t = i18n[idiomaActual] || i18n.es;
+  if (jefeOperacion) jefeOperacion.textContent = t.jefeFinPartida || "🏁 ¡BATALLA FINALIZADA!";
+  actualizarBotonesJefeFinal();
+  reproducirSonido("victoria");
+  dispararConfetiVictoria();
+  mostrarTextoFlotante(`🐉 ${jefePuntos} ⭐`, true, "34%");
+  if (btnIniciarJefeFinal) {
+    btnIniciarJefeFinal.style.display = "block";
+    btnIniciarJefeFinal.textContent = t.jefeBtnReintentar || "🔄 ¡Batallar de Nuevo!";
+  }
+}
+
+function bucleJefeFinalAnimacion(ts) {
+  if (!jefeActivo) return;
+  if (!jefeUltimoTick) jefeUltimoTick = ts;
+  const dt = Math.min(0.08, (ts - jefeUltimoTick) / 1000);
+  jefeUltimoTick = ts;
+
+  if (!jefeRondaBloqueada) {
+    const baseSeg = Math.max(4.0, 8.2 - (jefeEtapa - 1) * 0.6);
+    const duracionSeg = jefeFuriaActiva ? baseSeg * 0.72 : baseSeg;
+    jefeCargaPct += (dt / duracionSeg) * 100;
+    if (jefeCargaFill) {
+      jefeCargaFill.style.width = `${Math.min(100, jefeCargaPct).toFixed(1)}%`;
+    }
+    if (jefeCargaPct >= 100) {
+      jefeRondaBloqueada = true;
+      jefeComboSuper = 0;
+      actualizarBotonesJefeFinal();
+      const t = i18n[idiomaActual] || i18n.es;
+      recibirGolpeJefeFinal(t.jefeMsjEscudoRoto);
+    }
+  }
+  jefeAnimFrameId = requestAnimationFrame(bucleJefeFinalAnimacion);
+}
+
+function iniciarJefeFinalJuego() {
+  reproducirSonido("rugidoJefe");
+  if (btnIniciarJefeFinal) btnIniciarJefeFinal.style.display = "none";
+  jefeVidas = 3;
+  jefePuntos = 0;
+  jefeComboSuper = 0;
+  jefeRondaBloqueada = false;
+  jefeUltimoTick = 0;
+  jefeActivo = true;
+  configurarEtapaJefe(1);
+  siguienteAtaqueJefe();
+  jefeAnimFrameId = requestAnimationFrame(bucleJefeFinalAnimacion);
+}
+
+if (cerrarJefeFinal) cerrarJefeFinal.addEventListener("click", () => { if (modalJefeFinal) modalJefeFinal.hidden = true; detenerJefeFinalLoop(); });
+if (btnIniciarJefeFinal) btnIniciarJefeFinal.addEventListener("click", iniciarJefeFinalJuego);
+[btnJefeOpc0, btnJefeOpc1, btnJefeOpc2, btnJefeOpc3].forEach((b, idx) => {
+  if (b) b.addEventListener("click", () => elegirAtaqueJefe(idx));
+});
+
+window.addEventListener("keydown", (e) => {
+  if (!modalJefeFinal || modalJefeFinal.hidden) return;
+  if (e.code === "Space" || e.key === " ") e.preventDefault();
+  if ((e.code === "Space" || e.key === "Enter") && !jefeActivo) {
+    iniciarJefeFinalJuego();
+    return;
+  }
+  if (!jefeActivo || jefeRondaBloqueada) return;
+  if (["1", "2", "3", "4"].includes(e.key)) {
+    elegirAtaqueJefe(parseInt(e.key, 10) - 1);
+  }
+});
+
 // Event Listeners principales
 botonSonido.addEventListener("click", toggleSonido);
 const menuSelectorTema = document.getElementById("menuSelectorTema");
@@ -16620,6 +18271,8 @@ if (typeof modalNitro !== "undefined" && modalNitro) modalNitro.hidden = true;
 if (typeof modalGalactica !== "undefined" && modalGalactica) modalGalactica.hidden = true;
 if (typeof modalFeria !== "undefined" && modalFeria) modalFeria.hidden = true;
 if (typeof modalDino !== "undefined" && modalDino) modalDino.hidden = true;
+if (typeof modalCocodrilo !== "undefined" && modalCocodrilo) modalCocodrilo.hidden = true;
+if (typeof modalJefeFinal !== "undefined" && modalJefeFinal) modalJefeFinal.hidden = true;
 
 actualizarSelectorTablas();
 cargarPuntajes();
@@ -16820,9 +18473,9 @@ var TEMATICAS_TABLERO = {
 
 const textosCentroMinijuegos = {
   es: {
-    titulo: "🎮 Centro Arcade (14)",
+    titulo: "🎮 Centro Arcade (16)",
     subtitulo: "🕹️ ¡Elige tu aventura matemática y bate récords!",
-    heroBadge: "14 JUEGOS",
+    heroBadge: "16 JUEGOS",
     fichasTitulo: "📋 Fichas Arcade por Categoría",
     catAccion: "🕹️ Acción y Velocidad Arcade",
     catReflejos: "⚡ Reflejos y Contrarreloj",
@@ -16831,7 +18484,7 @@ const textosCentroMinijuegos = {
       ajedrez: "Ajedrez", desafio: "60s", laberinto: "Laberinto", lluvia: "Ninja",
       globos: "Globos", topos: "Topos", trampa: "Trampa", caraACara: "Duelo",
       nitro: "Nitro", enduro: "Enduro", galactica: "Galaxia", feria: "Feria",
-      dino: "Dino", pitagoras: "Pitágoras"
+      dino: "Dino", cocodrilo: "Río", jefe: "Jefe", pitagoras: "Pitágoras"
     },
     ajedrezTitulo: "Ajedrez Matemágico (8x8)",
     ajedrezDesc: "Tablas 1-12, Bot o 2P, Enroque, Jaque y más.",
@@ -16859,6 +18512,10 @@ const textosCentroMinijuegos = {
     feriaDesc: "Tiro al blanco móvil o atrapa cápsulas premio con la garra.",
     dinoTitulo: "Dino Runner Matemático",
     dinoDesc: "Salta entre alturas, activa escudos y supera biomas épicos.",
+    cocodriloTitulo: "Cruza el Río Cocodrilo",
+    cocodriloDesc: "Salta entre piedras flotantes antes de que el cocodrilo te alcance.",
+    jefeTitulo: "Batalla contra el Jefe Final",
+    jefeDesc: "Lanza ataques críticos multiplicando rápido para derrotar jefes épicos.",
     pitagorasTitulo: "Tabla Pitagórica (Explorador y Reto)",
     pitagorasDesc: "Explora áreas del 1 al 12 o supera retos contrarreloj.",
     btnJugar: "▶ Jugar",
@@ -16866,9 +18523,9 @@ const textosCentroMinijuegos = {
     btnAbrir: "📊 Abrir"
   },
   en: {
-    titulo: "🎮 Arcade Hub (14)",
+    titulo: "🎮 Arcade Hub (16)",
     subtitulo: "🕹️ Pick your math adventure and crush high scores!",
-    heroBadge: "14 GAMES",
+    heroBadge: "16 GAMES",
     fichasTitulo: "📋 Arcade Cards by Category",
     catAccion: "🕹️ Action & Speed Arcade",
     catReflejos: "⚡ Reflex & Timed",
@@ -16877,7 +18534,7 @@ const textosCentroMinijuegos = {
       ajedrez: "Chess", desafio: "60s", laberinto: "Maze", lluvia: "Ninja",
       globos: "Balloons", topos: "Moles", trampa: "Trap", caraACara: "Duel",
       nitro: "Nitro", enduro: "Enduro", galactica: "Galaxy", feria: "Fair",
-      dino: "Dino", pitagoras: "Table 12×12"
+      dino: "Dino", cocodrilo: "River", jefe: "Boss", pitagoras: "Table 12×12"
     },
     ajedrezTitulo: "Math Chess (8x8)",
     ajedrezDesc: "Times tables 1-12, Bot or 2P, Castling, Check & more.",
@@ -16905,6 +18562,10 @@ const textosCentroMinijuegos = {
     feriaDesc: "Moving target gallery or grab prize capsules with the claw.",
     dinoTitulo: "Math Dino Runner",
     dinoDesc: "Jump across lanes, activate shields & clear epic biomes.",
+    cocodriloTitulo: "Crocodile River Crossing",
+    cocodriloDesc: "Hop across floating stones before the crocodile catches up.",
+    jefeTitulo: "Final Boss Battle",
+    jefeDesc: "Unleash critical math strikes fast to defeat epic bosses.",
     pitagorasTitulo: "Pythagorean Table (Explorer & Timed)",
     pitagorasDesc: "Explore 1–12 multiplication areas or beat timed challenges.",
     btnJugar: "▶ Play",
@@ -16954,6 +18615,8 @@ function actualizarIdiomaCentroMinijuegos() {
       btnHubRapidoGalactica: t.rapidos.galactica,
       btnHubRapidoFeria: t.rapidos.feria,
       btnHubRapidoDino: t.rapidos.dino,
+      btnHubRapidoCocodrilo: t.rapidos.cocodrilo,
+      btnHubRapidoJefe: t.rapidos.jefe,
       btnHubRapidoPitagoras: t.rapidos.pitagoras
     };
     Object.entries(mapaRapidos).forEach(([id, txt]) => {
@@ -16976,6 +18639,8 @@ function actualizarIdiomaCentroMinijuegos() {
     ["lblGalacticaTituloHub", "lblGalacticaDesc", t.galacticaTitulo, t.galacticaDesc],
     ["lblFeriaTituloHub", "lblFeriaDesc", t.feriaTitulo, t.feriaDesc],
     ["lblDinoTituloHub", "lblDinoDesc", t.dinoTitulo, t.dinoDesc],
+    ["lblCocodriloTituloHub", "lblCocodriloDesc", t.cocodriloTitulo, t.cocodriloDesc],
+    ["lblJefeTituloHub", "lblJefeDesc", t.jefeTitulo, t.jefeDesc],
     ["lblPitagorasTituloHub", "lblPitagorasDesc", t.pitagorasTitulo, t.pitagorasDesc]
   ];
   pares.forEach(([idT, idD, txtT, txtD]) => {
@@ -18428,6 +20093,8 @@ registrarLanzadorHub(["btnHubRapidoEnduro", "cardHubEnduro"], () => {
 registrarLanzadorHub(["btnHubRapidoGalactica", "cardHubGalactica"], abrirDefensaGalactica);
 registrarLanzadorHub(["btnHubRapidoFeria", "cardHubFeria"], abrirFeriaJuego);
 registrarLanzadorHub(["btnHubRapidoDino", "cardHubDino"], abrirDinoJuego);
+registrarLanzadorHub(["btnHubRapidoCocodrilo", "cardHubCocodrilo"], abrirCocodriloJuego);
+registrarLanzadorHub(["btnHubRapidoJefe", "cardHubJefeFinal"], abrirJefeFinalJuego);
 registrarLanzadorHub(["btnHubRapidoPitagoras", "cardHubPitagoras"], abrirTablaPitagorica);
 
 // ===========================================================================
@@ -19332,18 +20999,24 @@ window.addEventListener("keydown", (e) => {
   // Ignorar si el foco está en un campo de texto
   if (e.target && (e.target.tagName === "INPUT" || e.target.tagName === "SELECT")) return;
 
-  // Si el modal de Nitro / Enduro, Feria o Dino está abierto, delegar a su listener exclusivo
+  // Si el modal de Nitro / Enduro, Feria, Dino, Cocodrilo o Jefe Final está abierto, delegar a su listener exclusivo
   const mNitro = document.getElementById("modalNitro");
   const mFeria = document.getElementById("modalFeria");
   const mDino = document.getElementById("modalDino");
-  if ((mNitro && !mNitro.hidden) || (mFeria && !mFeria.hidden) || (mDino && !mDino.hidden)) {
+  const mCocodrilo = document.getElementById("modalCocodrilo");
+  const mJefeFinal = document.getElementById("modalJefeFinal");
+  if ((mNitro && !mNitro.hidden) || (mFeria && !mFeria.hidden) || (mDino && !mDino.hidden) || (mCocodrilo && !mCocodrilo.hidden) || (mJefeFinal && !mJefeFinal.hidden)) {
     if (e.key === "Escape") {
       if (mNitro) mNitro.hidden = true;
       if (mFeria) mFeria.hidden = true;
       if (mDino) mDino.hidden = true;
+      if (mCocodrilo) mCocodrilo.hidden = true;
+      if (mJefeFinal) mJefeFinal.hidden = true;
       if (typeof detenerNitroLoop === "function") detenerNitroLoop();
       if (typeof detenerFeriaLoop === "function") detenerFeriaLoop();
       if (typeof detenerDinoLoop === "function") detenerDinoLoop();
+      if (typeof detenerCocodriloLoop === "function") detenerCocodriloLoop();
+      if (typeof detenerJefeFinalLoop === "function") detenerJefeFinalLoop();
     }
     return;
   }
@@ -19368,6 +21041,8 @@ window.addEventListener("keydown", (e) => {
     if (typeof detenerGalacticaLoop === "function") detenerGalacticaLoop();
     if (typeof detenerFeriaLoop === "function") detenerFeriaLoop();
     if (typeof detenerDinoLoop === "function") detenerDinoLoop();
+    if (typeof detenerCocodriloLoop === "function") detenerCocodriloLoop();
+    if (typeof detenerJefeFinalLoop === "function") detenerJefeFinalLoop();
     const mDuelo = document.getElementById("modalCaraACara");
     if (mDuelo && !mDuelo.hidden) {
       dueloActivo = false;
