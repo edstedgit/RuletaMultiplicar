@@ -439,24 +439,49 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 4px;
-      width: 32px;
+      gap: 7px;
+      width: 44px;
       z-index: 10;
       flex-shrink: 0;
     }
 
     .btn-minijuego-compacto,
     .btn-dock-utilidad {
-      border-radius: 9px;
-      width: 31px;
-      height: 26px;
+      border-radius: 11px;
+      width: 36px;
+      height: 34px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 13.5px;
+      font-size: 16px;
       cursor: pointer;
       padding: 0;
-      transition: transform 0.12s ease, filter 0.12s ease, background-color 0.12s ease, border-color 0.12s ease;
+      transition: transform 0.12s ease, filter 0.12s ease, background-color 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease;
+    }
+
+    .btn-hub-dock {
+      width: 44px !important;
+      height: 44px !important;
+      font-size: 21px !important;
+      border-radius: 14px !important;
+      background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%) !important;
+      border: 2px solid #c7d2fe !important;
+      color: #ffffff !important;
+      position: relative;
+      box-shadow: 0 3px 9px rgba(79, 70, 229, 0.36) !important;
+    }
+    .btn-hub-dock-badge {
+      position: absolute;
+      bottom: -4px;
+      right: -4px;
+      background: #f59e0b;
+      color: #fff;
+      font-size: 8.5px;
+      font-weight: 900;
+      line-height: 1;
+      padding: 2px 4px;
+      border-radius: 999px;
+      border: 1.5px solid #fff;
     }
 
     .btn-minijuego-compacto {
@@ -470,6 +495,30 @@
       border: 1.5px solid #cbd5e1;
       color: #1e3a8a;
       box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    }
+    .btn-dock-utilidad.activo {
+      background: #eff6ff !important;
+      border-color: #3b82f6 !important;
+      color: #1d4ed8 !important;
+      box-shadow: 0 2px 7px rgba(37, 99, 235, 0.24) !important;
+    }
+    .btn-dock-utilidad.activo-turbo {
+      background: #fef3c7 !important;
+      border-color: #f59e0b !important;
+      color: #b45309 !important;
+      box-shadow: 0 2px 7px rgba(245, 158, 11, 0.28) !important;
+    }
+    .btn-dock-utilidad.activo-incognita {
+      background: #f3e8ff !important;
+      border-color: #9333ea !important;
+      color: #6b21a8 !important;
+      box-shadow: 0 2px 7px rgba(147, 51, 234, 0.26) !important;
+    }
+    .icono-reloj-tachado,
+    .icono-dock-svg {
+      width: 22px;
+      height: 22px;
+      display: block;
     }
 
     .btn-hub-discreto {
@@ -522,6 +571,111 @@
       line-height: 1;
     }
 
+    .barra-progreso-tabla-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 3px 8px;
+      margin: 1px 0 3px;
+    }
+    .barra-progreso-tabla-txt {
+      font-size: 10px;
+      font-weight: 800;
+      color: #334155;
+      white-space: nowrap;
+    }
+    .barra-progreso-tabla-pista {
+      flex: 1;
+      height: 7px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .barra-progreso-tabla-relleno {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #3b82f6, #10b981);
+      transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .barra-progreso-tabla-relleno.dominada {
+      background: linear-gradient(90deg, #f59e0b, #eab308);
+    }
+
+    .ruleta-modos-strip {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+      justify-content: center;
+      margin: 2px 0 4px;
+      flex-wrap: wrap;
+    }
+    .chip-modo-ruleta {
+      border: 1.5px solid #cbd5e1;
+      background: #ffffff;
+      color: #334155;
+      border-radius: 999px;
+      padding: 4px 9px;
+      font-size: 10.5px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+      transition: all 0.15s ease;
+    }
+    .chip-modo-ruleta:hover {
+      background: #f1f5f9;
+    }
+    .chip-modo-ruleta.activo {
+      background: #eff6ff;
+      border-color: #3b82f6;
+      color: #1d4ed8;
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.2);
+    }
+    .chip-modo-ruleta.activo-turbo {
+      background: #fef3c7;
+      border-color: #f59e0b;
+      color: #b45309;
+    }
+    .chip-modo-ruleta.activo-incognita {
+      background: #f3e8ff;
+      border-color: #9333ea;
+      color: #6b21a8;
+    }
+
+    .badge-multiplicador-ruleta {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      background: linear-gradient(135deg, #f59e0b, #ea580c);
+      color: #ffffff;
+      font-size: 10px;
+      font-weight: 900;
+      padding: 2px 8px;
+      border-radius: 999px;
+      margin-bottom: 2px;
+      box-shadow: 0 2px 6px rgba(234, 88, 12, 0.28);
+    }
+
+    @keyframes sacudirInputNombre {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-5px); }
+      40% { transform: translateX(5px); }
+      60% { transform: translateX(-4px); }
+      80% { transform: translateX(4px); }
+    }
+    .input-nombre-alerta {
+      border-color: #ef4444 !important;
+      background: #fef2f2 !important;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.25) !important;
+      animation: sacudirInputNombre 0.38s ease;
+    }
+
     .timer-container {
       width: 100%;
       height: 5px;
@@ -543,7 +697,7 @@
     .ruleta-wrapper {
       flex: 1;
       min-width: 0;
-      height: 142px;
+      height: 176px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -552,14 +706,14 @@
     }
 
     .ruleta-contenedor {
-      width: min(38vw, 138px);
+      width: min(46vw, 170px);
       position: relative;
       transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
       z-index: 4;
     }
 
     .ruleta-contenedor.girando-zoom {
-      transform: scale(1.65);
+      transform: scale(1.42);
       z-index: 50;
     }
 
@@ -568,6 +722,13 @@
       width: 100%;
       height: auto;
       filter: drop-shadow(0 2px 5px rgba(0,0,0,0.12));
+    }
+    #ruleta {
+      cursor: grab;
+      touch-action: none;
+    }
+    #ruleta:active {
+      cursor: grabbing;
     }
 
     .flecha {
@@ -1633,20 +1794,245 @@
   
     /* Estilos adicionales para Centro de Minijuegos, Pitágoras y Diploma */
     .card-hub-juego {
-      display: flex;
+      display: grid;
+      grid-template-columns: 40px minmax(0, 1fr);
+      grid-template-rows: auto auto;
       align-items: center;
-      gap: 10px;
+      column-gap: 10px;
+      row-gap: 7px;
+      flex-shrink: 0;
+      background: #ffffff;
+      border: 1.5px solid #bfdbfe;
       border-radius: 14px;
-      padding: 10px 12px;
+      padding: 9px 10px;
       cursor: pointer;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      transition: transform 0.14s ease, box-shadow 0.14s ease, border-color 0.14s ease;
+      box-shadow: 0 2px 0 rgba(37, 99, 235, 0.12), 0 3px 8px rgba(15, 23, 42, 0.06);
+    }
+    .card-hub-juego > div:not(.hub-card-icono-box) {
+      grid-column: 2;
+      grid-row: 1;
+      min-width: 0;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      line-height: 1.25;
+    }
+    .card-hub-juego strong {
+      font-size: 12px;
+      font-weight: 800;
+      color: #1e3a8a;
+      display: block;
+    }
+    .card-hub-juego span {
+      font-size: 10px;
+      color: #475569;
+      display: block;
     }
     .card-hub-juego:active {
-      transform: scale(0.97);
+      transform: translateY(1px) scale(0.985);
     }
     .card-hub-juego:hover {
-      box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+      transform: translateY(-1px);
+      border-color: #60a5fa;
+      box-shadow: 0 3px 0 rgba(37, 99, 235, 0.16), 0 6px 14px rgba(37, 99, 235, 0.12);
+    }
+
+    .hub-modal-card {
+      max-width: 410px !important;
+      max-height: 91dvh !important;
+      display: flex !important;
+      flex-direction: column !important;
+      overflow: hidden !important;
+    }
+    .hub-hero-banner {
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      color: #ffffff;
+      border-radius: 12px;
+      padding: 7px 11px;
+      margin: 2px 0 7px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      box-shadow: 0 3px 10px rgba(37, 99, 235, 0.25);
+      flex-shrink: 0;
+    }
+    .hub-hero-banner-txt {
+      font-size: 11px;
+      font-weight: 800;
+      text-align: left;
+      line-height: 1.25;
+      color: #ffffff;
+    }
+    .hub-hero-badge {
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 9px;
+      padding: 3px 7px;
+      font-size: 10px;
+      font-weight: 900;
+      white-space: nowrap;
+      color: #fef08a;
+    }
+    .hub-accesos-rapidos {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin: 0 0 8px;
+      flex-shrink: 0;
+    }
+    .hub-cat-bloque {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      background: linear-gradient(180deg, #eff6ff 0%, #ffffff 100%);
+      border: 1px solid #bfdbfe;
+      border-radius: 12px;
+      padding: 6px;
+    }
+    .hub-cat-titulo {
+      font-size: 10px;
+      font-weight: 900;
+      color: #1e40af;
+      text-align: left;
+      letter-spacing: 0.2px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2px;
+    }
+    .hub-cat-count {
+      font-size: 9px;
+      font-weight: 800;
+      color: #1d4ed8;
+      background: #ffffff;
+      border: 1px solid #bfdbfe;
+      border-radius: 6px;
+      padding: 1px 5px;
+    }
+    .hub-cat-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 5px;
+    }
+    .hub-cat-grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 5px;
+    }
+    .hub-fichas-cat-titulo {
+      font-size: 10.5px;
+      font-weight: 900;
+      color: #1e40af;
+      text-align: left;
+      margin: 5px 0 2px;
+      padding: 3px 8px;
+      background: #eff6ff;
+      border-radius: 8px;
+      border-left: 4px solid #2563eb;
+    }
+    .btn-hub-rapido {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      padding: 6px 3px 5px;
+      border-radius: 10px;
+      border: 1.5px solid #93c5fd;
+      border-bottom-width: 3px;
+      background: linear-gradient(180deg, #ffffff 0%, #dbeafe 100%);
+      color: #1e3a8a;
+      cursor: pointer;
+      font-weight: 800;
+      line-height: 1.1;
+      box-shadow: 0 2px 4px rgba(37, 99, 235, 0.1);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease, border-color 0.12s ease;
+    }
+    .btn-hub-rapido:hover {
+      transform: translateY(-1.5px);
+      background: linear-gradient(180deg, #eff6ff 0%, #bfdbfe 100%);
+      border-color: #3b82f6;
+      box-shadow: 0 4px 10px rgba(37, 99, 235, 0.18);
+    }
+    .btn-hub-rapido:active {
+      transform: translateY(1.5px) scale(0.96);
+    }
+    .hub-rapido-ico {
+      font-size: 19px;
+      line-height: 1;
+      filter: drop-shadow(0 1px 1px rgba(0,0,0,0.12));
+    }
+    .hub-rapido-txt {
+      font-size: 9px;
+      font-weight: 900;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+    }
+    .hub-separador-fichas {
+      font-size: 10px;
+      font-weight: 900;
+      color: #1e40af;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      margin: 0 0 6px;
+      padding-bottom: 4px;
+      border-bottom: 1.5px dashed #bfdbfe;
+      text-align: left;
+      flex-shrink: 0;
+    }
+    .hub-lista-fichas {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      overflow-y: auto;
+      flex: 1;
+      min-height: 0;
+      padding: 2px 2px 4px;
+    }
+    .hub-card-icono-box {
+      grid-column: 1;
+      grid-row: 1;
+      width: 40px;
+      height: 40px;
+      border-radius: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 21px;
+      flex-shrink: 0;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.45), 0 3px 6px rgba(15, 23, 42, 0.14);
+    }
+    .hub-card-btn-cta {
+      grid-column: 1 / -1;
+      grid-row: 2;
+      width: 100%;
+      border: none;
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      color: #ffffff;
+      font-size: 11.5px;
+      font-weight: 900;
+      letter-spacing: 0.25px;
+      padding: 6px 12px;
+      border-radius: 9px;
+      box-shadow: 0 2px 0 #1e40af;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: transform 0.1s ease, filter 0.12s ease, background 0.12s ease;
+    }
+    .hub-card-btn-cta:hover {
+      filter: brightness(1.06);
+    }
+    .hub-card-btn-cta:active {
+      transform: translateY(1px);
     }
 
     .modal-pitagoras-card {
@@ -2557,6 +2943,425 @@
       100% { opacity: 0; }
     }
 
+    /* Estilos de Tiro al Blanco de Feria & Garra Arcade */
+    .feria-tabs {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 6px;
+      background: #fef3c7;
+      padding: 4px;
+      border-radius: 10px;
+      border: 1.5px solid #fcd34d;
+    }
+    .feria-tab-btn {
+      flex: 1;
+      border: none;
+      border-radius: 7px;
+      padding: 6px 8px;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+      background: transparent;
+      color: #92400e;
+      transition: all 0.2s ease;
+    }
+    .feria-tab-btn.activo {
+      background: linear-gradient(135deg, #dc2626, #b91c1c);
+      color: #fff;
+      box-shadow: 0 2px 6px rgba(185, 28, 28, 0.35);
+    }
+    .feria-tab-btn[data-feria-tab="garra"].activo {
+      background: linear-gradient(135deg, #7c3aed, #5b21b6);
+      box-shadow: 0 2px 6px rgba(91, 33, 182, 0.35);
+    }
+    .feria-escenario {
+      position: relative;
+      width: 100%;
+      flex: 1;
+      min-height: 310px;
+      border-radius: 14px;
+      overflow: hidden;
+      background: radial-gradient(circle at 50% 25%, #7f1d1d 0%, #450a0a 65%, #1c0505 100%);
+      border: 2.5px solid #f59e0b;
+      box-shadow: inset 0 0 26px rgba(0, 0, 0, 0.65);
+      user-select: none;
+      touch-action: none;
+      cursor: crosshair;
+      margin-bottom: 6px;
+    }
+    .feria-escenario.modo-garra {
+      background: linear-gradient(180deg, #1e1b4b 0%, #312e81 55%, #0f172a 100%);
+      border-color: #a855f7;
+      cursor: pointer;
+    }
+    .feria-escenario.ronda-dorada {
+      box-shadow: inset 0 0 30px rgba(250, 204, 21, 0.55), 0 0 14px rgba(250, 204, 21, 0.55);
+      border-color: #fde047;
+    }
+    .feria-toldo {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 22px;
+      background: repeating-linear-gradient(
+        90deg,
+        #dc2626 0px,
+        #dc2626 20px,
+        #fef2f2 20px,
+        #fef2f2 40px
+      );
+      border-bottom: 3px solid #f59e0b;
+      z-index: 6;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+      pointer-events: none;
+    }
+    .feria-escenario.modo-garra .feria-toldo {
+      background: repeating-linear-gradient(
+        90deg,
+        #7c3aed 0px,
+        #7c3aed 22px,
+        #f43f5e 22px,
+        #f43f5e 44px
+      );
+      border-bottom-color: #c084fc;
+    }
+    .feria-riel {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 10px;
+      background: linear-gradient(180deg, #78350f, #451a03);
+      border-top: 2px solid #d97706;
+      border-bottom: 2px solid #290f02;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .feria-blanco {
+      position: absolute;
+      width: 68px;
+      height: 68px;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 5;
+      cursor: pointer;
+      transition: transform 0.1s ease;
+    }
+    .feria-blanco:active {
+      transform: translate(-50%, -50%) scale(0.92);
+    }
+    .feria-diana-disco {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ffffff 0 26%, #ef4444 26% 52%, #ffffff 52% 76%, #dc2626 76% 100%);
+      border: 3px solid #fde047;
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .feria-escenario.ronda-dorada .feria-diana-disco {
+      background: radial-gradient(circle, #fef9c3 0 26%, #eab308 26% 52%, #fef08a 52% 76%, #ca8a04 76% 100%);
+    }
+    .feria-diana-num {
+      background: rgba(15, 23, 42, 0.9);
+      color: #fde047;
+      font-size: 16px;
+      font-weight: 900;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1.5px solid #facc15;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+      line-height: 1.15;
+    }
+    .feria-diana-icono {
+      position: absolute;
+      top: -11px;
+      font-size: 15px;
+      filter: drop-shadow(0 2px 2px rgba(0,0,0,0.45));
+    }
+    .feria-mira {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      border: 2.5px solid #fde047;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 12;
+      box-shadow: 0 0 12px rgba(250, 204, 21, 0.8);
+    }
+    .feria-mira::before,
+    .feria-mira::after {
+      content: "";
+      position: absolute;
+      background: #fde047;
+    }
+    .feria-mira::before {
+      left: 50%;
+      top: -6px;
+      bottom: -6px;
+      width: 2px;
+      transform: translateX(-50%);
+    }
+    .feria-mira::after {
+      top: 50%;
+      left: -6px;
+      right: -6px;
+      height: 2px;
+      transform: translateY(-50%);
+    }
+    .feria-garra-sistema {
+      position: absolute;
+      top: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 56px;
+      z-index: 9;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .feria-garra-carro {
+      width: 44px;
+      height: 14px;
+      background: linear-gradient(180deg, #e2e8f0, #64748b);
+      border-radius: 6px;
+      border: 2px solid #f8fafc;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    }
+    .feria-garra-cable {
+      width: 5px;
+      height: 26px;
+      background: repeating-linear-gradient(180deg, #94a3b8 0 4px, #334155 4px 8px);
+      transition: height 0.04s linear;
+    }
+    .feria-garra-pinzas {
+      font-size: 28px;
+      line-height: 1;
+      margin-top: -4px;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.6));
+      transition: transform 0.14s ease;
+    }
+    .feria-garra-pinzas.cerrada {
+      transform: scaleX(0.76) scaleY(1.06);
+    }
+    .feria-capsula {
+      position: absolute;
+      width: 66px;
+      height: 66px;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid rgba(255,255,255,0.85);
+      box-shadow: inset 0 -10px 14px rgba(0,0,0,0.28), 0 6px 12px rgba(0,0,0,0.45);
+      z-index: 5;
+      cursor: pointer;
+    }
+    .feria-capsula-emoji {
+      font-size: 18px;
+      line-height: 1;
+      margin-bottom: 2px;
+    }
+    .feria-capsula-num {
+      background: rgba(15,23,42,0.88);
+      color: #fff;
+      font-weight: 900;
+      font-size: 14px;
+      padding: 1px 7px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.4);
+    }
+    .feria-controles-garra {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+    .feria-btn-control {
+      flex: 1;
+      padding: 8px 6px;
+      border-radius: 10px;
+      border: 1.5px solid #cbd5e1;
+      background: #f8fafc;
+      font-size: 13px;
+      font-weight: 800;
+      color: #1e293b;
+      cursor: pointer;
+      user-select: none;
+    }
+    .feria-btn-control.soltar {
+      flex: 1.6;
+      background: linear-gradient(135deg, #9333ea, #6d28d9);
+      color: #fff;
+      border-color: #c4b5fd;
+    }
+    .feria-btn-control:active {
+      transform: scale(0.95);
+    }
+
+    /* Estilos de Dino Runner Matemático */
+    .dino-pista {
+      position: relative;
+      width: 100%;
+      flex: 1;
+      min-height: 295px;
+      border-radius: 14px;
+      overflow: hidden;
+      background: linear-gradient(180deg, #bae6fd 0%, #e0f2fe 64%, #86efac 64%, #15803d 100%);
+      border: 2.5px solid #16a34a;
+      box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.25);
+      user-select: none;
+      touch-action: none;
+      margin-bottom: 6px;
+      transition: background 0.6s ease, border-color 0.6s ease;
+    }
+    .dino-pista.bioma-volcan {
+      background: linear-gradient(180deg, #7c2d12 0%, #ea580c 62%, #451a03 62%, #292524 100%);
+      border-color: #f97316;
+    }
+    .dino-pista.bioma-neon {
+      background: linear-gradient(180deg, #0f172a 0%, #312e81 62%, #1e1b4b 62%, #020617 100%);
+      border-color: #38bdf8;
+    }
+    .dino-carril-guia {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 33.33%;
+      border-bottom: 1.5px dashed rgba(255, 255, 255, 0.28);
+      cursor: pointer;
+      z-index: 2;
+    }
+    .dino-carril-guia:last-of-type {
+      border-bottom: none;
+    }
+    .dino-carril-guia:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .dino-suelo-scroll {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 200%;
+      height: 18px;
+      background: repeating-linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.25) 0 18px,
+        transparent 18px 42px
+      );
+      animation: dinoSueloMover 0.65s linear infinite;
+      pointer-events: none;
+      z-index: 3;
+    }
+    @keyframes dinoSueloMover {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .dino-jugador {
+      position: absolute;
+      left: 16%;
+      width: 54px;
+      height: 54px;
+      transform: translate(-50%, -50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 8;
+      pointer-events: none;
+      transition: top 0.16s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .dino-sprite {
+      font-size: 38px;
+      display: inline-block;
+      transform: scaleX(-1);
+      animation: dinoTrote 0.28s ease-in-out infinite alternate;
+      filter: drop-shadow(0 4px 5px rgba(0, 0, 0, 0.35));
+    }
+    .dino-jugador.escudo-activo::after {
+      content: "🛡️";
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      border: 2.5px solid #38bdf8;
+      background: rgba(56, 189, 248, 0.22);
+      box-shadow: 0 0 14px rgba(56, 189, 248, 0.75);
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end;
+      font-size: 16px;
+    }
+    @keyframes dinoTrote {
+      0% { transform: scaleX(-1) translateY(0) rotate(-3deg); }
+      100% { transform: scaleX(-1) translateY(-4px) rotate(4deg); }
+    }
+    .dino-puerta {
+      position: absolute;
+      width: 68px;
+      height: 56px;
+      transform: translate(-50%, -50%);
+      border-radius: 14px;
+      background: linear-gradient(145deg, #fef08a, #f59e0b);
+      border: 3px solid #ffffff;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.32);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 6;
+      pointer-events: none;
+    }
+    .dino-pista.bioma-neon .dino-puerta {
+      background: linear-gradient(145deg, #22d3ee, #0284c7);
+      border-color: #a5f3fc;
+      box-shadow: 0 0 14px rgba(34, 211, 238, 0.6);
+    }
+    .dino-puerta-num {
+      font-size: 20px;
+      font-weight: 900;
+      color: #0f172a;
+      line-height: 1;
+    }
+    .dino-puerta-tag {
+      font-size: 10px;
+      font-weight: 800;
+      color: #78350f;
+      margin-top: 2px;
+    }
+    .dino-pista.bioma-neon .dino-puerta-num,
+    .dino-pista.bioma-neon .dino-puerta-tag {
+      color: #f8fafc;
+    }
+    .dino-controles {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+    .dino-btn-carril {
+      flex: 1;
+      padding: 8px 6px;
+      border-radius: 10px;
+      border: 1.5px solid #86efac;
+      background: #f0fdf4;
+      color: #166534;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .dino-btn-carril.activo {
+      background: linear-gradient(135deg, #16a34a, #15803d);
+      color: #fff;
+      border-color: #bbf7d0;
+    }
+
     /* Estilos del Diploma de Honor */
     .diploma-marco {
       background: #fffdf5;
@@ -3351,6 +4156,28 @@
       border-color: #475569 !important;
       color: #e2e8f0 !important;
     }
+    body[data-tema="galaxia"] .barra-progreso-tabla-wrap,
+    body[data-tema="galaxia"] .chip-modo-ruleta {
+      background: #1e293b !important;
+      border-color: #334155 !important;
+      color: #cbd5e1 !important;
+    }
+    body[data-tema="galaxia"] .barra-progreso-tabla-txt {
+      color: #e2e8f0 !important;
+    }
+    body[data-tema="galaxia"] .barra-progreso-tabla-pista {
+      background: #0f172a !important;
+    }
+    body[data-tema="galaxia"] .chip-modo-ruleta.activo,
+    body[data-tema="galaxia"] .chip-modo-ruleta.activo-turbo,
+    body[data-tema="galaxia"] .chip-modo-ruleta.activo-incognita,
+    body[data-tema="galaxia"] .btn-dock-utilidad.activo,
+    body[data-tema="galaxia"] .btn-dock-utilidad.activo-turbo,
+    body[data-tema="galaxia"] .btn-dock-utilidad.activo-incognita {
+      background: #0284c7 !important;
+      border-color: #38bdf8 !important;
+      color: #ffffff !important;
+    }
     body[data-tema="galaxia"] .btn-hub-discreto {
       background: #1e1b4b !important;
       border-color: #4f46e5 !important;
@@ -3364,6 +4191,65 @@
     body[data-tema="galaxia"] .modal-header {
       color: #f8fafc !important;
       border-bottom-color: #334155 !important;
+    }
+    body[data-tema="galaxia"] .hub-hero-banner {
+      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 55%, #0c4a6e 100%) !important;
+      border: 1px solid #38bdf8 !important;
+      box-shadow: 0 3px 12px rgba(2, 132, 199, 0.24) !important;
+    }
+    body[data-tema="galaxia"] .hub-hero-badge {
+      background: rgba(56, 189, 248, 0.2) !important;
+      border-color: #38bdf8 !important;
+      color: #7dd3fc !important;
+    }
+    body[data-tema="galaxia"] .btn-hub-rapido {
+      background: #1e293b !important;
+      border: 1px solid #334155 !important;
+      border-bottom: 2.5px solid #0284c7 !important;
+      color: #f1f5f9 !important;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35) !important;
+    }
+    body[data-tema="galaxia"] .btn-hub-rapido:hover {
+      border-color: #38bdf8 !important;
+      background: #0f172a !important;
+    }
+    body[data-tema="galaxia"] .hub-cat-bloque {
+      background: #0f172a !important;
+      border-color: #334155 !important;
+    }
+    body[data-tema="galaxia"] .hub-cat-count {
+      background: #1e293b !important;
+      border-color: #475569 !important;
+      color: #cbd5e1 !important;
+    }
+    body[data-tema="galaxia"] .hub-fichas-cat-titulo {
+      background: #1e293b !important;
+      color: #e2e8f0 !important;
+      border-left-color: #38bdf8 !important;
+    }
+    body[data-tema="galaxia"] .hub-separador-fichas,
+    body[data-tema="galaxia"] .hub-cat-titulo {
+      color: #94a3b8 !important;
+      border-color: #334155 !important;
+    }
+    body[data-tema="galaxia"] .card-hub-juego {
+      background: #1e293b !important;
+      border: 1px solid #334155 !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35) !important;
+    }
+    body[data-tema="galaxia"] .card-hub-juego:hover {
+      border-color: #38bdf8 !important;
+    }
+    body[data-tema="galaxia"] .card-hub-juego strong {
+      color: #f8fafc !important;
+    }
+    body[data-tema="galaxia"] .card-hub-juego span {
+      color: #cbd5e1 !important;
+    }
+    body[data-tema="galaxia"] .hub-card-btn-cta {
+      background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%) !important;
+      color: #ffffff !important;
+      box-shadow: 0 2px 0 #075985 !important;
     }
     body[data-tema="galaxia"] .secundario {
       background: #1e293b !important;
@@ -3446,6 +4332,66 @@
       color: #064e3b !important;
       border: 1px solid #86efac;
     }
+    body[data-tema="esmeralda"] .hub-hero-banner {
+      background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+      box-shadow: 0 3px 10px rgba(4, 120, 87, 0.25) !important;
+    }
+    body[data-tema="esmeralda"] .hub-hero-badge {
+      background: rgba(255, 255, 255, 0.2) !important;
+      border-color: rgba(255, 255, 255, 0.4) !important;
+      color: #fef08a !important;
+    }
+    body[data-tema="esmeralda"] .hub-cat-bloque {
+      background: linear-gradient(180deg, #dcfce7 0%, #f0fdf4 100%) !important;
+      border-color: #86efac !important;
+    }
+    body[data-tema="esmeralda"] .hub-cat-titulo {
+      color: #065f46 !important;
+    }
+    body[data-tema="esmeralda"] .hub-cat-count {
+      background: #ffffff !important;
+      border-color: #86efac !important;
+      color: #047857 !important;
+    }
+    body[data-tema="esmeralda"] .hub-fichas-cat-titulo {
+      background: #dcfce7 !important;
+      color: #065f46 !important;
+      border-left-color: #059669 !important;
+    }
+    body[data-tema="esmeralda"] .hub-separador-fichas {
+      color: #047857 !important;
+      border-bottom-color: #86efac !important;
+    }
+    body[data-tema="esmeralda"] .btn-hub-rapido {
+      background: linear-gradient(180deg, #ffffff 0%, #dcfce7 100%) !important;
+      border: 1.5px solid #4ade80 !important;
+      border-bottom-width: 3px !important;
+      color: #065f46 !important;
+      box-shadow: 0 2px 4px rgba(5, 150, 105, 0.12) !important;
+    }
+    body[data-tema="esmeralda"] .btn-hub-rapido:hover {
+      background: linear-gradient(180deg, #f0fdf4 0%, #bbf7d0 100%) !important;
+      border-color: #16a34a !important;
+    }
+    body[data-tema="esmeralda"] .card-hub-juego {
+      background: #ffffff !important;
+      border: 1.5px solid #86efac !important;
+      box-shadow: 0 2px 0 rgba(5, 150, 105, 0.14), 0 3px 8px rgba(4, 120, 87, 0.08) !important;
+    }
+    body[data-tema="esmeralda"] .card-hub-juego:hover {
+      border-color: #16a34a !important;
+    }
+    body[data-tema="esmeralda"] .card-hub-juego strong {
+      color: #064e3b !important;
+    }
+    body[data-tema="esmeralda"] .card-hub-juego span {
+      color: #047857 !important;
+    }
+    body[data-tema="esmeralda"] .hub-card-btn-cta {
+      background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+      color: #ffffff !important;
+      box-shadow: 0 2px 0 #065f46 !important;
+    }
 
     /* 🔍 Tema 4: Estilo Google Limpio (Material You / Google Workspace & Search) */
     body[data-tema="google"] {
@@ -3521,6 +4467,21 @@
     body[data-tema="google"] .btn-dock-utilidad:hover {
       background: #f1f3f4 !important;
     }
+    body[data-tema="google"] .btn-dock-utilidad.activo {
+      background: #e8f0fe !important;
+      border-color: #1a73e8 !important;
+      color: #1967d2 !important;
+    }
+    body[data-tema="google"] .btn-dock-utilidad.activo-turbo {
+      background: #fef7e0 !important;
+      border-color: #f9ab00 !important;
+      color: #b06000 !important;
+    }
+    body[data-tema="google"] .btn-dock-utilidad.activo-incognita {
+      background: #f3e8fd !important;
+      border-color: #9334e6 !important;
+      color: #7627bb !important;
+    }
     body[data-tema="google"] .btn-hub-discreto {
       background: #f1f3f4 !important;
       border-color: #dadce0 !important;
@@ -3580,6 +4541,33 @@
       background: #fbbc05 !important;
       color: #202124 !important;
       box-shadow: 0 1px 3px rgba(60, 64, 67, 0.22) !important;
+    }
+    body[data-tema="google"] .barra-progreso-tabla-wrap {
+      background: #ffffff !important;
+      border-color: #dadce0 !important;
+    }
+    body[data-tema="google"] .barra-progreso-tabla-txt {
+      color: #5f6368 !important;
+    }
+    body[data-tema="google"] .chip-modo-ruleta {
+      background: #ffffff !important;
+      border-color: #dadce0 !important;
+      color: #3c4043 !important;
+    }
+    body[data-tema="google"] .chip-modo-ruleta.activo {
+      background: #e8f0fe !important;
+      border-color: #1a73e8 !important;
+      color: #1967d2 !important;
+    }
+    body[data-tema="google"] .chip-modo-ruleta.activo-turbo {
+      background: #fef7e0 !important;
+      border-color: #f9ab00 !important;
+      color: #b06000 !important;
+    }
+    body[data-tema="google"] .chip-modo-ruleta.activo-incognita {
+      background: #f3e8fd !important;
+      border-color: #9334e6 !important;
+      color: #7627bb !important;
     }
     body[data-tema="google"] .pregunta {
       background: #ffffff !important;
@@ -3679,14 +4667,63 @@
     }
 
     /* Hub de Minijuegos */
+    body[data-tema="google"] .hub-hero-banner {
+      background: #e8f0fe !important;
+      border: 1px solid #d2e3fc !important;
+      color: #1967d2 !important;
+      box-shadow: none !important;
+    }
+    body[data-tema="google"] .hub-hero-banner-txt {
+      color: #1967d2 !important;
+    }
+    body[data-tema="google"] .hub-hero-badge {
+      background: #1a73e8 !important;
+      border-color: #1a73e8 !important;
+      color: #ffffff !important;
+    }
+    body[data-tema="google"] .hub-cat-bloque {
+      background: #f8f9fa !important;
+      border: 1px solid #dadce0 !important;
+    }
+    body[data-tema="google"] .hub-cat-titulo {
+      color: #3c4043 !important;
+    }
+    body[data-tema="google"] .hub-cat-count {
+      background: #ffffff !important;
+      border-color: #dadce0 !important;
+      color: #5f6368 !important;
+    }
+    body[data-tema="google"] .hub-fichas-cat-titulo {
+      background: #f1f3f4 !important;
+      color: #3c4043 !important;
+      border-left-color: #1a73e8 !important;
+    }
+    body[data-tema="google"] .btn-hub-rapido {
+      background: #ffffff !important;
+      border: 1px solid #dadce0 !important;
+      border-bottom-width: 1px !important;
+      color: #202124 !important;
+      box-shadow: 0 1px 2px rgba(60, 64, 67, 0.08) !important;
+    }
+    body[data-tema="google"] .btn-hub-rapido:hover {
+      background: #e8f0fe !important;
+      border-color: #1a73e8 !important;
+      color: #1967d2 !important;
+      box-shadow: 0 2px 6px rgba(26, 115, 232, 0.16) !important;
+    }
+    body[data-tema="google"] .hub-separador-fichas {
+      color: #5f6368 !important;
+      border-bottom-color: #dadce0 !important;
+    }
     body[data-tema="google"] .card-hub-juego {
       background: #ffffff !important;
       border: 1px solid #dadce0 !important;
-      box-shadow: 0 1px 2px rgba(60, 64, 67, 0.06);
+      box-shadow: 0 1px 2px rgba(60, 64, 67, 0.06) !important;
     }
     body[data-tema="google"] .card-hub-juego:hover {
       background: #f8f9fa !important;
       border-color: #1a73e8 !important;
+      box-shadow: 0 3px 10px rgba(26, 115, 232, 0.14) !important;
     }
     body[data-tema="google"] .card-hub-juego strong {
       color: #202124 !important;
@@ -3694,12 +4731,15 @@
     body[data-tema="google"] .card-hub-juego span {
       color: #5f6368 !important;
     }
-    body[data-tema="google"] #cardHubAjedrez button { background: #9334e6 !important; }
-    body[data-tema="google"] #cardHubDesafio button { background: #d93025 !important; }
-    body[data-tema="google"] #cardHubLaberinto button { background: #1e8e3e !important; }
-    body[data-tema="google"] #cardHubLluvia button { background: #1a73e8 !important; }
-    body[data-tema="google"] #cardHubTrampa button { background: #f9ab00 !important; color: #202124 !important; }
-    body[data-tema="google"] #cardHubCaraACara button { background: #007b83 !important; }
+    body[data-tema="google"] .hub-card-btn-cta {
+      background: #1a73e8 !important;
+      color: #ffffff !important;
+      box-shadow: 0 1px 2px rgba(60, 64, 67, 0.25) !important;
+    }
+    body[data-tema="google"] .hub-card-btn-cta:hover {
+      background: #1765cc !important;
+      filter: none !important;
+    }
 
     /* Minijuego 1: Detective (¿Correcto o Trampa?) */
     body[data-tema="google"] .detective-badge-kicker {
@@ -4408,64 +5448,53 @@
     </div>
   </div>
 
+  <div id="barraProgresoTablaWrap" class="barra-progreso-tabla-wrap" aria-label="Progreso de tabla activa">
+    <span id="lblProgresoTabla" class="barra-progreso-tabla-txt">Tabla 3: 0/12 ⭐</span>
+    <div class="barra-progreso-tabla-pista">
+      <div id="barraProgresoTablaRelleno" class="barra-progreso-tabla-relleno"></div>
+    </div>
+  </div>
+
   <div class="timer-container" id="timerContainer">
     <div class="timer-bar" id="timerBar"></div>
   </div>
 
-  <!-- Escenario central de la ruleta con docks flex izquierdo y derecho simétricos -->
+  <!-- Escenario central de la ruleta: 3 botones de configuración (izquierda) y Hub + 2 favoritos (derecha) -->
   <div class="ruleta-escenario">
 
-    <!-- Dock Flex Izquierdo: Velocidad, Tabla Pitagórica y Minijuegos -->
-    <div class="dock-lateral-ruleta" aria-label="Herramientas y modos">
-      <button id="toggleModo" class="btn-dock-utilidad" type="button" aria-label="Modo de tiempo" title="Modo de tiempo">
-        🚫
+    <!-- Dock Flex Izquierdo (3 botones de configuración, solo iconos) -->
+    <div class="dock-lateral-ruleta" aria-label="Configuración rápida">
+      <button id="toggleModo" class="btn-dock-utilidad activo" type="button" aria-label="Tiempo: Normal (6s)" title="Tiempo: Normal (6s)">
+        ⏱️
       </button>
-      <button id="btnAbrirPitagoras" class="btn-dock-utilidad" type="button" aria-label="Tabla Pitagórica" title="Tabla Pitagórica">
-        📊
+      <button id="btnGiroTurbo" class="btn-dock-utilidad" type="button" aria-label="Giro Turbo" title="Giro Turbo">
+        <svg class="icono-dock-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M19.5 11.5a7.5 7.5 0 1 1-2.2-5.3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><polyline points="17.8 3.2 18.2 6.8 14.5 6.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><polygon points="12.6 7.5 8.8 12.6 11.6 12.6 10.6 16.8 15.2 11.2 12.2 11.2" fill="currentColor"/></svg>
       </button>
-      <button id="btnMinijuego" class="btn-minijuego-compacto" type="button" title="Minijuego: ¿Correcto o Trampa?">
-        🕵️‍♂️
-      </button>
-      <button id="btnLluvia" class="btn-minijuego-compacto" type="button" title="Minijuego: Salto Ninja (Lluvia de Estrellas)" style="background:#0284c7; border-color:#bae6fd;">
-        ⭐
-      </button>
-      <button id="btnGlobos" class="btn-minijuego-compacto" type="button" title="Minijuego: Rompe-Globos a Toda Presión" style="background:#f43f5e; border-color:#fecdd3; color:white;">
-        🎈
-      </button>
-      <button id="btnNitro" class="btn-minijuego-compacto" type="button" title="Minijuego: Carrera de Nitro" style="background:#ea580c; border-color:#fed7aa; color:white;">
-        🏎️
+      <button id="btnModoIncognita" class="btn-dock-utilidad" type="button" aria-label="Cambiar incógnita (A × ? = C)" title="Cambiar incógnita (A × ? = C)">
+        <svg class="icono-dock-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 5.5h11m-2-2 2 2-2 2M17.5 9.2h-11m2-2-2 2 2 2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.5 14l4 4m0-4l-4 4" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/><rect x="11" y="11.5" width="9.5" height="9.5" rx="2.6" fill="none" stroke="currentColor" stroke-width="1.8"/><text x="15.75" y="18.8" text-anchor="middle" font-size="8.5" font-weight="900" font-family="system-ui, sans-serif" fill="currentColor">?</text></svg>
       </button>
     </div>
 
-    <!-- Ruleta central -->
+    <!-- Ruleta central (ampliada y táctil) -->
     <div class="ruleta-wrapper">
       <div class="ruleta-contenedor" id="ruletaContenedorDiv">
         <div class="flecha" aria-hidden="true">▼</div>
-        <canvas id="ruleta" width="340" height="340" role="img" aria-label="Ruleta con los números del 1 al 12">
+        <canvas id="ruleta" width="340" height="340" role="img" aria-label="Ruleta con los números del 1 al 12. Toca o desliza para girar.">
           Ruleta de los números del 1 al 12.
         </canvas>
       </div>
     </div>
 
-    <!-- Dock Flex Derecho: Acceso directo a Minijuegos -->
+    <!-- Dock Flex Derecho (Hub destacado más grande + 2 accesos directos) -->
     <div class="dock-lateral-ruleta" aria-label="Minijuegos">
-      <button id="btnModoDesafio" class="btn-minijuego-compacto" type="button" title="Desafío Relámpago (60s)" style="background:#ec4899; border-color:#fbcfe8;">
-        ⚡
+      <button id="btnAbrirHubDock" class="btn-minijuego-compacto btn-hub-dock" type="button" aria-label="Centro de Minijuegos (14 juegos)" title="Centro de Minijuegos (14 juegos)">
+        🎮<span class="btn-hub-dock-badge">14</span>
       </button>
-      <button id="btnTableroMagico" class="btn-minijuego-compacto" type="button" title="Minijuego: Ajedrez Táctico" style="background:#8b5cf6; border-color:#c4b5fd; color:white;">
-        ♟️
+      <button id="btnNitro" class="btn-minijuego-compacto" type="button" title="Minijuego: Carrera de Nitro y Enduro" style="background:#ea580c; border-color:#fed7aa; color:white;">
+        🏎️
       </button>
-      <button id="btnLaberinto" class="btn-minijuego-compacto" type="button" title="Minijuego: Laberinto Numérico" style="background:#10b981; border-color:#a7f3d0; color:white;">
-        🗺️
-      </button>
-      <button id="btnCaraACara" class="btn-minijuego-compacto" type="button" title="Minijuego: Duelo Cara a Cara" style="background:#e11d48; border-color:#fecdd3; color:white;">
-        ⚔️
-      </button>
-      <button id="btnTopos" class="btn-minijuego-compacto" type="button" title="Minijuego: Martillazo al Topo Travieso" style="background:#854d0e; border-color:#fef08a; color:white;">
-        🔨
-      </button>
-      <button id="btnGalactica" class="btn-minijuego-compacto" type="button" title="Minijuego: Defensa Galáctica" style="background:#4338ca; border-color:#c7d2fe; color:white;">
-        🚀
+      <button id="btnDino" class="btn-minijuego-compacto" type="button" title="Minijuego: Dino Runner Matemático" style="background:#16a34a; border-color:#bbf7d0; color:white;">
+        🦖
       </button>
     </div>
 
@@ -4495,6 +5524,7 @@
 	    <span id="txtBtnSalir">✖️ Salir</span>
 	  </button>	
     </div>
+    <div id="badgeMultiplicadorRuleta" class="badge-multiplicador-ruleta" hidden>🔥 x1.5</div>
     <p id="instruccion">Elige una tabla y gira para comenzar.</p>
     <div id="operacion" aria-label="Operación">? × ? = ?</div>
 
@@ -4776,7 +5806,7 @@
 
 		<div id="toposBarraEstado" style="display:flex; justify-content:space-between; align-items:center; background:#fef9c3; padding:4px 10px; border-radius:8px; margin-bottom:4px; border:1.5px solid #fef08a;">
 		  <span id="lblToposVidas" style="font-size:12px; font-weight:bold; color:#854d0e;">❤️❤️❤️ Vidas: 3</span>
-		  <span id="lblToposRacha" style="font-size:11px; font-weight:extrabold; color:#a16207; background:#fff; padding:2px 8px; border-radius:12px; border:1px solid #fde047;">🔨 Racha: x0</span>
+		  <span id="lblToposRacha" style="font-size:11px; font-weight:extrabold; color:#a16207; background:#fff; padding:2px 8px; border-radius:12px; border:1px solid #fde047;">🔨 Racha: 0</span>
 		  <span id="lblToposPuntos" style="font-size:12px; font-weight:bold; color:#854d0e;">⭐ Puntos: 0</span>
 		</div>
 
@@ -4934,6 +5964,100 @@
 
 		<button id="btnIniciarGalactica" class="principal btn-modal-accion" type="button" style="background: linear-gradient(135deg, #4f46e5, #3730a3); padding: 10px; font-size: 13px; font-weight: bold;">
 		  🚀 ¡Iniciar Defensa Planetaria!
+		</button>
+	  </div>
+	</div>
+
+	<!-- Modal de Minijuego: Tiro al Blanco de Feria & Garra Arcade -->
+	<div id="modalFeria" class="modal-historial" hidden>
+	  <div class="modal-contenido" style="text-align: center; position: relative; overflow: hidden; max-width: 440px; width: 95%; height: 86vh; max-height: 92dvh; min-height: 550px; display: flex; flex-direction: column;">
+		<div class="modal-header">
+		  <span id="lblFeriaTitulo" style="color:#b91c1c; font-weight:900;">🎯 Feria Matemática & Garra Arcade</span>
+		  <button id="cerrarFeria" type="button" style="background:#e2e8f0; border-radius:50%; width:28px; height:28px; font-size:12px; font-weight:bold; border:none; cursor:pointer;">✕</button>
+		</div>
+
+		<div class="feria-tabs">
+		  <button id="tabFeriaTiro" class="feria-tab-btn activo" type="button" data-feria-tab="tiro">🎯 Tiro de Feria</button>
+		  <button id="tabFeriaGarra" class="feria-tab-btn" type="button" data-feria-tab="garra">🕹️ Garra Arcade</button>
+		</div>
+
+		<div style="display:flex; justify-content:space-between; align-items:center; background:#fef2f2; padding:4px 10px; border-radius:8px; margin-bottom:4px; border:1.5px solid #fecaca;">
+		  <span id="lblFeriaVidas" style="font-size:12px; font-weight:bold; color:#991b1b;">❤️❤️❤️ Vidas: 3</span>
+		  <span id="lblFeriaRacha" style="font-size:11px; font-weight:extrabold; color:#b45309; background:#fef3c7; padding:2px 8px; border-radius:12px; border:1px solid #fcd34d;">🔥 Racha: 0</span>
+		  <span id="lblFeriaPuntos" style="font-size:12px; font-weight:bold; color:#991b1b;">⭐ Puntos: 0</span>
+		</div>
+
+		<div id="feriaOperacion" style="font-size: 27px; font-weight: 900; margin: 2px 0 4px; color: #b91c1c; min-height: 34px; display: flex; align-items: center; justify-content: center;">
+		  ? × ? = ?
+		</div>
+
+		<div id="feriaAreaJuego" class="feria-escenario">
+		  <div class="feria-toldo"></div>
+		  <div id="feriaMira" class="feria-mira" style="left:50%; top:54%;" hidden></div>
+		  <div id="feriaGarraSistema" class="feria-garra-sistema" style="left:50%;" hidden>
+			<div class="feria-garra-carro"></div>
+			<div id="feriaGarraCable" class="feria-garra-cable"></div>
+			<div id="feriaGarraPinzas" class="feria-garra-pinzas">🦾</div>
+		  </div>
+		  <svg id="feriaFxOverlay" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 11; overflow: visible;"></svg>
+		</div>
+
+		<div id="feriaControlesGarra" class="feria-controles-garra" hidden>
+		  <button id="btnFeriaIzq" class="feria-btn-control" type="button">⬅️ Izq</button>
+		  <button id="btnFeriaSoltar" class="feria-btn-control soltar" type="button">🕹️ ¡Soltar Garra!</button>
+		  <button id="btnFeriaDer" class="feria-btn-control" type="button">Der ➡️</button>
+		</div>
+
+		<div id="lblFeriaPcGuia" style="font-size:10px; color:#64748b; margin-bottom:4px; font-weight:700;">
+		  🎯 Toca un blanco en movimiento o usa flechas + [Espacio]
+		</div>
+
+		<button id="btnIniciarFeria" class="principal btn-modal-accion" type="button" style="background: linear-gradient(135deg, #dc2626, #b91c1c); padding: 10px; font-size: 13px; font-weight: bold;">
+		  🎯 ¡Abrir Caseta de Feria!
+		</button>
+	  </div>
+	</div>
+
+	<!-- Modal de Minijuego: Dino Runner Matemático -->
+	<div id="modalDino" class="modal-historial" hidden>
+	  <div class="modal-contenido" style="text-align: center; position: relative; overflow: hidden; max-width: 440px; width: 95%; height: 86vh; max-height: 92dvh; min-height: 545px; display: flex; flex-direction: column;">
+		<div class="modal-header">
+		  <span id="lblDinoTitulo" style="color:#15803d; font-weight:900;">🦖 Dino Runner Matemático</span>
+		  <button id="cerrarDino" type="button" style="background:#e2e8f0; border-radius:50%; width:28px; height:28px; font-size:12px; font-weight:bold; border:none; cursor:pointer;">✕</button>
+		</div>
+
+		<div style="display:flex; justify-content:space-between; align-items:center; background:#f0fdf4; padding:4px 10px; border-radius:8px; margin-bottom:4px; border:1.5px solid #bbf7d0;">
+		  <span id="lblDinoVidas" style="font-size:12px; font-weight:bold; color:#166534;">❤️❤️❤️ Vidas: 3</span>
+		  <span id="lblDinoBioma" style="font-size:11px; font-weight:extrabold; color:#15803d; background:#fff; padding:2px 8px; border-radius:12px; border:1px solid #86efac;">🌿 Jungla Nv.1</span>
+		  <span id="lblDinoPuntos" style="font-size:12px; font-weight:bold; color:#166534;">⭐ Puntos: 0</span>
+		</div>
+
+		<div id="dinoOperacion" style="font-size: 28px; font-weight: 900; margin: 2px 0 4px; color: #15803d; min-height: 36px; display: flex; align-items: center; justify-content: center;">
+		  ? × ? = ?
+		</div>
+
+		<div id="dinoAreaJuego" class="dino-pista">
+		  <div class="dino-carril-guia" data-dino-carril="0" style="top:0%;"></div>
+		  <div class="dino-carril-guia" data-dino-carril="1" style="top:33.33%;"></div>
+		  <div class="dino-carril-guia" data-dino-carril="2" style="top:66.66%;"></div>
+		  <div id="dinoJugador" class="dino-jugador" style="top:81%;">
+			<span class="dino-sprite">🦖</span>
+		  </div>
+		  <div class="dino-suelo-scroll"></div>
+		</div>
+
+		<div class="dino-controles">
+		  <button id="btnDinoCarril0" class="dino-btn-carril" type="button">⬆️ Alto</button>
+		  <button id="btnDinoCarril1" class="dino-btn-carril" type="button">➡️ Medio</button>
+		  <button id="btnDinoCarril2" class="dino-btn-carril activo" type="button">⬇️ Suelo</button>
+		</div>
+
+		<div id="lblDinoPcGuia" style="font-size:10px; color:#64748b; margin-bottom:4px; font-weight:700;">
+		  ⌨️ PC: Flechas ⬆️ ⬇️ o [W]/[S] o [1][2][3] • Toca un carril en pantalla
+		</div>
+
+		<button id="btnIniciarDino" class="principal btn-modal-accion" type="button" style="background: linear-gradient(135deg, #16a34a, #15803d); padding: 10px; font-size: 13px; font-weight: bold;">
+		  🦖 ¡Correr con Dino!
 		</button>
 	  </div>
 	</div>
@@ -5157,106 +6281,224 @@
     </div>
   </div>
 
-  <!-- Modal: Centro de Minijuegos (Hub) -->
+  <!-- Modal: Centro de Minijuegos (Arcade Hub organizado por categorías) -->
   <div id="modalHubMinijuegos" class="modal-historial" hidden>
-    <div class="modal-contenido" style="max-width: 380px;">
-      <div class="modal-header">
-        <span id="lblHubTitulo">🎮 Centro de Minijuegos</span>
+    <div class="modal-contenido hub-modal-card">
+      <div class="modal-header" style="flex-shrink:0;">
+        <span id="lblHubTitulo">🎮 Centro Arcade (14)</span>
         <button id="cerrarHubMinijuegos" type="button" style="background:#e2e8f0; border-radius:50%; width:28px; height:28px; font-size:12px; font-weight:bold; border:none; cursor:pointer;">✕</button>
       </div>
-      <p id="lblHubSubtitulo" style="font-size: 11px; color: #475569; margin: 2px 0 8px; text-align: center;">
-        ¡Elige tu desafío matemático favorito y demuestra tu poder táctico! 🚀
-      </p>
-      <div style="display: flex; flex-direction: column; gap: 7px; max-height: 60vh; overflow-y: auto; padding: 2px;">
-        <!-- Tarjeta Ajedrez -->
-        <div class="card-hub-juego" id="cardHubAjedrez" style="background:#f5f3ff; border:1.5px solid #d8b4fe;">
-          <span style="font-size:26px;">♟️</span>
-          <div style="flex:1; text-align:left;">
-            <strong id="lblAjedrezTitulo" style="font-size:12px; color:#6b21a8; display:block;">Ajedrez Matemágico (8x8)</strong>
-            <span id="lblAjedrezDesc" style="font-size:10px; color:#475569;">Tablas 1-12, Bot o 2P, Enroque, Jaque y más.</span>
+      <div class="hub-hero-banner">
+        <span id="lblHubSubtitulo" class="hub-hero-banner-txt">🕹️ ¡Elige tu aventura matemática y bate récords!</span>
+        <span id="lblHubHeroBadge" class="hub-hero-badge">14 JUEGOS</span>
+      </div>
+
+      <!-- Sección Superior: Todos los botones visibles organizados por tipo de juego -->
+      <div id="hubAccesosRapidos" class="hub-accesos-rapidos" aria-label="Todos los minijuegos por categoría">
+        <div class="hub-cat-bloque cat-accion">
+          <div class="hub-cat-titulo">
+            <span id="lblHubCatAccionRapido">🕹️ Acción y Velocidad Arcade</span>
+            <span class="hub-cat-count">6</span>
           </div>
-          <button type="button" class="principal" style="background:#8b5cf6; font-size:10px; padding:6px 10px; border-radius:8px;">Jugar</button>
+          <div class="hub-cat-grid-3">
+            <button type="button" class="btn-hub-rapido" id="btnHubRapidoNitro">
+              <span class="hub-rapido-ico">🏎️</span><span class="hub-rapido-txt">Nitro</span>
+            </button>
+            <button type="button" class="btn-hub-rapido" id="btnHubRapidoEnduro">
+              <span class="hub-rapido-ico">🛣️</span><span class="hub-rapido-txt">Enduro</span>
+            </button>
+            <button type="button" class="btn-hub-rapido" id="btnHubRapidoDino">
+              <span class="hub-rapido-ico">🦖</span><span class="hub-rapido-txt">Dino</span>
+            </button>
+            <button type="button" class="btn-hub-rapido" id="btnHubRapidoGalactica">
+              <span class="hub-rapido-ico">🚀</span><span class="hub-rapido-txt">Galaxia</span>
+            </button>
+            <button type="button" class="btn-hub-rapido" id="btnHubRapidoFeria">
+              <span class="hub-rapido-ico">🎯</span><span class="hub-rapido-txt">Feria</span>
+            </button>
+            <button type="button" class="btn-hub-rapido" id="btnHubRapidoLluvia">
+              <span class="hub-rapido-ico">⭐</span><span class="hub-rapido-txt">Ninja</span>
+            </button>
+          </div>
         </div>
-        <!-- Tarjeta Desafío 60s -->
-        <div class="card-hub-juego" id="cardHubDesafio" style="background:#fdf2f8; border:1.5px solid #fbcfe8;">
-          <span style="font-size:26px;">⚡</span>
-          <div style="flex:1; text-align:left;">
-            <strong id="lblDesafioTituloHub" style="font-size:12px; color:#db2777; display:block;">Desafío Relámpago (60s)</strong>
-            <span id="lblDesafioDesc" style="font-size:10px; color:#475569;">Velocidad y cálculo contra el reloj.</span>
+
+        <div class="hub-cat-bloque cat-reflejos">
+          <div class="hub-cat-titulo">
+            <span id="lblHubCatReflejosRapido">⚡ Reflejos y Contrarreloj</span>
+            <span class="hub-cat-count">4</span>
           </div>
-          <button type="button" class="principal" style="background:#ec4899; font-size:10px; padding:6px 10px; border-radius:8px;">Jugar</button>
+          <div class="hub-cat-grid-4">
+            <button type="button" class="btn-hub-rapido" id="btnHubRapidoDesafio">
+              <span class="hub-rapido-ico">⚡</span><span class="hub-rapido-txt">60s</span>
+            </button>
+            <button type="button" class="btn-hub-rapido" id="btnHubRapidoGlobos">
+              <span class="hub-rapido-ico">🎈</span><span class="hub-rapido-txt">Globos</span>
+            </button>
+            <button type="button" class="btn-hub-rapido" id="btnHubRapidoTopos">
+              <span class="hub-rapido-ico">🔨</span><span class="hub-rapido-txt">Topos</span>
+            </button>
+            <button type="button" class="btn-hub-rapido" id="btnHubRapidoTrampa">
+              <span class="hub-rapido-ico">🕵️‍♂️</span><span class="hub-rapido-txt">Trampa</span>
+            </button>
+          </div>
         </div>
-        <!-- Tarjeta Laberinto -->
-        <div class="card-hub-juego" id="cardHubLaberinto" style="background:#ecfdf5; border:1.5px solid #a7f3d0;">
-          <span style="font-size:26px;">🗺️</span>
-          <div style="flex:1; text-align:left;">
-            <strong id="lblLaberintoTituloHub" style="font-size:12px; color:#047857; display:block;">Laberinto Numérico</strong>
-            <span id="lblLaberintoDesc" style="font-size:10px; color:#475569;">Navega siguiendo la secuencia de múltiplos.</span>
+
+        <div class="hub-cat-bloque cat-estrategia">
+          <div class="hub-cat-titulo">
+            <span id="lblHubCatEstrategiaRapido">🧠 Estrategia, Duelo y Tablas</span>
+            <span class="hub-cat-count">4</span>
           </div>
-          <button type="button" class="principal" style="background:#10b981; font-size:10px; padding:6px 10px; border-radius:8px;">Jugar</button>
+          <div class="hub-cat-grid-4">
+            <button type="button" class="btn-hub-rapido" id="btnHubRapidoAjedrez">
+              <span class="hub-rapido-ico">♟️</span><span class="hub-rapido-txt">Ajedrez</span>
+            </button>
+            <button type="button" class="btn-hub-rapido" id="btnHubRapidoLaberinto">
+              <span class="hub-rapido-ico">🗺️</span><span class="hub-rapido-txt">Laberinto</span>
+            </button>
+            <button type="button" class="btn-hub-rapido" id="btnHubRapidoCaraACara">
+              <span class="hub-rapido-ico">⚔️</span><span class="hub-rapido-txt">Duelo</span>
+            </button>
+            <button type="button" class="btn-hub-rapido" id="btnHubRapidoPitagoras">
+              <span class="hub-rapido-ico">📊</span><span class="hub-rapido-txt">Pitágoras</span>
+            </button>
+          </div>
         </div>
-        <!-- Tarjeta Lluvia -->
-        <div class="card-hub-juego" id="cardHubLluvia" style="background:#f0f9ff; border:1.5px solid #bae6fd;">
-          <span style="font-size:26px;">⭐</span>
-          <div style="flex:1; text-align:left;">
-            <strong id="lblLluviaTituloHub" style="font-size:12px; color:#0284c7; display:block;">Salto Ninja (Lluvia de Estrellas)</strong>
-            <span id="lblLluviaDesc" style="font-size:10px; color:#475569;">Corta las estrellas correctas con katana.</span>
+      </div>
+
+      <div id="lblHubFichasTitulo" class="hub-separador-fichas">📋 Fichas Arcade por Categoría</div>
+
+      <!-- Sección Inferior: Fichas detalladas organizadas por categoría -->
+      <div id="hubListaFichas" class="hub-lista-fichas">
+        <div id="lblHubCatAccionFichas" class="hub-fichas-cat-titulo">🕹️ Acción y Velocidad Arcade</div>
+        <!-- Ficha Carrera de Nitro -->
+        <div class="card-hub-juego" id="cardHubNitro">
+          <div class="hub-card-icono-box" style="background:linear-gradient(135deg,#fb923c,#ea580c);">🏎️</div>
+          <div>
+            <strong id="lblNitroTituloHub">Carrera de Nitro (Nitro Rush)</strong>
+            <span id="lblNitroDesc">Cambia de carril y acelera hacia el resultado correcto.</span>
           </div>
-          <button type="button" class="principal" style="background:#0284c7; font-size:10px; padding:6px 10px; border-radius:8px;">Jugar</button>
+          <button type="button" class="hub-card-btn-cta">▶ Jugar</button>
         </div>
-        <!-- Tarjeta Rompe-Globos -->
-        <div class="card-hub-juego" id="cardHubGlobos" style="background:#fff1f2; border:1.5px solid #fda4af;">
-          <span style="font-size:26px;">🎈</span>
-          <div style="flex:1; text-align:left;">
-            <strong id="lblGlobosTituloHub" style="font-size:12px; color:#e11d48; display:block;">Rompe-Globos a Toda Presión</strong>
-            <span id="lblGlobosDesc" style="font-size:10px; color:#475569;">Revienta el globo correcto antes de que vuele al cielo.</span>
+        <!-- Ficha Enduro Atari -->
+        <div class="card-hub-juego" id="cardHubEnduro">
+          <div class="hub-card-icono-box" style="background:linear-gradient(135deg,#38bdf8,#0284c7);">🛣️</div>
+          <div>
+            <strong id="lblEnduroTituloHub">Enduro Matemático (Atari Retro)</strong>
+            <span id="lblEnduroDesc">Adelanta autos de día, atardecer, niebla y noche con luces.</span>
           </div>
-          <button type="button" class="principal" style="background:#f43f5e; font-size:10px; padding:6px 10px; border-radius:8px;">Jugar</button>
+          <button type="button" class="hub-card-btn-cta">▶ Jugar</button>
         </div>
-        <!-- Tarjeta Martillazo al Topo -->
-        <div class="card-hub-juego" id="cardHubTopos" style="background:#fefce8; border:1.5px solid #fef08a;">
-          <span style="font-size:26px;">🔨</span>
-          <div style="flex:1; text-align:left;">
-            <strong id="lblToposTituloHub" style="font-size:12px; color:#854d0e; display:block;">Martillazo al Topo Travieso</strong>
-            <span id="lblToposDesc" style="font-size:10px; color:#475569;">¡PUM! Martilla al topo con el resultado correcto.</span>
+        <!-- Ficha Dino Runner Matemático -->
+        <div class="card-hub-juego" id="cardHubDino">
+          <div class="hub-card-icono-box" style="background:linear-gradient(135deg,#4ade80,#16a34a);">🦖</div>
+          <div>
+            <strong id="lblDinoTituloHub">Dino Runner Matemático</strong>
+            <span id="lblDinoDesc">Salta entre alturas, activa escudos y supera biomas épicos.</span>
           </div>
-          <button type="button" class="principal" style="background:#854d0e; font-size:10px; padding:6px 10px; border-radius:8px;">Jugar</button>
+          <button type="button" class="hub-card-btn-cta">▶ Jugar</button>
         </div>
-        <!-- Tarjeta ¿Correcto o Trampa? -->
-        <div class="card-hub-juego" id="cardHubTrampa" style="background:#fef3c7; border:1.5px solid #fde68a;">
-          <span style="font-size:26px;">🕵️‍♂️</span>
-          <div style="flex:1; text-align:left;">
-            <strong id="lblTrampaTitulo" style="font-size:12px; color:#b45309; display:block;">¿Correcto o Trampa?</strong>
-            <span id="lblTrampaDesc" style="font-size:10px; color:#475569;">Descubre al impostor matemático con rapidez.</span>
+        <!-- Ficha Defensa Galáctica -->
+        <div class="card-hub-juego" id="cardHubGalactica">
+          <div class="hub-card-icono-box" style="background:linear-gradient(135deg,#818cf8,#4f46e5);">🚀</div>
+          <div>
+            <strong id="lblGalacticaTituloHub">Defensa Galáctica (Space Defender)</strong>
+            <span id="lblGalacticaDesc">Dispara rayos láser para pulverizar a los invasores.</span>
           </div>
-          <button type="button" class="principal" style="background:#f59e0b; font-size:10px; padding:6px 10px; border-radius:8px;">Jugar</button>
+          <button type="button" class="hub-card-btn-cta">▶ Jugar</button>
         </div>
-        <!-- Tarjeta Cara a Cara -->
-        <div class="card-hub-juego" id="cardHubCaraACara" style="background:#fff1f2; border:1.5px solid #fecdd3;">
-          <span style="font-size:26px;">⚔️</span>
-          <div style="flex:1; text-align:left;">
-            <strong id="lblCaraACaraTitulo" style="font-size:12px; color:#be123c; display:block;">Duelo Cara a Cara (2 Jugadores)</strong>
-            <span id="lblCaraACaraDesc" style="font-size:10px; color:#475569;">Pantalla dividida con vista invertida para jugar en la misma mesa.</span>
+        <!-- Ficha Feria & Garra Arcade -->
+        <div class="card-hub-juego" id="cardHubFeria">
+          <div class="hub-card-icono-box" style="background:linear-gradient(135deg,#f87171,#dc2626);">🎯</div>
+          <div>
+            <strong id="lblFeriaTituloHub">Feria Matemática & Garra Arcade</strong>
+            <span id="lblFeriaDesc">Tiro al blanco móvil o atrapa cápsulas premio con la garra.</span>
           </div>
-          <button type="button" class="principal" style="background:#e11d48; font-size:10px; padding:6px 10px; border-radius:8px;">Duelo</button>
+          <button type="button" class="hub-card-btn-cta">▶ Jugar</button>
         </div>
-        <!-- Tarjeta Carrera de Nitro -->
-        <div class="card-hub-juego" id="cardHubNitro" style="background:#fff7ed; border:1.5px solid #fed7aa;">
-          <span style="font-size:26px;">🏎️</span>
-          <div style="flex:1; text-align:left;">
-            <strong id="lblNitroTituloHub" style="font-size:12px; color:#c2410c; display:block;">Carrera de Nitro (Nitro Rush)</strong>
-            <span id="lblNitroDesc" style="font-size:10px; color:#475569;">Cambia de carril y acelera hacia el resultado correcto.</span>
+        <!-- Ficha Lluvia -->
+        <div class="card-hub-juego" id="cardHubLluvia">
+          <div class="hub-card-icono-box" style="background:linear-gradient(135deg,#38bdf8,#0284c7);">⭐</div>
+          <div>
+            <strong id="lblLluviaTituloHub">Salto Ninja (Lluvia de Estrellas)</strong>
+            <span id="lblLluviaDesc">Corta las estrellas correctas con katana.</span>
           </div>
-          <button type="button" class="principal" style="background:#ea580c; font-size:10px; padding:6px 10px; border-radius:8px;">Jugar</button>
+          <button type="button" class="hub-card-btn-cta">▶ Jugar</button>
         </div>
-        <!-- Tarjeta Defensa Galáctica -->
-        <div class="card-hub-juego" id="cardHubGalactica" style="background:#eef2ff; border:1.5px solid #c7d2fe;">
-          <span style="font-size:26px;">🚀</span>
-          <div style="flex:1; text-align:left;">
-            <strong id="lblGalacticaTituloHub" style="font-size:12px; color:#4338ca; display:block;">Defensa Galáctica (Space Defender)</strong>
-            <span id="lblGalacticaDesc" style="font-size:10px; color:#475569;">Dispara rayos láser para pulverizar a los invasores.</span>
+
+        <div id="lblHubCatReflejosFichas" class="hub-fichas-cat-titulo">⚡ Reflejos y Contrarreloj</div>
+        <!-- Ficha Desafío 60s -->
+        <div class="card-hub-juego" id="cardHubDesafio">
+          <div class="hub-card-icono-box" style="background:linear-gradient(135deg,#f472b6,#db2777);">⚡</div>
+          <div>
+            <strong id="lblDesafioTituloHub">Desafío Relámpago (60s)</strong>
+            <span id="lblDesafioDesc">Velocidad y cálculo contra el reloj.</span>
           </div>
-          <button type="button" class="principal" style="background:#4f46e5; font-size:10px; padding:6px 10px; border-radius:8px;">Jugar</button>
+          <button type="button" class="hub-card-btn-cta">▶ Jugar</button>
+        </div>
+        <!-- Ficha Rompe-Globos -->
+        <div class="card-hub-juego" id="cardHubGlobos">
+          <div class="hub-card-icono-box" style="background:linear-gradient(135deg,#fb7185,#e11d48);">🎈</div>
+          <div>
+            <strong id="lblGlobosTituloHub">Rompe-Globos a Toda Presión</strong>
+            <span id="lblGlobosDesc">Revienta el globo correcto antes de que vuele al cielo.</span>
+          </div>
+          <button type="button" class="hub-card-btn-cta">▶ Jugar</button>
+        </div>
+        <!-- Ficha Martillazo al Topo -->
+        <div class="card-hub-juego" id="cardHubTopos">
+          <div class="hub-card-icono-box" style="background:linear-gradient(135deg,#facc15,#ca8a04);">🔨</div>
+          <div>
+            <strong id="lblToposTituloHub">Martillazo al Topo Travieso</strong>
+            <span id="lblToposDesc">¡PUM! Martilla al topo con el resultado correcto.</span>
+          </div>
+          <button type="button" class="hub-card-btn-cta">▶ Jugar</button>
+        </div>
+        <!-- Ficha ¿Correcto o Trampa? -->
+        <div class="card-hub-juego" id="cardHubTrampa">
+          <div class="hub-card-icono-box" style="background:linear-gradient(135deg,#fbbf24,#d97706);">🕵️‍♂️</div>
+          <div>
+            <strong id="lblTrampaTitulo">¿Correcto o Trampa?</strong>
+            <span id="lblTrampaDesc">Descubre al impostor matemático con rapidez.</span>
+          </div>
+          <button type="button" class="hub-card-btn-cta">▶ Jugar</button>
+        </div>
+
+        <div id="lblHubCatEstrategiaFichas" class="hub-fichas-cat-titulo">🧠 Estrategia, Duelo y Tablas</div>
+        <!-- Ficha Ajedrez -->
+        <div class="card-hub-juego" id="cardHubAjedrez">
+          <div class="hub-card-icono-box" style="background:linear-gradient(135deg,#a78bfa,#7c3aed);">♟️</div>
+          <div>
+            <strong id="lblAjedrezTitulo">Ajedrez Matemágico (8x8)</strong>
+            <span id="lblAjedrezDesc">Tablas 1-12, Bot o 2P, Enroque, Jaque y más.</span>
+          </div>
+          <button type="button" class="hub-card-btn-cta">▶ Jugar</button>
+        </div>
+        <!-- Ficha Laberinto -->
+        <div class="card-hub-juego" id="cardHubLaberinto">
+          <div class="hub-card-icono-box" style="background:linear-gradient(135deg,#34d399,#059669);">🗺️</div>
+          <div>
+            <strong id="lblLaberintoTituloHub">Laberinto Numérico</strong>
+            <span id="lblLaberintoDesc">Navega siguiendo la secuencia de múltiplos.</span>
+          </div>
+          <button type="button" class="hub-card-btn-cta">▶ Jugar</button>
+        </div>
+        <!-- Ficha Cara a Cara -->
+        <div class="card-hub-juego" id="cardHubCaraACara">
+          <div class="hub-card-icono-box" style="background:linear-gradient(135deg,#fb7185,#e11d48);">⚔️</div>
+          <div>
+            <strong id="lblCaraACaraTitulo">Duelo Cara a Cara (2-4 Jugadores)</strong>
+            <span id="lblCaraACaraDesc">Pantalla dividida o por equipos en la misma mesa o contra Bot.</span>
+          </div>
+          <button type="button" class="hub-card-btn-cta">⚔️ Duelo</button>
+        </div>
+        <!-- Ficha Tabla Pitagórica -->
+        <div class="card-hub-juego" id="cardHubPitagoras">
+          <div class="hub-card-icono-box" style="background:linear-gradient(135deg,#2dd4bf,#059669);">📊</div>
+          <div>
+            <strong id="lblPitagorasTituloHub">Tabla Pitagórica (Explorador y Reto)</strong>
+            <span id="lblPitagorasDesc">Explora áreas del 1 al 12 o supera retos contrarreloj.</span>
+          </div>
+          <button type="button" class="hub-card-btn-cta">📊 Abrir</button>
         </div>
       </div>
     </div>
@@ -5916,8 +7158,16 @@ const i18n = {
       (c, t, f) => `❌ Vaya, vaya... El número ${c} decidió tomarse un descanso en la playa. 🏖️`
     ],
     hablarPregunta: (t, f) => `¿Cuánto es ${t} por ${f}?`,
+    hablarPreguntaIncognita: (t, prod) => `¿${t} por qué número da ${prod}?`,
     hablarAcierto: (n, frase, t, f, c) => `¡Muy bien ${n}! ${frase}. ${t} por ${f} es ${c}`,
     hablarError: (t, f, c) => `Casi. ${t} por ${f} es ${c}`,
+    modosTiempoCortos: ["∞ Libre", "⏱️ 6s Normal", "⚡ 4s Rápido", "🚀 2s Bala"],
+    btnTurboTexto: "⚡ Giro Rápido",
+    btnIncognitaTexto: "❓ A×?=C",
+    progresoTablaTexto: (t, n, dom) => dom ? `👑 Tabla ${t} dominada (${n}/12)` : `Tabla ${t}: ${n}/12 ⭐`,
+    progresoMixtoTexto: (dom) => `✨ Mixto: ${dom}/12 tablas 👑`,
+    alertaNombreFaltante: "👋 ¡Escribe tu nombre primero para girar!",
+    tooltipHubDock: "Centro de Minijuegos (12 juegos)",
     confirmarReiniciar: "¿Quieres borrar los puntos, los aciertos, la racha y cambiar el nombre?",
     promptPegarCodigo: "Pega aquí tu código de texto de respaldo:",
     msjReiniciado: "Puntajes y historial reiniciados.",
@@ -5993,6 +7243,10 @@ const i18n = {
     hubNitroDesc: "Cambia de carril y acelera hacia el resultado correcto.",
     hubGalacticaTitulo: "Defensa Galáctica (Space Defender)",
     hubGalacticaDesc: "Dispara rayos láser para pulverizar a los invasores.",
+    hubFeriaTitulo: "Feria Matemática & Garra Arcade",
+    hubFeriaDesc: "Tiro al blanco móvil o atrapa cápsulas premio con la garra.",
+    hubDinoTitulo: "Dino Runner Matemático",
+    hubDinoDesc: "Salta entre alturas, activa escudos y supera biomas épicos.",
     hubBtnJugar: "Jugar",
     hubBtnDuelo: "Duelo",
 
@@ -6012,7 +7266,7 @@ const i18n = {
     toposBtnIniciar: "🔨 ¡Comenzar Martillazos!",
     toposBtnReintentar: "🔄 ¡Jugar de Nuevo!",
     toposVidasTexto: (v) => `${'❤️'.repeat(v)}${'💔'.repeat(Math.max(0, 3 - v))} Vidas: ${v}`,
-    toposRachaTexto: (r) => `🔨 Racha: x${r}`,
+    toposRachaTexto: (r) => `🔨 Racha: ${r}`,
     toposPuntosTexto: (p) => `⭐ Puntos: ${p}`,
     toposMsjEscondidos: "🕳️ ¡Se escondieron a tiempo!",
     toposMsjEquivocado: "❌ ¡Topo equivocado!",
@@ -6056,6 +7310,44 @@ const i18n = {
     galacticaMsjInvasion: "🛸 ¡Los invasores penetraron la atmósfera!",
     galacticaMsjEquivocado: "❌ ¡Blanco incorrecto!",
     galacticaFinPartida: "🏁 ¡DEFENSA FINALIZADA!",
+
+    // 🎯 Tiro al Blanco de Feria & Garra Arcade
+    feriaTitulo: "🎯 Feria Matemática & Garra Arcade",
+    feriaTabTiro: "🎯 Tiro de Feria",
+    feriaTabGarra: "🕹️ Garra Arcade",
+    feriaBtnIniciarTiro: "🎯 ¡Abrir Caseta de Feria!",
+    feriaBtnIniciarGarra: "🕹️ ¡Encender Garra Arcade!",
+    feriaBtnReintentar: "🔄 ¡Jugar en la Feria otra vez!",
+    feriaVidasTexto: (v) => `${'❤️'.repeat(v)}${'💔'.repeat(Math.max(0, 3 - v))} Vidas: ${v}`,
+    feriaRachaTexto: (r, dorada) => dorada ? `✨ ¡DORADA x2! (${r})` : `🔥 Racha: ${r}`,
+    feriaPuntosTexto: (p) => `⭐ Puntos: ${p}`,
+    feriaBtnIzqTexto: "⬅️ Izq",
+    feriaBtnSoltarTexto: "🕹️ ¡Soltar Garra!",
+    feriaBtnDerTexto: "Der ➡️",
+    feriaPcGuiaTiro: "🎯 Toca un blanco en movimiento o usa flechas + [Espacio]",
+    feriaPcGuiaGarra: "🕹️ Mueve la garra (⬅️➡️ o arrastra) y pulsa [Espacio] para atrapar",
+    feriaMsjFalloTiro: "🎯 ¡Blanco equivocado!",
+    feriaMsjFalloGarra: "🧸 ¡Cápsula incorrecta! Sigue intentando",
+    feriaMsjVacio: "💨 ¡Casi! La garra subió vacía",
+    feriaMsjDorada: "✨ ¡RONDA DORADA x2 ACTIVADA!",
+    feriaFinPartida: "🎪 ¡FERIA FINALIZADA!",
+
+    // 🦖 Dino Runner Matemático
+    dinoTitulo: "🦖 Dino Runner Matemático",
+    dinoBtnIniciar: "🦖 ¡Correr con Dino!",
+    dinoBtnReintentar: "🔄 ¡Correr de Nuevo!",
+    dinoVidasTexto: (v) => `${'❤️'.repeat(v)}${'💔'.repeat(Math.max(0, 3 - v))} Vidas: ${v}`,
+    dinoBiomaTexto: (bIdx, nv) => `${bIdx === 0 ? "🌿 Jungla" : bIdx === 1 ? "🌋 Volcán" : "🌆 Neón"} Nv.${nv}`,
+    dinoPuntosTexto: (p) => `⭐ Puntos: ${p}`,
+    dinoBtnAlto: "⬆️ Alto",
+    dinoBtnMedio: "➡️ Medio",
+    dinoBtnSuelo: "⬇️ Suelo",
+    dinoPcGuia: "⌨️ PC: Flechas ⬆️ ⬇️ o [W]/[S] o [1][2][3] • Toca un carril en pantalla",
+    dinoMsjEscudo: "🛡️ ¡ESCUDO TURBO ACTIVADO!",
+    dinoMsjEscudoSalva: "🛡️ ¡El Escudo Turbo bloqueó el meteorito!",
+    dinoMsjChoque: "☄️ ¡Meteorito! Respuesta incorrecta",
+    dinoMsjNuevoBioma: (bIdx) => bIdx === 1 ? "🌋 ¡Entraste al Valle Volcánico!" : "🌆 ¡Entraste a Ciudad Cyber-Neón!",
+    dinoFinPartida: "🦖 ¡CARRERA DE DINO FINALIZADA!",
 
     // 📊 Tabla Pitagórica
     pitagorasTitulo: "📊 Tabla Pitagórica Interactiva",
@@ -6163,9 +7455,12 @@ const i18n = {
 
     // Tooltips y accesibilidad
     tooltipHub: "Centro de Minijuegos",
-    btnAbrirHubModal: "🎮 Centro de Minijuegos (10 juegos)",
+    tooltipHubDock: "Centro de Minijuegos (14 juegos)",
+    btnAbrirHubModal: "🎮 Centro de Minijuegos (14 juegos)",
     tooltipNitro: "Minijuego: Carrera de Nitro",
     tooltipGalactica: "Minijuego: Defensa Galáctica",
+    tooltipFeria: "Minijuego: Tiro al Blanco y Garra Arcade",
+    tooltipDino: "Minijuego: Dino Runner Matemático",
     tooltipPitagoras: "Tabla Pitagórica",
     tooltipDuelo: "Minijuego: Duelo Cara a Cara",
     tooltipHistorial: "Ver historial",
@@ -6349,8 +7644,16 @@ const i18n = {
       (c, t, f) => `❌ Well, well... Number ${c} decided to take a little nap at the beach. 🏖️`
     ],
     hablarPregunta: (t, f) => `What is ${t} times ${f}?`,
+    hablarPreguntaIncognita: (t, prod) => `${t} times what equals ${prod}?`,
     hablarAcierto: (n, frase, t, f, c) => `Very good ${n}! ${frase}. ${t} times ${f} is ${c}`,
     hablarError: (t, f, c) => `Almost. ${t} times ${f} is ${c}`,
+    modosTiempoCortos: ["∞ No limit", "⏱️ 6s Normal", "⚡ 4s Fast", "🚀 2s Bullet"],
+    btnTurboTexto: "⚡ Turbo Spin",
+    btnIncognitaTexto: "❓ A×?=C",
+    progresoTablaTexto: (t, n, dom) => dom ? `👑 Table ${t} mastered (${n}/12)` : `Table ${t}: ${n}/12 ⭐`,
+    progresoMixtoTexto: (dom) => `✨ Mixed: ${dom}/12 tables 👑`,
+    alertaNombreFaltante: "👋 Please type your name before spinning!",
+    tooltipHubDock: "Minigames Hub (12 games)",
     confirmarReiniciar: "Do you want to clear scores, correct answers, streak and change name?",
     promptPegarCodigo: "Paste your text backup code here:",
     msjReiniciado: "Scores reset.",
@@ -6426,6 +7729,10 @@ const i18n = {
     hubNitroDesc: "Switch lanes and accelerate into the correct goal.",
     hubGalacticaTitulo: "Galactic Math Defender",
     hubGalacticaDesc: "Blast lasers to vaporize falling alien invaders.",
+    hubFeriaTitulo: "Math Carnival & Arcade Claw",
+    hubFeriaDesc: "Pop moving booth targets or grab prize capsules with the claw.",
+    hubDinoTitulo: "Math Dino Runner",
+    hubDinoDesc: "Leap across 3 height lanes, activate shields, and conquer biomes.",
     hubBtnJugar: "Play",
     hubBtnDuelo: "Duel",
 
@@ -6445,7 +7752,7 @@ const i18n = {
     toposBtnIniciar: "🔨 Start Whacking!",
     toposBtnReintentar: "🔄 Play Again!",
     toposVidasTexto: (v) => `${'❤️'.repeat(v)}${'💔'.repeat(Math.max(0, 3 - v))} Lives: ${v}`,
-    toposRachaTexto: (r) => `🔨 Streak: x${r}`,
+    toposRachaTexto: (r) => `🔨 Streak: ${r}`,
     toposPuntosTexto: (p) => `⭐ Points: ${p}`,
     toposMsjEscondidos: "🕳️ They hid in time!",
     toposMsjEquivocado: "❌ Wrong mole hit!",
@@ -6489,6 +7796,44 @@ const i18n = {
     galacticaMsjInvasion: "🛸 Invaders breached the shields!",
     galacticaMsjEquivocado: "❌ Incorrect target!",
     galacticaFinPartida: "🏁 DEFENSE COMPLETED!",
+
+    // 🎯 Math Carnival & Arcade Claw
+    feriaTitulo: "🎯 Math Carnival & Arcade Claw",
+    feriaTabTiro: "🎯 Carnival Booth",
+    feriaTabGarra: "🕹️ Arcade Claw",
+    feriaBtnIniciarTiro: "🎯 Open Carnival Booth!",
+    feriaBtnIniciarGarra: "🕹️ Power Up Arcade Claw!",
+    feriaBtnReintentar: "🔄 Play Carnival Again!",
+    feriaVidasTexto: (v) => `${'❤️'.repeat(v)}${'💔'.repeat(Math.max(0, 3 - v))} Lives: ${v}`,
+    feriaRachaTexto: (r, dorada) => dorada ? `✨ GOLDEN x2! (${r})` : `🔥 Streak: ${r}`,
+    feriaPuntosTexto: (p) => `⭐ Points: ${p}`,
+    feriaBtnIzqTexto: "⬅️ Left",
+    feriaBtnSoltarTexto: "🕹️ Drop Claw!",
+    feriaBtnDerTexto: "Right ➡️",
+    feriaPcGuiaTiro: "🎯 Tap a moving target or use Arrow keys + [Space]",
+    feriaPcGuiaGarra: "🕹️ Move the claw (⬅️➡️ or drag) and press [Space] to grab",
+    feriaMsjFalloTiro: "🎯 Wrong target!",
+    feriaMsjFalloGarra: "🧸 Wrong capsule! Try again",
+    feriaMsjVacio: "💨 Close! Claw came up empty",
+    feriaMsjDorada: "✨ GOLDEN ROUND x2 ACTIVATED!",
+    feriaFinPartida: "🎪 CARNIVAL ROUND FINISHED!",
+
+    // 🦖 Math Dino Runner
+    dinoTitulo: "🦖 Math Dino Runner",
+    dinoBtnIniciar: "🦖 Run with Dino!",
+    dinoBtnReintentar: "🔄 Run Again!",
+    dinoVidasTexto: (v) => `${'❤️'.repeat(v)}${'💔'.repeat(Math.max(0, 3 - v))} Lives: ${v}`,
+    dinoBiomaTexto: (bIdx, nv) => `${bIdx === 0 ? "🌿 Jungle" : bIdx === 1 ? "🌋 Volcano" : "🌆 Neon"} Lv.${nv}`,
+    dinoPuntosTexto: (p) => `⭐ Points: ${p}`,
+    dinoBtnAlto: "⬆️ High",
+    dinoBtnMedio: "➡️ Mid",
+    dinoBtnSuelo: "⬇️ Ground",
+    dinoPcGuia: "⌨️ PC: Arrow keys ⬆️ ⬇️ or [W]/[S] or [1][2][3] • Tap any height lane",
+    dinoMsjEscudo: "🛡️ TURBO SHIELD ACTIVATED!",
+    dinoMsjEscudoSalva: "🛡️ Turbo Shield blocked the meteor!",
+    dinoMsjChoque: "☄️ Meteor hit! Wrong gate",
+    dinoMsjNuevoBioma: (bIdx) => bIdx === 1 ? "🌋 Entered Volcanic Valley!" : "🌆 Entered Cyber Neon City!",
+    dinoFinPartida: "🦖 DINO RUN FINISHED!",
 
     // 📊 Pythagorean Table
     pitagorasTitulo: "📊 Interactive Pythagorean Table",
@@ -6596,9 +7941,12 @@ const i18n = {
 
     // Tooltips & Accessibility
     tooltipHub: "Minigames Hub",
-    btnAbrirHubModal: "🎮 Minigames Hub (10 games)",
+    tooltipHubDock: "Minigames Hub (14 games)",
+    btnAbrirHubModal: "🎮 Minigames Hub (14 games)",
     tooltipNitro: "Minigame: Nitro Racing Rush",
     tooltipGalactica: "Minigame: Galactic Math Defender",
+    tooltipFeria: "Minigame: Math Carnival & Arcade Claw",
+    tooltipDino: "Minigame: Math Dino Runner",
     tooltipPitagoras: "Pythagorean Table",
     tooltipDuelo: "Minigame: Face-to-Face Duel",
     tooltipHistorial: "View history",
@@ -6630,7 +7978,7 @@ let tokenSolicitudActual = "";
 let angulo = 0;
 let girando = false;
 let tabla = 3;
-let factor = 0;
+let factor = 1;
 let historialFactoresRecientes = []; // Ventana de memoria anti-repetición de factores en la ruleta
 let puntos = 0;
 let aciertos = 0;
@@ -6640,6 +7988,9 @@ let nombre = "";
 let sonidoActivo = true;
 let idiomaActual = "es";
 let modoTiempo = 1;
+let giroTurboActivo = false;
+let modoIncognitaActivo = false;
+let factorOcultoRonda = false;
 let timerInterval = null;
 let contestada = false;
 let preguntaActiva = false;
@@ -6933,6 +8284,51 @@ function actualizarSelectorTablas() {
 function actualizarBadgeTablaActiva() {
   lblBadgeTabla.textContent = i18n[idiomaActual].lblBadge;
   valBadgeTabla.textContent = selectorTabla.value === "mixto" ? tabla : selectorTabla.value;
+  actualizarBarraProgresoTablaUI();
+}
+
+function actualizarBarraProgresoTablaUI() {
+  const lbl = document.getElementById("lblProgresoTabla");
+  const relleno = document.getElementById("barraProgresoTablaRelleno");
+  if (!lbl || !relleno) return;
+
+  const t = i18n[idiomaActual];
+  const valSel = selectorTabla ? selectorTabla.value : "mixto";
+
+  if (valSel === "mixto") {
+    let dom = 0;
+    for (let i = 1; i <= TOTAL; i++) {
+      if (obtenerFactoresAcertadosTabla(i, ACIERTOS_PARA_DOMINAR_FACTOR).size >= 12) dom++;
+    }
+    const pct = Math.round((dom / TOTAL) * 100);
+    lbl.textContent = t.progresoMixtoTexto ? t.progresoMixtoTexto(dom) : `✨ Mixto: ${dom}/12 👑`;
+    relleno.style.width = `${pct}%`;
+    relleno.classList.toggle("dominada", dom >= TOTAL);
+  } else {
+    const tNum = Math.max(1, Math.min(TOTAL, parseInt(valSel, 10) || tabla || 2));
+    const cubiertos = obtenerFactoresAcertadosTabla(tNum, ACIERTOS_PARA_DOMINAR_FACTOR).size;
+    const dom = cubiertos >= 12;
+    const pct = Math.round((cubiertos / 12) * 100);
+    lbl.textContent = t.progresoTablaTexto ? t.progresoTablaTexto(tNum, cubiertos, dom) : `Tabla ${tNum}: ${cubiertos}/12`;
+    relleno.style.width = `${pct}%`;
+    relleno.classList.toggle("dominada", dom);
+  }
+}
+
+function actualizarMultiplicadorRuletaUI() {
+  const badge = document.getElementById("badgeMultiplicadorRuleta");
+  if (!badge) return;
+  const multRacha = racha >= 10 ? 2 : (racha >= 5 ? 1.5 : 1);
+  const bonoVel = modoTiempo === 3 ? "🚀 +15" : (modoTiempo === 2 ? "⚡ +5" : "");
+  if (multRacha > 1 || bonoVel) {
+    const partes = [];
+    if (multRacha > 1) partes.push(`🔥 x${multRacha}`);
+    if (bonoVel) partes.push(bonoVel);
+    badge.textContent = partes.join(" · ");
+    badge.hidden = false;
+  } else {
+    badge.hidden = true;
+  }
 }
 
 function actualizarBotonRevanchaUI() {
@@ -6945,19 +8341,70 @@ function actualizarBotonRevanchaUI() {
   }
 }
 
+const ICONO_RELOJ_TACHADO_SVG = `<svg class="icono-reloj-tachado" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="2" width="6" height="2.2" rx="1" fill="#64748b"/><circle cx="12" cy="13.5" r="7.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 9.5v4.2l2.6 1.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><line x1="4" y1="20" x2="20" y2="4" stroke="#ffffff" stroke-width="4.2" stroke-linecap="round"/><line x1="4" y1="20" x2="20" y2="4" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round"/></svg>`;
+const ICONO_TURBO_SPIN_SVG = `<svg class="icono-dock-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M19.5 11.5a7.5 7.5 0 1 1-2.2-5.3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><polyline points="17.8 3.2 18.2 6.8 14.5 6.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><polygon points="12.6 7.5 8.8 12.6 11.6 12.6 10.6 16.8 15.2 11.2 12.2 11.2" fill="currentColor"/></svg>`;
+const ICONO_MODO_INCOGNITA_SVG = `<svg class="icono-dock-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 5.5h11m-2-2 2 2-2 2M17.5 9.2h-11m2-2-2 2 2 2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.5 14l4 4m0-4l-4 4" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/><rect x="11" y="11.5" width="9.5" height="9.5" rx="2.6" fill="none" stroke="currentColor" stroke-width="1.8"/><text x="15.75" y="18.8" text-anchor="middle" font-size="8.5" font-weight="900" font-family="system-ui, sans-serif" fill="currentColor">?</text></svg>`;
+
 function actualizarBotonModoUI() {
-  if (modoTiempo === 0) {
-    botonModo.textContent = "🚫";
-    botonModo.setAttribute("title", idiomaActual === "es" ? "Modo: Sin tiempo" : "Mode: No time limit");
-  } else if (modoTiempo === 1) {
-    botonModo.textContent = "⏱️";
-    botonModo.setAttribute("title", idiomaActual === "es" ? "Modo: Normal (6s)" : "Mode: Normal (6s)");
-  } else if (modoTiempo === 2) {
-    botonModo.textContent = "⚡";
-    botonModo.setAttribute("title", idiomaActual === "es" ? "Modo: Relámpago (4s)" : "Mode: Lightning (4s)");
-  } else if (modoTiempo === 3) {
-    botonModo.textContent = "🚀";
-    botonModo.setAttribute("title", idiomaActual === "es" ? "Modo: Bala (2s)" : "Mode: Bullet (2s)");
+  const t = i18n[idiomaActual] || i18n.es;
+  if (botonModo) {
+    if (modoTiempo === 0) {
+      botonModo.innerHTML = ICONO_RELOJ_TACHADO_SVG;
+      botonModo.setAttribute("title", idiomaActual === "es" ? "Tiempo: Sin límite" : "Time: No limit");
+      botonModo.setAttribute("aria-label", idiomaActual === "es" ? "Tiempo: Sin límite" : "Time: No limit");
+    } else if (modoTiempo === 1) {
+      botonModo.textContent = "⏱️";
+      botonModo.setAttribute("title", idiomaActual === "es" ? "Tiempo: Normal (6s)" : "Time: Normal (6s)");
+      botonModo.setAttribute("aria-label", idiomaActual === "es" ? "Tiempo: Normal (6s)" : "Time: Normal (6s)");
+    } else if (modoTiempo === 2) {
+      botonModo.textContent = "⚡";
+      botonModo.setAttribute("title", idiomaActual === "es" ? "Tiempo: Rápido (4s)" : "Time: Fast (4s)");
+      botonModo.setAttribute("aria-label", idiomaActual === "es" ? "Tiempo: Rápido (4s)" : "Time: Fast (4s)");
+    } else if (modoTiempo === 3) {
+      botonModo.textContent = "🚀";
+      botonModo.setAttribute("title", idiomaActual === "es" ? "Tiempo: Bala (2s)" : "Time: Bullet (2s)");
+      botonModo.setAttribute("aria-label", idiomaActual === "es" ? "Tiempo: Bala (2s)" : "Time: Bullet (2s)");
+    }
+    botonModo.classList.toggle("activo", modoTiempo > 0);
+  }
+
+  const chipModo = document.getElementById("chipModoTiempo");
+  if (chipModo) {
+    const cortos = t.modosTiempoCortos || ["∞ Libre", "⏱️ 6s Normal", "⚡ 4s Rápido", "🚀 2s Bala"];
+    chipModo.textContent = cortos[modoTiempo] || cortos[1];
+    chipModo.classList.toggle("activo", modoTiempo > 0);
+  }
+  actualizarMultiplicadorRuletaUI();
+}
+
+function actualizarControlesRapidosRuletaUI() {
+  const t = i18n[idiomaActual] || i18n.es;
+  const btnTurbo = document.getElementById("btnGiroTurbo");
+  if (btnTurbo) {
+    btnTurbo.innerHTML = ICONO_TURBO_SPIN_SVG;
+    const turboLabel = t.btnTurboTexto || (idiomaActual === "es" ? "Giro Turbo" : "Turbo Spin");
+    const estadoTurbo = giroTurboActivo
+      ? (idiomaActual === "es" ? "Activado" : "ON")
+      : (idiomaActual === "es" ? "Desactivado" : "OFF");
+    btnTurbo.setAttribute("title", `${turboLabel}: ${estadoTurbo}`);
+    btnTurbo.setAttribute("aria-label", `${turboLabel}: ${estadoTurbo}`);
+    btnTurbo.classList.toggle("activo-turbo", !!giroTurboActivo);
+  }
+  const btnIncog = document.getElementById("btnModoIncognita");
+  if (btnIncog) {
+    btnIncog.innerHTML = ICONO_MODO_INCOGNITA_SVG;
+    const incogLabel = t.btnIncognitaTexto || "A×?=C";
+    const estadoIncog = modoIncognitaActivo
+      ? (idiomaActual === "es" ? "Activado" : "ON")
+      : (idiomaActual === "es" ? "Desactivado" : "OFF");
+    btnIncog.setAttribute("title", `${incogLabel}: ${estadoIncog}`);
+    btnIncog.setAttribute("aria-label", `${incogLabel}: ${estadoIncog}`);
+    btnIncog.classList.toggle("activo-incognita", !!modoIncognitaActivo);
+  }
+  const btnHubDock = document.getElementById("btnAbrirHubDock");
+  if (btnHubDock) {
+    btnHubDock.setAttribute("title", t.tooltipHubDock || "Centro Arcade (14 juegos)");
+    btnHubDock.setAttribute("aria-label", t.tooltipHubDock || "Centro Arcade (14 juegos)");
   }
 }
 
@@ -6971,6 +8418,9 @@ function actualizarTextosUI() {
   document.getElementById("lblTabla").textContent = t.lblTabla;
   
   actualizarSelectorTablas();
+  actualizarBadgeTablaActiva();
+  actualizarBotonModoUI();
+  actualizarControlesRapidosRuletaUI();
 
   if (!girando && !preguntaActiva) {
     botonGirar.textContent = t.btnGirar;
@@ -7059,6 +8509,14 @@ function actualizarTextosUI() {
   if (btnGalacticaEl) {
     btnGalacticaEl.setAttribute("title", t.tooltipGalactica || (idiomaActual === "es" ? "Minijuego: Defensa Galáctica" : "Minigame: Galactic Math Defender"));
   }
+  const btnFeriaEl = document.getElementById("btnFeria");
+  if (btnFeriaEl) {
+    btnFeriaEl.setAttribute("title", t.tooltipFeria || (idiomaActual === "es" ? "Minijuego: Tiro al Blanco y Garra Arcade" : "Minigame: Math Carnival & Arcade Claw"));
+  }
+  const btnDinoEl = document.getElementById("btnDino");
+  if (btnDinoEl) {
+    btnDinoEl.setAttribute("title", t.tooltipDino || (idiomaActual === "es" ? "Minijuego: Dino Runner Matemático" : "Minigame: Math Dino Runner"));
+  }
 
   // 5. Centro de Minijuegos (Game Hub)
   const lblHubTitulo = document.getElementById("lblHubTitulo");
@@ -7116,6 +8574,16 @@ function actualizarTextosUI() {
   const lblGalacticaDesc = document.getElementById("lblGalacticaDesc");
   if (lblGalacticaDesc) lblGalacticaDesc.textContent = t.hubGalacticaDesc;
 
+  const lblFeriaTituloHub = document.getElementById("lblFeriaTituloHub");
+  if (lblFeriaTituloHub) lblFeriaTituloHub.textContent = t.hubFeriaTitulo;
+  const lblFeriaDesc = document.getElementById("lblFeriaDesc");
+  if (lblFeriaDesc) lblFeriaDesc.textContent = t.hubFeriaDesc;
+
+  const lblDinoTituloHub = document.getElementById("lblDinoTituloHub");
+  if (lblDinoTituloHub) lblDinoTituloHub.textContent = t.hubDinoTitulo;
+  const lblDinoDesc = document.getElementById("lblDinoDesc");
+  if (lblDinoDesc) lblDinoDesc.textContent = t.hubDinoDesc;
+
   // Actualizar títulos de cabecera de los modales de minijuegos
   const lblGlobosTitulo = document.getElementById("lblGlobosTitulo");
   if (lblGlobosTitulo) lblGlobosTitulo.textContent = t.globosTitulo;
@@ -7165,6 +8633,46 @@ function actualizarTextosUI() {
   const btnIniciarGalacticaEl = document.getElementById("btnIniciarGalactica");
   if (btnIniciarGalacticaEl && (typeof galacticaActivo === "undefined" || !galacticaActivo)) {
     btnIniciarGalacticaEl.textContent = t.galacticaBtnIniciar;
+  }
+
+  const lblFeriaTitulo = document.getElementById("lblFeriaTitulo");
+  if (lblFeriaTitulo) lblFeriaTitulo.textContent = t.feriaTitulo;
+  const tabFeriaTiroEl = document.getElementById("tabFeriaTiro");
+  if (tabFeriaTiroEl && t.feriaTabTiro) tabFeriaTiroEl.textContent = t.feriaTabTiro;
+  const tabFeriaGarraEl = document.getElementById("tabFeriaGarra");
+  if (tabFeriaGarraEl && t.feriaTabGarra) tabFeriaGarraEl.textContent = t.feriaTabGarra;
+  const btnFeriaIzqEl = document.getElementById("btnFeriaIzq");
+  if (btnFeriaIzqEl && t.feriaBtnIzqTexto) btnFeriaIzqEl.textContent = t.feriaBtnIzqTexto;
+  const btnFeriaSoltarEl = document.getElementById("btnFeriaSoltar");
+  if (btnFeriaSoltarEl && t.feriaBtnSoltarTexto) btnFeriaSoltarEl.textContent = t.feriaBtnSoltarTexto;
+  const btnFeriaDerEl = document.getElementById("btnFeriaDer");
+  if (btnFeriaDerEl && t.feriaBtnDerTexto) btnFeriaDerEl.textContent = t.feriaBtnDerTexto;
+  const lblFeriaPcGuiaEl = document.getElementById("lblFeriaPcGuia");
+  if (lblFeriaPcGuiaEl) {
+    lblFeriaPcGuiaEl.textContent = (typeof feriaModoActual !== "undefined" && feriaModoActual === "garra")
+      ? t.feriaPcGuiaGarra
+      : t.feriaPcGuiaTiro;
+  }
+  const btnIniciarFeriaEl = document.getElementById("btnIniciarFeria");
+  if (btnIniciarFeriaEl && (typeof feriaActivo === "undefined" || !feriaActivo)) {
+    btnIniciarFeriaEl.textContent = (typeof feriaModoActual !== "undefined" && feriaModoActual === "garra")
+      ? t.feriaBtnIniciarGarra
+      : t.feriaBtnIniciarTiro;
+  }
+
+  const lblDinoTitulo = document.getElementById("lblDinoTitulo");
+  if (lblDinoTitulo) lblDinoTitulo.textContent = t.dinoTitulo;
+  const btnDinoCarril0El = document.getElementById("btnDinoCarril0");
+  if (btnDinoCarril0El && t.dinoBtnAlto) btnDinoCarril0El.textContent = t.dinoBtnAlto;
+  const btnDinoCarril1El = document.getElementById("btnDinoCarril1");
+  if (btnDinoCarril1El && t.dinoBtnMedio) btnDinoCarril1El.textContent = t.dinoBtnMedio;
+  const btnDinoCarril2El = document.getElementById("btnDinoCarril2");
+  if (btnDinoCarril2El && t.dinoBtnSuelo) btnDinoCarril2El.textContent = t.dinoBtnSuelo;
+  const lblDinoPcGuiaEl = document.getElementById("lblDinoPcGuia");
+  if (lblDinoPcGuiaEl && t.dinoPcGuia) lblDinoPcGuiaEl.textContent = t.dinoPcGuia;
+  const btnIniciarDinoEl = document.getElementById("btnIniciarDino");
+  if (btnIniciarDinoEl && (typeof dinoActivo === "undefined" || !dinoActivo)) {
+    btnIniciarDinoEl.textContent = t.dinoBtnIniciar;
   }
 
   const cardsHub = document.querySelectorAll("#modalHubMinijuegos .card-hub-juego button");
@@ -7956,6 +9464,107 @@ function reproducirSonido(tipo, extra = 1) {
       return;
     }
 
+    if (tipo === "dardoFeria") {
+      // 🎯 Disparo neumático de caseta de feria
+      const oscD = ctxAudio.createOscillator();
+      const gainD = ctxAudio.createGain();
+      oscD.type = "triangle";
+      oscD.frequency.setValueAtTime(520, now);
+      oscD.frequency.exponentialRampToValueAtTime(140, now + 0.09);
+      gainD.gain.setValueAtTime(0.22, now);
+      gainD.gain.exponentialRampToValueAtTime(0.006, now + 0.1);
+      oscD.connect(gainD);
+      gainD.connect(ctxAudio.destination);
+      oscD.start(now);
+      oscD.stop(now + 0.1);
+      return;
+    }
+
+    if (tipo === "campanaFeria") {
+      // 🔔 Campana brillante de feria al acertar / Ronda Dorada
+      [783.99, 1046.5, 1318.51].forEach((f, idx) => {
+        const oscC = ctxAudio.createOscillator();
+        const gainC = ctxAudio.createGain();
+        oscC.type = "sine";
+        const tInicio = now + idx * 0.055;
+        oscC.frequency.setValueAtTime(f, tInicio);
+        gainC.gain.setValueAtTime(0.2, tInicio);
+        gainC.gain.exponentialRampToValueAtTime(0.004, tInicio + 0.24);
+        oscC.connect(gainC);
+        gainC.connect(ctxAudio.destination);
+        oscC.start(tInicio);
+        oscC.stop(tInicio + 0.24);
+      });
+      return;
+    }
+
+    if (tipo === "garraFeria") {
+      // 🕹️ Motor mecánico de garra arcade descendiendo
+      const oscG = ctxAudio.createOscillator();
+      const gainG = ctxAudio.createGain();
+      oscG.type = "sawtooth";
+      oscG.frequency.setValueAtTime(190, now);
+      oscG.frequency.linearRampToValueAtTime(260, now + 0.14);
+      oscG.frequency.linearRampToValueAtTime(160, now + 0.28);
+      gainG.gain.setValueAtTime(0.09, now);
+      gainG.gain.exponentialRampToValueAtTime(0.005, now + 0.3);
+      oscG.connect(gainG);
+      gainG.connect(ctxAudio.destination);
+      oscG.start(now);
+      oscG.stop(now + 0.3);
+      return;
+    }
+
+    if (tipo === "saltoDino") {
+      // 🦖 Salto elástico retro de Dino
+      const oscS = ctxAudio.createOscillator();
+      const gainS = ctxAudio.createGain();
+      oscS.type = "square";
+      oscS.frequency.setValueAtTime(240, now);
+      oscS.frequency.exponentialRampToValueAtTime(640, now + 0.11);
+      gainS.gain.setValueAtTime(0.11, now);
+      gainS.gain.exponentialRampToValueAtTime(0.005, now + 0.12);
+      oscS.connect(gainS);
+      gainS.connect(ctxAudio.destination);
+      oscS.start(now);
+      oscS.stop(now + 0.12);
+      return;
+    }
+
+    if (tipo === "turboDino") {
+      // 🛡️ Impulso / Escudo Turbo de Dino
+      [440, 587.33, 880, 1174.66].forEach((f, idx) => {
+        const oscT = ctxAudio.createOscillator();
+        const gainT = ctxAudio.createGain();
+        oscT.type = "triangle";
+        const tInicio = now + idx * 0.045;
+        oscT.frequency.setValueAtTime(f, tInicio);
+        gainT.gain.setValueAtTime(0.16, tInicio);
+        gainT.gain.exponentialRampToValueAtTime(0.005, tInicio + 0.18);
+        oscT.connect(gainT);
+        gainT.connect(ctxAudio.destination);
+        oscT.start(tInicio);
+        oscT.stop(tInicio + 0.18);
+      });
+      return;
+    }
+
+    if (tipo === "meteoritoDino") {
+      // ☄️ Impacto de meteorito en Dino Runner
+      const oscM = ctxAudio.createOscillator();
+      const gainM = ctxAudio.createGain();
+      oscM.type = "sawtooth";
+      oscM.frequency.setValueAtTime(160, now);
+      oscM.frequency.exponentialRampToValueAtTime(42, now + 0.32);
+      gainM.gain.setValueAtTime(0.24, now);
+      gainM.gain.exponentialRampToValueAtTime(0.006, now + 0.34);
+      oscM.connect(gainM);
+      gainM.connect(ctxAudio.destination);
+      oscM.start(now);
+      oscM.stop(now + 0.34);
+      return;
+    }
+
     if (tipo === "jaqueMate" || tipo === "victoria") {
       // 👑 Fanfarria épica de Jaque Mate / Victoria Real
       const notas = [523.25, 659.25, 783.99, 1046.50];
@@ -8217,7 +9826,11 @@ if (btnEscucharPregunta) {
     reproducirSonido("click");
     const t = i18n[idiomaActual] || i18n.es;
     if (preguntaActiva && typeof tabla === "number" && typeof factor === "number") {
-      hablar(t.hablarPregunta(tabla, factor));
+      hablar(
+        factorOcultoRonda && t.hablarPreguntaIncognita
+          ? t.hablarPreguntaIncognita(tabla, tabla * factor)
+          : t.hablarPregunta(tabla, factor)
+      );
     } else {
       const opEl = document.getElementById("operacion");
       const textoOp = opEl ? opEl.textContent.trim() : "";
@@ -8294,9 +9907,15 @@ function toggleIdioma() {
 
 function cambiarModoTiempo() {
   reproducirSonido("click");
-  modoTiempo = (modoTiempo + 1) % 4;
+  // Ciclo: 6s (1) -> 4s (2) -> 2s (3) -> Sin límite (0) -> 6s (1)
+  const siguiente = { 1: 2, 2: 3, 3: 0, 0: 1 };
+  modoTiempo = siguiente[modoTiempo] ?? 1;
   actualizarBotonModoUI();
   guardarPuntajes();
+  const etiquetas = idiomaActual === "es"
+    ? { 1: "⏱️ 6s · Normal", 2: "⚡ 4s · Rápido", 3: "🚀 2s · Bala", 0: "⏱️ Sin límite" }
+    : { 1: "⏱️ 6s · Normal", 2: "⚡ 4s · Fast", 3: "🚀 2s · Bullet", 0: "⏱️ No limit" };
+  mostrarTextoFlotante(etiquetas[modoTiempo], modoTiempo > 0, "24%");
 }
 
 function verificarInsignias(esSuperacion = false, silencioso = false) {
@@ -8448,12 +10067,12 @@ function renderizarTiendaAvatares() {
             // ✨ COMPRA NORMAL DE AVATARES ECONÓMICOS
             reproducirSonido("acierto");
             vibrar(50);
-            alert(t.msjTiendaExito);
+            mostrarTextoFlotante(t.msjTiendaExito, true, "24%");
           }
 
         } else {
           // ❌ FALTA DE PUNTOS
-          alert(t.faltaPuntos);
+          mostrarTextoFlotante(t.faltaPuntos, false, "24%");
           reproducirSonido("error");
           vibrar([50, 50, 50]);
         }
@@ -8868,7 +10487,9 @@ function aplicarDatosRespaldo(datos) {
 
   // 4. Historial de partidas (limpia previo si el respaldo no trae historial)
   const h = datos.h !== undefined ? datos.h : datos.historialPartidas;
-  historialPartidas = Array.isArray(h) ? h.slice(-200) : [];
+  historialPartidas = Array.isArray(h)
+    ? h.filter(it => it && Number(it.tabla) >= 1 && Number(it.factor) >= 1).slice(-200)
+    : [];
 
   // 5. Aciertos por tabla (1 a 12) - reinicia a 0 antes de aplicar y recalcular
   const apt = datos.apt || datos.aciertosPorTabla;
@@ -8882,7 +10503,10 @@ function aplicarDatosRespaldo(datos) {
   // 6. Conteo combinaciones exactas y revancha pendiente
   const cce = datos.cce || datos.conteoCombinacionesExactas;
   conteoCombinacionesExactas = (cce && typeof cce === "object") ? { ...cce } : {};
-  revanchaPendiente = (datos.revancha || datos.revanchaPendiente) || null;
+  const revCargada = (datos.revancha || datos.revanchaPendiente) || null;
+  revanchaPendiente = (revCargada && Number(revCargada.tabla) >= 1 && Number(revCargada.factor) >= 1)
+    ? { tabla: Number(revCargada.tabla), factor: Number(revCargada.factor) }
+    : null;
 
   // 7. Récords y minijuegos (reinicia a 0 si no vienen en el respaldo)
   const recDes = datos.recDes ?? datos.recordDesafioRelampago;
@@ -8937,6 +10561,8 @@ function aplicarDatosRespaldo(datos) {
   }
 
   if (typeof datos.modoTiempo === "number") modoTiempo = datos.modoTiempo;
+  if (typeof datos.giroTurbo === "boolean") giroTurboActivo = datos.giroTurbo;
+  if (typeof datos.modoIncognita === "boolean") modoIncognitaActivo = datos.modoIncognita;
   if (typeof datos.activado === "boolean") activado = datos.activado;
   if (typeof datos.tokenSol === "string") tokenSolicitudActual = datos.tokenSol;
   const girosVal = datos.giros ?? datos.girosRealizados;
@@ -9426,8 +11052,10 @@ function cargarPuntajes() {
         if (Array.isArray(datos.hep)) {
           hitosExploracionPitagoras = new Set(datos.hep.map(Number).filter(n => !isNaN(n)));
         }
-        if (datos.historialPartidas) historialPartidas = datos.historialPartidas;
-        else if (datos.h) historialPartidas = datos.h;
+        const hRaw = datos.historialPartidas || datos.h;
+        if (Array.isArray(hRaw)) {
+          historialPartidas = hRaw.filter(it => it && Number(it.tabla) >= 1 && Number(it.factor) >= 1);
+        }
         if (typeof datos.sonidoActivo === "boolean") sonidoActivo = datos.sonidoActivo;
         if (typeof datos.musicaActiva === "boolean") musicaActiva = datos.musicaActiva;
         if (typeof datos.temaGlobalActual === "string") temaGlobalActual = datos.temaGlobalActual;
@@ -9438,7 +11066,13 @@ function cargarPuntajes() {
         }
         if (datos.idiomaActual) idiomaActual = datos.idiomaActual;
         if (typeof datos.modoTiempo === "number") modoTiempo = datos.modoTiempo;
-        if (datos.revanchaPendiente) revanchaPendiente = datos.revanchaPendiente;
+        if (typeof datos.giroTurbo === "boolean") giroTurboActivo = datos.giroTurbo;
+        if (typeof datos.modoIncognita === "boolean") modoIncognitaActivo = datos.modoIncognita;
+        if (datos.revanchaPendiente && Number(datos.revanchaPendiente.tabla) >= 1 && Number(datos.revanchaPendiente.factor) >= 1) {
+          revanchaPendiente = { tabla: Number(datos.revanchaPendiente.tabla), factor: Number(datos.revanchaPendiente.factor) };
+        } else {
+          revanchaPendiente = null;
+        }
       if (typeof datos.activado === "boolean") activado = datos.activado;
       if (typeof datos.girosRealizados === "number") girosRealizados = datos.girosRealizados;
       if (typeof datos.tokenSolicitud === "string") tokenSolicitudActual = datos.tokenSolicitud;
@@ -9506,6 +11140,8 @@ function guardarPuntajes() {
       colorTemaTableroActual,
       idiomaActual,
       modoTiempo,
+      giroTurbo: giroTurboActivo,
+      modoIncognita: modoIncognitaActivo,
       revanchaPendiente,
       activado,
       girosRealizados,
@@ -9523,10 +11159,41 @@ function mezclar(array) {
   return array;
 }
 
-function generarOpciones(correcta) {
+function generarOpciones(correcta, tTabla = tabla, fFactor = factor, esIncognita = false) {
   const conjunto = new Set([correcta]);
+
+  if (esIncognita) {
+    const candidatos = [fFactor - 1, fFactor + 1, fFactor - 2, fFactor + 2, fFactor - 3, fFactor + 3];
+    for (const c of candidatos) {
+      if (conjunto.size >= 4) break;
+      if (c >= 1 && c <= TOTAL && c !== correcta) conjunto.add(c);
+    }
+    while (conjunto.size < 4) {
+      const rnd = Math.floor(Math.random() * TOTAL) + 1;
+      if (rnd !== correcta) conjunto.add(rnd);
+    }
+    return mezclar([...conjunto]);
+  }
+
+  // Distractores pedagógicos cercanos de la misma tabla o vecinos reales
+  const candidatosPedagogicos = [
+    tTabla * Math.max(1, fFactor - 1),
+    tTabla * Math.min(12, fFactor + 1),
+    Math.max(1, tTabla - 1) * fFactor,
+    Math.min(12, tTabla + 1) * fFactor,
+    correcta + 2,
+    correcta - 2,
+    correcta + 10,
+    correcta - 10
+  ];
+  mezclar(candidatosPedagogicos).forEach(cand => {
+    if (conjunto.size < 4 && cand >= 1 && cand <= 144 && cand !== correcta) {
+      conjunto.add(cand);
+    }
+  });
+
   while (conjunto.size < 4) {
-    const opcion = correcta + (Math.floor(Math.random() * 21) - 10);
+    const opcion = correcta + (Math.floor(Math.random() * 17) - 8);
     if (opcion >= 1 && opcion <= 144 && opcion !== correcta) conjunto.add(opcion);
   }
   return mezclar([...conjunto]);
@@ -9592,16 +11259,20 @@ function elegirFactorValido(tActual) {
     }
   }
 
-  // Registrar en el historial reciente para prevenir repeticiones consecutivas (ventana de los últimos 3)
-  if (seleccionado !== null) {
-    historialFactoresRecientes.push(seleccionado);
-    if (historialFactoresRecientes.length > 3) {
-      historialFactoresRecientes.shift();
-    }
-    return seleccionado;
+  // Validación estricta: asegurar siempre un factor entero entre 1 y TOTAL (nunca 0, undefined ni NaN)
+  const numSel = Number(seleccionado);
+  if (!seleccionado || isNaN(numSel) || numSel < 1 || numSel > TOTAL) {
+    seleccionado = Math.floor(Math.random() * TOTAL) + 1;
+  } else {
+    seleccionado = Math.max(1, Math.min(TOTAL, Math.floor(numSel)));
   }
 
-  return Math.floor(Math.random() * TOTAL) + 1;
+  // Registrar en el historial reciente para prevenir repeticiones consecutivas (ventana de los últimos 3)
+  historialFactoresRecientes.push(seleccionado);
+  if (historialFactoresRecientes.length > 3) {
+    historialFactoresRecientes.shift();
+  }
+  return seleccionado;
 }
 
 function iniciarRevancha() {
@@ -9610,8 +11281,10 @@ function iniciarRevancha() {
   reproducirSonido("click");
   contestada = false;
   preguntaActiva = false;
-  tabla = revanchaPendiente.tabla;
-  factor = revanchaPendiente.factor;
+  const tNum = Number(revanchaPendiente.tabla);
+  const fNum = Number(revanchaPendiente.factor);
+  tabla = (!isNaN(tNum) && tNum >= 1 && tNum <= TOTAL) ? Math.floor(tNum) : 2;
+  factor = (!isNaN(fNum) && fNum >= 1 && fNum <= TOTAL) ? Math.floor(fNum) : 1;
   actualizarBadgeTablaActiva();
   selectorTabla.disabled = true;
   inputNombre.disabled = true;
@@ -10084,25 +11757,28 @@ function finalizarDesafioRelampago() {
 
 function girarRuleta() {
   if (modoRepasoErrores) return; // Si estamos repasando errores, bloqueamos el giro normal
-  // Validación: Si no ha escrito el nombre, pedírselo y abrir la ventana de avatares
+  // Validación sin alert() nativo: resaltar nombre + toast amigable + abrir selector de perfil
   const nombreIngresado = inputNombre.value.trim();
   if (!nombreIngresado) {
-    const mensajeAlerta = idiomaActual === "es" 
-      ? "👋 ¡Hola! Por favor escribe el nombre del campeón/a antes de girar la ruleta." 
-      : "👋 Hello! Please type the champion's name before spinning the wheel.";
-    
-    alert(mensajeAlerta);
-    
-    // Abre la ventanita de elegir avatar automáticamente después de la alerta
+    const t = i18n[idiomaActual] || i18n.es;
+    const mensajeAviso = t.alertaNombreFaltante || "👋 ¡Escribe tu nombre primero para girar!";
+
+    mostrarTextoFlotante(mensajeAviso, false, "18%");
+    if (inputNombre) {
+      inputNombre.classList.remove("input-nombre-alerta");
+      void inputNombre.offsetWidth;
+      inputNombre.classList.add("input-nombre-alerta");
+      setTimeout(() => inputNombre.classList.remove("input-nombre-alerta"), 1400);
+    }
+
     if (typeof btnAbrirAvatares !== "undefined" && btnAbrirAvatares) {
       btnAbrirAvatares.click();
     }
-    
-    // Enfoca el input que está dentro de la ventanita modal si existe, si no al principal
-    const inputNombreModal = document.getElementById("inputNombreModal");
-    if (inputNombreModal) {
-      inputNombreModal.focus();
-    } else {
+
+    const inputNombreModalEl = document.getElementById("inputNombreModal");
+    if (inputNombreModalEl) {
+      inputNombreModalEl.focus();
+    } else if (inputNombre) {
       inputNombre.focus();
     }
 
@@ -10117,8 +11793,14 @@ function girarRuleta() {
   contestada = false;
   preguntaActiva = false;
 
-  tabla = selectorTabla.value === "mixto" ? Math.floor(Math.random() * 11) + 2 : Number(selectorTabla.value);
-  factor = elegirFactorValido(tabla);
+  const valSel = selectorTabla ? selectorTabla.value : "mixto";
+  const numSel = parseInt(valSel, 10);
+  if (valSel === "mixto" || isNaN(numSel) || numSel < 1 || numSel > TOTAL) {
+    tabla = Math.floor(Math.random() * 11) + 2; // 2 al 12
+  } else {
+    tabla = Math.max(1, Math.min(TOTAL, numSel));
+  }
+  factor = Math.max(1, Math.min(TOTAL, Math.floor(elegirFactorValido(tabla) || 1)));
   actualizarBadgeTablaActiva();
 
   const t = i18n[idiomaActual];
@@ -10135,14 +11817,16 @@ function girarRuleta() {
   document.getElementById("instruccion").textContent = t.instruccionGirando;
   document.getElementById("operacion").textContent = "? × ? = ?";
 
-  // CORRECCIÓN: Se añade - Math.PI / 2 para alinear el sector exactamente con la flecha superior (12 en punto)
+  // Giro normal (3.2s, 6 vueltas) o Modo Turbo (1.15s, 3 vueltas)
+  const duracionGiro = giroTurboActivo ? 1150 : 3200;
+  const vueltas = giroTurboActivo ? 3 : 6;
   const destino = -((factor - 1) * sector + sector / 2) - Math.PI / 2;
-  const inicio = angulo, final = angulo + Math.PI * 2 * 6 + ((destino - (angulo % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2));
+  const inicio = angulo, final = angulo + Math.PI * 2 * vueltas + ((destino - (angulo % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2));
   const tiempoInicial = performance.now();
 
   let sectorPrevio = Math.floor(inicio / sector);
   function animar(ahora) {
-    const progreso = Math.min((ahora - tiempoInicial) / 3200, 1);
+    const progreso = Math.min((ahora - tiempoInicial) / duracionGiro, 1);
     angulo = inicio + (final - inicio) * (1 - Math.pow(1 - progreso, 4));
     
     // Sonido tick al pasar por cada clavija de la ruleta
@@ -10173,21 +11857,34 @@ function girarRuleta() {
 function mostrarPregunta(esRevancha = false) {
   preguntaActiva = true;
   contestada = false;
+  tabla = Math.max(1, Math.min(TOTAL, Math.floor(Number(tabla) || 2)));
+  factor = Math.max(1, Math.min(TOTAL, Math.floor(Number(factor) || 1)));
+  factorOcultoRonda = !!modoIncognitaActivo;
   const t = i18n[idiomaActual];
+  const producto = tabla * factor;
+
   if (!esRevancha) {
-    document.getElementById("instruccion").textContent = t.instruccionGiro(avatarActual, factor, tabla);
-    document.getElementById("operacion").textContent = `${tabla} × ${factor} = ?`;
+    document.getElementById("instruccion").textContent = t.instruccionGiro(avatarActual, factorOcultoRonda ? "?" : factor, tabla);
   }
+  document.getElementById("operacion").textContent = factorOcultoRonda
+    ? `${tabla} × ? = ${producto}`
+    : `${tabla} × ${factor} = ?`;
+
   document.getElementById("mensaje").textContent = t.mensajeElegir;
-  hablar(t.hablarPregunta(tabla, factor));
+  hablar(
+    factorOcultoRonda && t.hablarPreguntaIncognita
+      ? t.hablarPreguntaIncognita(tabla, producto)
+      : t.hablarPregunta(tabla, factor)
+  );
+  actualizarMultiplicadorRuletaUI();
   iniciarTemporizador();
   if (typeof verificarAvisoSilencioIOS === "function") {
     verificarAvisoSilencioIOS();
   }
 
-  const correcta = tabla * factor;
+  const esperada = factorOcultoRonda ? factor : producto;
   contenedorRespuestas.replaceChildren();
-  generarOpciones(correcta).forEach(v => {
+  generarOpciones(esperada, tabla, factor, factorOcultoRonda).forEach(v => {
     const boton = document.createElement("button");
     boton.type = "button";
     boton.textContent = v;
@@ -10202,23 +11899,32 @@ function responder(valor, esRevancha = false) {
   contestada = true;
   preguntaActiva = false;
   const t = i18n[idiomaActual];
-  const correcta = tabla * factor;
+  const correctaProd = tabla * factor;
+  const esperada = factorOcultoRonda ? factor : correctaProd;
+
+  if (factorOcultoRonda) {
+    document.getElementById("operacion").textContent = `${tabla} × ${factor} = ${correctaProd}`;
+  }
 
   contenedorRespuestas.querySelectorAll("button").forEach(b => {
     b.disabled = true;
-    if (Number(b.textContent) === correcta) { b.style.backgroundColor = "#bbf7d0"; b.style.color = "#166534"; }
+    if (Number(b.textContent) === esperada) { b.style.backgroundColor = "#bbf7d0"; b.style.color = "#166534"; }
     else if (Number(b.textContent) === valor) { b.style.backgroundColor = "#fecaca"; b.style.color = "#991b1b"; }
   });
 
   const fechaSimple = new Date().toLocaleDateString();
-  if (valor === correcta) {
+  if (valor === esperada) {
     const factoresAntes = obtenerFactoresAcertadosTabla(tabla, ACIERTOS_PARA_DOMINAR_FACTOR);
     const cantAntes = factoresAntes.size;
     const yaAfianzadoEsteFactor = factoresAntes.has(factor);
 
-    puntos += 20;
     aciertos++;
     racha++;
+    const baseVelPts = modoTiempo === 3 ? 35 : (modoTiempo === 2 ? 25 : 20);
+    const multRacha = racha >= 10 ? 2 : (racha >= 5 ? 1.5 : 1);
+    const ptsGanados = Math.round(baseVelPts * multRacha);
+    puntos += ptsGanados;
+
     aciertosPorTabla[tabla] = (aciertosPorTabla[tabla] || 0) + 1;
     const kComb = `${tabla}-${factor}`;
     const hitsPrevios = Number(conteoCombinacionesExactas[kComb] || 0);
@@ -10229,13 +11935,16 @@ function responder(valor, esRevancha = false) {
     if (esSuperacion) revanchaPendiente = null;
     verificarInsignias(esSuperacion);
 
-    historialPartidas.push({ tabla, factor, respuestaUsuario: valor, correcta, acertado: true, fecha: fechaSimple, tipo: "ruleta" });
+    historialPartidas.push({ tabla, factor, respuestaUsuario: valor, correcta: esperada, acertado: true, fecha: fechaSimple, tipo: "ruleta" });
     actualizarSelectorTablas();
+    actualizarBadgeTablaActiva();
+    actualizarMultiplicadorRuletaUI();
     vibrar([40, 30, 40]);
 
     const frase = t.frasesAcierto[Math.floor(Math.random() * t.frasesAcierto.length)];
+    const tagMult = multRacha > 1 ? ` 🔥x${multRacha}` : "";
     mostrarTextoFlotante(frase, true, "36%");
-    mostrarTextoFlotante(`+20 pts ⭐`, true, "52%");
+    mostrarTextoFlotante(`+${ptsGanados} pts ⭐${tagMult}`, true, "52%");
 
     // Celebración pedagógica de factores completados:
     const factoresAhora = obtenerFactoresAcertadosTabla(tabla, ACIERTOS_PARA_DOMINAR_FACTOR);
@@ -10273,22 +11982,24 @@ function responder(valor, esRevancha = false) {
     }
 
     reproducirSonido(racha >= 3 ? "racha" : "acierto");
-    document.getElementById("mensaje").textContent = `${frase} +20 pts`;
-    hablar(t.hablarAcierto(inputNombre.value.trim() || "Campeón", frase, tabla, factor, correcta));
+    document.getElementById("mensaje").textContent = `${frase} +${ptsGanados} pts${tagMult}`;
+    hablar(t.hablarAcierto(inputNombre.value.trim() || "Campeón", frase, tabla, factor, correctaProd));
   } else {
     racha = 0;
+    actualizarMultiplicadorRuletaUI();
     reproducirSonido("error");
     vibrar(100);
     revanchaPendiente = { tabla, factor };
-    historialPartidas.push({ tabla, factor, respuestaUsuario: valor, correcta, acertado: false, fecha: fechaSimple, tipo: "ruleta" });
+    historialPartidas.push({ tabla, factor, respuestaUsuario: valor, correcta: esperada, acertado: false, fecha: fechaSimple, tipo: "ruleta" });
     
-    const frase = t.frasesError[Math.floor(Math.random() * t.frasesError.length)](correcta, tabla, factor);
+    const frase = t.frasesError[Math.floor(Math.random() * t.frasesError.length)](esperada, tabla, factor);
     document.getElementById("mensaje").textContent = frase;
     mostrarTextoFlotante(frase, false, "52%");
-    hablar(t.hablarError(tabla, factor, correcta));
+    hablar(t.hablarError(tabla, factor, correctaProd));
   }
 
   actualizarSelectorTablas();
+  actualizarBadgeTablaActiva();
   actualizarBotonRevanchaUI();
   actualizarEstadisticas();
   guardarPuntajes();
@@ -10306,13 +12017,15 @@ function reiniciarPuntajes() {
   aciertosLluviaTotal = 0; victoriasAjedrez = 0; aciertosTrampaTotal = 0; laberintosCompletados = 0; duelosGanados = 0;
   insigniasDesbloqueadas = Object.keys(insigniasDesbloqueadas).reduce((acc, k) => ({ ...acc, [k]: false }), {});
   aciertosPorTabla = Object.keys(aciertosPorTabla).reduce((acc, k) => ({ ...acc, [k]: 0 }), {});
-  historialPartidas = []; revanchaPendiente = null; conteoCombinacionesExactas = {}; historialFactoresRecientes = []; factor = 0;
+  historialPartidas = []; revanchaPendiente = null; conteoCombinacionesExactas = {}; historialFactoresRecientes = []; factor = 1;
   celdasExploradasPitagoras.clear();
   hitosExploracionPitagoras.clear();
   if (typeof actualizarProgresoExploradorPitagoras === "function") {
     actualizarProgresoExploradorPitagoras();
   }
   actualizarEstadisticas();
+  actualizarBadgeTablaActiva();
+  actualizarMultiplicadorRuletaUI();
   renderizarInsigniasUI();
   renderizarAvataresDisponibles();
   actualizarSelectorTablas();
@@ -10458,8 +12171,8 @@ function iniciarModoRepasoErrores() {
   // O simplemente tomamos todos los ítems con acertado === false
   const unicos = {};
   historialPartidas.forEach(item => {
-    if (!item.acertado) {
-      unicos[`${item.tabla}-${item.factor}`] = { tabla: item.tabla, factor: item.factor, correcta: item.correcta };
+    if (!item.acertado && Number(item.tabla) >= 1 && Number(item.factor) >= 1) {
+      unicos[`${item.tabla}-${item.factor}`] = { tabla: Number(item.tabla), factor: Number(item.factor), correcta: Number(item.tabla) * Number(item.factor) };
     }
   });
   
@@ -10467,7 +12180,7 @@ function iniciarModoRepasoErrores() {
   
   if (listaErroresPendientes.length === 0) {
     const msgVacio = idiomaActual === "es" ? "🎉 ¡Excelente! No tienes errores pendientes por repasar en el historial." : "🎉 Awesome! You have no pending errors to review in history.";
-    alert(msgVacio);
+    mostrarTextoFlotante(msgVacio, true, "34%");
     return;
   }
 
@@ -10531,15 +12244,17 @@ function cargarSiguientePreguntaRepaso() {
     reproducirSonido("acierto");
     dispararConfetiVictoria();
     const msgFin = idiomaActual === "es" ? "🌟 ¡Increíble! ¡Has repasado y superado todos tus errores pendientes! 🎉" : "🌟 Amazing! You've reviewed and conquered all your pending errors! 🎉";
-    alert(msgFin);
+    mostrarTextoFlotante(msgFin, true, "30%");
     salirModoRepaso();
     return;
   }
 
   // Tomamos el primer error de la lista
   const actual = listaErroresPendientes[0];
-  tabla = actual.tabla;
-  factor = actual.factor;
+  const tNum = Number(actual?.tabla);
+  const fNum = Number(actual?.factor);
+  tabla = (!isNaN(tNum) && tNum >= 1 && tNum <= TOTAL) ? Math.floor(tNum) : 2;
+  factor = (!isNaN(fNum) && fNum >= 1 && fNum <= TOTAL) ? Math.floor(fNum) : 1;
   
   actualizarBadgeTablaActiva();
   
@@ -11031,12 +12746,16 @@ if (btnModoLluviaNinja) {
   });
 }
 
-btnLluvia.addEventListener("click", () => {
+function abrirLluviaEstrellasModal() {
   reproducirSonido("click");
   modalLluvia.hidden = false;
   setModoLluvia(modoLluviaEstilo);
   reiniciarLluviaUI();
-});
+}
+
+if (btnLluvia) {
+  btnLluvia.addEventListener("click", abrirLluviaEstrellasModal);
+}
 
 cerrarLluvia.addEventListener("click", () => {
   detenerLluviaLoop();
@@ -11814,7 +13533,10 @@ function siguienteRondaGlobos() {
   globosRondaResuelta = false;
 
   const tSel = selectorTabla ? selectorTabla.value : "mixto";
-  globosTablaActual = (tSel === "mixto" || !tSel) ? (Math.floor(Math.random() * 11) + 2) : Number(tSel);
+  const numSel = parseInt(tSel, 10);
+  globosTablaActual = (tSel === "mixto" || isNaN(numSel) || numSel < 1 || numSel > 12)
+    ? (Math.floor(Math.random() * 11) + 2)
+    : Math.max(1, Math.min(12, numSel));
   globosFactorActual = Math.floor(Math.random() * 12) + 1;
   globosCorrecta = globosTablaActual * globosFactorActual;
 
@@ -12143,7 +13865,7 @@ function reiniciarToposUI() {
   toposRondaResuelta = false;
   const t = i18n[idiomaActual];
   if (lblToposVidas) lblToposVidas.textContent = t.toposVidasTexto ? t.toposVidasTexto(3) : `❤️❤️❤️ Vidas: 3`;
-  if (lblToposRacha) lblToposRacha.textContent = t.toposRachaTexto ? t.toposRachaTexto(0) : `🔨 Racha: x0`;
+  if (lblToposRacha) lblToposRacha.textContent = t.toposRachaTexto ? t.toposRachaTexto(0) : `🔨 Racha: 0`;
   if (lblToposPuntos) lblToposPuntos.textContent = t.toposPuntosTexto ? t.toposPuntosTexto(0) : `⭐ Puntos: 0`;
   if (toposOperacion) toposOperacion.textContent = idiomaActual === "es" ? `🔨 ¡Prepárate!` : `🔨 Get Ready!`;
   if (btnIniciarTopos) {
@@ -12169,7 +13891,7 @@ function iniciarMartillazoTopos() {
   toposActivo = true;
   const t = i18n[idiomaActual];
   if (lblToposVidas) lblToposVidas.textContent = t.toposVidasTexto ? t.toposVidasTexto(3) : `❤️❤️❤️ Vidas: 3`;
-  if (lblToposRacha) lblToposRacha.textContent = t.toposRachaTexto ? t.toposRachaTexto(0) : `🔨 Racha: x0`;
+  if (lblToposRacha) lblToposRacha.textContent = t.toposRachaTexto ? t.toposRachaTexto(0) : `🔨 Racha: 0`;
   if (lblToposPuntos) lblToposPuntos.textContent = t.toposPuntosTexto ? t.toposPuntosTexto(0) : `⭐ Puntos: 0`;
   siguienteRondaTopos();
 }
@@ -12180,7 +13902,10 @@ function siguienteRondaTopos() {
   toposRondaResuelta = false;
 
   const tSel = selectorTabla ? selectorTabla.value : "mixto";
-  toposTablaActual = (tSel === "mixto" || !tSel) ? (Math.floor(Math.random() * 11) + 2) : Number(tSel);
+  const numSel = parseInt(tSel, 10);
+  toposTablaActual = (tSel === "mixto" || isNaN(numSel) || numSel < 1 || numSel > 12)
+    ? (Math.floor(Math.random() * 11) + 2)
+    : Math.max(1, Math.min(12, numSel));
   toposFactorActual = Math.floor(Math.random() * 12) + 1;
   toposCorrecta = toposTablaActual * toposFactorActual;
 
@@ -12254,7 +13979,7 @@ function martillarCasilla(casillaObj, clickX, clickY) {
     toposPuntos += pts;
     puntos += pts;
     if (lblToposPuntos) lblToposPuntos.textContent = `⭐ Puntos: ${toposPuntos}`;
-    if (lblToposRacha) lblToposRacha.textContent = `🔨 Racha: x${toposRacha}`;
+    if (lblToposRacha) lblToposRacha.textContent = `🔨 Racha: ${toposRacha}`;
 
     mostrarTextoFlotante(`🔨 ¡MARTILLAZO! +${pts} ⭐`, true, "35%");
     actualizarEstadisticas();
@@ -12273,7 +13998,7 @@ function martillarCasilla(casillaObj, clickX, clickY) {
 
     casillaObj.cartel.textContent = "😜";
     toposRacha = 0;
-    if (lblToposRacha) lblToposRacha.textContent = `🔨 Racha: x0`;
+    if (lblToposRacha) lblToposRacha.textContent = `🔨 Racha: 0`;
 
     perderVidaTopos(idiomaActual === "es" ? "❌ ¡Topo equivocado!" : "❌ Wrong mole!");
   }
@@ -12736,7 +14461,10 @@ function siguienteRondaNitro() {
   nitroRondaResuelta = false;
 
   const tSel = selectorTabla ? selectorTabla.value : "mixto";
-  nitroTablaActual = (tSel === "mixto" || !tSel) ? (Math.floor(Math.random() * 11) + 2) : Number(tSel);
+  const numSel = parseInt(tSel, 10);
+  nitroTablaActual = (tSel === "mixto" || isNaN(numSel) || numSel < 1 || numSel > 12)
+    ? (Math.floor(Math.random() * 11) + 2)
+    : Math.max(1, Math.min(12, numSel));
   nitroFactorActual = Math.floor(Math.random() * 12) + 1;
   nitroCorrecta = nitroTablaActual * nitroFactorActual;
 
@@ -13316,7 +15044,10 @@ function siguienteRondaGalactica() {
   galacticaRondaResuelta = false;
 
   const tSel = selectorTabla ? selectorTabla.value : "mixto";
-  galacticaTablaActual = (tSel === "mixto" || !tSel) ? (Math.floor(Math.random() * 11) + 2) : Number(tSel);
+  const numSel = parseInt(tSel, 10);
+  galacticaTablaActual = (tSel === "mixto" || isNaN(numSel) || numSel < 1 || numSel > 12)
+    ? (Math.floor(Math.random() * 11) + 2)
+    : Math.max(1, Math.min(12, numSel));
   galacticaFactorActual = Math.floor(Math.random() * 12) + 1;
   galacticaCorrecta = galacticaTablaActual * galacticaFactorActual;
 
@@ -13659,6 +15390,901 @@ if (btnGalactica) btnGalactica.addEventListener("click", abrirDefensaGalactica);
 if (cerrarGalactica) cerrarGalactica.addEventListener("click", () => { if (modalGalactica) modalGalactica.hidden = true; detenerGalacticaLoop(); });
 if (btnIniciarGalactica) btnIniciarGalactica.addEventListener("click", iniciarDefensaGalactica);
 
+// ---------------------------------------------------------------------------
+// LÓGICA DEL MINIJUEGO: 🎯 TIRO AL BLANCO DE FERIA & 🕹️ GARRA ARCADE
+// ---------------------------------------------------------------------------
+const modalFeria = document.getElementById("modalFeria");
+const btnFeria = document.getElementById("btnFeria");
+const cerrarFeria = document.getElementById("cerrarFeria");
+const tabFeriaTiro = document.getElementById("tabFeriaTiro");
+const tabFeriaGarra = document.getElementById("tabFeriaGarra");
+const lblFeriaVidas = document.getElementById("lblFeriaVidas");
+const lblFeriaRacha = document.getElementById("lblFeriaRacha");
+const lblFeriaPuntos = document.getElementById("lblFeriaPuntos");
+const feriaOperacion = document.getElementById("feriaOperacion");
+const feriaAreaJuego = document.getElementById("feriaAreaJuego");
+const feriaMira = document.getElementById("feriaMira");
+const feriaGarraSistema = document.getElementById("feriaGarraSistema");
+const feriaGarraCable = document.getElementById("feriaGarraCable");
+const feriaGarraPinzas = document.getElementById("feriaGarraPinzas");
+const feriaFxOverlay = document.getElementById("feriaFxOverlay");
+const feriaControlesGarra = document.getElementById("feriaControlesGarra");
+const btnFeriaIzq = document.getElementById("btnFeriaIzq");
+const btnFeriaSoltar = document.getElementById("btnFeriaSoltar");
+const btnFeriaDer = document.getElementById("btnFeriaDer");
+const lblFeriaPcGuia = document.getElementById("lblFeriaPcGuia");
+const btnIniciarFeria = document.getElementById("btnIniciarFeria");
+
+let feriaModoActual = "tiro"; // "tiro" | "garra"
+let feriaActivo = false;
+let feriaVidas = 3;
+let feriaPuntos = 0;
+let feriaRacha = 0;
+let feriaCorrecta = 0;
+let feriaRondaResuelta = false;
+let feriaAnimFrameId = null;
+let feriaTimeouts = [];
+let feriaObjetos = [];
+let feriaMiraX = 50;
+let feriaMiraY = 54;
+let feriaGarraX = 50;
+let feriaGarraOcupada = false;
+const feriaTeclas = { left: false, right: false, up: false, down: false };
+
+function generarOperacionYSetFeria(cantidad) {
+  const tSel = selectorTabla ? selectorTabla.value : "mixto";
+  const numSel = parseInt(tSel, 10);
+  const tTabla = (tSel === "mixto" || isNaN(numSel) || numSel < 1 || numSel > 12)
+    ? (Math.floor(Math.random() * 11) + 2)
+    : numSel;
+  const fFactor = Math.floor(Math.random() * 12) + 1;
+  const resp = tTabla * fFactor;
+
+  const setOpts = new Set([resp]);
+  while (setOpts.size < cantidad) {
+    const delta = Math.floor(Math.random() * 5) - 2;
+    const alt = Math.random() < 0.55
+      ? tTabla * Math.max(1, Math.min(12, fFactor + (delta === 0 ? 1 : delta)))
+      : Math.max(1, resp + (Math.floor(Math.random() * 15) - 7));
+    if (alt >= 1 && alt !== resp) setOpts.add(alt);
+  }
+  const opciones = Array.from(setOpts).sort(() => Math.random() - 0.5);
+  return { tTabla, fFactor, resp, opciones };
+}
+
+function detenerFeriaLoop() {
+  feriaActivo = false;
+  feriaGarraOcupada = false;
+  if (feriaAnimFrameId) {
+    cancelAnimationFrame(feriaAnimFrameId);
+    feriaAnimFrameId = null;
+  }
+  feriaTimeouts.forEach(id => clearTimeout(id));
+  feriaTimeouts = [];
+  feriaTeclas.left = false;
+  feriaTeclas.right = false;
+  feriaTeclas.up = false;
+  feriaTeclas.down = false;
+}
+
+function limpiarEscenaFeria() {
+  if (!feriaAreaJuego) return;
+  Array.from(feriaAreaJuego.querySelectorAll(".feria-riel, .feria-blanco, .feria-capsula")).forEach(el => el.remove());
+  if (feriaFxOverlay) feriaFxOverlay.replaceChildren();
+  feriaObjetos = [];
+}
+
+function actualizarHudFeria() {
+  const t = i18n[idiomaActual];
+  const esDorada = feriaRacha >= 3;
+  if (lblFeriaVidas) lblFeriaVidas.textContent = t.feriaVidasTexto ? t.feriaVidasTexto(Math.max(0, feriaVidas)) : `Vidas: ${feriaVidas}`;
+  if (lblFeriaRacha) lblFeriaRacha.textContent = t.feriaRachaTexto ? t.feriaRachaTexto(feriaRacha, esDorada) : `🔥 ${feriaRacha}`;
+  if (lblFeriaPuntos) lblFeriaPuntos.textContent = t.feriaPuntosTexto ? t.feriaPuntosTexto(feriaPuntos) : `⭐ ${feriaPuntos}`;
+  if (feriaAreaJuego) feriaAreaJuego.classList.toggle("ronda-dorada", esDorada);
+}
+
+function cambiarTabFeria(modo) {
+  reproducirSonido("click");
+  feriaModoActual = modo === "garra" ? "garra" : "tiro";
+  if (tabFeriaTiro) tabFeriaTiro.classList.toggle("activo", feriaModoActual === "tiro");
+  if (tabFeriaGarra) tabFeriaGarra.classList.toggle("activo", feriaModoActual === "garra");
+  reiniciarFeriaUI();
+}
+
+function reiniciarFeriaUI() {
+  detenerFeriaLoop();
+  limpiarEscenaFeria();
+  feriaVidas = 3;
+  feriaPuntos = 0;
+  feriaRacha = 0;
+  feriaRondaResuelta = false;
+  feriaMiraX = 50;
+  feriaMiraY = 54;
+  feriaGarraX = 50;
+
+  const t = i18n[idiomaActual];
+  const esGarra = feriaModoActual === "garra";
+  if (feriaAreaJuego) {
+    feriaAreaJuego.classList.toggle("modo-garra", esGarra);
+    feriaAreaJuego.classList.remove("ronda-dorada");
+  }
+  if (feriaMira) {
+    feriaMira.hidden = true;
+    feriaMira.style.left = "50%";
+    feriaMira.style.top = "54%";
+  }
+  if (feriaGarraSistema) {
+    feriaGarraSistema.hidden = !esGarra;
+    feriaGarraSistema.style.left = "50%";
+  }
+  if (feriaGarraCable) feriaGarraCable.style.height = "26px";
+  if (feriaGarraPinzas) {
+    feriaGarraPinzas.textContent = "🦾";
+    feriaGarraPinzas.classList.remove("cerrada");
+  }
+  if (feriaControlesGarra) feriaControlesGarra.hidden = !esGarra;
+  if (lblFeriaPcGuia) lblFeriaPcGuia.textContent = esGarra ? t.feriaPcGuiaGarra : t.feriaPcGuiaTiro;
+  if (feriaOperacion) {
+    feriaOperacion.textContent = esGarra
+      ? (idiomaActual === "es" ? "🕹️ ¡Premios listos!" : "🕹️ Prizes ready!")
+      : (idiomaActual === "es" ? "🎯 ¡Caseta lista!" : "🎯 Booth ready!");
+  }
+  if (btnIniciarFeria) {
+    btnIniciarFeria.style.display = "block";
+    btnIniciarFeria.textContent = esGarra ? t.feriaBtnIniciarGarra : t.feriaBtnIniciarTiro;
+    btnIniciarFeria.style.background = esGarra
+      ? "linear-gradient(135deg, #7c3aed, #5b21b6)"
+      : "linear-gradient(135deg, #dc2626, #b91c1c)";
+  }
+  actualizarHudFeria();
+}
+
+function abrirFeriaJuego() {
+  if (!modalFeria) return;
+  reproducirSonido("click");
+  reiniciarFeriaUI();
+  modalFeria.hidden = false;
+}
+
+function iniciarFeriaJuego() {
+  reproducirSonido("click");
+  if (btnIniciarFeria) btnIniciarFeria.style.display = "none";
+  feriaVidas = 3;
+  feriaPuntos = 0;
+  feriaRacha = 0;
+  feriaActivo = true;
+  feriaGarraOcupada = false;
+  feriaMiraX = 50;
+  feriaMiraY = 54;
+  feriaGarraX = 50;
+  if (feriaMira) feriaMira.hidden = (feriaModoActual !== "tiro");
+  if (feriaGarraSistema) feriaGarraSistema.hidden = (feriaModoActual !== "garra");
+  actualizarHudFeria();
+  siguienteRondaFeria();
+  bucleFeriaAnimacion();
+}
+
+function siguienteRondaFeria() {
+  if (!feriaActivo || feriaVidas <= 0 || !feriaAreaJuego) return;
+  limpiarEscenaFeria();
+  feriaRondaResuelta = false;
+  feriaGarraOcupada = false;
+  if (feriaGarraCable) feriaGarraCable.style.height = "26px";
+  if (feriaGarraPinzas) {
+    feriaGarraPinzas.textContent = "🦾";
+    feriaGarraPinzas.classList.remove("cerrada");
+  }
+
+  const esGarra = feriaModoActual === "garra";
+  const cantidad = esGarra ? 4 : 6;
+  const { tTabla, fFactor, resp, opciones } = generarOperacionYSetFeria(cantidad);
+  feriaCorrecta = resp;
+  if (feriaOperacion) feriaOperacion.textContent = `${tTabla} × ${fFactor} = ?`;
+
+  if (!esGarra) {
+    // 3 rieles de feria horizontales con dianas en movimiento
+    const rielesY = [26, 53, 80];
+    rielesY.forEach((ry) => {
+      const riel = document.createElement("div");
+      riel.className = "feria-riel";
+      riel.style.top = `calc(${ry}% + 18px)`;
+      feriaAreaJuego.appendChild(riel);
+    });
+
+    const iconos = ["🦆", "🎯", "🎪", "🎈", "🌟", "🧸"];
+    opciones.forEach((val, idx) => {
+      const carril = idx % 3;
+      const dir = carril % 2 === 0 ? 1 : -1;
+      const colEnCarril = Math.floor(idx / 3);
+      const x = dir === 1 ? (24 + colEnCarril * 46) : (76 - colEnCarril * 46);
+      const y = rielesY[carril];
+      const div = document.createElement("div");
+      div.className = "feria-blanco";
+      div.style.left = `${x}%`;
+      div.style.top = `${y}%`;
+      div.innerHTML = `
+        <div class="feria-diana-disco">
+          <span class="feria-diana-icono">${iconos[idx % iconos.length]}</span>
+          <span class="feria-diana-num">${val}</span>
+        </div>
+      `;
+      const obj = { elem: div, val, x, y, carril, dir, speed: 0.22 + carril * 0.06 + Math.min(0.24, feriaRacha * 0.025), eliminado: false };
+      div.addEventListener("pointerdown", (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        if (!feriaActivo || feriaModoActual !== "tiro") return;
+        feriaMiraX = obj.x;
+        feriaMiraY = obj.y;
+        if (feriaMira) {
+          feriaMira.style.left = `${feriaMiraX}%`;
+          feriaMira.style.top = `${feriaMiraY}%`;
+        }
+        dispararTiroFeria(obj);
+      });
+      feriaAreaJuego.appendChild(div);
+      feriaObjetos.push(obj);
+    });
+  } else {
+    // Garra Arcade: 4 cápsulas brillantes deslizándose suave por la vitrina inferior
+    const paletas = [
+      { bg: "radial-gradient(circle at 30% 30%, #f472b6, #db2777)", emoji: "🧸" },
+      { bg: "radial-gradient(circle at 30% 30%, #38bdf8, #0284c7)", emoji: "🎁" },
+      { bg: "radial-gradient(circle at 30% 30%, #facc15, #ca8a04)", emoji: "🏆" },
+      { bg: "radial-gradient(circle at 30% 30%, #4ade80, #16a34a)", emoji: "🌟" }
+    ];
+    opciones.forEach((val, idx) => {
+      const cap = document.createElement("div");
+      cap.className = "feria-capsula";
+      const pal = paletas[idx % paletas.length];
+      cap.style.background = pal.bg;
+      const x = 16 + idx * 22.5;
+      const y = 80;
+      cap.style.left = `${x}%`;
+      cap.style.top = `${y}%`;
+      cap.innerHTML = `
+        <span class="feria-capsula-emoji">${pal.emoji}</span>
+        <span class="feria-capsula-num">${val}</span>
+      `;
+      const obj = { elem: cap, val, x, y, phase: idx * 1.4, dir: 1, speed: 0.12 + Math.min(0.16, feriaRacha * 0.02), eliminado: false };
+      cap.addEventListener("pointerdown", (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        if (!feriaActivo || feriaModoActual !== "garra" || feriaGarraOcupada || feriaRondaResuelta) return;
+        feriaGarraX = Math.max(10, Math.min(90, obj.x));
+        if (feriaGarraSistema) feriaGarraSistema.style.left = `${feriaGarraX}%`;
+        soltarGarraFeria();
+      });
+      feriaAreaJuego.appendChild(cap);
+      feriaObjetos.push(obj);
+    });
+  }
+}
+
+function dibujarDestelloDardo(xPct, yPct, color) {
+  if (!feriaFxOverlay || !feriaAreaJuego) return;
+  const w = feriaAreaJuego.clientWidth || 340;
+  const h = feriaAreaJuego.clientHeight || 310;
+  const cx = (xPct / 100) * w;
+  const cy = (yPct / 100) * h;
+
+  const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+  g.setAttribute("class", "galactica-laser-grupo");
+
+  const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+  line.setAttribute("x1", (w / 2).toFixed(1));
+  line.setAttribute("y1", h.toFixed(1));
+  line.setAttribute("x2", cx.toFixed(1));
+  line.setAttribute("y2", cy.toFixed(1));
+  line.setAttribute("stroke", color);
+  line.setAttribute("stroke-width", "4");
+  line.setAttribute("stroke-linecap", "round");
+  g.appendChild(line);
+
+  const ring = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+  ring.setAttribute("cx", cx.toFixed(1));
+  ring.setAttribute("cy", cy.toFixed(1));
+  ring.setAttribute("r", "16");
+  ring.setAttribute("fill", "none");
+  ring.setAttribute("stroke", "#fde047");
+  ring.setAttribute("stroke-width", "3");
+  g.appendChild(ring);
+
+  feriaFxOverlay.appendChild(g);
+  setTimeout(() => g.remove(), 220);
+}
+
+function dispararTiroFeria(objDirecto = null) {
+  if (!feriaActivo || feriaRondaResuelta || feriaModoActual !== "tiro") return;
+  reproducirSonido("dardoFeria");
+
+  let blanco = objDirecto;
+  if (!blanco) {
+    blanco = feriaObjetos.find(o => !o.eliminado && Math.hypot(o.x - feriaMiraX, (o.y - feriaMiraY) * 0.95) < 13);
+  }
+  dibujarDestelloDardo(feriaMiraX, feriaMiraY, blanco && blanco.val === feriaCorrecta ? "#4ade80" : "#facc15");
+
+  if (!blanco) return;
+
+  if (blanco.val === feriaCorrecta) {
+    feriaRondaResuelta = true;
+    blanco.eliminado = true;
+    feriaRacha++;
+    const esDorada = feriaRacha >= 3;
+    const pts = esDorada ? 20 : 10;
+    feriaPuntos += pts;
+    puntos += pts;
+    aciertos++;
+
+    reproducirSonido(esDorada ? "campanaFeria" : "acierto");
+    vibrar([35, 25, 60]);
+    blanco.elem.style.transform = "translate(-50%, -50%) scale(1.25)";
+    blanco.elem.innerHTML = `<span style="font-size:32px;">💥</span>`;
+
+    actualizarHudFeria();
+    actualizarEstadisticas();
+    guardarPuntajes();
+
+    const t = i18n[idiomaActual];
+    if (feriaRacha === 3) {
+      mostrarTextoFlotante(t.feriaMsjDorada || "✨ ¡RONDA DORADA x2!", true, "34%");
+    } else {
+      mostrarTextoFlotante(`🎯 +${pts} ⭐`, true, "36%");
+    }
+
+    const tId = setTimeout(() => {
+      if (feriaActivo && feriaVidas > 0) siguienteRondaFeria();
+    }, 580);
+    feriaTimeouts.push(tId);
+  } else {
+    blanco.eliminado = true;
+    blanco.elem.style.opacity = "0.35";
+    blanco.elem.innerHTML = `<span style="font-size:26px;">❌</span>`;
+    perderVidaFeria(i18n[idiomaActual].feriaMsjFalloTiro);
+  }
+}
+
+function soltarGarraFeria() {
+  if (!feriaActivo || feriaModoActual !== "garra" || feriaGarraOcupada || feriaRondaResuelta || !feriaAreaJuego) return;
+  feriaGarraOcupada = true;
+  reproducirSonido("garraFeria");
+
+  const maxCable = Math.max(130, (feriaAreaJuego.clientHeight || 310) * 0.6);
+  let progreso = 0;
+  let bajando = true;
+  let capsulaAtrapada = null;
+
+  const animarGarra = () => {
+    if (!feriaActivo || feriaModoActual !== "garra") {
+      feriaGarraOcupada = false;
+      return;
+    }
+    if (bajando) {
+      progreso += 0.085;
+      if (progreso >= 1) {
+        progreso = 1;
+        bajando = false;
+        if (feriaGarraPinzas) feriaGarraPinzas.classList.add("cerrada");
+        // Comprobar si la garra coincide con alguna cápsula debajo
+        let mejor = null;
+        let mejorDist = 14;
+        feriaObjetos.forEach(c => {
+          if (c.eliminado) return;
+          const d = Math.abs(c.x - feriaGarraX);
+          if (d < mejorDist) {
+            mejorDist = d;
+            mejor = c;
+          }
+        });
+        capsulaAtrapada = mejor;
+      }
+    } else {
+      progreso -= 0.085;
+      if (capsulaAtrapada) {
+        capsulaAtrapada.x = feriaGarraX;
+        const nuevoTopPct = 22 + progreso * 58;
+        capsulaAtrapada.y = nuevoTopPct;
+        capsulaAtrapada.elem.style.left = `${capsulaAtrapada.x}%`;
+        capsulaAtrapada.elem.style.top = `${capsulaAtrapada.y}%`;
+      }
+      if (progreso <= 0) {
+        progreso = 0;
+        if (feriaGarraCable) feriaGarraCable.style.height = "26px";
+        if (feriaGarraPinzas) feriaGarraPinzas.classList.remove("cerrada");
+        feriaGarraOcupada = false;
+
+        const t = i18n[idiomaActual];
+        if (!capsulaAtrapada) {
+          reproducirSonido("click");
+          mostrarTextoFlotante(t.feriaMsjVacio || "💨 ¡Vacía!", false, "38%");
+          return;
+        }
+
+        if (capsulaAtrapada.val === feriaCorrecta) {
+          feriaRondaResuelta = true;
+          capsulaAtrapada.eliminado = true;
+          feriaRacha++;
+          const esDorada = feriaRacha >= 3;
+          const pts = esDorada ? 30 : 15;
+          feriaPuntos += pts;
+          puntos += pts;
+          aciertos++;
+          reproducirSonido("campanaFeria");
+          vibrar([40, 30, 75]);
+          actualizarHudFeria();
+          actualizarEstadisticas();
+          guardarPuntajes();
+          mostrarTextoFlotante(`🏆 +${pts} ⭐`, true, "34%");
+          const tId = setTimeout(() => {
+            if (feriaActivo && feriaVidas > 0) siguienteRondaFeria();
+          }, 580);
+          feriaTimeouts.push(tId);
+        } else {
+          // Soltar de vuelta a la vitrina y restar vida
+          capsulaAtrapada.y = 80;
+          capsulaAtrapada.elem.style.top = "80%";
+          perderVidaFeria(t.feriaMsjFalloGarra);
+        }
+        return;
+      }
+    }
+
+    if (feriaGarraCable) {
+      feriaGarraCable.style.height = `${26 + progreso * maxCable}px`;
+    }
+    requestAnimationFrame(animarGarra);
+  };
+  requestAnimationFrame(animarGarra);
+}
+
+function perderVidaFeria(motivo) {
+  feriaVidas--;
+  feriaRacha = 0;
+  reproducirSonido("error");
+  vibrar(110);
+  actualizarHudFeria();
+
+  if (feriaVidas <= 0) {
+    finalizarFeriaJuego();
+  } else {
+    mostrarTextoFlotante(motivo || "❌ -1 ❤️", false, "38%");
+  }
+}
+
+function finalizarFeriaJuego() {
+  detenerFeriaLoop();
+  limpiarEscenaFeria();
+  const t = i18n[idiomaActual];
+  if (feriaOperacion) feriaOperacion.textContent = t.feriaFinPartida || "🎪 ¡FERIA FINALIZADA!";
+  reproducirSonido("victoria");
+  dispararConfetiVictoria();
+  mostrarTextoFlotante(`🎪 ${feriaPuntos} ⭐`, true, "34%");
+  if (btnIniciarFeria) {
+    btnIniciarFeria.style.display = "block";
+    btnIniciarFeria.textContent = t.feriaBtnReintentar || "🔄 ¡Jugar otra vez!";
+  }
+}
+
+function bucleFeriaAnimacion() {
+  if (!feriaActivo) return;
+
+  if (feriaModoActual === "tiro") {
+    if (feriaTeclas.left) feriaMiraX = Math.max(8, feriaMiraX - 1.35);
+    if (feriaTeclas.right) feriaMiraX = Math.min(92, feriaMiraX + 1.35);
+    if (feriaTeclas.up) feriaMiraY = Math.max(16, feriaMiraY - 1.35);
+    if (feriaTeclas.down) feriaMiraY = Math.min(88, feriaMiraY + 1.35);
+    if (feriaMira && (feriaTeclas.left || feriaTeclas.right || feriaTeclas.up || feriaTeclas.down)) {
+      feriaMira.style.left = `${feriaMiraX}%`;
+      feriaMira.style.top = `${feriaMiraY}%`;
+    }
+    feriaObjetos.forEach(o => {
+      if (o.eliminado) return;
+      o.x += o.dir * o.speed;
+      if (o.dir === 1 && o.x > 110) o.x = -10;
+      if (o.dir === -1 && o.x < -10) o.x = 110;
+      o.elem.style.left = `${o.x.toFixed(2)}%`;
+    });
+  } else {
+    if (!feriaGarraOcupada) {
+      if (feriaTeclas.left) feriaGarraX = Math.max(10, feriaGarraX - 1.3);
+      if (feriaTeclas.right) feriaGarraX = Math.min(90, feriaGarraX + 1.3);
+      if (feriaGarraSistema) feriaGarraSistema.style.left = `${feriaGarraX.toFixed(2)}%`;
+    }
+    feriaObjetos.forEach(c => {
+      if (c.eliminado || (feriaGarraOcupada && c.y < 76)) return;
+      c.phase += 0.05;
+      c.x += c.dir * c.speed;
+      if (c.dir === 1 && c.x > 108) c.x = -8;
+      c.y = 80 + Math.sin(c.phase) * 2.2;
+      c.elem.style.left = `${c.x.toFixed(2)}%`;
+      c.elem.style.top = `${c.y.toFixed(2)}%`;
+    });
+  }
+
+  feriaAnimFrameId = requestAnimationFrame(bucleFeriaAnimacion);
+}
+
+if (btnFeria) btnFeria.addEventListener("click", abrirFeriaJuego);
+if (cerrarFeria) cerrarFeria.addEventListener("click", () => { if (modalFeria) modalFeria.hidden = true; detenerFeriaLoop(); });
+if (btnIniciarFeria) btnIniciarFeria.addEventListener("click", iniciarFeriaJuego);
+if (tabFeriaTiro) tabFeriaTiro.addEventListener("click", () => cambiarTabFeria("tiro"));
+if (tabFeriaGarra) tabFeriaGarra.addEventListener("click", () => cambiarTabFeria("garra"));
+
+if (feriaAreaJuego) {
+  feriaAreaJuego.addEventListener("pointermove", (e) => {
+    if (!feriaActivo) return;
+    const r = feriaAreaJuego.getBoundingClientRect();
+    const px = Math.max(8, Math.min(92, ((e.clientX - r.left) / r.width) * 100));
+    const py = Math.max(14, Math.min(88, ((e.clientY - r.top) / r.height) * 100));
+    if (feriaModoActual === "tiro") {
+      feriaMiraX = px;
+      feriaMiraY = py;
+      if (feriaMira) {
+        feriaMira.style.left = `${px}%`;
+        feriaMira.style.top = `${py}%`;
+      }
+    } else if (!feriaGarraOcupada) {
+      feriaGarraX = px;
+      if (feriaGarraSistema) feriaGarraSistema.style.left = `${px}%`;
+    }
+  });
+  feriaAreaJuego.addEventListener("pointerdown", (e) => {
+    if (!feriaActivo) return;
+    const r = feriaAreaJuego.getBoundingClientRect();
+    const px = Math.max(8, Math.min(92, ((e.clientX - r.left) / r.width) * 100));
+    const py = Math.max(14, Math.min(88, ((e.clientY - r.top) / r.height) * 100));
+    if (feriaModoActual === "tiro") {
+      feriaMiraX = px;
+      feriaMiraY = py;
+      if (feriaMira) {
+        feriaMira.style.left = `${px}%`;
+        feriaMira.style.top = `${py}%`;
+      }
+      dispararTiroFeria(null);
+    } else if (!feriaGarraOcupada && !feriaRondaResuelta) {
+      feriaGarraX = px;
+      if (feriaGarraSistema) feriaGarraSistema.style.left = `${px}%`;
+      soltarGarraFeria();
+    }
+  });
+}
+
+if (btnFeriaIzq) {
+  btnFeriaIzq.addEventListener("pointerdown", (e) => { e.preventDefault(); feriaTeclas.left = true; });
+  btnFeriaIzq.addEventListener("pointerup", () => { feriaTeclas.left = false; });
+  btnFeriaIzq.addEventListener("pointerleave", () => { feriaTeclas.left = false; });
+}
+if (btnFeriaDer) {
+  btnFeriaDer.addEventListener("pointerdown", (e) => { e.preventDefault(); feriaTeclas.right = true; });
+  btnFeriaDer.addEventListener("pointerup", () => { feriaTeclas.right = false; });
+  btnFeriaDer.addEventListener("pointerleave", () => { feriaTeclas.right = false; });
+}
+if (btnFeriaSoltar) {
+  btnFeriaSoltar.addEventListener("click", () => soltarGarraFeria());
+}
+
+window.addEventListener("keydown", (e) => {
+  if (!modalFeria || modalFeria.hidden) return;
+  if (["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Space"].includes(e.code) || e.key === " ") {
+    e.preventDefault();
+  }
+  if (e.key === "ArrowLeft" || e.key.toLowerCase() === "a") feriaTeclas.left = true;
+  if (e.key === "ArrowRight" || e.key.toLowerCase() === "d") feriaTeclas.right = true;
+  if (e.key === "ArrowUp" || e.key.toLowerCase() === "w") feriaTeclas.up = true;
+  if (e.key === "ArrowDown" || e.key.toLowerCase() === "s") {
+    if (feriaModoActual === "garra" && feriaActivo) soltarGarraFeria();
+    else feriaTeclas.down = true;
+  }
+  if (e.code === "Space" || e.key === "Enter") {
+    if (!feriaActivo) {
+      iniciarFeriaJuego();
+    } else if (feriaModoActual === "tiro") {
+      dispararTiroFeria(null);
+    } else {
+      soltarGarraFeria();
+    }
+  }
+});
+window.addEventListener("keyup", (e) => {
+  if (e.key === "ArrowLeft" || e.key.toLowerCase() === "a") feriaTeclas.left = false;
+  if (e.key === "ArrowRight" || e.key.toLowerCase() === "d") feriaTeclas.right = false;
+  if (e.key === "ArrowUp" || e.key.toLowerCase() === "w") feriaTeclas.up = false;
+  if (e.key === "ArrowDown" || e.key.toLowerCase() === "s") feriaTeclas.down = false;
+});
+
+// ---------------------------------------------------------------------------
+// LÓGICA DEL MINIJUEGO: 🦖 DINO RUNNER MATEMÁTICO
+// ---------------------------------------------------------------------------
+const modalDino = document.getElementById("modalDino");
+const btnDino = document.getElementById("btnDino");
+const cerrarDino = document.getElementById("cerrarDino");
+const lblDinoVidas = document.getElementById("lblDinoVidas");
+const lblDinoBioma = document.getElementById("lblDinoBioma");
+const lblDinoPuntos = document.getElementById("lblDinoPuntos");
+const dinoOperacion = document.getElementById("dinoOperacion");
+const dinoAreaJuego = document.getElementById("dinoAreaJuego");
+const dinoJugador = document.getElementById("dinoJugador");
+const btnDinoCarril0 = document.getElementById("btnDinoCarril0");
+const btnDinoCarril1 = document.getElementById("btnDinoCarril1");
+const btnDinoCarril2 = document.getElementById("btnDinoCarril2");
+const btnIniciarDino = document.getElementById("btnIniciarDino");
+
+const DINO_LANES_Y = [19, 50, 81];
+let dinoActivo = false;
+let dinoVidas = 3;
+let dinoPuntos = 0;
+let dinoRacha = 0;
+let dinoOleada = 1;
+let dinoCarril = 2;
+let dinoEscudo = false;
+let dinoCorrecta = 0;
+let dinoRondaResuelta = false;
+let dinoAnimFrameId = null;
+let dinoTimeouts = [];
+let dinoPuertas = [];
+let dinoTouchStartY = null;
+
+function detenerDinoLoop() {
+  dinoActivo = false;
+  if (dinoAnimFrameId) {
+    cancelAnimationFrame(dinoAnimFrameId);
+    dinoAnimFrameId = null;
+  }
+  dinoTimeouts.forEach(id => clearTimeout(id));
+  dinoTimeouts = [];
+}
+
+function limpiarPuertasDino() {
+  if (!dinoAreaJuego) return;
+  Array.from(dinoAreaJuego.querySelectorAll(".dino-puerta")).forEach(el => el.remove());
+  dinoPuertas = [];
+}
+
+function moverDinoCarril(nuevoCarril) {
+  const clamped = Math.max(0, Math.min(2, nuevoCarril));
+  if (clamped !== dinoCarril) {
+    reproducirSonido("saltoDino");
+  }
+  dinoCarril = clamped;
+  if (dinoJugador) dinoJugador.style.top = `${DINO_LANES_Y[dinoCarril]}%`;
+  [btnDinoCarril0, btnDinoCarril1, btnDinoCarril2].forEach((b, idx) => {
+    if (b) b.classList.toggle("activo", idx === dinoCarril);
+  });
+}
+
+function obtenerBiomaDino() {
+  if (dinoOleada >= 7) return 2;
+  if (dinoOleada >= 4) return 1;
+  return 0;
+}
+
+function actualizarHudDino() {
+  const t = i18n[idiomaActual];
+  const bioma = obtenerBiomaDino();
+  if (lblDinoVidas) lblDinoVidas.textContent = t.dinoVidasTexto ? t.dinoVidasTexto(Math.max(0, dinoVidas)) : `Vidas: ${dinoVidas}`;
+  if (lblDinoBioma) lblDinoBioma.textContent = t.dinoBiomaTexto ? t.dinoBiomaTexto(bioma, dinoOleada) : `🌿 Nv.${dinoOleada}`;
+  if (lblDinoPuntos) lblDinoPuntos.textContent = t.dinoPuntosTexto ? t.dinoPuntosTexto(dinoPuntos) : `⭐ ${dinoPuntos}`;
+  if (dinoAreaJuego) {
+    dinoAreaJuego.classList.toggle("bioma-volcan", bioma === 1);
+    dinoAreaJuego.classList.toggle("bioma-neon", bioma === 2);
+  }
+  if (dinoJugador) dinoJugador.classList.toggle("escudo-activo", dinoEscudo);
+}
+
+function reiniciarDinoUI() {
+  detenerDinoLoop();
+  limpiarPuertasDino();
+  dinoVidas = 3;
+  dinoPuntos = 0;
+  dinoRacha = 0;
+  dinoOleada = 1;
+  dinoEscudo = false;
+  dinoRondaResuelta = false;
+  moverDinoCarril(2);
+  const t = i18n[idiomaActual];
+  if (dinoOperacion) dinoOperacion.textContent = idiomaActual === "es" ? "🦖 ¡Listo para correr!" : "🦖 Ready to run!";
+  if (btnIniciarDino) {
+    btnIniciarDino.style.display = "block";
+    btnIniciarDino.textContent = t.dinoBtnIniciar || "🦖 ¡Correr con Dino!";
+  }
+  actualizarHudDino();
+}
+
+function abrirDinoJuego() {
+  if (!modalDino) return;
+  reproducirSonido("click");
+  reiniciarDinoUI();
+  modalDino.hidden = false;
+}
+
+function iniciarDinoJuego() {
+  reproducirSonido("saltoDino");
+  if (btnIniciarDino) btnIniciarDino.style.display = "none";
+  dinoVidas = 3;
+  dinoPuntos = 0;
+  dinoRacha = 0;
+  dinoOleada = 1;
+  dinoEscudo = false;
+  dinoActivo = true;
+  moverDinoCarril(2);
+  actualizarHudDino();
+  siguienteOleadaDino();
+  bucleDinoAnimacion();
+}
+
+function siguienteOleadaDino() {
+  if (!dinoActivo || dinoVidas <= 0 || !dinoAreaJuego) return;
+  limpiarPuertasDino();
+  dinoRondaResuelta = false;
+
+  const { tTabla, fFactor, resp, opciones } = generarOperacionYSetFeria(3);
+  dinoCorrecta = resp;
+  if (dinoOperacion) dinoOperacion.textContent = `${tTabla} × ${fFactor} = ?`;
+
+  const tags = ["☁️", "⚡", "🌵"];
+  opciones.forEach((val, carrilIdx) => {
+    const puerta = document.createElement("div");
+    puerta.className = "dino-puerta";
+    puerta.style.left = "108%";
+    puerta.style.top = `${DINO_LANES_Y[carrilIdx]}%`;
+    puerta.innerHTML = `
+      <span class="dino-puerta-num">${val}</span>
+      <span class="dino-puerta-tag">${tags[carrilIdx]}</span>
+    `;
+    dinoAreaJuego.appendChild(puerta);
+    dinoPuertas.push({
+      elem: puerta,
+      val,
+      carril: carrilIdx,
+      x: 108,
+      speed: 0.44 + Math.min(0.45, dinoOleada * 0.045),
+      procesada: false
+    });
+  });
+}
+
+function resolverChoqueDino(puertaElegida) {
+  if (!dinoActivo || dinoRondaResuelta) return;
+  dinoRondaResuelta = true;
+  const t = i18n[idiomaActual];
+
+  if (puertaElegida && puertaElegida.val === dinoCorrecta) {
+    dinoRacha++;
+    const biomaAntes = obtenerBiomaDino();
+    dinoOleada++;
+    const biomaDespues = obtenerBiomaDino();
+    const pts = 10 + (dinoEscudo ? 5 : 0);
+    dinoPuntos += pts;
+    puntos += pts;
+    aciertos++;
+
+    puertaElegida.elem.style.background = "linear-gradient(145deg, #4ade80, #16a34a)";
+    puertaElegida.elem.innerHTML = `<span style="font-size:26px;">⭐</span>`;
+
+    if (dinoRacha > 0 && dinoRacha % 3 === 0 && !dinoEscudo) {
+      dinoEscudo = true;
+      reproducirSonido("turboDino");
+      mostrarTextoFlotante(t.dinoMsjEscudo || "🛡️ ¡ESCUDO TURBO!", true, "34%");
+    } else if (biomaDespues > biomaAntes) {
+      reproducirSonido("turboDino");
+      mostrarTextoFlotante(t.dinoMsjNuevoBioma ? t.dinoMsjNuevoBioma(biomaDespues) : "🌋 ¡NUEVO BIOMA!", true, "34%");
+    } else {
+      reproducirSonido("acierto");
+      mostrarTextoFlotante(`🦖 +${pts} ⭐`, true, "36%");
+    }
+
+    vibrar([35, 25, 65]);
+    actualizarHudDino();
+    actualizarEstadisticas();
+    guardarPuntajes();
+  } else {
+    dinoRacha = 0;
+    if (dinoEscudo) {
+      dinoEscudo = false;
+      reproducirSonido("turboDino");
+      vibrar(70);
+      mostrarTextoFlotante(t.dinoMsjEscudoSalva || "🛡️ ¡Escudo absorbido!", true, "36%");
+      actualizarHudDino();
+    } else {
+      dinoVidas--;
+      reproducirSonido("meteoritoDino");
+      vibrar(130);
+      if (puertaElegida) {
+        puertaElegida.elem.style.background = "linear-gradient(145deg, #f87171, #b91c1c)";
+        puertaElegida.elem.innerHTML = `<span style="font-size:26px;">☄️</span>`;
+      }
+      actualizarHudDino();
+      if (dinoVidas <= 0) {
+        finalizarDinoJuego();
+        return;
+      }
+      mostrarTextoFlotante(t.dinoMsjChoque || "☄️ -1 ❤️", false, "36%");
+    }
+  }
+
+  const tId = setTimeout(() => {
+    if (dinoActivo && dinoVidas > 0) siguienteOleadaDino();
+  }, 560);
+  dinoTimeouts.push(tId);
+}
+
+function finalizarDinoJuego() {
+  detenerDinoLoop();
+  limpiarPuertasDino();
+  const t = i18n[idiomaActual];
+  if (dinoOperacion) dinoOperacion.textContent = t.dinoFinPartida || "🦖 ¡CARRERA FINALIZADA!";
+  reproducirSonido("victoria");
+  dispararConfetiVictoria();
+  mostrarTextoFlotante(`🦖 ${dinoPuntos} ⭐`, true, "34%");
+  if (btnIniciarDino) {
+    btnIniciarDino.style.display = "block";
+    btnIniciarDino.textContent = t.dinoBtnReintentar || "🔄 ¡Correr de Nuevo!";
+  }
+}
+
+function bucleDinoAnimacion() {
+  if (!dinoActivo) return;
+
+  if (!dinoRondaResuelta && dinoPuertas.length > 0) {
+    for (let i = 0; i < dinoPuertas.length; i++) {
+      const p = dinoPuertas[i];
+      p.x -= p.speed;
+      p.elem.style.left = `${p.x.toFixed(2)}%`;
+    }
+    const puertaLinea = dinoPuertas[0];
+    if (puertaLinea && puertaLinea.x <= 21) {
+      const colision = dinoPuertas.find(p => p.carril === dinoCarril);
+      resolverChoqueDino(colision || puertaLinea);
+    }
+  }
+
+  dinoAnimFrameId = requestAnimationFrame(bucleDinoAnimacion);
+}
+
+if (btnDino) btnDino.addEventListener("click", abrirDinoJuego);
+if (cerrarDino) cerrarDino.addEventListener("click", () => { if (modalDino) modalDino.hidden = true; detenerDinoLoop(); });
+if (btnIniciarDino) btnIniciarDino.addEventListener("click", iniciarDinoJuego);
+if (btnDinoCarril0) btnDinoCarril0.addEventListener("click", () => moverDinoCarril(0));
+if (btnDinoCarril1) btnDinoCarril1.addEventListener("click", () => moverDinoCarril(1));
+if (btnDinoCarril2) btnDinoCarril2.addEventListener("click", () => moverDinoCarril(2));
+
+if (dinoAreaJuego) {
+  dinoAreaJuego.querySelectorAll(".dino-carril-guia").forEach(guia => {
+    guia.addEventListener("pointerdown", (e) => {
+      const c = parseInt(guia.getAttribute("data-dino-carril"), 10);
+      if (!isNaN(c)) moverDinoCarril(c);
+      dinoTouchStartY = e.clientY;
+    });
+  });
+  dinoAreaJuego.addEventListener("pointermove", (e) => {
+    if (dinoTouchStartY === null) return;
+    const dy = e.clientY - dinoTouchStartY;
+    if (dy < -24) {
+      moverDinoCarril(dinoCarril - 1);
+      dinoTouchStartY = e.clientY;
+    } else if (dy > 24) {
+      moverDinoCarril(dinoCarril + 1);
+      dinoTouchStartY = e.clientY;
+    }
+  });
+  dinoAreaJuego.addEventListener("pointerup", () => { dinoTouchStartY = null; });
+  dinoAreaJuego.addEventListener("pointercancel", () => { dinoTouchStartY = null; });
+}
+
+window.addEventListener("keydown", (e) => {
+  if (!modalDino || modalDino.hidden) return;
+  if (["ArrowUp", "ArrowDown", "Space"].includes(e.code) || e.key === " ") {
+    e.preventDefault();
+  }
+  if (e.key === "ArrowUp" || e.key.toLowerCase() === "w") moverDinoCarril(dinoCarril - 1);
+  if (e.key === "ArrowDown" || e.key.toLowerCase() === "s") moverDinoCarril(dinoCarril + 1);
+  if (e.key === "1") moverDinoCarril(0);
+  if (e.key === "2") moverDinoCarril(1);
+  if (e.key === "3") moverDinoCarril(2);
+  if ((e.code === "Space" || e.key === "Enter") && !dinoActivo) {
+    iniciarDinoJuego();
+  }
+});
+
 // Event Listeners principales
 botonSonido.addEventListener("click", toggleSonido);
 const menuSelectorTema = document.getElementById("menuSelectorTema");
@@ -13689,7 +16315,7 @@ if (menuSelectorTema) {
   });
 }
 botonIdioma.addEventListener("click", toggleIdioma);
-botonModo.addEventListener("click", cambiarModoTiempo);
+if (botonModo) botonModo.addEventListener("click", cambiarModoTiempo);
 botonHistorial.addEventListener("click", () => abrirModalHistorial("todo"));
 cerrarHistorial.addEventListener("click", () => modalHistorial.hidden = true);
 if (modalHistorial) {
@@ -13712,13 +16338,13 @@ btnCerrarInsigniasModal.addEventListener("click", () => modalInsignias.hidden = 
 btnAbrirAvatares.addEventListener("click", () => { modalAvatares.hidden = false; renderizarAvataresDisponibles(); });
 cerrarAvatares.addEventListener("click", () => modalAvatares.hidden = true);
 
-btnMinijuego.addEventListener("click", abrirMinijuego);
+if (btnMinijuego) btnMinijuego.addEventListener("click", abrirMinijuego);
 cerrarMinijuego.addEventListener("click", () => modalMinijuego.hidden = true);
 btnMiniVerdadero.addEventListener("click", () => evaluarMinijuego(true));
 btnMiniFalso.addEventListener("click", () => evaluarMinijuego(false));
 btnMiniSiguiente.addEventListener("click", generarNuevoRetoMinijuego);
 
-btnModoDesafio.addEventListener("click", abrirDesafioRelampago);
+if (btnModoDesafio) btnModoDesafio.addEventListener("click", abrirDesafioRelampago);
 cerrarDesafio.addEventListener("click", () => {
   if (desafioTimer) clearInterval(desafioTimer);
   desafioActivo = false;
@@ -13776,9 +16402,13 @@ inputNombre.addEventListener("input", (e) => {
   guardarPuntajes();
 });
 selectorTabla.addEventListener("change", () => {
-  if (selectorTabla.value !== "mixto") tabla = Number(selectorTabla.value);
+  const val = selectorTabla.value;
+  const num = parseInt(val, 10);
+  if (val !== "mixto" && !isNaN(num) && num >= 1 && num <= TOTAL) {
+    tabla = num;
+  }
   historialFactoresRecientes = [];
-  factor = 0;
+  factor = 1;
   actualizarBadgeTablaActiva();
   guardarPuntajes();
 });
@@ -13798,11 +16428,16 @@ if (typeof modalGlobos !== "undefined" && modalGlobos) modalGlobos.hidden = true
 if (typeof modalTopos !== "undefined" && modalTopos) modalTopos.hidden = true;
 if (typeof modalNitro !== "undefined" && modalNitro) modalNitro.hidden = true;
 if (typeof modalGalactica !== "undefined" && modalGalactica) modalGalactica.hidden = true;
+if (typeof modalFeria !== "undefined" && modalFeria) modalFeria.hidden = true;
+if (typeof modalDino !== "undefined" && modalDino) modalDino.hidden = true;
 
 actualizarSelectorTablas();
 cargarPuntajes();
 if (!localStorage.getItem(CLAVE_PUNTAJES)) selectorTabla.value = "mixto";
-if (selectorTabla.value !== "mixto") tabla = Number(selectorTabla.value);
+if (selectorTabla.value !== "mixto") {
+  const num = parseInt(selectorTabla.value, 10);
+  tabla = (!isNaN(num) && num >= 1 && num <= TOTAL) ? num : 2;
+}
 actualizarBadgeTablaActiva();
 dibujar();
 
@@ -13947,7 +16582,7 @@ function manejarClickCasillaLaberinto(numeroElegido, elementoBtn) {
 }
 
 // Event Listeners del Laberinto
-btnLaberinto.addEventListener("click", abrirLaberintoNumerico);
+if (btnLaberinto) btnLaberinto.addEventListener("click", abrirLaberintoNumerico);
 cerrarLaberinto.addEventListener("click", () => modalLaberinto.hidden = true);
 btnReiniciarLaberinto.addEventListener("click", iniciarNuevoLaberinto);
 
@@ -13995,12 +16630,23 @@ var TEMATICAS_TABLERO = {
 
 const textosCentroMinijuegos = {
   es: {
-    titulo: "🎮 Centro de Minijuegos",
-    subtitulo: "¡Elige tu desafío matemático favorito y demuestra tu poder táctico! 🚀",
+    titulo: "🎮 Centro Arcade (14)",
+    subtitulo: "🕹️ ¡Elige tu aventura matemática y bate récords!",
+    heroBadge: "14 JUEGOS",
+    fichasTitulo: "📋 Fichas Arcade por Categoría",
+    catAccion: "🕹️ Acción y Velocidad Arcade",
+    catReflejos: "⚡ Reflejos y Contrarreloj",
+    catEstrategia: "🧠 Estrategia, Duelo y Tablas",
+    rapidos: {
+      ajedrez: "Ajedrez", desafio: "60s", laberinto: "Laberinto", lluvia: "Ninja",
+      globos: "Globos", topos: "Topos", trampa: "Trampa", caraACara: "Duelo",
+      nitro: "Nitro", enduro: "Enduro", galactica: "Galaxia", feria: "Feria",
+      dino: "Dino", pitagoras: "Pitágoras"
+    },
     ajedrezTitulo: "Ajedrez Matemágico (8x8)",
     ajedrezDesc: "Tablas 1-12, Bot o 2P, Enroque, Jaque y más.",
     laberintoTitulo: "Laberinto Numérico",
-    laberintoDesc: "Navega resolviendo operaciones correctas.",
+    laberintoDesc: "Navega siguiendo la secuencia de múltiplos.",
     desafioTitulo: "Desafío Relámpago (60s)",
     desafioDesc: "Velocidad y cálculo contra el reloj.",
     lluviaTitulo: "Salto Ninja (Lluvia de Estrellas)",
@@ -14010,11 +16656,39 @@ const textosCentroMinijuegos = {
     toposTitulo: "Martillazo al Topo Travieso",
     toposDesc: "¡PUM! Martilla al topo con el resultado correcto.",
     trampaTitulo: "¿Correcto o Trampa?",
-    trampaDesc: "Descubre al impostor matemático."
+    trampaDesc: "Descubre al impostor matemático con rapidez.",
+    caraACaraTitulo: "Duelo Cara a Cara (2-4 Jugadores)",
+    caraACaraDesc: "Pantalla dividida o por equipos en la misma mesa o contra Bot.",
+    nitroTitulo: "Carrera de Nitro (Nitro Rush)",
+    nitroDesc: "Cambia de carril y acelera hacia el resultado correcto.",
+    enduroTitulo: "Enduro Matemático (Atari Retro)",
+    enduroDesc: "Adelanta autos de día, atardecer, niebla y noche con luces.",
+    galacticaTitulo: "Defensa Galáctica (Space Defender)",
+    galacticaDesc: "Dispara rayos láser para pulverizar a los invasores.",
+    feriaTitulo: "Feria Matemática & Garra Arcade",
+    feriaDesc: "Tiro al blanco móvil o atrapa cápsulas premio con la garra.",
+    dinoTitulo: "Dino Runner Matemático",
+    dinoDesc: "Salta entre alturas, activa escudos y supera biomas épicos.",
+    pitagorasTitulo: "Tabla Pitagórica (Explorador y Reto)",
+    pitagorasDesc: "Explora áreas del 1 al 12 o supera retos contrarreloj.",
+    btnJugar: "▶ Jugar",
+    btnDuelo: "⚔️ Duelo",
+    btnAbrir: "📊 Abrir"
   },
   en: {
-    titulo: "🎮 Game Hub",
-    subtitulo: "Choose your favorite math challenge and show your tactical power! 🚀",
+    titulo: "🎮 Arcade Hub (14)",
+    subtitulo: "🕹️ Pick your math adventure and crush high scores!",
+    heroBadge: "14 GAMES",
+    fichasTitulo: "📋 Arcade Cards by Category",
+    catAccion: "🕹️ Action & Speed Arcade",
+    catReflejos: "⚡ Reflex & Timed",
+    catEstrategia: "🧠 Strategy, Duel & Tables",
+    rapidos: {
+      ajedrez: "Chess", desafio: "60s", laberinto: "Maze", lluvia: "Ninja",
+      globos: "Balloons", topos: "Moles", trampa: "Trap", caraACara: "Duel",
+      nitro: "Nitro", enduro: "Enduro", galactica: "Galaxy", feria: "Fair",
+      dino: "Dino", pitagoras: "Table 12×12"
+    },
     ajedrezTitulo: "Math Chess (8x8)",
     ajedrezDesc: "Times tables 1-12, Bot or 2P, Castling, Check & more.",
     laberintoTitulo: "Number Labyrinth",
@@ -14028,7 +16702,24 @@ const textosCentroMinijuegos = {
     toposTitulo: "Whack-a-Mole Arcade",
     toposDesc: "WHACK! Hammer the mole with the correct answer.",
     trampaTitulo: "Correct or Trap?",
-    trampaDesc: "Spot the math impostor."
+    trampaDesc: "Spot the math impostor.",
+    caraACaraTitulo: "Face-to-Face Duel (2-4 Players)",
+    caraACaraDesc: "Split-screen tabletop or team duel, or against AI Bot.",
+    nitroTitulo: "Nitro Racing Rush",
+    nitroDesc: "Switch lanes and boost toward the correct answer.",
+    enduroTitulo: "Math Enduro (Atari Retro)",
+    enduroDesc: "Pass cars through day, sunset, fog and headlight night.",
+    galacticaTitulo: "Galactic Space Defender",
+    galacticaDesc: "Fire laser beams to blast the math invaders.",
+    feriaTitulo: "Math Carnival & Arcade Claw",
+    feriaDesc: "Moving target gallery or grab prize capsules with the claw.",
+    dinoTitulo: "Math Dino Runner",
+    dinoDesc: "Jump across lanes, activate shields & clear epic biomes.",
+    pitagorasTitulo: "Pythagorean Table (Explorer & Timed)",
+    pitagorasDesc: "Explore 1–12 multiplication areas or beat timed challenges.",
+    btnJugar: "▶ Play",
+    btnDuelo: "⚔️ Duel",
+    btnAbrir: "📊 Open"
   }
 };
 
@@ -14036,53 +16727,84 @@ const textosCentroMinijuegos = {
 function actualizarIdiomaCentroMinijuegos() {
   const t = textosCentroMinijuegos[idiomaActual] || textosCentroMinijuegos.es;
 
-  // Actualizar cabecera y subtítulo
   const tituloModal = document.getElementById("lblHubTitulo");
   const subtituloModal = document.getElementById("lblHubSubtitulo");
+  const heroBadge = document.getElementById("lblHubHeroBadge");
+  const fichasTitulo = document.getElementById("lblHubFichasTitulo");
   if (tituloModal) tituloModal.textContent = t.titulo;
   if (subtituloModal) subtituloModal.textContent = t.subtitulo;
+  if (heroBadge) heroBadge.textContent = t.heroBadge;
+  if (fichasTitulo) fichasTitulo.textContent = t.fichasTitulo;
 
-  // Actualizar Ajedrez
-  const ajedrezT = document.getElementById("lblAjedrezTitulo");
-  const ajedrezD = document.getElementById("lblAjedrezDesc");
-  if (ajedrezT) ajedrezT.textContent = t.ajedrezTitulo;
-  if (ajedrezD) ajedrezD.textContent = t.ajedrezDesc;
+  ["lblHubCatAccionRapido", "lblHubCatAccionFichas"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = t.catAccion;
+  });
+  ["lblHubCatReflejosRapido", "lblHubCatReflejosFichas"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = t.catReflejos;
+  });
+  ["lblHubCatEstrategiaRapido", "lblHubCatEstrategiaFichas"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = t.catEstrategia;
+  });
 
-  // Actualizar Laberinto
-  const laberintoT = document.getElementById("lblLaberintoTitulo");
-  const laberintoD = document.getElementById("lblLaberintoDesc");
-  if (laberintoT) laberintoT.textContent = t.laberintoTitulo;
-  if (laberintoD) laberintoD.textContent = t.laberintoDesc;
+  if (t.rapidos) {
+    const mapaRapidos = {
+      btnHubRapidoAjedrez: t.rapidos.ajedrez,
+      btnHubRapidoDesafio: t.rapidos.desafio,
+      btnHubRapidoLaberinto: t.rapidos.laberinto,
+      btnHubRapidoLluvia: t.rapidos.lluvia,
+      btnHubRapidoGlobos: t.rapidos.globos,
+      btnHubRapidoTopos: t.rapidos.topos,
+      btnHubRapidoTrampa: t.rapidos.trampa,
+      btnHubRapidoCaraACara: t.rapidos.caraACara,
+      btnHubRapidoNitro: t.rapidos.nitro,
+      btnHubRapidoEnduro: t.rapidos.enduro,
+      btnHubRapidoGalactica: t.rapidos.galactica,
+      btnHubRapidoFeria: t.rapidos.feria,
+      btnHubRapidoDino: t.rapidos.dino,
+      btnHubRapidoPitagoras: t.rapidos.pitagoras
+    };
+    Object.entries(mapaRapidos).forEach(([id, txt]) => {
+      const span = document.querySelector(`#${id} .hub-rapido-txt`);
+      if (span) span.textContent = txt;
+    });
+  }
 
-  // Actualizar Desafío Relámpago
-  const desafioT = document.getElementById("lblDesafioTitulo");
-  const desafioD = document.getElementById("lblDesafioDesc");
-  if (desafioT) desafioT.textContent = t.desafioTitulo;
-  if (desafioD) desafioD.textContent = t.desafioDesc;
+  const pares = [
+    ["lblAjedrezTitulo", "lblAjedrezDesc", t.ajedrezTitulo, t.ajedrezDesc],
+    ["lblDesafioTituloHub", "lblDesafioDesc", t.desafioTitulo, t.desafioDesc],
+    ["lblLaberintoTituloHub", "lblLaberintoDesc", t.laberintoTitulo, t.laberintoDesc],
+    ["lblLluviaTituloHub", "lblLluviaDesc", t.lluviaTitulo, t.lluviaDesc],
+    ["lblGlobosTituloHub", "lblGlobosDesc", t.globosTitulo, t.globosDesc],
+    ["lblToposTituloHub", "lblToposDesc", t.toposTitulo, t.toposDesc],
+    ["lblTrampaTitulo", "lblTrampaDesc", t.trampaTitulo, t.trampaDesc],
+    ["lblCaraACaraTitulo", "lblCaraACaraDesc", t.caraACaraTitulo, t.caraACaraDesc],
+    ["lblNitroTituloHub", "lblNitroDesc", t.nitroTitulo, t.nitroDesc],
+    ["lblEnduroTituloHub", "lblEnduroDesc", t.enduroTitulo, t.enduroDesc],
+    ["lblGalacticaTituloHub", "lblGalacticaDesc", t.galacticaTitulo, t.galacticaDesc],
+    ["lblFeriaTituloHub", "lblFeriaDesc", t.feriaTitulo, t.feriaDesc],
+    ["lblDinoTituloHub", "lblDinoDesc", t.dinoTitulo, t.dinoDesc],
+    ["lblPitagorasTituloHub", "lblPitagorasDesc", t.pitagorasTitulo, t.pitagorasDesc]
+  ];
+  pares.forEach(([idT, idD, txtT, txtD]) => {
+    const elT = document.getElementById(idT);
+    const elD = document.getElementById(idD);
+    if (elT) elT.textContent = txtT;
+    if (elD) elD.textContent = txtD;
+  });
 
-  // Actualizar Lluvia
-  const lluviaT = document.getElementById("lblLluviaTituloHub");
-  const lluviaD = document.getElementById("lblLluviaDesc");
-  if (lluviaT) lluviaT.textContent = t.lluviaTitulo;
-  if (lluviaD) lluviaD.textContent = t.lluviaDesc;
-
-  // Actualizar Rompe-Globos
-  const globosT = document.getElementById("lblGlobosTituloHub");
-  const globosD = document.getElementById("lblGlobosDesc");
-  if (globosT) globosT.textContent = t.globosTitulo;
-  if (globosD) globosD.textContent = t.globosDesc;
-
-  // Actualizar Martillazo al Topo
-  const toposT = document.getElementById("lblToposTituloHub");
-  const toposD = document.getElementById("lblToposDesc");
-  if (toposT) toposT.textContent = t.toposTitulo;
-  if (toposD) toposD.textContent = t.toposDesc;
-
-  // Actualizar Correcto o Trampa
-  const trampaT = document.getElementById("lblTrampaTitulo");
-  const trampaD = document.getElementById("lblTrampaDesc");
-  if (trampaT) trampaT.textContent = t.trampaTitulo;
-  if (trampaD) trampaD.textContent = t.trampaDesc;
+  document.querySelectorAll("#modalHubMinijuegos .card-hub-juego button").forEach(btn => {
+    const parentCard = btn.closest(".card-hub-juego");
+    if (parentCard && parentCard.id === "cardHubCaraACara") {
+      btn.textContent = t.btnDuelo || "⚔️ Duelo";
+    } else if (parentCard && parentCard.id === "cardHubPitagoras") {
+      btn.textContent = t.btnAbrir || "📊 Abrir";
+    } else {
+      btn.textContent = t.btnJugar || "▶ Jugar";
+    }
+  });
 }
 
 
@@ -15329,7 +18051,7 @@ function seleccionarSuperpoder(tipoPoder) {
 }
 
 // Event Listeners
-btnTableroMagico.addEventListener("click", abrirTableroMagico);
+if (btnTableroMagico) btnTableroMagico.addEventListener("click", abrirTableroMagico);
 cerrarTableroMagico.addEventListener("click", () => {
   if (botTimeoutId) {
     clearTimeout(botTimeoutId);
@@ -15412,49 +18134,108 @@ if (btnAbrirHub) {
   });
 }
 
+// Acceso directo al Hub desde el dock principal + chip de tiempo, Giro Rápido, Modo Incógnita y Giro Táctil en el canvas
+const btnAbrirHubDock = document.getElementById("btnAbrirHubDock");
+if (btnAbrirHubDock) {
+  btnAbrirHubDock.addEventListener("click", () => {
+    reproducirSonido("click");
+    if (typeof actualizarIdiomaCentroMinijuegos === "function") actualizarIdiomaCentroMinijuegos();
+    if (modalHubMinijuegos) modalHubMinijuegos.hidden = false;
+  });
+}
+
+const chipModoTiempoEl = document.getElementById("chipModoTiempo");
+if (chipModoTiempoEl) {
+  chipModoTiempoEl.addEventListener("click", cambiarModoTiempo);
+}
+
+const btnGiroTurboEl = document.getElementById("btnGiroTurbo");
+if (btnGiroTurboEl) {
+  btnGiroTurboEl.addEventListener("click", () => {
+    reproducirSonido("click");
+    giroTurboActivo = !giroTurboActivo;
+    actualizarControlesRapidosRuletaUI();
+    guardarPuntajes();
+    mostrarTextoFlotante(
+      giroTurboActivo
+        ? (idiomaActual === "es" ? "⚡ Giro Turbo: ACTIVADO" : "⚡ Turbo Spin: ON")
+        : (idiomaActual === "es" ? "🎡 Giro Normal" : "🎡 Normal Spin"),
+      giroTurboActivo,
+      "24%"
+    );
+  });
+}
+
+const btnModoIncognitaEl = document.getElementById("btnModoIncognita");
+if (btnModoIncognitaEl) {
+  btnModoIncognitaEl.addEventListener("click", () => {
+    reproducirSonido("click");
+    modoIncognitaActivo = !modoIncognitaActivo;
+    actualizarControlesRapidosRuletaUI();
+    guardarPuntajes();
+    mostrarTextoFlotante(
+      modoIncognitaActivo
+        ? (idiomaActual === "es" ? "🔀 Modo A × ? = C: ACTIVADO" : "🔀 Mode A × ? = C: ON")
+        : (idiomaActual === "es" ? "🔢 Modo clásico A × B = ?" : "🔢 Classic Mode A × B = ?"),
+      modoIncognitaActivo,
+      "24%"
+    );
+  });
+}
+
+if (canvas) {
+  let canvasStartX = null;
+  let canvasStartY = null;
+  canvas.addEventListener("pointerdown", (e) => {
+    canvasStartX = e.clientX;
+    canvasStartY = e.clientY;
+  });
+  canvas.addEventListener("pointerup", (e) => {
+    if (canvasStartX === null || canvasStartY === null) return;
+    canvasStartX = null;
+    canvasStartY = null;
+    if (!girando && !modoRepasoErrores && (!preguntaActiva || contestada)) {
+      girarRuleta();
+    }
+  });
+}
+
 if (cerrarHubMinijuegos) {
   cerrarHubMinijuegos.addEventListener("click", () => {
     modalHubMinijuegos.hidden = true;
   });
 }
 
-// Clics en tarjetas del Hub para abrir cada minijuego
-document.getElementById("cardHubAjedrez")?.addEventListener("click", () => {
-  modalHubMinijuegos.hidden = true;
-  abrirTableroMagico();
-});
-document.getElementById("cardHubDesafio")?.addEventListener("click", () => {
-  modalHubMinijuegos.hidden = true;
-  abrirDesafioRelampago();
-});
-document.getElementById("cardHubLaberinto")?.addEventListener("click", () => {
-  modalHubMinijuegos.hidden = true;
-  abrirLaberintoNumerico();
-});
-document.getElementById("cardHubLluvia")?.addEventListener("click", () => {
-  modalHubMinijuegos.hidden = true;
-  btnLluvia.click();
-});
-document.getElementById("cardHubTrampa")?.addEventListener("click", () => {
-  modalHubMinijuegos.hidden = true;
-  abrirMinijuego();
-});
-document.getElementById("cardHubGlobos")?.addEventListener("click", () => {
-  modalHubMinijuegos.hidden = true;
-  abrirRompeGlobos();
-});
-document.getElementById("cardHubTopos")?.addEventListener("click", () => {
-  modalHubMinijuegos.hidden = true;
-  abrirMartillazoTopos();
-});
-document.getElementById("cardHubNitro")?.addEventListener("click", () => {
-  modalHubMinijuegos.hidden = true;
+// Clics en botones rápidos superiores y tarjetas inferiores del Hub para abrir cada minijuego
+function registrarLanzadorHub(ids, accion) {
+  ids.forEach(id => {
+    document.getElementById(id)?.addEventListener("click", () => {
+      if (modalHubMinijuegos) modalHubMinijuegos.hidden = true;
+      accion();
+    });
+  });
+}
+
+registrarLanzadorHub(["btnHubRapidoAjedrez", "cardHubAjedrez"], abrirTableroMagico);
+registrarLanzadorHub(["btnHubRapidoDesafio", "cardHubDesafio"], abrirDesafioRelampago);
+registrarLanzadorHub(["btnHubRapidoLaberinto", "cardHubLaberinto"], abrirLaberintoNumerico);
+registrarLanzadorHub(["btnHubRapidoLluvia", "cardHubLluvia"], abrirLluviaEstrellasModal);
+registrarLanzadorHub(["btnHubRapidoGlobos", "cardHubGlobos"], abrirRompeGlobos);
+registrarLanzadorHub(["btnHubRapidoTopos", "cardHubTopos"], abrirMartillazoTopos);
+registrarLanzadorHub(["btnHubRapidoTrampa", "cardHubTrampa"], abrirMinijuego);
+registrarLanzadorHub(["btnHubRapidoCaraACara"], abrirDueloCaraACara);
+registrarLanzadorHub(["btnHubRapidoNitro", "cardHubNitro"], () => {
+  carreraModoActual = "nitro";
   abrirCarreraNitro();
 });
-document.getElementById("cardHubGalactica")?.addEventListener("click", () => {
-  modalHubMinijuegos.hidden = true;
-  abrirDefensaGalactica();
+registrarLanzadorHub(["btnHubRapidoEnduro", "cardHubEnduro"], () => {
+  carreraModoActual = "enduro";
+  abrirCarreraNitro();
 });
+registrarLanzadorHub(["btnHubRapidoGalactica", "cardHubGalactica"], abrirDefensaGalactica);
+registrarLanzadorHub(["btnHubRapidoFeria", "cardHubFeria"], abrirFeriaJuego);
+registrarLanzadorHub(["btnHubRapidoDino", "cardHubDino"], abrirDinoJuego);
+registrarLanzadorHub(["btnHubRapidoPitagoras", "cardHubPitagoras"], abrirTablaPitagorica);
 
 // ===========================================================================
 // LÓGICA DE LA TABLA PITAGÓRICA INTERACTIVA (1 a 12)
@@ -16221,18 +19002,20 @@ if (gridPitagoras) {
   gridPitagoras.addEventListener("touchcancel", finalizarToquePitagoras, { passive: true });
 }
 
+function abrirTablaPitagorica() {
+  reproducirSonido("click");
+  modoPitagoras = "normal";
+  ultimaSeleccionPitagoras = null;
+  ultimaCeldaDeslizKey = "";
+  tablaSugeridaPitagoras = selectorTabla && selectorTabla.value !== "mixto" ? Number(selectorTabla.value) : null;
+  actualizarBotonPracticarPitagoras();
+  botonesModoPitagoras.forEach((b) => b.classList.toggle("activo", b.dataset.pitagorasModo === "normal"));
+  renderizarTablaPitagoras();
+  modalPitagoras.hidden = false;
+}
+
 if (btnAbrirPitagoras) {
-  btnAbrirPitagoras.addEventListener("click", () => {
-    reproducirSonido("click");
-    modoPitagoras = "normal";
-    ultimaSeleccionPitagoras = null;
-    ultimaCeldaDeslizKey = "";
-    tablaSugeridaPitagoras = selectorTabla && selectorTabla.value !== "mixto" ? Number(selectorTabla.value) : null;
-    actualizarBotonPracticarPitagoras();
-    botonesModoPitagoras.forEach((b) => b.classList.toggle("activo", b.dataset.pitagorasModo === "normal"));
-    renderizarTablaPitagoras();
-    modalPitagoras.hidden = false;
-  });
+  btnAbrirPitagoras.addEventListener("click", abrirTablaPitagorica);
 }
 
 if (cerrarPitagoras) {
@@ -16336,9 +19119,21 @@ window.addEventListener("keydown", (e) => {
   // Ignorar si el foco está en un campo de texto
   if (e.target && (e.target.tagName === "INPUT" || e.target.tagName === "SELECT")) return;
 
-  // Si el modal de Nitro / Enduro está abierto, delegar a su listener exclusivo
+  // Si el modal de Nitro / Enduro, Feria o Dino está abierto, delegar a su listener exclusivo
   const mNitro = document.getElementById("modalNitro");
-  if (mNitro && !mNitro.hidden) return;
+  const mFeria = document.getElementById("modalFeria");
+  const mDino = document.getElementById("modalDino");
+  if ((mNitro && !mNitro.hidden) || (mFeria && !mFeria.hidden) || (mDino && !mDino.hidden)) {
+    if (e.key === "Escape") {
+      if (mNitro) mNitro.hidden = true;
+      if (mFeria) mFeria.hidden = true;
+      if (mDino) mDino.hidden = true;
+      if (typeof detenerNitroLoop === "function") detenerNitroLoop();
+      if (typeof detenerFeriaLoop === "function") detenerFeriaLoop();
+      if (typeof detenerDinoLoop === "function") detenerDinoLoop();
+    }
+    return;
+  }
 
   if (e.code === "Space" || e.code === "Enter") {
     e.preventDefault();
@@ -16357,6 +19152,9 @@ window.addEventListener("keydown", (e) => {
     }
   } else if (e.key === "Escape") {
     document.querySelectorAll(".modal-historial").forEach(m => m.hidden = true);
+    if (typeof detenerGalacticaLoop === "function") detenerGalacticaLoop();
+    if (typeof detenerFeriaLoop === "function") detenerFeriaLoop();
+    if (typeof detenerDinoLoop === "function") detenerDinoLoop();
     const mDuelo = document.getElementById("modalCaraACara");
     if (mDuelo && !mDuelo.hidden) {
       dueloActivo = false;
