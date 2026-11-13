@@ -481,6 +481,17 @@
       position: relative;
       box-shadow: 0 3px 9px rgba(245, 158, 11, 0.28) !important;
     }
+    .btn-duelo-dock {
+      width: 44px !important;
+      height: 44px !important;
+      font-size: 20px !important;
+      border-radius: 14px !important;
+      background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%) !important;
+      border: 2px solid #fda4af !important;
+      color: #ffffff !important;
+      position: relative;
+      box-shadow: 0 3px 9px rgba(225, 29, 72, 0.3) !important;
+    }
     .btn-hub-dock-badge {
       position: absolute;
       bottom: -4px;
@@ -497,6 +508,11 @@
     .btn-avatar-dock-badge {
       background: #2563eb !important;
       font-size: 8.5px !important;
+      padding: 2px 3.5px !important;
+    }
+    .btn-duelo-dock-badge {
+      background: #0f172a !important;
+      font-size: 8px !important;
       padding: 2px 3.5px !important;
     }
 
@@ -2612,10 +2628,31 @@
     /* ==========================================================================
        ESTILOS DEL MINIJUEGO: CARRERA DE NITRO (NITRO RACING RUSH)
        ========================================================================== */
+    .modal-nitro-card {
+      text-align: center;
+      position: relative;
+      max-width: 440px !important;
+      width: 95% !important;
+      height: min(670px, calc(100dvh - 20px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)));
+      max-height: calc(100dvh - 20px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+      min-height: 0 !important;
+      padding: 11px 12px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+    }
+    .modal-nitro-card > :not(.nitro-pista) {
+      flex-shrink: 0;
+    }
     .nitro-pista {
       position: relative;
       width: 100%;
-      height: 100%;
+      flex: 1 1 0;
+      min-height: 175px;
+      height: auto;
       background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
       border-radius: 14px;
       overflow: hidden;
@@ -2628,6 +2665,33 @@
     }
     .nitro-pista:active {
       cursor: grabbing;
+    }
+    @media (max-width: 480px), (max-height: 760px) {
+      .modal-nitro-card {
+        padding: 10px 10px !important;
+      }
+      .modal-nitro-card .modal-header {
+        margin-bottom: 5px;
+      }
+      .modal-nitro-card #nitroOperacion {
+        font-size: 24px !important;
+        min-height: 30px !important;
+        margin: 2px 0 !important;
+      }
+      .modal-nitro-card #lblNitroConsejo {
+        font-size: 10px !important;
+        padding: 3px 8px !important;
+        margin-bottom: 4px !important;
+      }
+      .modal-nitro-card #btnIniciarNitro {
+        padding: 9px 10px !important;
+      }
+    }
+    @media (hover: none) and (pointer: coarse) {
+      .modal-nitro-card #lblNitroPcGuia,
+      .modal-nitro-card .nitro-tecla-badge {
+        display: none !important;
+      }
     }
     .nitro-carriles {
       position: relative;
@@ -4203,6 +4267,15 @@
       background: #0284c7 !important;
       border-color: #0f172a !important;
     }
+    body[data-tema="galaxia"] .btn-duelo-dock {
+      background: linear-gradient(135deg, #9f1239 0%, #4c0519 100%) !important;
+      border-color: #fb7185 !important;
+      box-shadow: 0 3px 10px rgba(251, 113, 133, 0.28) !important;
+    }
+    body[data-tema="galaxia"] .btn-duelo-dock-badge {
+      background: #0f172a !important;
+      border-color: #fb7185 !important;
+    }
     body[data-tema="galaxia"] .btn-hub-discreto {
       background: #1e1b4b !important;
       border-color: #4f46e5 !important;
@@ -4355,6 +4428,14 @@
     }
     body[data-tema="esmeralda"] .btn-avatar-dock-badge {
       background: #059669 !important;
+    }
+    body[data-tema="esmeralda"] .btn-duelo-dock {
+      background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%) !important;
+      border-color: #5eead4 !important;
+      box-shadow: 0 3px 9px rgba(13, 148, 136, 0.28) !important;
+    }
+    body[data-tema="esmeralda"] .btn-duelo-dock-badge {
+      background: #064e3b !important;
     }
     body[data-tema="esmeralda"] .btn-hub-discreto {
       background: #ecfdf5 !important;
@@ -4573,11 +4654,16 @@
       color: #137333 !important;
       box-shadow: 0 1px 2px rgba(60, 64, 67, 0.08) !important;
     }
-    body[data-tema="google"] #btnCaraACara {
-      background: #e4f7fb !important;
-      border-color: #cbf0f8 !important;
-      color: #007b83 !important;
-      box-shadow: 0 1px 2px rgba(60, 64, 67, 0.08) !important;
+    body[data-tema="google"] #btnCaraACara,
+    body[data-tema="google"] .btn-duelo-dock {
+      background: #fce8e6 !important;
+      border: 1.5px solid #fad2cf !important;
+      color: #c5221f !important;
+      box-shadow: 0 1px 3px rgba(60, 64, 67, 0.14) !important;
+    }
+    body[data-tema="google"] .btn-duelo-dock-badge {
+      background: #d93025 !important;
+      border-color: #ffffff !important;
     }
     body[data-tema="google"] .principal {
       background: #1a73e8 !important;
@@ -5540,13 +5626,16 @@
       </div>
     </div>
 
-    <!-- Dock Flex Derecho (Centro de Minijuegos + Tienda / Cambiar Avatar) -->
+    <!-- Dock Flex Derecho (Centro de Minijuegos + Tienda / Cambiar Avatar + Duelo Cara a Cara) -->
     <div class="dock-lateral-ruleta" aria-label="Minijuegos y Tienda">
       <button id="btnAbrirHubDock" class="btn-minijuego-compacto btn-hub-dock" type="button" aria-label="Centro de Minijuegos (14 juegos)" title="Centro de Minijuegos (14 juegos)">
         🎮<span class="btn-hub-dock-badge">14</span>
       </button>
       <button id="btnAbrirAvatares" class="btn-minijuego-compacto btn-avatar-dock" type="button" aria-label="Tienda y cambiar avatar" title="Tienda y cambiar avatar">
         <span id="avatarActualIcono">🦖</span><span class="btn-hub-dock-badge btn-avatar-dock-badge">🛍️</span>
+      </button>
+      <button id="btnCaraACara" class="btn-minijuego-compacto btn-duelo-dock" type="button" aria-label="Minijuego: Duelo Cara a Cara" title="Minijuego: Duelo Cara a Cara">
+        ⚔️<span class="btn-hub-dock-badge btn-duelo-dock-badge">VS</span>
       </button>
     </div>
 
@@ -5882,7 +5971,7 @@
 
 	<!-- Modal de Minijuego: Carrera de Nitro (Nitro Racing Rush) -->
 	<div id="modalNitro" class="modal-historial" hidden>
-	  <div class="modal-contenido" style="text-align: center; position: relative; overflow: hidden; max-width: 440px; width: 95%; height: 86vh; max-height: 92dvh; min-height: 540px; display: flex; flex-direction: column;">
+	  <div class="modal-contenido modal-nitro-card">
 		<div class="modal-header">
 		  <span id="lblNitroTitulo" style="color:#ea580c; font-weight:900;">🏎️ Carrera de Nitro & Enduro Atari</span>
 		  <button id="cerrarNitro" type="button" style="background:#e2e8f0; border-radius:50%; width:28px; height:28px; font-size:12px; font-weight:bold; border:none; cursor:pointer;">✕</button>
@@ -5924,7 +6013,7 @@
 		</div>
 
 		<!-- Pista de 3 carriles con metas numéricas descendiendo -->
-		<div id="nitroAreaJuego" class="nitro-pista" style="flex: 1; min-height: 330px; margin-bottom: 6px;">
+		<div id="nitroAreaJuego" class="nitro-pista" style="margin-bottom: 6px;">
 		  <!-- Horizonte retro Atari para el ciclo día/noche/clima de Enduro -->
 		  <div id="enduroHorizonte" class="enduro-horizonte dia">
 			<span style="font-size: 10px; font-weight: 900; color: #fff; text-shadow: 0 1px 2px #000; letter-spacing: 0.5px;" id="lblEnduroClimaTexto">☀️ DÍA SOLEADO</span>
@@ -5953,15 +6042,15 @@
 		<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 4px;">
 		  <button id="btnNitroCarril0" type="button" class="principal" style="background:#ea580c; padding:6px 4px; font-size:12px; font-weight:bold; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;">
 		    <span>⬅️ <span id="txtBtnNitro0">Izq</span></span>
-		    <span style="font-size: 9px; font-weight: 800; opacity: 0.95; background: rgba(0,0,0,0.22); padding: 1px 5px; border-radius: 4px; letter-spacing: 0.5px;">[◀] [A] [1]</span>
+		    <span class="nitro-tecla-badge" style="font-size: 9px; font-weight: 800; opacity: 0.95; background: rgba(0,0,0,0.22); padding: 1px 5px; border-radius: 4px; letter-spacing: 0.5px;">[◀] [A] [1]</span>
 		  </button>
 		  <button id="btnNitroCarril1" type="button" class="principal" style="background:#f97316; padding:6px 4px; font-size:12px; font-weight:bold; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;">
 		    <span>⬆️ <span id="txtBtnNitro1">Centro</span></span>
-		    <span style="font-size: 9px; font-weight: 800; opacity: 0.95; background: rgba(0,0,0,0.22); padding: 1px 5px; border-radius: 4px; letter-spacing: 0.5px;">[▲] [W] [2]</span>
+		    <span class="nitro-tecla-badge" style="font-size: 9px; font-weight: 800; opacity: 0.95; background: rgba(0,0,0,0.22); padding: 1px 5px; border-radius: 4px; letter-spacing: 0.5px;">[▲] [W] [2]</span>
 		  </button>
 		  <button id="btnNitroCarril2" type="button" class="principal" style="background:#ea580c; padding:6px 4px; font-size:12px; font-weight:bold; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;">
 		    <span><span id="txtBtnNitro2">Der</span> ➡️</span>
-		    <span style="font-size: 9px; font-weight: 800; opacity: 0.95; background: rgba(0,0,0,0.22); padding: 1px 5px; border-radius: 4px; letter-spacing: 0.5px;">[▶] [D] [3]</span>
+		    <span class="nitro-tecla-badge" style="font-size: 9px; font-weight: 800; opacity: 0.95; background: rgba(0,0,0,0.22); padding: 1px 5px; border-radius: 4px; letter-spacing: 0.5px;">[▶] [D] [3]</span>
 		  </button>
 		</div>
 
@@ -8457,6 +8546,12 @@ function actualizarControlesRapidosRuletaUI() {
   if (btnHubDock) {
     btnHubDock.setAttribute("title", t.tooltipHubDock || "Centro Arcade (14 juegos)");
     btnHubDock.setAttribute("aria-label", t.tooltipHubDock || "Centro Arcade (14 juegos)");
+  }
+  const btnDueloDock = document.getElementById("btnCaraACara");
+  if (btnDueloDock) {
+    const labelDuelo = t.tooltipDuelo || (idiomaActual === "es" ? "Minijuego: Duelo Cara a Cara" : "Minigame: Face-to-Face Duel");
+    btnDueloDock.setAttribute("title", labelDuelo);
+    btnDueloDock.setAttribute("aria-label", labelDuelo);
   }
 }
 
