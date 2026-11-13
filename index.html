@@ -9173,7 +9173,9 @@ function obtenerAudioContext() {
       } catch (e) {}
     }
   }
-  if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+  if (audioCtx && audioCtx.state === 'suspended') {
+    audioCtx.resume().catch(() => {});
+  }
   return audioCtx;
 }
 
@@ -9218,7 +9220,10 @@ function reproducirSonido(tipo, extra = 1) {
   try {
     const ctxAudio = obtenerAudioContext();
     if (!ctxAudio) return;
-    const now = ctxAudio.currentTime;
+
+    const ejecutarSintesis = () => {
+      if (!sonidoActivo) return;
+      const now = ctxAudio.currentTime;
 
     if (tipo === "popGlobo") {
       // 🎈 Sonido pop alegre, resonante y nítido de globo inflado
@@ -9460,7 +9465,7 @@ function reproducirSonido(tipo, extra = 1) {
         const tInicio = now + idx * 0.08;
         const dur = idx === notasEnduro.length - 1 ? 0.35 : 0.1;
         oscE.frequency.setValueAtTime(f, tInicio);
-        gainE.gain.setValueAtTime(0.2, tInicio);
+        gainE.gain.setValueAtTime(0.30, tInicio);
         gainE.gain.exponentialRampToValueAtTime(0.005, tInicio + dur);
         oscE.connect(gainE);
         gainE.connect(ctxAudio.destination);
@@ -9477,7 +9482,7 @@ function reproducirSonido(tipo, extra = 1) {
       oscD.type = "triangle";
       oscD.frequency.setValueAtTime(520, now);
       oscD.frequency.exponentialRampToValueAtTime(140, now + 0.09);
-      gainD.gain.setValueAtTime(0.22, now);
+      gainD.gain.setValueAtTime(0.30, now);
       gainD.gain.exponentialRampToValueAtTime(0.006, now + 0.1);
       oscD.connect(gainD);
       gainD.connect(ctxAudio.destination);
@@ -9494,7 +9499,7 @@ function reproducirSonido(tipo, extra = 1) {
         oscC.type = "sine";
         const tInicio = now + idx * 0.055;
         oscC.frequency.setValueAtTime(f, tInicio);
-        gainC.gain.setValueAtTime(0.2, tInicio);
+        gainC.gain.setValueAtTime(0.32, tInicio);
         gainC.gain.exponentialRampToValueAtTime(0.004, tInicio + 0.24);
         oscC.connect(gainC);
         gainC.connect(ctxAudio.destination);
@@ -9512,7 +9517,7 @@ function reproducirSonido(tipo, extra = 1) {
       oscG.frequency.setValueAtTime(190, now);
       oscG.frequency.linearRampToValueAtTime(260, now + 0.14);
       oscG.frequency.linearRampToValueAtTime(160, now + 0.28);
-      gainG.gain.setValueAtTime(0.09, now);
+      gainG.gain.setValueAtTime(0.26, now);
       gainG.gain.exponentialRampToValueAtTime(0.005, now + 0.3);
       oscG.connect(gainG);
       gainG.connect(ctxAudio.destination);
@@ -9528,7 +9533,7 @@ function reproducirSonido(tipo, extra = 1) {
       oscS.type = "square";
       oscS.frequency.setValueAtTime(240, now);
       oscS.frequency.exponentialRampToValueAtTime(640, now + 0.11);
-      gainS.gain.setValueAtTime(0.11, now);
+      gainS.gain.setValueAtTime(0.24, now);
       gainS.gain.exponentialRampToValueAtTime(0.005, now + 0.12);
       oscS.connect(gainS);
       gainS.connect(ctxAudio.destination);
@@ -9545,7 +9550,7 @@ function reproducirSonido(tipo, extra = 1) {
         oscT.type = "triangle";
         const tInicio = now + idx * 0.045;
         oscT.frequency.setValueAtTime(f, tInicio);
-        gainT.gain.setValueAtTime(0.16, tInicio);
+        gainT.gain.setValueAtTime(0.28, tInicio);
         gainT.gain.exponentialRampToValueAtTime(0.005, tInicio + 0.18);
         oscT.connect(gainT);
         gainT.connect(ctxAudio.destination);
@@ -9562,7 +9567,7 @@ function reproducirSonido(tipo, extra = 1) {
       oscM.type = "sawtooth";
       oscM.frequency.setValueAtTime(160, now);
       oscM.frequency.exponentialRampToValueAtTime(42, now + 0.32);
-      gainM.gain.setValueAtTime(0.24, now);
+      gainM.gain.setValueAtTime(0.36, now);
       gainM.gain.exponentialRampToValueAtTime(0.006, now + 0.34);
       oscM.connect(gainM);
       gainM.connect(ctxAudio.destination);
@@ -9581,7 +9586,7 @@ function reproducirSonido(tipo, extra = 1) {
         const tInicio = now + idx * 0.09;
         const dur = idx === notas.length - 1 ? 0.45 : 0.14;
         oscF.frequency.setValueAtTime(f, tInicio);
-        gainF.gain.setValueAtTime(0.22, tInicio);
+        gainF.gain.setValueAtTime(0.34, tInicio);
         gainF.gain.exponentialRampToValueAtTime(0.008, tInicio + dur);
         oscF.connect(gainF);
         gainF.connect(ctxAudio.destination);
@@ -9600,7 +9605,7 @@ function reproducirSonido(tipo, extra = 1) {
         oscC.type = "sine";
         const tInicio = now + idx * 0.045;
         oscC.frequency.setValueAtTime(f, tInicio);
-        gainC.gain.setValueAtTime(0.16, tInicio);
+        gainC.gain.setValueAtTime(0.28, tInicio);
         gainC.gain.exponentialRampToValueAtTime(0.005, tInicio + 0.18);
         oscC.connect(gainC);
         gainC.connect(ctxAudio.destination);
@@ -9620,7 +9625,7 @@ function reproducirSonido(tipo, extra = 1) {
         oscN.type = "sine";
         const tInicio = now + idx * 0.04;
         oscN.frequency.setValueAtTime(f, tInicio);
-        gainN.gain.setValueAtTime(0.18, tInicio);
+        gainN.gain.setValueAtTime(0.28, tInicio);
         gainN.gain.exponentialRampToValueAtTime(0.006, tInicio + 0.16);
         oscN.connect(gainN);
         gainN.connect(ctxAudio.destination);
@@ -9651,7 +9656,7 @@ function reproducirSonido(tipo, extra = 1) {
       filter.frequency.exponentialRampToValueAtTime(40, now + 0.4);
 
       const gainNode = ctxAudio.createGain();
-      gainNode.gain.setValueAtTime(0.4, now);
+      gainNode.gain.setValueAtTime(0.42, now);
       gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
 
       noise.connect(filter);
@@ -9671,7 +9676,7 @@ function reproducirSonido(tipo, extra = 1) {
         oscP.type = "sine";
         const tInicio = now + idx * 0.08;
         oscP.frequency.setValueAtTime(f, tInicio);
-        gainP.gain.setValueAtTime(0.24, tInicio);
+        gainP.gain.setValueAtTime(0.34, tInicio);
         gainP.gain.exponentialRampToValueAtTime(0.008, tInicio + 0.22);
         oscP.connect(gainP);
         gainP.connect(ctxAudio.destination);
@@ -9690,7 +9695,7 @@ function reproducirSonido(tipo, extra = 1) {
         const tInicio = now + idx * 0.09;
         oscE.frequency.setValueAtTime(f, tInicio);
         oscE.frequency.exponentialRampToValueAtTime(f * 0.65, tInicio + 0.14);
-        gainE.gain.setValueAtTime(0.25, tInicio);
+        gainE.gain.setValueAtTime(0.34, tInicio);
         gainE.gain.exponentialRampToValueAtTime(0.01, tInicio + 0.14);
         oscE.connect(gainE);
         gainE.connect(ctxAudio.destination);
@@ -9709,7 +9714,7 @@ function reproducirSonido(tipo, extra = 1) {
       osc.type = "sine";
       osc.frequency.setValueAtTime(440, now);
       osc.frequency.exponentialRampToValueAtTime(880, now + 0.15);
-      gainNode.gain.setValueAtTime(0.2, now);
+      gainNode.gain.setValueAtTime(0.30, now);
       gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
       osc.start(now);
       osc.stop(now + 0.2);
@@ -9717,7 +9722,7 @@ function reproducirSonido(tipo, extra = 1) {
       osc.type = "sawtooth";
       osc.frequency.setValueAtTime(200, now);
       osc.frequency.exponentialRampToValueAtTime(120, now + 0.2);
-      gainNode.gain.setValueAtTime(0.2, now);
+      gainNode.gain.setValueAtTime(0.30, now);
       gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
       osc.start(now);
       osc.stop(now + 0.25);
@@ -9725,14 +9730,14 @@ function reproducirSonido(tipo, extra = 1) {
       osc.type = "sine";
       osc.frequency.setValueAtTime(500, now);
       osc.frequency.exponentialRampToValueAtTime(150, now + 0.04);
-      gainNode.gain.setValueAtTime(0.1, now);
+      gainNode.gain.setValueAtTime(0.18, now);
       gainNode.gain.linearRampToValueAtTime(0.01, now + 0.04);
       osc.start(now);
       osc.stop(now + 0.04);
     } else if (tipo === "alerta") {
       osc.type = "square";
       osc.frequency.setValueAtTime(750, now);
-      gainNode.gain.setValueAtTime(0.1, now);
+      gainNode.gain.setValueAtTime(0.24, now);
       gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
       osc.start(now);
       osc.stop(now + 0.08);
@@ -9740,7 +9745,7 @@ function reproducirSonido(tipo, extra = 1) {
       osc.type = "triangle";
       osc.frequency.setValueAtTime(850, now);
       osc.frequency.exponentialRampToValueAtTime(250, now + 0.018);
-      gainNode.gain.setValueAtTime(0.08, now);
+      gainNode.gain.setValueAtTime(0.14, now);
       gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.018);
       osc.start(now);
       osc.stop(now + 0.018);
@@ -9749,10 +9754,19 @@ function reproducirSonido(tipo, extra = 1) {
       osc.frequency.setValueAtTime(523.25, now);
       osc.frequency.setValueAtTime(659.25, now + 0.08);
       osc.frequency.setValueAtTime(783.99, now + 0.16);
-      gainNode.gain.setValueAtTime(0.22, now);
+      gainNode.gain.setValueAtTime(0.32, now);
       gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
       osc.start(now);
       osc.stop(now + 0.3);
+    }
+    };
+
+    if (ctxAudio.state === "suspended") {
+      ctxAudio.resume().then(() => {
+        if (ctxAudio.state === "running") ejecutarSintesis();
+      }).catch(() => {});
+    } else {
+      ejecutarSintesis();
     }
   } catch (e) {}
 }
@@ -11598,8 +11612,11 @@ function validarCodigoActivacion() {
   }
 }
 
+let miniRachaActual = 0;
+
 function abrirMinijuego() {
   reproducirSonido("click");
+  miniRachaActual = 0;
   modalMinijuego.hidden = false;
   generarNuevoRetoMinijuego();
 }
@@ -11622,7 +11639,8 @@ function evaluarMinijuego(verdadero) {
   btnMiniFalso.disabled = true;
   const t = i18n[idiomaActual];
   if (verdadero === miniEsRealmenteCorrecta) {
-    reproducirSonido("acierto");
+    miniRachaActual++;
+    reproducirSonido(miniRachaActual > 0 && miniRachaActual % 3 === 0 ? "racha" : "acierto");
     puntos += 15;
     aciertosTrampaTotal++;
     verificarInsignias();
@@ -11631,6 +11649,7 @@ function evaluarMinijuego(verdadero) {
     miniMensaje.style.color = "#166534";
     miniMensaje.textContent = t.miniAcierto;
   } else {
+    miniRachaActual = 0;
     reproducirSonido("error");
     miniMensaje.style.color = "#991b1b";
     miniMensaje.textContent = t.miniError(miniTabla * miniFactor);
@@ -11671,6 +11690,7 @@ function iniciarDesafioRelampago() {
 
   const duracionTotal = 60000;
   const tiempoInicio = performance.now();
+  let ultimoSegundoAlertaDesafio = -1;
   timerBarDesafio.style.width = "100%";
 
   if (desafioTimer) clearInterval(desafioTimer);
@@ -11685,11 +11705,14 @@ function iniciarDesafioRelampago() {
     const segundosRestantes = Math.ceil(restanteMs / 1000);
     lblDesafioTiempo.textContent = `⏱️ ${segundosRestantes}s`;
 
-    // Efecto de frenesí y pitidos en los últimos 10 segundos
+    // Efecto de frenesí y pitido limpio 1 vez por segundo en los últimos 10 segundos
     if (segundosRestantes <= 10 && segundosRestantes > 0) {
       modalDesafioContenido.classList.add("frenesi-alerta");
       timerBarDesafio.style.background = "linear-gradient(90deg, #ef4444, #991b1b)";
-      reproducirSonido("alerta");
+      if (segundosRestantes !== ultimoSegundoAlertaDesafio) {
+        ultimoSegundoAlertaDesafio = segundosRestantes;
+        reproducirSonido("alerta");
+      }
     }
 
     if (transcurrido >= duracionTotal) {
@@ -11717,7 +11740,7 @@ function siguientePreguntaDesafio() {
       if (v === correcta) {
         desafioScoreActual++;
         desafioRachaActual++;
-        reproducirSonido("acierto");
+        reproducirSonido(desafioRachaActual % 5 === 0 ? "racha" : "acierto");
         
         let multiplicador = desafioRachaActual >= 5 ? " 🚀x2" : "";
         lblDesafioScore.textContent = `⭐ ${desafioScoreActual}`;
@@ -11745,6 +11768,7 @@ function finalizarDesafioRelampago() {
   modalDesafioContenido.classList.remove("frenesi-alerta");
   const t = i18n[idiomaActual];
 
+  reproducirSonido("victoria");
   let esNuevoRecord = false;
   if (desafioScoreActual > recordDesafioRelampago) {
     recordDesafioRelampago = desafioScoreActual;
@@ -13046,7 +13070,7 @@ function cortarEstrella(star) {
     star.elem.style.transform = `translate(${star.x}px, ${star.y}px) scale(0.9)`;
     star.elem.style.animation = "sacudir 0.3s ease";
 
-    perderVidaLluvia();
+    perderVidaLluvia(true);
   }
 }
 
@@ -13403,7 +13427,8 @@ function iniciarLluviaLoopAnimacion() {
   lluviaAnimFrameId = requestAnimationFrame(loop);
 }
 
-function perderVidaLluvia() {
+function perderVidaLluvia(yaSonoError = false) {
+  if (!yaSonoError) reproducirSonido("error");
   lluviaVidas--;
   lluviaCombo = 0;
   lluviaRachaNinja = 0;
@@ -13444,6 +13469,7 @@ function finalizarLluviaEstrellas() {
   puntos += lluviaScore;
   actualizarEstadisticas();
   guardarPuntajes();
+  reproducirSonido("victoria");
   dispararConfetiVictoria();
 
   btnIniciarLluvia.style.display = "block";
@@ -13678,7 +13704,7 @@ function reventarGlobo(obj) {
     obj.elem.style.display = "none";
 
     reproducirSonido("popGlobo");
-    reproducirSonido("acierto");
+    reproducirSonido(globosCombo >= 3 && globosCombo % 3 === 0 ? "racha" : "acierto");
     vibrar([40, 25, 50]);
 
     crearParticulasGlobo(obj.x + 34, obj.y + 42, obj.elem.style.background);
@@ -13719,7 +13745,7 @@ function reventarGlobo(obj) {
 
     globosCombo = 1;
     if (lblGlobosCombo) lblGlobosCombo.textContent = `🔥 Combo: x1`;
-    perderVidaGlobos(idiomaActual === "es" ? "❌ ¡Globo equivocado!" : "❌ Wrong balloon!");
+    perderVidaGlobos(idiomaActual === "es" ? "❌ ¡Globo equivocado!" : "❌ Wrong balloon!", true);
   }
 }
 
@@ -13745,7 +13771,8 @@ function crearParticulasGlobo(x, y, colorBg) {
   }
 }
 
-function perderVidaGlobos(motivo = "") {
+function perderVidaGlobos(motivo = "", yaSonoError = false) {
+  if (!yaSonoError) reproducirSonido("error");
   globosVidas--;
   vibrar(120);
   const t = i18n[idiomaActual];
@@ -13983,13 +14010,13 @@ function martillarCasilla(casillaObj, clickX, clickY) {
     if (toposTimerEsconder) clearTimeout(toposTimerEsconder);
 
     reproducirSonido("martillazo");
-    reproducirSonido("acierto");
+    toposRacha++;
+    reproducirSonido(toposRacha % 3 === 0 ? "racha" : "acierto");
     vibrar([50, 30, 70]);
 
     casillaObj.topoElem.classList.add("golpeado");
     casillaObj.cartel.textContent = "⭐";
 
-    toposRacha++;
     const pts = 25 + toposRacha * 5;
     toposPuntos += pts;
     puntos += pts;
@@ -14015,7 +14042,7 @@ function martillarCasilla(casillaObj, clickX, clickY) {
     toposRacha = 0;
     if (lblToposRacha) lblToposRacha.textContent = `🔨 Racha: 0`;
 
-    perderVidaTopos(idiomaActual === "es" ? "❌ ¡Topo equivocado!" : "❌ Wrong mole!");
+    perderVidaTopos(idiomaActual === "es" ? "❌ ¡Topo equivocado!" : "❌ Wrong mole!", true);
   }
 }
 
@@ -14032,7 +14059,8 @@ function mostrarMartilloGolpe(container, clientX, clientY) {
   setTimeout(() => m.remove(), 320);
 }
 
-function perderVidaTopos(motivo = "") {
+function perderVidaTopos(motivo = "", yaSonoError = false) {
+  if (!yaSonoError) reproducirSonido("error");
   toposVidas--;
   vibrar(120);
   const t = i18n[idiomaActual];
@@ -14140,6 +14168,7 @@ function abrirCarreraNitro() {
 }
 
 function cambiarModoCarrera(modo) {
+  if (carreraModoActual !== modo) reproducirSonido("click");
   detenerNitroLoop();
   carreraModoActual = modo;
 
@@ -14678,7 +14707,7 @@ function resolverImpactoNitro(obj) {
     obj.elem.style.color = "#fff";
     obj.elem.style.transform = "scale(0.9)";
 
-    perderVidaNitro(t.nitroMsjEquivocado || (idiomaActual === "es" ? "💥 ¡Choque! Respuesta incorrecta" : "💥 Crash! Wrong answer"));
+    perderVidaNitro(t.nitroMsjEquivocado || (idiomaActual === "es" ? "💥 ¡Choque! Respuesta incorrecta" : "💥 Crash! Wrong answer"), true);
   }
 }
 
@@ -14766,7 +14795,8 @@ function resolverImpactoEnduro(obj) {
   }
 }
 
-function perderVidaNitro(motivo = "") {
+function perderVidaNitro(motivo = "", yaSonoError = false) {
+  if (!yaSonoError) reproducirSonido("error");
   nitroVidas--;
   vibrar(120);
   const t = i18n[idiomaActual];
@@ -15300,7 +15330,7 @@ function dispararLaserAInvasor(obj) {
     obj.elem.innerHTML = `<span style="font-size:22px;">🛡️❌</span>`;
 
     const t = i18n[idiomaActual];
-    perderVidaGalactica(t.galacticaMsjEquivocado || (idiomaActual === "es" ? "❌ ¡Blanco incorrecto!" : "❌ Wrong target!"));
+    perderVidaGalactica(t.galacticaMsjEquivocado || (idiomaActual === "es" ? "❌ ¡Blanco incorrecto!" : "❌ Wrong target!"), true);
   }
 }
 
@@ -15369,7 +15399,11 @@ function crearHazLaser(x1, y1, x2, y2) {
   setTimeout(() => g.remove(), 230);
 }
 
-function perderVidaGalactica(motivo = "") {
+function perderVidaGalactica(motivo = "", yaSonoError = false) {
+  if (!yaSonoError) {
+    reproducirSonido("explosionLaser");
+    setTimeout(() => reproducirSonido("error"), 70);
+  }
   galacticaVidas--;
   vibrar(120);
   const t = i18n[idiomaActual];
@@ -15779,6 +15813,7 @@ function soltarGarraFeria() {
         progreso = 1;
         bajando = false;
         if (feriaGarraPinzas) feriaGarraPinzas.classList.add("cerrada");
+        reproducirSonido("click");
         // Comprobar si la garra coincide con alguna cápsula debajo
         let mejor = null;
         let mejorDist = 14;
@@ -16357,7 +16392,10 @@ if (btnMinijuego) btnMinijuego.addEventListener("click", abrirMinijuego);
 cerrarMinijuego.addEventListener("click", () => modalMinijuego.hidden = true);
 btnMiniVerdadero.addEventListener("click", () => evaluarMinijuego(true));
 btnMiniFalso.addEventListener("click", () => evaluarMinijuego(false));
-btnMiniSiguiente.addEventListener("click", generarNuevoRetoMinijuego);
+btnMiniSiguiente.addEventListener("click", () => {
+  reproducirSonido("click");
+  generarNuevoRetoMinijuego();
+});
 
 if (btnModoDesafio) btnModoDesafio.addEventListener("click", abrirDesafioRelampago);
 cerrarDesafio.addEventListener("click", () => {
@@ -16564,7 +16602,7 @@ function manejarClickCasillaLaberinto(numeroElegido, elementoBtn) {
       // ¡Laberinto completado con éxito!
       laberintosCompletados++;
       verificarInsignias();
-      reproducirSonido("acierto");
+      reproducirSonido("victoria");
       dispararConfetiVictoria();
       puntos += 30;
       actualizarEstadisticas();
@@ -17599,7 +17637,8 @@ function evaluarRespuestaMovimiento(opElegida, respuestaCorrecta) {
       tableroMensaje.style.color = "#d97706"; 
       tableroMensaje.textContent = capturaAleatoria;
     } else {
-      // Movimiento normal limpio: Mostramos la notación de ajedrez formal
+      // Movimiento normal limpio: Mostramos la notación de ajedrez formal y sonido táctil de ficha
+      reproducirSonido("click");
       const notacionJugada = obtenerNotacionAjerez(piezaMovida, origenF, origenC, destinoF, destinoC, false);
       
       if (typeof mostrarTextoFlotante === 'function') {
@@ -17920,6 +17959,7 @@ function ejecutarTurnoBot() {
         ? "👑 ¡El Bot coronó un peón a Dama! Tu turno."
         : "👑 The Bot promoted a pawn to Queen! Your turn.";
     } else if (piezaDestino) {
+      reproducirSonido("explosion");
       if (typeof mostrarTextoFlotante === 'function') {
         mostrarTextoFlotante("🤖 ¡El Bot capturó!", true, "40%");
       }
@@ -17927,6 +17967,7 @@ function ejecutarTurnoBot() {
         ? `🤖 ¡El Bot capturó tu ${piezaDestino.tipo}! Tu turno.`
         : `🤖 The Bot captured your ${piezaDestino.tipo}! Your turn.`;
     } else {
+      reproducirSonido("click");
       tableroMensaje.textContent = idiomaActual === "es"
         ? `🤖 El Bot negro ha movido. ¡Tu turno!`
         : `🤖 Black Bot has moved. Your turn!`;
@@ -18368,6 +18409,7 @@ function iniciarConteoSeriePitagoras(numero, esColumna = false) {
       }
       celda.classList.add("serie-pulso");
     }
+    tocarNotaDeslizPitagoras(f, c, f === c);
     lblPitagorasOperacion.textContent = `${f} × ${c} = ${f * c}`;
     lblPitagorasAyuda.textContent = esEs
       ? `Serie del ${numero}: ${serie.slice(0, paso).join(" · ")}`
@@ -18593,9 +18635,9 @@ function seleccionarCeldaPitagoras(f, c, prod, celdaEl) {
   // Modo 1: Mini-Reto interactivo
   if (modoPitagoras === "reto" && retoPitagorasActual) {
     if (f === retoPitagorasActual.f && c === retoPitagorasActual.c) {
-      reproducirSonido("acierto");
       celdasResueltasReto.add(`${f}-${c}`);
       aciertosRetoPitagoras++;
+      reproducirSonido(aciertosRetoPitagoras % 5 === 0 ? "racha" : "acierto");
       if (celdaEl) {
         celdaEl.classList.remove("oculta", "reto-error");
         celdaEl.classList.add("reto-acierto");
@@ -18725,39 +18767,48 @@ function tocarNotaDeslizPitagoras(f, c, esCuadrado = false) {
   try {
     const ctxAudio = obtenerAudioContext();
     if (!ctxAudio) return;
+
+    const tocarNota = () => {
+      if (!sonidoActivo) return;
+      const escala = [
+        261.63, 293.66, 329.63, 392.00, 440.00, 523.25,
+        587.33, 659.25, 783.99, 880.00, 1046.50, 1174.66
+      ];
+      const indice = Math.max(0, (f + c - 2) % escala.length);
+      const freq = escala[indice];
+      const now = ctxAudio.currentTime;
+
+      const osc = ctxAudio.createOscillator();
+      const gain = ctxAudio.createGain();
+      osc.type = esCuadrado ? "sine" : "triangle";
+      osc.frequency.setValueAtTime(freq, now);
+      gain.gain.setValueAtTime(0.15, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + (esCuadrado ? 0.2 : 0.12));
+      osc.connect(gain);
+      gain.connect(ctxAudio.destination);
+      osc.start(now);
+      osc.stop(now + (esCuadrado ? 0.21 : 0.13));
+
+      if (esCuadrado) {
+        const osc2 = ctxAudio.createOscillator();
+        const gain2 = ctxAudio.createGain();
+        osc2.type = "triangle";
+        osc2.frequency.setValueAtTime(freq * 1.5, now + 0.03);
+        gain2.gain.setValueAtTime(0.10, now + 0.03);
+        gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+        osc2.connect(gain2);
+        gain2.connect(ctxAudio.destination);
+        osc2.start(now + 0.03);
+        osc2.stop(now + 0.23);
+      }
+    };
+
     if (ctxAudio.state === "suspended") {
-      ctxAudio.resume().catch(() => {});
-    }
-    const escala = [
-      261.63, 293.66, 329.63, 392.00, 440.00, 523.25,
-      587.33, 659.25, 783.99, 880.00, 1046.50, 1174.66
-    ];
-    const indice = Math.max(0, (f + c - 2) % escala.length);
-    const freq = escala[indice];
-    const now = ctxAudio.currentTime;
-
-    const osc = ctxAudio.createOscillator();
-    const gain = ctxAudio.createGain();
-    osc.type = esCuadrado ? "sine" : "triangle";
-    osc.frequency.setValueAtTime(freq, now);
-    gain.gain.setValueAtTime(0.085, now);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + (esCuadrado ? 0.2 : 0.12));
-    osc.connect(gain);
-    gain.connect(ctxAudio.destination);
-    osc.start(now);
-    osc.stop(now + (esCuadrado ? 0.21 : 0.13));
-
-    if (esCuadrado) {
-      const osc2 = ctxAudio.createOscillator();
-      const gain2 = ctxAudio.createGain();
-      osc2.type = "triangle";
-      osc2.frequency.setValueAtTime(freq * 1.5, now + 0.03);
-      gain2.gain.setValueAtTime(0.06, now + 0.03);
-      gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
-      osc2.connect(gain2);
-      gain2.connect(ctxAudio.destination);
-      osc2.start(now + 0.03);
-      osc2.stop(now + 0.23);
+      ctxAudio.resume().then(() => {
+        if (ctxAudio.state === "running") tocarNota();
+      }).catch(() => {});
+    } else {
+      tocarNota();
     }
   } catch (e) {}
 }
@@ -20074,8 +20125,9 @@ function finalizarPartidaDueloEquipo(numEquipo) {
 function finalizarPartidaDuelo(ganador) {
   dueloActivo = false;
   limpiarTemporizadoresIADuelo();
-  dispararConfetiVictoria();
-  reproducirSonido("jaqueMate");
+  const ganoIA = Boolean(dueloRivalIA && ganador > 1);
+  if (!ganoIA) dispararConfetiVictoria();
+  reproducirSonido(ganoIA ? "errorDuelo" : "jaqueMate");
   vibrar([60, 40, 100]);
 
   const esEs = idiomaActual === "es";
@@ -20353,33 +20405,35 @@ window.addEventListener("offline", actualizarEstadoConexion);
 actualizarEstadoConexion();
 
 // ===========================================================================
-// DESBLOQUEO Y OPTIMIZACIÓN EXCLUSIVA PARA IPHONE / IOS SAFARI
+// DESBLOQUEO UNIVERSAL DEL MOTOR DE AUDIO WEB (IOS / ANDROID / DESKTOP)
 // ===========================================================================
 let audioDesbloqueadoIOS = false;
 
-function desbloquearAudioIOS() {
-  if (!esDispositivoIOS || audioDesbloqueadoIOS) return;
-  audioDesbloqueadoIOS = true;
-
-  activarCanalMultimediaIOS();
+function desbloquearAudioGlobal() {
+  if (esDispositivoIOS && !audioDesbloqueadoIOS) {
+    activarCanalMultimediaIOS();
+  }
 
   try {
     const ctx = obtenerAudioContext();
     if (ctx) {
+      const necesitaDesbloqueo = !audioDesbloqueadoIOS || ctx.state === 'suspended';
       if (ctx.state === 'suspended') {
-        ctx.resume();
+        ctx.resume().catch(() => {});
       }
-      // Tocar un micro-buffer silencioso para desbloquear el hardware de audio en iOS
-      const buffer = ctx.createBuffer(1, 1, 22050);
-      const source = ctx.createBufferSource();
-      source.buffer = buffer;
-      source.connect(ctx.destination);
-      source.start(0);
+      if (necesitaDesbloqueo) {
+        // Tocar un micro-buffer silencioso para despertar el hardware de audio tras gesto
+        const buffer = ctx.createBuffer(1, 1, 22050);
+        const source = ctx.createBufferSource();
+        source.buffer = buffer;
+        source.connect(ctx.destination);
+        source.start(0);
+      }
     }
   } catch (e) {}
 
-  // Calentamiento previo del sintetizador de voz para iOS Safari
-  if ('speechSynthesis' in window) {
+  // Calentamiento previo del sintetizador de voz (solo la primera vez en iOS Safari)
+  if (esDispositivoIOS && !audioDesbloqueadoIOS && 'speechSynthesis' in window) {
     try {
       if (window.speechSynthesis.paused) window.speechSynthesis.resume();
       const dummyUtterance = new SpeechSynthesisUtterance("");
@@ -20387,11 +20441,20 @@ function desbloquearAudioIOS() {
       window.speechSynthesis.speak(dummyUtterance);
     } catch (e) {}
   }
-}
 
-// Escuchar los primeros gestos del usuario en cualquier parte de la pantalla
-['touchstart', 'touchend', 'click'].forEach(evt => {
-  document.addEventListener(evt, desbloquearAudioIOS, { passive: true, once: true });
+  audioDesbloqueadoIOS = true;
+}
+const desbloquearAudioIOS = desbloquearAudioGlobal;
+
+// Escuchar gestos de interacción para desbloquear o reanudar Web Audio si el navegador lo suspende
+['pointerdown', 'touchstart', 'mousedown', 'keydown'].forEach(evt => {
+  document.addEventListener(evt, desbloquearAudioGlobal, { passive: true });
+});
+
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden && audioCtx && audioCtx.state === 'suspended' && sonidoActivo) {
+    audioCtx.resume().catch(() => {});
+  }
 });
 
 appInicializada = true;
